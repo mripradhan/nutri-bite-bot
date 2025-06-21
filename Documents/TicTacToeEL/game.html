@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <head>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tic Tac Toe</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        color: rgb(101, 78, 155);
+        background-color: #1e1e2f;
+        background-image: url('assets/TicTacToeBackground.png'); /* Use correct relative path */
+        background-size: cover;
+        font-family: 'Press Start 2P', monospace;
+        background-position: center;
+        text-align: center;
+        padding: 2rem;
+    }
+    h1 { margin-bottom: 1rem; color:#2a2a40 }
+
+    .status { font-size: 1.5rem; margin-bottom: 1rem; }
+
+    .timers {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .timers span {
+    padding: 0.3rem 0.6rem;
+    border-radius: 8px;
+    background-color: #ffffff; 
+    color: rgb(101, 78, 155);           
+}
+
+
+    .timers span.active {
+      font-weight: bold;
+      text-decoration: underline;
+      background-color: #c0c0db;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .cell {
+      width: 100px;
+      height: 100px;
+      background-color: #2e2e3e;
+      border-radius: 1rem;
+      box-shadow: 0 0 1rem rgba(0,0,0,0.4);
+      font-size: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .cell:hover {
+      background-color: #3e3e5a;
+    }
+
+    .cell.x {
+      color: #ff6b6b; /* Red for X */
+    }
+
+    .cell.o {
+      color: #4dd0e1; /* Light Blue for O */
+    }
+
+    .button-group {
+  display: flex;
+  flex-direction: column;   /* Stack vertically */
+  align-items: center;      /* Center horizontally */
+  gap: 10px;                /* 10px vertical gap between buttons */
+  margin-top: 2rem;
+}
+
+
+button {
+  width: 320px;           /* Fixed width */
+  height: 60px;           /* Fixed height */
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.6rem;
+  background: #2a2a40;
+  color: #ffffff;
+  border: 4px solid #4b4b71;
+  border-radius: 0;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 #000;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button:hover {
+  background: #4b4b71;
+  color: #ffff99;
+  box-shadow: 2px 2px 0 #000;
+}
+
+
+  </style>
+</head>
+<body>
+<h1>AI-Powered Minimax</h1>
+  <h1>Tic Tac Toe</h1>
+  <div class="status" id="status">Select a game mode to start</div>
+  <div class="timers">
+    <span id="player1-timer">P1: 5s</span>
+    <span id="player2-timer">P2: 5s</span>
+  </div>
+  <div id="board" class="board"></div>
+  <div class="button-group">
+    <button id="pvp-btn">Player vs Player</button>
+    <button id="pvc-btn">Player vs AI</button>
+    <button id="reset-btn">Reset</button>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const boardElement = document.getElementById('board');
+      const statusElement = document.getElementById('status');
+      const pvpBtn = document.getElementById('pvp-btn');
+      const pvcBtn = document.getElementById('pvc-btn');
+      const resetBtn = document.getElementById('reset-btn');
+      const player1Timer = document.getElementById('player1-timer');
+      const player2Timer = document.getElementById('player2-timer');
+      
+      let board = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']];
+      let currentPlayer = 'X';
+      let gameMode = null;
+      let gameActive = false;
+      let player1Time = 5;
+      let player2Time = 5;
+      let lastTime = Date.now();
+      let gameInterval;
+      
+      const TURN_TIME_LIMIT = 5;
+
+      function initializeBoard() {
+        boardElement.innerHTML = '';
+        board = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']];
+        
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            const cell = document.createElement('div');
+            cell.className = 'cell';
+            cell.dataset.row = i;
+            cell.dataset.col = j;
+            cell.addEventListener('click', handleCellClick);
+            boardElement.appendChild(cell);
+          }
+        }
+      }
+
+      function checkWinner(player) {
+        for (let i = 0; i < 3; i++) {
+          if ((board[i][0] === player && board[i][1] === player && board[i][2] === player) ||
+              (board[0][i] === player && board[1][i] === player && board[2][i] === player)) {
+            return true;
+          }
+        }
+        return (board[0][0] === player && board[1][1] === player && board[2][2] === player) ||
+               (board[0][2] === player && board[1][1] === player && board[2][0] === player);
+      }
+
+      function minimax(board, depth, isMaximizing) {
+        if (checkWinner('O')) return 1;
+        if (checkWinner('X')) return -1;
+        if (board.flat().every(cell => cell !== ' ')) return 0;
+
+        if (isMaximizing) {
+          let bestScore = -Infinity;
+          for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+              if (board[i][j] === ' ') {
+                board[i][j] = 'O';
+                bestScore = Math.max(bestScore, minimax(board, depth + 1, false));
+                board[i][j] = ' ';
+              }
+            }
+          }
+          return bestScore;
+        } else {
+          let bestScore = Infinity;
+          for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+              if (board[i][j] === ' ') {
+                board[i][j] = 'X';
+                bestScore = Math.min(bestScore, minimax(board, depth + 1, true));
+                board[i][j] = ' ';
+              }
+            }
+          }
+          return bestScore;
+        }
+      }
+
+      function bestMove() {
+        let bestScore = -Infinity;
+        let move = null;
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            if (board[i][j] === ' ') {
+              board[i][j] = 'O';
+              let score = minimax(board, 0, false);
+              board[i][j] = ' ';
+              if (score > bestScore) {
+                bestScore = score;
+                move = { row: i, col: j };
+              }
+            }
+          }
+        }
+        return move;
+      }
+
+      function worstMove(isOPlayer) {
+        let worstScore = isOPlayer ? Infinity : -Infinity;
+        let move = null;
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            if (board[i][j] === ' ') {
+              board[i][j] = isOPlayer ? 'O' : 'X';
+              let score = minimax(board, 0, !isOPlayer);
+              board[i][j] = ' ';
+              if ((isOPlayer && score < worstScore) || (!isOPlayer && score > worstScore)) {
+                worstScore = score;
+                move = { row: i, col: j };
+              }
+            }
+          }
+        }
+        return move;
+      }
+
+      function handleTimeout() {
+        let move = gameMode === 'AI' && currentPlayer === 'O' ? bestMove() : worstMove(currentPlayer === 'O');
+        if (move) {
+          board[move.row][move.col] = currentPlayer;
+          updateBoardUI();
+          if (checkWinner(currentPlayer)) {
+            endGame(`${currentPlayer === 'X' ? 'Player 1' : gameMode === 'AI' ? 'AI' : 'Player 2'} wins by timeout!`);
+          } else if (isBoardFull()) {
+            endGame("It's a draw!");
+          } else {
+            switchPlayer();
+          }
+        }
+      }
+
+      function isBoardFull() {
+        return board.flat().every(cell => cell !== ' ');
+      }
+
+      function switchPlayer() {
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        player1Time = TURN_TIME_LIMIT;
+        player2Time = TURN_TIME_LIMIT;
+        updateStatus();
+        if (gameMode === 'AI' && currentPlayer === 'O' && gameActive) {
+          setTimeout(makeAIMove, 500);
+        }
+      }
+
+      function makeAIMove() {
+        if (!gameActive) return;
+        const move = bestMove();
+        if (move) {
+          board[move.row][move.col] = 'O';
+          updateBoardUI();
+          if (checkWinner('O')) {
+            endGame("AI wins!");
+          } else if (isBoardFull()) {
+            endGame("It's a draw!");
+          } else {
+            switchPlayer();
+          }
+        }
+      }
+
+      function updateBoardUI() {
+        document.querySelectorAll('.cell').forEach(cell => {
+          const r = parseInt(cell.dataset.row);
+          const c = parseInt(cell.dataset.col);
+          cell.textContent = board[r][c];
+          cell.classList.remove('x', 'o');
+          if (board[r][c] === 'X') cell.classList.add('x');
+          if (board[r][c] === 'O') cell.classList.add('o');
+        });
+      }
+
+      function updateStatus() {
+        statusElement.textContent = gameMode === 'PVP' 
+          ? `Player ${currentPlayer}'s turn`
+          : currentPlayer === 'X' ? 'Your turn' : 'AI thinking...';
+
+        player1Timer.textContent = `P1: ${Math.ceil(player1Time)}s`;
+        player2Timer.textContent = `${gameMode === 'AI' ? 'AI' : 'P2'}: ${Math.ceil(player2Time)}s`;
+
+        player1Timer.classList.toggle('active', currentPlayer === 'X');
+        player2Timer.classList.toggle('active', currentPlayer === 'O');
+      }
+
+      function endGame(msg) {
+        gameActive = false;
+        clearInterval(gameInterval);
+        statusElement.textContent = msg;
+      }
+
+      function handleCellClick(e) {
+        if (!gameActive || (gameMode === 'AI' && currentPlayer === 'O')) return;
+        const r = parseInt(e.target.dataset.row);
+        const c = parseInt(e.target.dataset.col);
+        if (board[r][c] !== ' ') return;
+        board[r][c] = currentPlayer;
+        updateBoardUI();
+        if (checkWinner(currentPlayer)) {
+          endGame(`${currentPlayer === 'X' ? 'Player 1' : 'Player 2'} wins!`);
+        } else if (isBoardFull()) {
+          endGame("It's a draw!");
+        } else {
+          switchPlayer();
+        }
+      }
+
+      function startGame(mode) {
+        gameMode = mode;
+        gameActive = true;
+        currentPlayer = 'X';
+        player1Time = player2Time = TURN_TIME_LIMIT;
+        initializeBoard();
+        updateBoardUI();
+        updateStatus();
+        lastTime = Date.now();
+        clearInterval(gameInterval);
+        gameInterval = setInterval(() => {
+          if (!gameActive) return;
+          const now = Date.now();
+          const elapsed = (now - lastTime) / 1000;
+          lastTime = now;
+          if (currentPlayer === 'X') {
+            player1Time -= elapsed;
+            if (player1Time <= 0) handleTimeout();
+          } else {
+            player2Time -= elapsed;
+            if (player2Time <= 0) handleTimeout();
+          }
+          updateStatus();
+        }, 100);
+      }
+
+      function resetGame() {
+        gameActive = false;
+        clearInterval(gameInterval);
+        initializeBoard();
+        statusElement.textContent = 'Select a game mode to start';
+        player1Timer.textContent = 'P1: 5s';
+        player2Timer.textContent = 'P2: 5s';
+        player1Timer.classList.remove('active');
+        player2Timer.classList.remove('active');
+      }
+
+      pvpBtn.addEventListener('click', () => startGame('PVP'));
+      pvcBtn.addEventListener('click', () => startGame('AI'));
+      resetBtn.addEventListener('click', resetGame);
+
+      initializeBoard();
+    });
+  </script>
+</body>
+</html>
