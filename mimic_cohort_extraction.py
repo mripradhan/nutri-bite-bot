@@ -431,7 +431,7 @@ def main():
     # Extract cohort (limit to first 100 patients for testing)
     # Remove max_patients parameter to extract all patients
     user_profiles = extractor.extract_cohort_profiles(
-        output_path='user_medical_records.json',
+        output_path='sample_output.json',
         max_patients=100  # Remove this line to extract all patients
     )
     
