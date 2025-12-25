@@ -1,0 +1,81 @@
+{
+  "user_id": "MIMIC_10014354",
+  "generation_timestamp": "2025-12-25T21:43:21.378563",
+  "medical_conditions": {
+    "hypertension": true,
+    "type2_diabetes": true,
+    "chronic_kidney_disease": true,
+    "dyslipidemia": true
+  },
+  "ckd_stage": null,
+  "egfr": null,
+  "current_potassium": 4.0,
+  "protein": {
+    "weight_kg": 121.5,
+    "target_grams_per_kg": 0.9,
+    "daily_protein_min_g": 97.2,
+    "daily_protein_max_g": 121.5,
+    "per_meal_protein_g": 36.4,
+    "rationale": "Standard protein intake (0.8-1.0 g/kg/day)"
+  },
+  "sodium": {
+    "daily_max": 1500,
+    "daily_min": null,
+    "per_meal_max": 500,
+    "per_meal_min": null,
+    "unit": "mg",
+    "priority": 2,
+    "rationale": "HTN: Sodium restriction for blood pressure control (AHA)",
+    "override_reason": null
+  },
+  "potassium": {
+    "daily_max": 4700,
+    "daily_min": 2000,
+    "per_meal_max": 1500,
+    "per_meal_min": null,
+    "unit": "mg",
+    "priority": 6,
+    "rationale": "General population recommendation",
+    "override_reason": null
+  },
+  "phosphorus": {
+    "daily_max": 1250,
+    "daily_min": null,
+    "per_meal_max": 415,
+    "per_meal_min": null,
+    "unit": "mg",
+    "priority": 6,
+    "rationale": "General population recommendation",
+    "override_reason": null
+  },
+  "carbohydrates": {
+    "daily_max": null,
+    "daily_min": null,
+    "per_meal_max": 60,
+    "per_meal_min": null,
+    "unit": "g",
+    "priority": 3,
+    "rationale": "Diabetes: Distribute carbs evenly across meals, prefer low GI (ADA)",
+    "override_reason": null
+  },
+  "prohibited_foods": [],
+  "limited_foods": [],
+  "warning_foods": [
+    {
+      "food_name": "Potatoes (especially fried/processed)",
+      "severity": "warning",
+      "reason": "Often prepared with high sodium. Prefer baked/steamed without salt.",
+      "priority": 2,
+      "alternative_foods": [
+        "sweet_potatoes_baked",
+        "cauliflower_mash"
+      ],
+      "temporal_restriction": null
+    }
+  ],
+  "temporal_warnings": [],
+  "conflict_resolutions": [],
+  "safety_notes": [
+    "ALERT: Poor glycemic control (HbA1c 9.5%). Strict carbohydrate management and meal timing critical."
+  ]
+}

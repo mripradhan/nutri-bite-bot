@@ -1,0 +1,56 @@
+{
+  "report_id": "REPORT_20251225_214347",
+  "patient_id": "MIMIC_10014354",
+  "generation_timestamp": "2025-12-25T21:43:47.126982",
+  "pipeline_summary": {
+    "total_steps": 4,
+    "steps_completed": [
+      "patient_extraction",
+      "clinical_constraints",
+      "pantry_inventory",
+      "recipe_generation"
+    ],
+    "execution_time": "25.75 seconds"
+  },
+  "clinical_summary": {
+    "patient_id": "MIMIC_10014354",
+    "ckd_stage": null,
+    "egfr": null,
+    "key_restrictions": {
+      "potassium_daily_max": 4700,
+      "sodium_daily_max": 1500,
+      "protein_per_meal": 36.4
+    },
+    "conflict_resolutions": 0,
+    "prohibited_foods_count": 0
+  },
+  "safety_alerts": [
+    {
+      "type": "CRITICAL",
+      "source": "Clinical Rules Engine",
+      "message": "ALERT: Poor glycemic control (HbA1c 9.5%). Strict carbohydrate management and meal timing critical."
+    },
+    {
+      "type": "WARNING",
+      "source": "Pantry Inventory",
+      "message": "\u26a0\ufe0f High in: Sodium (822mg)"
+    },
+    {
+      "type": "WARNING",
+      "source": "Pantry Inventory",
+      "message": "\u26a0\ufe0f High in: Potassium (1981mg), Phosphorus (1289mg)"
+    }
+  ],
+  "recipe_summary": {
+    "total_recipes": 0,
+    "compliant_recipes": 0,
+    "share_edits_applied": 0,
+    "recipes": []
+  },
+  "next_steps": [
+    {
+      "priority": "LOW",
+      "action": "Schedule follow-up lab work to monitor eGFR and potassium levels"
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "dataset": "MIMIC-IV",
+  "cohort_description": "Patients with HTN, Type 2 Diabetes, CKD, and Dyslipidemia",
+  "extraction_date": "2025-12-25T20:31:29.773283",
+  "total_patients": 2,
+  "user_profiles": [
+    {
+      "user_id": "MIMIC_10014354",
+      "subject_id": 10014354,
+      "demographics": {
+        "anchor_age": 60,
+        "gender": "M",
+        "weight_kg": 121.5
+      },
+      "medical_conditions": {
+        "hypertension": true,
+        "type2_diabetes": true,
+        "chronic_kidney_disease": true,
+        "dyslipidemia": true
+      },
+      "laboratory_results": {
+        "diabetes": {
+          "fasting_blood_sugar": 50.0,
+          "ppbs": 50.0,
+          "hba1c": 9.5,
+          "unit_glucose": "mg/dL",
+          "unit_hba1c": "%"
+        },
+        "renal_profile": {
+          "serum_creatinine": 1.1,
+          "egfr": null,
+          "bun": 15.0,
+          "unit_creatinine": "mg/dL",
+          "unit_egfr": "mL/min/1.73m\u00b2",
+          "unit_bun": "mg/dL"
+        },
+        "lipid_profile": {
+          "triglycerides": 782.0,
+          "total_cholesterol": 183.0,
+          "ldl": null,
+          "hdl": 0.4,
+          "unit": "mg/dL"
+        },
+        "electrolytes": {
+          "sodium": 130.0,
+          "potassium": 4.0,
+          "chloride": 95.0,
+          "unit": "mEq/L"
+        }
+      },
+      "extraction_metadata": {
+        "source": "MIMIC-IV",
+        "extraction_date": "2025-12-25T20:31:29.726821",
+        "data_completeness": {
+          "total_fields": 14,
+          "complete_fields": 12,
+          "completeness_percentage": 85.71
+        }
+      }
+    },
+    {
+      "user_id": "MIMIC_10012853",
+      "subject_id": 10012853,
+      "demographics": {
+        "anchor_age": 91,
+        "gender": "F",
+        "weight_kg": 156.2
+      },
+      "medical_conditions": {
+        "hypertension": true,
+        "type2_diabetes": true,
+        "chronic_kidney_disease": true,
+        "dyslipidemia": true
+      },
+      "laboratory_results": {
+        "diabetes": {
+          "fasting_blood_sugar": 215.0,
+          "ppbs": 215.0,
+          "hba1c": null,
+          "unit_glucose": "mg/dL",
+          "unit_hba1c": "%"
+        },
+        "renal_profile": {
+          "serum_creatinine": 0.8,
+          "egfr": null,
+          "bun": 20.0,
+          "unit_creatinine": "mg/dL",
+          "unit_egfr": "mL/min/1.73m\u00b2",
+          "unit_bun": "mg/dL"
+        },
+        "lipid_profile": {
+          "triglycerides": 35.0,
+          "total_cholesterol": null,
+          "ldl": null,
+          "hdl": 0.5,
+          "unit": "mg/dL"
+        },
+        "electrolytes": {
+          "sodium": 140.0,
+          "potassium": 4.2,
+          "chloride": 101.0,
+          "unit": "mEq/L"
+        }
+      },
+      "extraction_metadata": {
+        "source": "MIMIC-IV",
+        "extraction_date": "2025-12-25T20:31:29.773283",
+        "data_completeness": {
+          "total_fields": 14,
+          "complete_fields": 10,
+          "completeness_percentage": 71.43
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,241 @@
+2025-12-25 20:28:57,997 - __main__ - INFO - ================================================================================
+2025-12-25 20:28:58,011 - __main__ - INFO - PANTRY-TO-PLATE: FULL PIPELINE EXECUTION
+2025-12-25 20:28:58,011 - __main__ - INFO - ================================================================================
+2025-12-25 20:28:58,011 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2025-12-25 20:28:58,012 - __main__ - INFO - STEP 1: MIMIC-IV Patient Extraction
+2025-12-25 20:28:58,012 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-25 20:28:58,012 - __main__ - INFO - Loading existing patient profile: MIMIC_10000032
+2025-12-25 20:28:58,013 - __main__ - INFO - Using sample patient profile from MIMIC-IV extraction
+2025-12-25 20:28:58,013 - __main__ - ERROR - Pipeline failed: sample_output.json not found. Please run mimic_cohort_extraction.py first.
+Traceback (most recent call last):
+  File "C:\Users\pradh\Documents\nutritionalbitebot\main_integration.py", line 85, in run_full_pipeline
+    patient_profile = self._step1_extract_patient(patient_id)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pradh\Documents\nutritionalbitebot\main_integration.py", line 162, in _step1_extract_patient
+    raise FileNotFoundError(
+FileNotFoundError: sample_output.json not found. Please run mimic_cohort_extraction.py first.
+2025-12-25 20:31:34,458 - __main__ - INFO - ================================================================================
+2025-12-25 20:31:34,458 - __main__ - INFO - PANTRY-TO-PLATE: FULL PIPELINE EXECUTION
+2025-12-25 20:31:34,458 - __main__ - INFO - ================================================================================
+2025-12-25 20:31:34,458 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2025-12-25 20:31:34,458 - __main__ - INFO - STEP 1: MIMIC-IV Patient Extraction
+2025-12-25 20:31:34,458 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-25 20:31:34,458 - __main__ - INFO - Loading existing patient profile: MIMIC_10000032
+2025-12-25 20:31:34,458 - __main__ - INFO - Using sample patient profile from MIMIC-IV extraction
+2025-12-25 20:31:34,458 - __main__ - ERROR - Pipeline failed: sample_output.json not found. Please run mimic_cohort_extraction.py first.
+Traceback (most recent call last):
+  File "C:\Users\pradh\Documents\nutritionalbitebot\main_integration.py", line 85, in run_full_pipeline
+    patient_profile = self._step1_extract_patient(patient_id)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pradh\Documents\nutritionalbitebot\main_integration.py", line 162, in _step1_extract_patient
+    raise FileNotFoundError(
+FileNotFoundError: sample_output.json not found. Please run mimic_cohort_extraction.py first.
+2025-12-25 20:32:21,924 - __main__ - INFO - ================================================================================
+2025-12-25 20:32:21,924 - __main__ - INFO - PANTRY-TO-PLATE: FULL PIPELINE EXECUTION
+2025-12-25 20:32:21,924 - __main__ - INFO - ================================================================================
+2025-12-25 20:32:21,924 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2025-12-25 20:32:21,924 - __main__ - INFO - STEP 1: MIMIC-IV Patient Extraction
+2025-12-25 20:32:21,924 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-25 20:32:21,924 - __main__ - INFO - Loading existing patient profile: MIMIC_10000032
+2025-12-25 20:32:21,924 - __main__ - INFO - Using sample patient profile from MIMIC-IV extraction
+2025-12-25 20:32:21,924 - __main__ - INFO - Loaded patient: MIMIC_10014354
+2025-12-25 20:32:21,924 - __main__ - INFO -   Age: 60
+2025-12-25 20:32:21,924 - __main__ - INFO -   Conditions: HTN, T2DM, CKD, Dyslipidemia
+2025-12-25 20:32:21,924 - __main__ - INFO -   eGFR: None
+2025-12-25 20:32:21,924 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2025-12-25 20:32:21,924 - __main__ - INFO - STEP 2: Clinical Rules Engine (Conflict Resolution)
+2025-12-25 20:32:21,924 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-25 20:32:21,947 - clinical_rules_engine - INFO - Generating clinical constraints for MIMIC_10014354
+2025-12-25 20:32:21,947 - __main__ - ERROR - Pipeline failed: '>=' not supported between instances of 'NoneType' and 'int'
+Traceback (most recent call last):
+  File "C:\Users\pradh\Documents\nutritionalbitebot\main_integration.py", line 94, in run_full_pipeline
+    clinical_constraint = self._step2_generate_constraints(patient_profile)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pradh\Documents\nutritionalbitebot\main_integration.py", line 185, in _step2_generate_constraints
+    constraint = self.rules_engine.generate_clinical_constraints(patient_profile)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pradh\Documents\nutritionalbitebot\clinical_rules_engine.py", line 627, in generate_clinical_constraints
+    potassium_limit, k_conflicts = self.resolve_potassium_conflict(
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pradh\Documents\nutritionalbitebot\clinical_rules_engine.py", line 337, in resolve_potassium_conflict
+    elif has_htn and (not has_ckd or egfr >= 60):
+                                     ^^^^^^^^^^
+TypeError: '>=' not supported between instances of 'NoneType' and 'int'
+2025-12-25 20:38:36,078 - __main__ - INFO - ================================================================================
+2025-12-25 20:38:36,081 - __main__ - INFO - PANTRY-TO-PLATE: FULL PIPELINE EXECUTION
+2025-12-25 20:38:36,081 - __main__ - INFO - ================================================================================
+2025-12-25 20:38:36,081 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2025-12-25 20:38:36,081 - __main__ - INFO - STEP 1: MIMIC-IV Patient Extraction
+2025-12-25 20:38:36,081 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-25 20:38:36,081 - __main__ - INFO - Loading existing patient profile: MIMIC_10000032
+2025-12-25 20:38:36,081 - __main__ - INFO - Using sample patient profile from MIMIC-IV extraction
+2025-12-25 20:38:36,081 - __main__ - INFO - Loaded patient: MIMIC_10014354
+2025-12-25 20:38:36,081 - __main__ - INFO -   Age: 60
+2025-12-25 20:38:36,081 - __main__ - INFO -   Conditions: HTN, T2DM, CKD, Dyslipidemia
+2025-12-25 20:38:36,081 - __main__ - INFO -   eGFR: None
+2025-12-25 20:38:36,081 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2025-12-25 20:38:36,081 - __main__ - INFO - STEP 2: Clinical Rules Engine (Conflict Resolution)
+2025-12-25 20:38:36,081 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-25 20:38:36,096 - clinical_rules_engine - INFO - Generating clinical constraints for MIMIC_10014354
+2025-12-25 20:38:36,096 - __main__ - ERROR - Pipeline failed: '>=' not supported between instances of 'NoneType' and 'int'
+Traceback (most recent call last):
+  File "C:\Users\pradh\Documents\nutritionalbitebot\main_integration.py", line 94, in run_full_pipeline
+    clinical_constraint = self._step2_generate_constraints(patient_profile)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pradh\Documents\nutritionalbitebot\main_integration.py", line 185, in _step2_generate_constraints
+    constraint = self.rules_engine.generate_clinical_constraints(patient_profile)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pradh\Documents\nutritionalbitebot\clinical_rules_engine.py", line 627, in generate_clinical_constraints
+    potassium_limit, k_conflicts = self.resolve_potassium_conflict(
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pradh\Documents\nutritionalbitebot\clinical_rules_engine.py", line 337, in resolve_potassium_conflict
+    elif has_htn and (not has_ckd or egfr >= 60):
+                                     ^^^^^^^^^^
+TypeError: '>=' not supported between instances of 'NoneType' and 'int'
+2025-12-25 20:50:54,673 - __main__ - INFO - ================================================================================
+2025-12-25 20:50:54,675 - __main__ - INFO - PANTRY-TO-PLATE: FULL PIPELINE EXECUTION
+2025-12-25 20:50:54,675 - __main__ - INFO - ================================================================================
+2025-12-25 20:50:54,675 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2025-12-25 20:50:54,676 - __main__ - INFO - STEP 1: MIMIC-IV Patient Extraction
+2025-12-25 20:50:54,676 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-25 20:50:54,676 - __main__ - INFO - Loading existing patient profile: MIMIC_10000032
+2025-12-25 20:50:54,676 - __main__ - INFO - Using sample patient profile from MIMIC-IV extraction
+2025-12-25 20:50:54,678 - __main__ - INFO - Loaded patient: MIMIC_10014354
+2025-12-25 20:50:54,678 - __main__ - INFO -   Age: 60
+2025-12-25 20:50:54,678 - __main__ - INFO -   Conditions: HTN, T2DM, CKD, Dyslipidemia
+2025-12-25 20:50:54,678 - __main__ - INFO -   eGFR: None
+2025-12-25 20:50:54,678 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2025-12-25 20:50:54,678 - __main__ - INFO - STEP 2: Clinical Rules Engine (Conflict Resolution)
+2025-12-25 20:50:54,678 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-25 20:50:54,718 - clinical_rules_engine - INFO - Generating clinical constraints for MIMIC_10014354
+2025-12-25 20:50:54,718 - __main__ - ERROR - Pipeline failed: '<' not supported between instances of 'NoneType' and 'int'
+Traceback (most recent call last):
+  File "C:\Users\pradh\Documents\nutritionalbitebot\main_integration.py", line 94, in run_full_pipeline
+    clinical_constraint = self._step2_generate_constraints(patient_profile)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pradh\Documents\nutritionalbitebot\main_integration.py", line 185, in _step2_generate_constraints
+    constraint = self.rules_engine.generate_clinical_constraints(patient_profile)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pradh\Documents\nutritionalbitebot\clinical_rules_engine.py", line 666, in generate_clinical_constraints
+    prohibited, limited, warning_foods = self.resolve_food_restrictions(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pradh\Documents\nutritionalbitebot\clinical_rules_engine.py", line 370, in resolve_food_restrictions
+    if has_ckd and egfr < 60:
+                   ^^^^^^^^^
+TypeError: '<' not supported between instances of 'NoneType' and 'int'
+2025-12-25 20:51:43,982 - __main__ - INFO - ================================================================================
+2025-12-25 20:51:43,982 - __main__ - INFO - PANTRY-TO-PLATE: FULL PIPELINE EXECUTION
+2025-12-25 20:51:43,982 - __main__ - INFO - ================================================================================
+2025-12-25 20:51:43,982 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2025-12-25 20:51:43,982 - __main__ - INFO - STEP 1: MIMIC-IV Patient Extraction
+2025-12-25 20:51:43,982 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-25 20:51:43,982 - __main__ - INFO - Loading existing patient profile: MIMIC_10000032
+2025-12-25 20:51:43,982 - __main__ - INFO - Using sample patient profile from MIMIC-IV extraction
+2025-12-25 20:51:43,982 - __main__ - INFO - Loaded patient: MIMIC_10014354
+2025-12-25 20:51:43,982 - __main__ - INFO -   Age: 60
+2025-12-25 20:51:43,982 - __main__ - INFO -   Conditions: HTN, T2DM, CKD, Dyslipidemia
+2025-12-25 20:51:43,982 - __main__ - INFO -   eGFR: None
+2025-12-25 20:51:43,982 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2025-12-25 20:51:43,982 - __main__ - INFO - STEP 2: Clinical Rules Engine (Conflict Resolution)
+2025-12-25 20:51:43,982 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-25 20:51:44,019 - clinical_rules_engine - INFO - Generating clinical constraints for MIMIC_10014354
+2025-12-25 20:51:44,019 - clinical_rules_engine - INFO - Clinical constraints generated successfully for MIMIC_10014354
+2025-12-25 20:51:44,019 - clinical_rules_engine - INFO - Clinical constraint exported to outputs\constraint_MIMIC_10014354.json
+2025-12-25 20:51:44,028 - __main__ - INFO - Clinical constraints generated:
+2025-12-25 20:51:44,028 - __main__ - INFO -   Potassium limit: 4700mg/day
+2025-12-25 20:51:44,029 - __main__ - INFO -   Sodium limit: 1500mg/day
+2025-12-25 20:51:44,029 - __main__ - INFO -   Protein target: 36.4g/meal
+2025-12-25 20:51:44,029 - __main__ - INFO -   Prohibited foods: 0
+2025-12-25 20:51:44,029 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2025-12-25 20:51:44,030 - __main__ - INFO - STEP 3: Pantry Inventory Management
+2025-12-25 20:51:44,030 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-25 20:51:44,899 - pantry_inventory - INFO - Loaded clinical constraints for MIMIC_10014354
+2025-12-25 20:51:44,899 - __main__ - INFO - Processing pantry scan with 5 items...
+2025-12-25 20:51:44,899 - pantry_inventory - INFO - Processing pantry scan with 5 items...
+2025-12-25 20:52:11,363 - pantry_inventory - ERROR - Error getting nutrient profile for FDC ID 321360: HTTPSConnectionPool(host='api.nal.usda.gov', port=443): Read timed out. (read timeout=10)
+2025-12-25 20:52:11,364 - pantry_inventory - INFO - Generating pantry summary...
+2025-12-25 20:52:11,364 - __main__ - ERROR - Pipeline failed: 'InventoryCheck' object has no attribute 'nutrient_profile'
+Traceback (most recent call last):
+  File "C:\Users\pradh\Documents\nutritionalbitebot\main_integration.py", line 103, in run_full_pipeline
+    pantry_summary = self._step3_process_pantry(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pradh\Documents\nutritionalbitebot\main_integration.py", line 231, in _step3_process_pantry
+    summary = self.pantry_manager.generate_pantry_summary()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pradh\Documents\nutritionalbitebot\pantry_inventory.py", line 505, in generate_pantry_summary
+    if check.nutrient_profile and item.nutrient_profile:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'InventoryCheck' object has no attribute 'nutrient_profile'
+2025-12-25 21:25:45,100 - __main__ - INFO - ================================================================================
+2025-12-25 21:25:45,100 - __main__ - INFO - PANTRY-TO-PLATE: FULL PIPELINE EXECUTION
+2025-12-25 21:25:45,100 - __main__ - INFO - ================================================================================
+2025-12-25 21:25:45,100 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2025-12-25 21:25:45,100 - __main__ - INFO - STEP 1: MIMIC-IV Patient Extraction
+2025-12-25 21:25:45,100 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-25 21:25:45,100 - __main__ - INFO - Loading existing patient profile: MIMIC_10000032
+2025-12-25 21:25:45,100 - __main__ - INFO - Using sample patient profile from MIMIC-IV extraction
+2025-12-25 21:25:45,100 - __main__ - INFO - Loaded patient: MIMIC_10014354
+2025-12-25 21:25:45,100 - __main__ - INFO -   Age: 60
+2025-12-25 21:25:45,100 - __main__ - INFO -   Conditions: HTN, T2DM, CKD, Dyslipidemia
+2025-12-25 21:25:45,100 - __main__ - INFO -   eGFR: None
+2025-12-25 21:25:45,100 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2025-12-25 21:25:45,100 - __main__ - INFO - STEP 2: Clinical Rules Engine (Conflict Resolution)
+2025-12-25 21:25:45,100 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-25 21:25:45,118 - clinical_rules_engine - INFO - Generating clinical constraints for MIMIC_10014354
+2025-12-25 21:25:45,118 - clinical_rules_engine - INFO - Clinical constraints generated successfully for MIMIC_10014354
+2025-12-25 21:25:45,125 - clinical_rules_engine - INFO - Clinical constraint exported to outputs\constraint_MIMIC_10014354.json
+2025-12-25 21:25:45,125 - __main__ - INFO - Clinical constraints generated:
+2025-12-25 21:25:45,125 - __main__ - INFO -   Potassium limit: 4700mg/day
+2025-12-25 21:25:45,125 - __main__ - INFO -   Sodium limit: 1500mg/day
+2025-12-25 21:25:45,126 - __main__ - INFO -   Protein target: 36.4g/meal
+2025-12-25 21:25:45,126 - __main__ - INFO -   Prohibited foods: 0
+2025-12-25 21:25:45,126 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2025-12-25 21:25:45,126 - __main__ - INFO - STEP 3: Pantry Inventory Management
+2025-12-25 21:25:45,126 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-25 21:25:45,568 - pantry_inventory - INFO - Loaded clinical constraints for MIMIC_10014354
+2025-12-25 21:25:45,568 - __main__ - INFO - Processing pantry scan with 5 items...
+2025-12-25 21:25:45,568 - pantry_inventory - INFO - Processing pantry scan with 5 items...
+2025-12-25 21:26:11,745 - pantry_inventory - ERROR - Error getting nutrient profile for FDC ID 321360: HTTPSConnectionPool(host='api.nal.usda.gov', port=443): Read timed out. (read timeout=10)
+2025-12-25 21:26:11,751 - pantry_inventory - INFO - Generating pantry summary...
+2025-12-25 21:26:11,753 - pantry_inventory - INFO - Generating pantry summary...
+2025-12-25 21:26:11,756 - pantry_inventory - INFO - Pantry summary exported to outputs\pantry_summary.json
+2025-12-25 21:26:11,756 - __main__ - INFO - Pantry inventory analysis:
+2025-12-25 21:26:11,757 - __main__ - INFO -   Safe items: 3
+2025-12-25 21:26:11,757 - __main__ - INFO -   Restricted items: 2
+2025-12-25 21:26:11,758 - __main__ - INFO -   Prohibited items: 0
+2025-12-25 21:26:11,758 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2025-12-25 21:26:11,759 - __main__ - INFO - STEP 4: Recipe Generation with SHARE Methodology
+2025-12-25 21:26:11,760 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-25 21:26:11,768 - recipe_generator - INFO - Generating personalized meal plan...
+2025-12-25 21:26:11,768 - recipe_generator - INFO - Loaded clinical data for MIMIC_10014354
+2025-12-25 21:26:11,768 - recipe_generator - INFO - Available safe ingredients: cabbage, carrot, tomato
+2025-12-25 21:26:11,768 - recipe_generator - INFO - Found 0 candidate recipes
+2025-12-25 21:26:11,777 - recipe_generator - INFO - Meal plan exported to outputs\adapted_meal_plan.json
+2025-12-25 21:26:11,777 - __main__ - INFO - Generated 0 adapted recipes:
+2025-12-25 21:26:11,777 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2025-12-25 21:26:11,779 - __main__ - INFO - STEP 5: Final Report Generation
+2025-12-25 21:26:11,779 - __main__ - INFO - --------------------------------------------------------------------------------
+2025-12-25 21:26:11,781 - __main__ - INFO - 
+Final Report Summary:
+2025-12-25 21:26:11,781 - __main__ - INFO -   Patient: MIMIC_10014354
+2025-12-25 21:26:11,781 - __main__ - INFO -   Safe recipes generated: 0
+2025-12-25 21:26:11,783 - __main__ - INFO -   Safety alerts: 3
+2025-12-25 21:26:11,783 - __main__ - INFO - 
+================================================================================
+2025-12-25 21:26:11,790 - __main__ - INFO - ================================================================================

@@ -1,0 +1,78 @@
+{
+  "scan_timestamp": "2025-12-25T21:43:47.101267",
+  "total_items": 5,
+  "safe_items": [
+    {
+      "name": "cabbage",
+      "cv_label": "Cabbage",
+      "quantity_g": 400,
+      "fdc_id": 169975,
+      "status": "safe",
+      "risk_level": "low",
+      "nutrients": {
+        "potassium_mg_per_100g": 170.0,
+        "sodium_mg_per_100g": 18.0,
+        "protein_g_per_100g": 1.28
+      }
+    },
+    {
+      "name": "carrot",
+      "cv_label": "Carrot",
+      "quantity_g": 300,
+      "fdc_id": 170393,
+      "status": "safe",
+      "risk_level": "low",
+      "nutrients": {
+        "potassium_mg_per_100g": 320.0,
+        "sodium_mg_per_100g": 69.0,
+        "protein_g_per_100g": 0.93
+      }
+    },
+    {
+      "name": "tomato",
+      "cv_label": "Tomato",
+      "quantity_g": 150,
+      "fdc_id": 321360,
+      "status": "safe",
+      "risk_level": "low"
+    }
+  ],
+  "restricted_items": [
+    {
+      "name": "fruits",
+      "cv_label": "Fruits",
+      "quantity_g": 300,
+      "fdc_id": 174988,
+      "status": "restricted",
+      "risk_level": "medium",
+      "nutrients": {
+        "potassium_mg_per_100g": 90.0,
+        "sodium_mg_per_100g": 274.0,
+        "protein_g_per_100g": 7.4
+      },
+      "allowed_quantity_g": null,
+      "warning": "\u26a0\ufe0f High in: Sodium (822mg)"
+    },
+    {
+      "name": "chicken",
+      "cv_label": "Chicken",
+      "quantity_g": 600,
+      "fdc_id": 2646170,
+      "status": "restricted",
+      "risk_level": "medium",
+      "nutrients": {
+        "potassium_mg_per_100g": 330.1,
+        "sodium_mg_per_100g": 65.75,
+        "protein_g_per_100g": 22.525
+      },
+      "allowed_quantity_g": null,
+      "warning": "\u26a0\ufe0f High in: Potassium (1981mg), Phosphorus (1289mg)"
+    }
+  ],
+  "prohibited_items": [],
+  "warnings": [
+    "\u26a0\ufe0f High in: Sodium (822mg)",
+    "\u26a0\ufe0f High in: Potassium (1981mg), Phosphorus (1289mg)"
+  ],
+  "recommendations": []
+}
