@@ -28,3 +28,6 @@ joblib>=1.3.0
 
 # Utilities
 python-dateutil>=2.8.2
+groq
+Pillow
+python-dotenv

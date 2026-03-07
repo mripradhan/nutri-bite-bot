@@ -167,7 +167,6 @@ function renderResults(data) {
     renderPatientSummary(data.patient_summary);
     renderRiskGrid(data.risk_levels);
     renderProbabilityCharts(data.risk_levels);
-    renderThresholds(data.nutrient_thresholds, data.condition_key);
 
     // Smooth scroll to results
     section.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -286,42 +285,6 @@ function probRow(level, value) {
     `;
 }
 
-function renderThresholds(thresholds, conditionKey) {
-    const container = document.getElementById("thresholds-content");
-
-    if (!thresholds || Object.keys(thresholds).length === 0) {
-        container.innerHTML = `<p style="color:var(--text-muted); font-size:0.82rem;">No specific thresholds for condition: ${conditionKey}</p>`;
-        return;
-    }
-
-    let html = `<p style="color:var(--text-muted); font-size:0.75rem; margin-bottom:0.75rem;">
-        Condition key: <code style="background:var(--bg-input);padding:0.15rem 0.4rem;border-radius:4px;">${conditionKey}</code>
-        &mdash; These are reference values, not ML predictions.
-    </p>`;
-
-    html += `<div class="thresholds-grid">`;
-
-    for (const [nutrient, data] of Object.entries(thresholds)) {
-        if (typeof data !== "object" || data === null) continue;
-
-        const min = data.min !== undefined ? data.min : "—";
-        const max = data.max !== undefined ? data.max : "—";
-        const label = data.label || "";
-        const rationale = data.rationale || "";
-
-        html += `
-            <div class="threshold-item">
-                <div class="threshold-nutrient">${formatNutrientName(nutrient)}</div>
-                <div class="threshold-range">${min} — ${max}</div>
-                ${label ? `<div class="threshold-label">${label}</div>` : ""}
-                ${rationale ? `<div class="threshold-rationale">${rationale}</div>` : ""}
-            </div>
-        `;
-    }
-
-    html += `</div>`;
-    container.innerHTML = html;
-}
 
 function formatNutrientName(key) {
     return key
@@ -713,4 +676,252 @@ function renderRecCards(recommendations) {
             </div>
         `;
     }).join("");
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  PHASE 3: FRIDGE SCANNER & RECIPE GENERATOR
+// ══════════════════════════════════════════════════════════════════
+
+let detectedMapppedIngredients = [];
+
+document.addEventListener("DOMContentLoaded", () => {
+    initFridgeScanner();
+    initRecipeGenerator();
+});
+
+function initFridgeScanner() {
+    const dropzone = document.getElementById("fridge-dropzone");
+    const imageInput = document.getElementById("fridge-image-input");
+
+    if (!dropzone) return;
+
+    dropzone.addEventListener("click", () => imageInput.click());
+
+    dropzone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropzone.classList.add("drag-over");
+    });
+
+    dropzone.addEventListener("dragleave", () => {
+        dropzone.classList.remove("drag-over");
+    });
+
+    dropzone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropzone.classList.remove("drag-over");
+        if (e.dataTransfer.files.length) {
+            handleFridgeImage(e.dataTransfer.files[0]);
+        }
+    });
+
+    imageInput.addEventListener("change", () => {
+        if (imageInput.files.length) {
+            handleFridgeImage(imageInput.files[0]);
+        }
+    });
+
+    document.getElementById("btn-auto-add").addEventListener("click", () => {
+        detectedMapppedIngredients.forEach(ing => addIngredient(ing));
+        showError("Ingredients added! Scroll down to Portion Analysis, wait for it to run, then click 'Get Portion Recommendations' before generating a recipe.", true);
+
+        // Scroll to portion analysis
+        document.getElementById("ingredient-section").scrollIntoView({ behavior: "smooth" });
+    });
+}
+
+function showError(message, isInfo = false) {
+    const existing = document.querySelectorAll(".error-banner");
+    existing.forEach(el => el.remove());
+
+    const banner = document.createElement("div");
+    banner.className = "error-banner";
+    if (isInfo) {
+        banner.style.background = "var(--risk-low-bg)";
+        banner.style.borderColor = "var(--risk-low)";
+        banner.style.color = "var(--risk-low)";
+        banner.textContent = message;
+    } else {
+        banner.textContent = `Error: ${message}`;
+    }
+
+    const form = document.getElementById("patient-form");
+    form.parentNode.insertBefore(banner, form);
+}
+
+async function handleFridgeImage(file) {
+    // Show preview
+    const preview = document.getElementById("preview-image");
+    const content = document.getElementById("dropzone-content");
+
+    preview.src = URL.createObjectURL(file);
+    preview.classList.remove("hidden");
+    content.classList.add("hidden");
+
+    // Upload & Detect
+    const form = new FormData();
+    form.append("image", file);
+
+    const badgesContainer = document.getElementById("detected-badges");
+    badgesContainer.innerHTML = `<span class="detection-badge">Scanning image...</span>`;
+    document.getElementById("detection-results").style.display = "";
+
+    try {
+        const res = await fetch(`${API_BASE}/api/detect`, {
+            method: "POST",
+            body: form
+        });
+
+        if (!res.ok) {
+            const err = await res.json();
+            throw new Error(err.error || "Failed to detect ingredients");
+        }
+
+        const data = await res.json();
+
+        if (data.mapped_ifct.length === 0) {
+            badgesContainer.innerHTML = `<span class="detection-badge" style="color:var(--risk-high)">No matching ingredients found.</span>`;
+            detectedMapppedIngredients = [];
+            return;
+        }
+
+        detectedMapppedIngredients = data.mapped_ifct;
+        badgesContainer.innerHTML = data.mapped_ifct.map(ing => `
+            <span class="detection-badge">
+                ${ing} <span class="match-icon">&#10003;</span>
+            </span>
+        `).join("");
+
+    } catch (err) {
+        showError(err.message);
+        badgesContainer.innerHTML = `<span class="detection-badge" style="color:var(--risk-high)">Detection failed.</span>`;
+    }
+}
+
+// ── Recipe Generator ──
+
+function initRecipeGenerator() {
+    const btn = document.getElementById("btn-generate-recipe");
+    if (!btn) return;
+
+    btn.addEventListener("click", generateClinicalRecipe);
+
+    // Watch for recommend results to enable recipe button
+    const observer = new MutationObserver(() => {
+        const recommendResults = document.getElementById("recommend-results");
+        btn.disabled = recommendResults.style.display === "none";
+    });
+
+    const resultsNode = document.getElementById("recommend-results");
+    if (resultsNode) {
+        observer.observe(resultsNode, { attributes: true, attributeFilter: ['style'] });
+    }
+}
+
+async function generateClinicalRecipe() {
+    const btn = document.getElementById("btn-generate-recipe");
+    const btnLoader = btn.querySelector(".btn-loader");
+    const btnText = btn.querySelector(".btn-text");
+    const outputSection = document.getElementById("recipe-output");
+    const contentDiv = document.getElementById("recipe-content");
+
+    if (selectedIngredients.length === 0) {
+        showError("No ingredients selected for the recipe");
+        return;
+    }
+
+    btn.disabled = true;
+    btnText.style.display = "none";
+    btnLoader.style.display = "inline";
+
+    try {
+        // Patient data
+        const patient = {
+            age: parseFloat(document.getElementById("age").value),
+            sex_male: parseInt(document.getElementById("sex_male").value),
+            has_htn: document.getElementById("has_htn").checked ? 1 : 0,
+            has_dm: document.getElementById("has_dm").checked ? 1 : 0,
+            has_ckd: document.getElementById("has_ckd").checked ? 1 : 0,
+            serum_sodium: parseFloat(document.getElementById("serum_sodium").value),
+            serum_potassium: parseFloat(document.getElementById("serum_potassium").value),
+            creatinine: parseFloat(document.getElementById("creatinine").value),
+            egfr: parseFloat(document.getElementById("egfr").value),
+            hba1c: parseFloat(document.getElementById("hba1c").value),
+            fbs: parseFloat(document.getElementById("fbs").value),
+            sbp: parseFloat(document.getElementById("sbp").value),
+            dbp: parseFloat(document.getElementById("dbp").value),
+            bmi: parseFloat(document.getElementById("bmi").value),
+        };
+
+        const equipment = document.getElementById("recipe-equipment").value;
+        const cuisine = document.getElementById("recipe-cuisine").value;
+        const time_limit = document.getElementById("recipe-time").value;
+
+        const res = await fetch(`${API_BASE}/api/generate-recipe`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                patient,
+                ingredients: selectedIngredients,
+                equipment,
+                cuisine,
+                time_limit
+            })
+        });
+
+        if (!res.ok) {
+            const err = await res.json();
+            throw new Error(err.error || "Failed to generate recipe");
+        }
+
+        const data = await res.json();
+
+        contentDiv.innerHTML = markdownToHtml(data.recipe);
+        outputSection.style.display = "";
+        outputSection.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    } catch (err) {
+        showError(err.message);
+    } finally {
+        btn.disabled = false;
+        btnText.style.display = "inline";
+        btnLoader.style.display = "none";
+    }
+}
+
+// ── Markdown Parser ──
+function markdownToHtml(md) {
+    if (!md) return "";
+    let html = escapeHtml(md);
+
+    // Headings
+    html = html.replace(/^#### (.+)$/gm, "<h4>$1</h4>");
+    html = html.replace(/^### (.+)$/gm, "<h3>$1</h3>");
+    html = html.replace(/^## (.+)$/gm, "<h2>$1</h2>");
+    html = html.replace(/^# (.+)$/gm, "<h1>$1</h1>");
+
+    // Bold + Italic
+    html = html.replace(/\*\*\*(.+?)\*\*\*/g, "<strong><em>$1</em></strong>");
+    html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+    html = html.replace(/\*(.+?)\*/g, "<em>$1</em>");
+
+    // Lists
+    html = html.replace(/^[•\-\*] (.+)$/gm, "<li>$1</li>");
+    html = html.replace(/^\d+\.\s(.+)$/gm, "<li>$1</li>");
+    html = html.replace(/((?:<li>.+<\/li>\n?)+)/g, "<ul>$1</ul>");
+
+    // Paragraphs
+    html = html.split("\n").map((line) => {
+        line = line.trim();
+        if (!line) return "";
+        if (/^<[hulo]/.test(line)) return line;
+        return `<p>${line}</p>`;
+    }).join("\n");
+
+    return html;
+}
+
+function escapeHtml(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
 }

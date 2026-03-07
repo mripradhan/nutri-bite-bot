@@ -14,10 +14,16 @@ on the actual .joblib model weights — NO hardcoded thresholds.
 import json
 import math
 import os
+import base64
+import tempfile
+import requests as http_requests
 from difflib import get_close_matches
 
 import joblib
 import numpy as np
+from PIL import Image
+from dotenv import load_dotenv
+from groq import Groq
 import pandas as pd
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
@@ -333,6 +339,14 @@ def recommend_ingredient(ingredient: str, severity_scores: dict, budget: dict) -
 app = Flask(__name__, static_folder=FRONTEND_DIR)
 CORS(app)
 
+load_dotenv()
+try:
+    groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+except Exception:
+    groq_client = None
+
+ROBOFLOW_API_KEY = os.getenv("ROBOFLOW_API_KEY", "")
+
 
 @app.route("/")
 def serve_frontend():
@@ -552,6 +566,167 @@ def recommend():
             "has_ckd": has_ckd, "has_htn": has_htn, "has_dm": has_dm,
         },
     })
+
+
+# ══════════════════════════════════════════════════════════════════
+#  PHASE 3 — FRIDGE DETECTION & RECIPE GENERATION
+# ══════════════════════════════════════════════════════════════════
+
+@app.route("/api/detect", methods=["POST"])
+def detect_ingredients():
+    """Takes an image, runs Roboflow CV, and maps to IFCT database."""
+    if not ROBOFLOW_API_KEY:
+        return jsonify({"error": "Roboflow API key not configured"}), 500
+
+    if "image" not in request.files:
+        return jsonify({"error": "No image uploaded"}), 400
+
+    image_file = request.files["image"]
+
+    try:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as tmp:
+            image = Image.open(image_file).convert("RGB")
+            image.save(tmp.name)
+
+            with open(tmp.name, "rb") as bf:
+                encoded_image = base64.b64encode(bf.read()).decode("ascii")
+
+        # Call Roboflow HTTP API (Model: ingredient-detection-5uzov/5)
+        upload_url = "".join([
+            "https://detect.roboflow.com/ingredient-detection-5uzov/5",
+            f"?api_key={ROBOFLOW_API_KEY}",
+            "&name=image.jpg"
+        ])
+
+        response = http_requests.post(
+            upload_url,
+            data=encoded_image,
+            headers={"Content-Type": "application/x-www-form-urlencoded"}
+        )
+
+        if response.status_code != 200:
+            return jsonify({"error": f"Roboflow API error: {response.text}"}), 500
+
+        result = response.json()
+        predictions = result.get("predictions", [])
+        
+        # Unique classes detected by CV
+        detected_names = list({pred["class"] for pred in predictions})
+        
+        # Match to IFCT database
+        mapped_ingredients = []
+        for name in detected_names:
+            matches = ifct_search(name, n=1)
+            if matches:
+                mapped_ingredients.append(matches[0])
+
+        os.remove(tmp.name)
+
+        return jsonify({
+            "detected_raw": detected_names,
+            "mapped_ifct": mapped_ingredients
+        })
+    except Exception as exc:
+        return jsonify({"error": str(exc)}), 500
+
+
+@app.route("/api/generate-recipe", methods=["POST"])
+def generate_recipe():
+    """Generates a recipe constrained by the patient's safe portion limits."""
+    if not groq_client:
+        return jsonify({"error": "Groq client not configured"}), 500
+
+    data = request.json
+    patient_data = data.get("patient", {})
+    ingredients = data.get("ingredients", [])
+    equipment = data.get("equipment", "Standard kitchen")
+    time_limit = data.get("time_limit", "Any")
+    cuisine = data.get("cuisine", "Any")
+
+    if not ingredients:
+        return jsonify({"error": "No ingredients provided"}), 400
+
+    try:
+        # 1. Run standard ML prediction to get risk levels
+        patient_df = pd.DataFrame([patient_data])
+        X_scaled = preprocess(patient_df)
+        
+        probability_outputs = {}
+        for target, model in MODELS.items():
+            proba = model.predict_proba(X_scaled)[0]
+            probability_outputs[target] = proba
+
+        # 2. Get severity mapping
+        severity_scores = {}
+        for target, proba in probability_outputs.items():
+            severity_scores[target] = compute_severity_score(proba)
+
+        # 3. Calculate nutrient budget
+        has_ckd = bool(int(patient_data.get("has_ckd", 0)))
+        has_htn = bool(int(patient_data.get("has_htn", 0)))
+        has_dm = bool(int(patient_data.get("has_dm", 0)))
+        daily_budget = get_daily_budget(has_ckd, has_htn, has_dm)
+
+        # 4. Determine safe maximum quantity for each ingredient
+        safe_ingredients = []
+        for ing in ingredients:
+            rec = recommend_ingredient(ing, severity_scores, daily_budget)
+            if rec:
+                safe_ingredients.append(rec)
+
+        # 5. Build prompt with constraints
+        ingredient_lines = []
+        for rec in safe_ingredients:
+            line = f"- {rec['ingredient']}: MAXIMUM {rec['max_grams']}g permitted"
+            if rec['binding_constraint']:
+                line += f" (limiting constraint: {rec['binding_constraint']})"
+            ingredient_lines.append(line)
+            
+        clinical_context = [
+            f"- CKD Status: {'Positive' if has_ckd else 'Negative'}",
+            f"- HTN Status: {'Positive' if has_htn else 'Negative'}",
+            f"- DM Status: {'Positive' if has_dm else 'Negative'}"
+        ]
+
+        system_prompt = (
+            "You are a specialized clinical nutritionist and chef. "
+            "Your task is to generate a recipe strictly adhering to provided ingredient quantity limits.\n\n"
+            "CRITICAL RULES:\n"
+            "1. You MUST NOT exceed the 'MAXIMUM permitted' grams for ANY ingredient.\n"
+            "2. If an ingredient has a very low maximum (e.g. <15g), use it only as a garnish or minor flavoring.\n"
+            "3. You must ONLY use the provided ingredients, optionally adding generic water/salt/pepper/oil "
+            "(unless hypertension is flagged bounding sodium in which case minimize salt).\n"
+            "4. Output format: Clean Markdown with a Title, short description of clinical benefits, "
+            "precise Ingredients list (in grams), and step-by-step cooking instructions."
+        )
+
+        user_prompt = (
+            "Patient Clinical Context:\n" + "\n".join(clinical_context) + "\n\n"
+            "Available Ingredients with Safety Limits:\n" + "\n".join(ingredient_lines) + "\n\n"
+            f"Available Equipment: {equipment}\n"
+            f"Cuisine Preference: {cuisine}\n"
+            f"Time Constraint: {time_limit}\n\n"
+            "Generate a recipe now."
+        )
+
+        completion = groq_client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt},
+            ],
+            model="llama-3.3-70b-versatile",
+            max_tokens=800,
+            temperature=0.6,
+        )
+        recipe = completion.choices[0].message.content
+        
+        return jsonify({
+            "recipe": recipe,
+            "portions_used": safe_ingredients
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":
