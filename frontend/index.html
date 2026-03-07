@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriBiteBot — Clinical Risk Stratification</title>
+    <meta name="description"
+        content="AI-powered clinical risk stratification using trained ML models for sodium, potassium, protein, and carb sensitivity prediction.">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- ─── HEADER ─────────────────────────────────────────── -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">&#9883;</span>
+                <div>
+                    <h1>NutriBiteBot</h1>
+                    <p class="subtitle">Clinical Risk Stratification Engine</p>
+                </div>
+            </div>
+            <div class="header-badges">
+                <span class="badge badge-accent" id="accuracy-badge">99.91% Accuracy</span>
+                <span class="badge badge-outline">4 ML Models</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- ─── PATIENT INPUT SECTION ──────────────────────── -->
+        <section class="card input-section" id="input-section">
+            <div class="card-header">
+                <h2>&#9638; Patient Clinical Data</h2>
+                <p class="card-subtitle">Enter patient parameters for ML-based risk prediction</p>
+            </div>
+
+            <!-- Preset buttons -->
+            <div class="preset-bar">
+                <span class="preset-label">Quick Presets:</span>
+                <button class="preset-btn" data-preset="healthy" title="Healthy patient, no conditions">Healthy</button>
+                <button class="preset-btn" data-preset="ckd" title="CKD Stage 4 patient">CKD</button>
+                <button class="preset-btn" data-preset="diabetes" title="Uncontrolled diabetes">Diabetes</button>
+                <button class="preset-btn" data-preset="htn" title="Hypertension patient">HTN</button>
+                <button class="preset-btn" data-preset="multi"
+                    title="CKD + HTN + DM (most restrictive)">CKD+HTN+DM</button>
+            </div>
+
+            <form id="patient-form" autocomplete="off">
+                <!-- Demographics -->
+                <fieldset class="form-group">
+                    <legend>Demographics</legend>
+                    <div class="field-grid">
+                        <div class="field">
+                            <label for="age">Age <span class="unit">(years)</span></label>
+                            <input type="number" id="age" name="age" min="18" max="120" step="1" required>
+                        </div>
+                        <div class="field">
+                            <label for="sex_male">Sex</label>
+                            <select id="sex_male" name="sex_male" required>
+                                <option value="" disabled selected>Select</option>
+                                <option value="1">Male</option>
+                                <option value="0">Female</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="bmi">BMI <span class="unit">(kg/m&sup2;)</span></label>
+                            <input type="number" id="bmi" name="bmi" min="10" max="60" step="0.1" required>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Conditions -->
+                <fieldset class="form-group">
+                    <legend>Medical Conditions</legend>
+                    <div class="toggle-grid">
+                        <div class="toggle-field">
+                            <label class="toggle-label" for="has_htn">
+                                <span>Hypertension (HTN)</span>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="has_htn" name="has_htn">
+                                    <span class="toggle-slider"></span>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="toggle-field">
+                            <label class="toggle-label" for="has_dm">
+                                <span>Diabetes Mellitus (DM)</span>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="has_dm" name="has_dm">
+                                    <span class="toggle-slider"></span>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="toggle-field">
+                            <label class="toggle-label" for="has_ckd">
+                                <span>Chronic Kidney Disease (CKD)</span>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="has_ckd" name="has_ckd">
+                                    <span class="toggle-slider"></span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Lab Values -->
+                <fieldset class="form-group">
+                    <legend>Lab Values</legend>
+                    <div class="field-grid">
+                        <div class="field">
+                            <label for="serum_sodium">Serum Sodium <span class="unit">(mEq/L)</span></label>
+                            <input type="number" id="serum_sodium" name="serum_sodium" min="120" max="160" step="0.1"
+                                required>
+                        </div>
+                        <div class="field">
+                            <label for="serum_potassium">Serum Potassium <span class="unit">(mEq/L)</span></label>
+                            <input type="number" id="serum_potassium" name="serum_potassium" min="2" max="8" step="0.1"
+                                required>
+                        </div>
+                        <div class="field">
+                            <label for="creatinine">Creatinine <span class="unit">(mg/dL)</span></label>
+                            <input type="number" id="creatinine" name="creatinine" min="0.2" max="15" step="0.1"
+                                required>
+                        </div>
+                        <div class="field">
+                            <label for="egfr">eGFR <span class="unit">(mL/min)</span></label>
+                            <input type="number" id="egfr" name="egfr" min="5" max="150" step="1" required>
+                        </div>
+                        <div class="field">
+                            <label for="hba1c">HbA1c <span class="unit">(%)</span></label>
+                            <input type="number" id="hba1c" name="hba1c" min="3" max="15" step="0.1" required>
+                        </div>
+                        <div class="field">
+                            <label for="fbs">Fasting Blood Sugar <span class="unit">(mg/dL)</span></label>
+                            <input type="number" id="fbs" name="fbs" min="40" max="500" step="1" required>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Vitals -->
+                <fieldset class="form-group">
+                    <legend>Vitals</legend>
+                    <div class="field-grid">
+                        <div class="field">
+                            <label for="sbp">Systolic BP <span class="unit">(mmHg)</span></label>
+                            <input type="number" id="sbp" name="sbp" min="70" max="250" step="1" required>
+                        </div>
+                        <div class="field">
+                            <label for="dbp">Diastolic BP <span class="unit">(mmHg)</span></label>
+                            <input type="number" id="dbp" name="dbp" min="40" max="150" step="1" required>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <button type="submit" class="btn-primary" id="analyze-btn">
+                    <span class="btn-text">&#9654; Run ML Prediction</span>
+                    <span class="btn-loader" style="display:none;">Analyzing...</span>
+                </button>
+            </form>
+        </section>
+
+        <!-- ─── RESULTS SECTION ────────────────────────────── -->
+        <section class="results-section" id="results-section" style="display: none;">
+            <!-- Patient Summary -->
+            <div class="card patient-summary" id="patient-summary">
+                <div class="card-header">
+                    <h2>&#9635; Patient Summary</h2>
+                </div>
+                <div id="summary-content"></div>
+            </div>
+
+            <!-- Risk Dashboard -->
+            <div class="card risk-dashboard">
+                <div class="card-header">
+                    <h2>&#9733; ML Model Predictions</h2>
+                    <p class="card-subtitle">Each prediction is from a separately trained ML classifier (not rule-based)
+                    </p>
+                </div>
+                <div class="risk-grid" id="risk-grid"></div>
+            </div>
+
+            <!-- Probability Distribution -->
+            <div class="card probability-section">
+                <div class="card-header">
+                    <h2>&#9636; Prediction Confidence Breakdown</h2>
+                    <p class="card-subtitle">Class probability distributions from model.predict_proba()</p>
+                </div>
+                <div id="probability-charts"></div>
+            </div>
+
+            <!-- Nutrient Thresholds (reference only) -->
+            <div class="card thresholds-section" id="thresholds-section">
+                <div class="card-header">
+                    <h2>&#9670; Clinical Reference Thresholds</h2>
+                    <p class="card-subtitle">Reference nutrient limits for this condition combination (supplementary,
+                        not used for prediction)</p>
+                </div>
+                <div id="thresholds-content"></div>
+            </div>
+        </section>
+
+        <!-- ─── INGREDIENT PORTION ANALYSIS ──────────────────── -->
+        <section class="card ingredient-section" id="ingredient-section">
+            <div class="card-header">
+                <h2>&#9749; Ingredient Portion Analysis</h2>
+                <p class="card-subtitle">Search for ingredients to get ML-based safe portion recommendations</p>
+            </div>
+
+            <!-- Ingredient Search -->
+            <div class="ingredient-search-wrap">
+                <div class="search-input-wrap">
+                    <input type="text" id="ingredient-search"
+                        placeholder="Type to search — e.g. banana, rice, spinach..." autocomplete="off">
+                    <div class="autocomplete-dropdown" id="autocomplete-dropdown" style="display:none;"></div>
+                </div>
+                <button type="button" class="btn-add-ingredient" id="btn-browse-all" title="Browse all ingredients">
+                    Browse All
+                </button>
+            </div>
+
+            <!-- Selected Ingredients -->
+            <div class="selected-ingredients" id="selected-ingredients">
+                <p class="empty-state" id="empty-ingredients">No ingredients selected. Search above to add items.</p>
+            </div>
+
+            <!-- Recommend Button -->
+            <button type="button" class="btn-primary" id="recommend-btn" disabled>
+                <span class="btn-text">&#9874; Get Portion Recommendations</span>
+                <span class="btn-loader" style="display:none;">Computing...</span>
+            </button>
+
+            <!-- Recommendation Results -->
+            <div class="recommend-results" id="recommend-results" style="display:none;">
+                <!-- Daily Budget -->
+                <div class="budget-section" id="budget-section"></div>
+
+                <!-- Recommendation Cards -->
+                <div class="recommend-grid" id="recommend-grid"></div>
+            </div>
+        </section>
+
+        <!-- ─── MODEL INFO SECTION ─────────────────────────── -->
+        <section class="card model-info-section" id="model-info-section">
+            <div class="card-header">
+                <h2>&#9881; Model Architecture</h2>
+                <button class="btn-text-only" id="toggle-model-info">Show Details</button>
+            </div>
+            <div class="model-info-body" id="model-info-body" style="display: none;">
+                <div id="model-info-content">Loading...</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ─── FOOTER ─────────────────────────────────────────── -->
+    <footer class="app-footer">
+        <p>NutriBiteBot &mdash; Predictions powered by trained ML models &mdash; Not a substitute for medical advice</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
