@@ -1,0 +1,54 @@
+======================================================================
+CLINICAL MODEL #1  ACCURACY ANALYSIS SUMMARY
+======================================================================
+
+Target: sodium_sensitivity
+----------------------------------------
+  accuracy                  : 0.9996
+  precision_macro           : 0.9985
+  precision_weighted        : 0.9996
+  recall_macro              : 0.9992
+  recall_weighted           : 0.9996
+  f1_macro                  : 0.9988
+  f1_weighted               : 0.9996
+  cohen_kappa               : 0.9992
+
+Target: potassium_sensitivity
+----------------------------------------
+  accuracy                  : 0.9995
+  precision_macro           : 0.9993
+  precision_weighted        : 0.9995
+  recall_macro              : 0.9992
+  recall_weighted           : 0.9995
+  f1_macro                  : 0.9993
+  f1_weighted               : 0.9995
+  cohen_kappa               : 0.9992
+
+Target: protein_restriction
+----------------------------------------
+  accuracy                  : 0.9993
+  precision_macro           : 0.9982
+  precision_weighted        : 0.9993
+  recall_macro              : 0.9989
+  recall_weighted           : 0.9993
+  f1_macro                  : 0.9986
+  f1_weighted               : 0.9993
+  cohen_kappa               : 0.9984
+
+Target: carb_sensitivity
+----------------------------------------
+  accuracy                  : 0.9979
+  precision_macro           : 0.9972
+  precision_weighted        : 0.9979
+  recall_macro              : 0.9978
+  recall_weighted           : 0.9979
+  f1_macro                  : 0.9975
+  f1_weighted               : 0.9979
+  cohen_kappa               : 0.9963
+
+======================================================================
+OVERALL (macro-averaged across targets)
+======================================================================
+  Mean Accuracy:     0.9991
+  Mean F1 (wt):      0.9991
+  Mean Cohen Kappa:  0.9983

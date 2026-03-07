@@ -194,12 +194,12 @@
 
         </section>
 
-        <!-- ─── FRIDGE SCANNER & RECIPE GENERATOR ─────────────── -->
+        <!-- ─── FRIDGE SCANNER ─────────────── -->
         <section class="card fridge-section" id="fridge-section">
             <div class="card-header">
-                <h2>&#128247; Fridge Scanner & Recipe Generator</h2>
-                <p class="card-subtitle">Upload a photo of your fridge to automatically detect ingredients, check their
-                    safety, and generate a clinical recipe.</p>
+                <h2>&#128247; Fridge Scanner</h2>
+                <p class="card-subtitle">Upload a photo of your fridge to automatically detect ingredients and check
+                    their safety.</p>
             </div>
 
             <div class="fridge-content-wrap">
@@ -223,33 +223,6 @@
                     <p class="detection-note">Note: These will be added to the Portion Analysis below. You must click
                         "Get Portion Recommendations" there to configure safe limits before generating a recipe.</p>
                 </div>
-            </div>
-
-            <!-- Recipe Generation Settings -->
-            <div class="recipe-settings">
-                <div class="setting-group">
-                    <label for="recipe-equipment">Available Equipment</label>
-                    <input type="text" id="recipe-equipment" value="Stove, Oven, Microwave"
-                        placeholder="e.g. Stove, Oven">
-                </div>
-                <div class="setting-group">
-                    <label for="recipe-cuisine">Cuisine Preference <span class="optional">(Optional)</span></label>
-                    <input type="text" id="recipe-cuisine" placeholder="e.g. Indian, Mediterranean">
-                </div>
-                <div class="setting-group">
-                    <label for="recipe-time">Time Constraint <span class="optional">(Optional)</span></label>
-                    <input type="text" id="recipe-time" placeholder="e.g. Under 30 mins">
-                </div>
-
-                <button type="button" class="btn-primary" id="btn-generate-recipe" disabled>
-                    <span class="btn-text">&#127859; Generate Clinical Recipe</span>
-                    <span class="btn-loader" style="display:none;">Creating Recipe...</span>
-                </button>
-            </div>
-
-            <!-- Recipe Output -->
-            <div class="recipe-output card-inner" id="recipe-output" style="display:none;">
-                <div id="recipe-content" class="markdown-body"></div>
             </div>
         </section>
 
@@ -290,6 +263,42 @@
 
                 <!-- Recommendation Cards -->
                 <div class="recommend-grid" id="recommend-grid"></div>
+            </div>
+        </section>
+
+        <!-- ─── RECIPE GENERATOR ─────────────── -->
+        <section class="card recipe-section" id="recipe-section">
+            <div class="card-header">
+                <h2>&#127859; Clinical Recipe Generator</h2>
+                <p class="card-subtitle">Generate a clinical recipe based on safe portion recommendations and
+                    constraints.</p>
+            </div>
+
+            <!-- Recipe Generation Settings -->
+            <div class="recipe-settings">
+                <div class="setting-group">
+                    <label for="recipe-equipment">Available Equipment</label>
+                    <input type="text" id="recipe-equipment" value="Stove, Oven, Microwave"
+                        placeholder="e.g. Stove, Oven">
+                </div>
+                <div class="setting-group">
+                    <label for="recipe-cuisine">Cuisine Preference <span class="optional">(Optional)</span></label>
+                    <input type="text" id="recipe-cuisine" placeholder="e.g. Indian, Mediterranean">
+                </div>
+                <div class="setting-group">
+                    <label for="recipe-time">Time Constraint <span class="optional">(Optional)</span></label>
+                    <input type="text" id="recipe-time" placeholder="e.g. Under 30 mins">
+                </div>
+
+                <button type="button" class="btn-primary" id="btn-generate-recipe" disabled>
+                    <span class="btn-text">&#127859; Generate Clinical Recipe</span>
+                    <span class="btn-loader" style="display:none;">Creating Recipe...</span>
+                </button>
+            </div>
+
+            <!-- Recipe Output -->
+            <div class="recipe-output card-inner" id="recipe-output" style="display:none;">
+                <div id="recipe-content" class="markdown-body"></div>
             </div>
         </section>
 

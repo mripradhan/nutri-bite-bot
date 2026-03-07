@@ -1,14 +1,14 @@
 """
 NutriBiteBot — Flask API Backend
 =================================
-Serves clinical risk stratification using 4 trained ML models:
+Serves clinical risk stratification using TabNet deep learning model:
   - sodium_sensitivity
   - potassium_sensitivity
   - protein_restriction
   - carb_sensitivity
 
-ALL predictions come from model.predict() / model.predict_proba()
-on the actual .joblib model weights — NO hardcoded thresholds.
+ALL predictions come from TabNet model.predict() / model.predict_proba()
+using model_params.json + network.pt weights — NO hardcoded thresholds.
 """
 
 import json
@@ -16,6 +16,8 @@ import math
 import os
 import base64
 import tempfile
+import zipfile
+import shutil
 import requests as http_requests
 from difflib import get_close_matches
 
@@ -27,6 +29,7 @@ from groq import Groq
 import pandas as pd
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
+from pytorch_tabnet.tab_model import TabNetClassifier
 
 # ── paths ──────────────────────────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -36,7 +39,7 @@ FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
 IFCT_CSV = os.path.join(BASE_DIR, "clinical models", "ifct_database.csv")
 
 # ── load ML models at startup ─────────────────────────────────────
-print("Loading ML model weights …")
+print("Loading ML model weights (TabNet) …")
 
 MODELS = {}
 TARGET_NAMES = [
@@ -46,10 +49,30 @@ TARGET_NAMES = [
     "carb_sensitivity",
 ]
 
+# Build a temporary .zip from model_params.json + network.pt for TabNet's load_model()
+def _load_tabnet_from_parts(model_dir):
+    """Load a TabNet model from standalone model_params.json + network.pt files."""
+    params_path = os.path.join(model_dir, "model_params.json")
+    weights_path = os.path.join(model_dir, "network.pt")
+    tmp_zip = os.path.join(model_dir, "_tabnet_tmp.zip")
+    try:
+        with zipfile.ZipFile(tmp_zip, "w") as zf:
+            zf.write(params_path, "model_params.json")
+            zf.write(weights_path, "network.pt")
+        model = TabNetClassifier()
+        model.load_model(tmp_zip)
+        return model
+    finally:
+        if os.path.exists(tmp_zip):
+            os.remove(tmp_zip)
+
+_tabnet_model = _load_tabnet_from_parts(MODEL_DIR)
+print(f"  ✓ TabNet model loaded from model_params.json + network.pt")
+
+# Share the single TabNet model across all 4 risk targets
 for target in TARGET_NAMES:
-    path = os.path.join(MODEL_DIR, f"{target}.joblib")
-    MODELS[target] = joblib.load(path)
-    print(f"  ✓ {target} loaded from {path}")
+    MODELS[target] = _tabnet_model
+    print(f"  ✓ {target} → TabNet model")
 
 # Load preprocessing artifacts and extract fitted parameters.
 # The imputer/scaler .joblib files may be incompatible with the current
@@ -66,7 +89,7 @@ SCALER_SCALE = _raw_scaler.scale_                     # std dev per feature
 
 print(f"  ✓ imputer, scaler, feature_names ({len(FEATURE_NAMES)} features) loaded")
 print(f"  Features: {list(FEATURE_NAMES)}")
-print("All models loaded successfully.\n")
+print("All TabNet models loaded successfully.\n")
 
 
 def preprocess(X_df):
@@ -386,11 +409,12 @@ def predict():
     # Preprocess: impute → scale (using the TRAINED parameters from .joblib)
     X_processed = preprocess(X)
 
-    # Run each ML model
+    # Run each TabNet model (requires float32)
+    X_tabnet = X_processed.astype(np.float32)
     risk_levels = {}
     for target, model in MODELS.items():
-        pred = int(model.predict(X_processed)[0])
-        proba = model.predict_proba(X_processed)[0]
+        pred = int(model.predict(X_tabnet)[0])
+        proba = model.predict_proba(X_tabnet)[0]
 
         label = LABEL_MAP[pred]
         confidence = float(proba[pred] * 100)
@@ -448,7 +472,7 @@ def model_info():
         "models": {
             target: {
                 "display_name": RISK_DESCRIPTIONS[target]["name"],
-                "type": type(MODELS[target]).__name__,
+                "type": "TabNetClassifier",
                 "classes": ["low", "moderate", "high"],
                 "features_used": list(FEATURE_NAMES),
             }
@@ -462,6 +486,7 @@ def model_info():
         "feature_count": len(FEATURE_NAMES),
         "feature_names": list(FEATURE_NAMES),
         "preprocessing": ["SimpleImputer", "StandardScaler"],
+        "model_backend": "TabNet (pytorch_tabnet)",
     })
 
 
@@ -526,11 +551,12 @@ def recommend():
     X = pd.DataFrame([patient])[FEATURE_NAMES]
     X_processed = preprocess(X)
 
+    X_tabnet = X_processed.astype(np.float32)
     risk_levels = {}
     severity_scores = {}
     for target, model in MODELS.items():
-        pred = int(model.predict(X_processed)[0])
-        proba = model.predict_proba(X_processed)[0]
+        pred = int(model.predict(X_tabnet)[0])
+        proba = model.predict_proba(X_tabnet)[0]
         label = LABEL_MAP[pred]
 
         risk_levels[target] = {
@@ -651,9 +677,10 @@ def generate_recipe():
         patient_df = pd.DataFrame([patient_data])
         X_scaled = preprocess(patient_df)
         
+        X_tabnet = X_scaled.astype(np.float32)
         probability_outputs = {}
         for target, model in MODELS.items():
-            proba = model.predict_proba(X_scaled)[0]
+            proba = model.predict_proba(X_tabnet)[0]
             probability_outputs[target] = proba
 
         # 2. Get severity mapping
