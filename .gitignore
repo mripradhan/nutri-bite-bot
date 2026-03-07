@@ -1,0 +1,12 @@
+# datasets
+mimic IV/
+*.csv
+*.zip
+*.parquet
+
+# env / caches
+.venv/
+__pycache__/
+*.joblib
+*.pkl
+*.h5

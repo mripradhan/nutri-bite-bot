@@ -1,0 +1,26 @@
+==================================================
+CLINICAL RISK STRATIFICATION RESULTS (TabNet)
+==================================================
+
+Patient: Age 55, Diabetes: Yes, CKD: Yes
+HbA1c: 8.4%, FBS: 170 mg/dL, BMI: 32
+
+Risk Levels:
+--------------------------------------------------
+  sodium_sensitivity       : high       (100.0% confidence)
+  potassium_sensitivity    : high       (100.0% confidence)
+  protein_restriction      : high       (100.0% confidence)
+  carb_sensitivity         : high       (100.0% confidence)
+==================================================
+
+---STDERR---
+C:\Users\pradh\AppData\Roaming\Python\Python314\site-packages\pytorch_tabnet\abstract_model.py:82: UserWarning: Device used : cpu
+  warnings.warn(f"Device used : {self.device}")
+C:\Users\pradh\AppData\Roaming\Python\Python314\site-packages\sklearn\base.py:463: InconsistentVersionWarning: Trying to unpickle estimator SimpleImputer from version 1.6.1 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+C:\Users\pradh\AppData\Roaming\Python\Python314\site-packages\sklearn\base.py:463: InconsistentVersionWarning: Trying to unpickle estimator StandardScaler from version 1.6.1 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+
+EXIT=0
