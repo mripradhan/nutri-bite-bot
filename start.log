@@ -1,0 +1,59 @@
+ analytics Skipped - Image is already present locally 
+ auth Skipped - Image is already present locally 
+ vector Skipped - Image is already present locally 
+ db Skipped - Image is already present locally 
+ mailpit Skipped - Image is already present locally 
+ realtime Skipped - Image is already present locally 
+ imgProxy Skipped - Image is already present locally 
+ edgeRuntime Skipped - Image is already present locally 
+ studio Skipped - Image is already present locally 
+ pgmeta Skipped - Image is already present locally 
+ gateway Skipped - Image is already present locally 
+ api Skipped - Image is already present locally 
+ storage Skipped - Image is already present locally 
+Starting database from backup...
+Starting containers...
+WARNING: Analytics on Windows requires Docker daemon exposed on tcp://localhost:2375.
+See https://supabase.com/docs/guides/local-development/cli/getting-started?queryGroups=platform&platform=windows#running-supabase-locally for more details.
+Waiting for health checks...
+Started supabase local development setup.
+
+╭──────────────────────────────────────╮
+│ 🔧 Development Tools                 │
+├─────────┬────────────────────────────┤
+│ Studio  │ http://127.0.0.1:54333     │
+│ Mailpit │ http://127.0.0.1:54334     │
+│ MCP     │ http://127.0.0.1:54331/mcp │
+╰─────────┴────────────────────────────╯
+
+╭──────────────────────────────────────────────────────╮
+│ 🌐 APIs                                              │
+├────────────────┬─────────────────────────────────────┤
+│ Project URL    │ http://127.0.0.1:54331              │
+│ REST           │ http://127.0.0.1:54331/rest/v1      │
+│ GraphQL        │ http://127.0.0.1:54331/graphql/v1   │
+│ Edge Functions │ http://127.0.0.1:54331/functions/v1 │
+╰────────────────┴─────────────────────────────────────╯
+
+╭───────────────────────────────────────────────────────────────╮
+│ ⛁ Database                                                    │
+├─────┬─────────────────────────────────────────────────────────┤
+│ URL │ postgresql://postgres:postgres@127.0.0.1:54332/postgres │
+╰─────┴─────────────────────────────────────────────────────────╯
+
+╭──────────────────────────────────────────────────────────────╮
+│ 🔑 Authentication Keys                                       │
+├─────────────┬────────────────────────────────────────────────┤
+│ Publishable │ sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH │
+│ Secret      │ sb_secret_N7UND0UgjKTVK-Uodkm0Hg_xSvEMPvz      │
+╰─────────────┴────────────────────────────────────────────────╯
+
+╭───────────────────────────────────────────────────────────────────────────────╮
+│ 📦 Storage (S3)                                                               │
+├────────────┬──────────────────────────────────────────────────────────────────┤
+│ URL        │ http://127.0.0.1:54331/storage/v1/s3                             │
+│ Access Key │ 625729a08b95bf1b7ff351a663f3a23c                                 │
+│ Secret Key │ 850181e4652dd023b7a98c58ae0d2d34bd487ee0cc3254aed6eda37307425907 │
+│ Region     │ local                                                            │
+╰────────────┴──────────────────────────────────────────────────────────────────╯
+

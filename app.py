@@ -25,6 +25,8 @@ import joblib
 import numpy as np
 from PIL import Image
 from dotenv import load_dotenv
+
+from supabase_client import save_patient_data, save_recipe
 from groq import Groq
 import pandas as pd
 from flask import Flask, jsonify, request, send_from_directory
@@ -746,6 +748,11 @@ def generate_recipe():
             temperature=0.6,
         )
         recipe = completion.choices[0].message.content
+        
+        # Save to Local Supabase DB
+        patient_id = save_patient_data(patient_data)
+        if patient_id:
+            save_recipe(patient_id, safe_ingredients, recipe)
         
         return jsonify({
             "recipe": recipe,
