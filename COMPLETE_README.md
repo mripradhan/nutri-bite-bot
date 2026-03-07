@@ -12,7 +12,12 @@ A complete clinical nutrition system with **ALL requested features working**:
 ✅ Hierarchical Clinical Rules Engine with conflict resolution  
 ✅ Pantry Inventory with USDA FDC mapping  
 ✅ Recipe Generation with SHARE methodology  
+<<<<<<< HEAD
 ✅ Full explainability citing lab values  
+=======
+✅ Full explainability citing lab values
+✅ **Local Secure Storage**: Dockerized Supabase storing `patients` and `recipes` locally for absolute privacy.
+>>>>>>> fulltabnetver
 
 ---
 
@@ -23,7 +28,12 @@ A complete clinical nutrition system with **ALL requested features working**:
 2. `clinical_rules_engine.py` - Conflict resolution (K+ cap, protein calc)
 3. `pantry_inventory.py` - CV scan + USDA mapping
 4. `recipe_generator.py` - SHARE + explainability  
+<<<<<<< HEAD
 5. `main_integration.py` - Complete pipeline
+=======
+5. `supabase_client.py` - Local Postgres/Supabase HTTP bindings
+6. `main_integration.py` - Complete pipeline
+>>>>>>> fulltabnetver
 
 ### Documentation
 - `PROJECT_OVERVIEW.md` - Complete system documentation
@@ -42,12 +52,28 @@ A complete clinical nutrition system with **ALL requested features working**:
 
 ## 🚀 Quick Start
 
+<<<<<<< HEAD
+=======
+1. **Start Database**
+```bash
+# Starts local Supabase via Docker
+npx --yes supabase start
+```
+*(Update your `.env` with the URL & ANON/SERVICE_ROLE keys provided in the terminal output)*
+
+2. **Run Application**
+>>>>>>> fulltabnetver
 ```bash
 # Install
 pip install -r requirements.txt
 
+<<<<<<< HEAD
 # Run complete pipeline
 python main_integration.py
+=======
+# Run complete UI/API pipeline
+python app.py
+>>>>>>> fulltabnetver
 ```
 
 **Output**: All required JSON files generated in `outputs/`
@@ -132,8 +158,13 @@ per_meal = daily / 3
 ## 🏗️ System Architecture
 
 ```
+<<<<<<< HEAD
 MIMIC-IV → Rules Engine → Pantry Inventory → Recipe Generator → Final Report
             (Conflicts)    (USDA Mapping)    (SHARE + Explain)
+=======
+[MIMIC-IV / Web UI] → [Rules Engine / TabNet] → [Pantry Inventory] → [Recipe Generator] → [Supabase]
+                           (Conflicts)          (USDA Mapping)     (SHARE + Explain)    (Storage)
+>>>>>>> fulltabnetver
 ```
 
 All modules tested and working ✅

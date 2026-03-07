@@ -1,0 +1,566 @@
+{
+  "htn=0_dm=0_ckd=0": {
+    "sodium_mg": {
+      "max": 2300,
+      "unit": "mg/day",
+      "rationale": "General healthy limit (AHA)"
+    },
+    "potassium_mg": {
+      "min": 2600,
+      "max": 3400,
+      "unit": "mg/day",
+      "rationale": "Adequate intake range"
+    },
+    "protein_g_per_kg": {
+      "min": 0.8,
+      "max": 1.0,
+      "unit": "g/kg/day",
+      "rationale": "RDA for healthy adults"
+    },
+    "carbs_g": {
+      "min": 225,
+      "max": 325,
+      "unit": "g/day",
+      "rationale": "45-65% of 2000 kcal diet"
+    },
+    "phosphorus_mg": {
+      "max": 1250,
+      "unit": "mg/day",
+      "rationale": "RDA upper range"
+    },
+    "fluid_ml": {
+      "min": 2000,
+      "max": 2500,
+      "unit": "mL/day",
+      "rationale": "Standard hydration"
+    }
+  },
+  "htn=1_dm=0_ckd=0": {
+    "sodium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "Strict sodium limit for HTN (AHA/ACC)"
+    },
+    "potassium_mg": {
+      "min": 3500,
+      "max": 4700,
+      "unit": "mg/day",
+      "rationale": "DASH diet target \u2014 higher K helps lower BP"
+    },
+    "protein_g_per_kg": {
+      "min": 0.8,
+      "max": 1.0,
+      "unit": "g/kg/day",
+      "rationale": "Normal protein intake"
+    },
+    "carbs_g": {
+      "min": 225,
+      "max": 325,
+      "unit": "g/day",
+      "rationale": "Normal carb intake"
+    },
+    "phosphorus_mg": {
+      "max": 1250,
+      "unit": "mg/day",
+      "rationale": "RDA upper range"
+    },
+    "fluid_ml": {
+      "min": 2000,
+      "max": 2500,
+      "unit": "mL/day",
+      "rationale": "Standard hydration"
+    }
+  },
+  "htn=0_dm=1_ckd=0": {
+    "sodium_mg": {
+      "max": 2300,
+      "unit": "mg/day",
+      "rationale": "Standard limit (ADA)"
+    },
+    "potassium_mg": {
+      "min": 2600,
+      "max": 3400,
+      "unit": "mg/day",
+      "rationale": "Adequate intake"
+    },
+    "protein_g_per_kg": {
+      "min": 0.8,
+      "max": 1.0,
+      "unit": "g/kg/day",
+      "rationale": "Normal protein (ADA)"
+    },
+    "carbs_g": {
+      "min": 130,
+      "max": 200,
+      "unit": "g/day",
+      "rationale": "Reduced carbs, prefer low GI (ADA 2024)"
+    },
+    "phosphorus_mg": {
+      "max": 1250,
+      "unit": "mg/day",
+      "rationale": "RDA upper range"
+    },
+    "fluid_ml": {
+      "min": 2000,
+      "max": 2500,
+      "unit": "mL/day",
+      "rationale": "Standard hydration"
+    }
+  },
+  "htn=1_dm=1_ckd=0": {
+    "sodium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "Strict limit for HTN+DM (AHA/ADA)"
+    },
+    "potassium_mg": {
+      "min": 3500,
+      "max": 4700,
+      "unit": "mg/day",
+      "rationale": "DASH diet target"
+    },
+    "protein_g_per_kg": {
+      "min": 0.8,
+      "max": 0.8,
+      "unit": "g/kg/day",
+      "rationale": "Conservative protein"
+    },
+    "carbs_g": {
+      "min": 130,
+      "max": 200,
+      "unit": "g/day",
+      "rationale": "Controlled carbs (ADA)"
+    },
+    "phosphorus_mg": {
+      "max": 1250,
+      "unit": "mg/day",
+      "rationale": "RDA"
+    },
+    "fluid_ml": {
+      "min": 2000,
+      "max": 2500,
+      "unit": "mL/day",
+      "rationale": "Standard hydration"
+    }
+  },
+  "htn=0_dm=0_ckd=3": {
+    "sodium_mg": {
+      "max": 2000,
+      "unit": "mg/day",
+      "rationale": "KDIGO CKD stage 3 guideline"
+    },
+    "potassium_mg": {
+      "max": 2000,
+      "unit": "mg/day",
+      "rationale": "Restricted \u2014 reduced renal clearance (KDIGO)"
+    },
+    "protein_g_per_kg": {
+      "min": 0.6,
+      "max": 0.8,
+      "unit": "g/kg/day",
+      "rationale": "Low-protein diet to slow progression (KDIGO)"
+    },
+    "carbs_g": {
+      "min": 225,
+      "max": 325,
+      "unit": "g/day",
+      "rationale": "Normal carbs"
+    },
+    "phosphorus_mg": {
+      "max": 800,
+      "unit": "mg/day",
+      "rationale": "Phosphorus restricted in CKD (KDIGO)"
+    },
+    "fluid_ml": {
+      "min": 1500,
+      "max": 2000,
+      "unit": "mL/day",
+      "rationale": "Per physician guidance"
+    }
+  },
+  "htn=1_dm=0_ckd=3": {
+    "sodium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "Strict for HTN+CKD (KDIGO/AHA)"
+    },
+    "potassium_mg": {
+      "max": 2000,
+      "unit": "mg/day",
+      "rationale": "Restricted for CKD3"
+    },
+    "protein_g_per_kg": {
+      "min": 0.6,
+      "max": 0.8,
+      "unit": "g/kg/day",
+      "rationale": "Low protein (KDIGO)"
+    },
+    "carbs_g": {
+      "min": 225,
+      "max": 325,
+      "unit": "g/day",
+      "rationale": "Normal"
+    },
+    "phosphorus_mg": {
+      "max": 800,
+      "unit": "mg/day",
+      "rationale": "Phosphorus restricted"
+    },
+    "fluid_ml": {
+      "min": 1000,
+      "max": 1500,
+      "unit": "mL/day",
+      "rationale": "Monitor fluid balance"
+    }
+  },
+  "htn=0_dm=1_ckd=3": {
+    "sodium_mg": {
+      "max": 2000,
+      "unit": "mg/day",
+      "rationale": "KDIGO guideline for DKD"
+    },
+    "potassium_mg": {
+      "max": 2000,
+      "unit": "mg/day",
+      "rationale": "Restricted for CKD3"
+    },
+    "protein_g_per_kg": {
+      "min": 0.6,
+      "max": 0.8,
+      "unit": "g/kg/day",
+      "rationale": "Low protein for DKD (KDIGO/ADA)"
+    },
+    "carbs_g": {
+      "min": 130,
+      "max": 200,
+      "unit": "g/day",
+      "rationale": "Controlled carbs (ADA)"
+    },
+    "phosphorus_mg": {
+      "max": 800,
+      "unit": "mg/day",
+      "rationale": "Restricted"
+    },
+    "fluid_ml": {
+      "min": 1000,
+      "max": 1500,
+      "unit": "mL/day",
+      "rationale": "Monitor fluid"
+    }
+  },
+  "htn=1_dm=1_ckd=3": {
+    "sodium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "Most restrictive sodium (KDIGO/AHA/ADA)"
+    },
+    "potassium_mg": {
+      "max": 2000,
+      "unit": "mg/day",
+      "rationale": "CKD restricted"
+    },
+    "protein_g_per_kg": {
+      "min": 0.6,
+      "max": 0.8,
+      "unit": "g/kg/day",
+      "rationale": "Low protein"
+    },
+    "carbs_g": {
+      "min": 130,
+      "max": 200,
+      "unit": "g/day",
+      "rationale": "Controlled carbs"
+    },
+    "phosphorus_mg": {
+      "max": 800,
+      "unit": "mg/day",
+      "rationale": "Restricted"
+    },
+    "fluid_ml": {
+      "min": 1000,
+      "max": 1500,
+      "unit": "mL/day",
+      "rationale": "Fluid restricted"
+    }
+  },
+  "htn=0_dm=0_ckd=4": {
+    "sodium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "KDIGO CKD stage 4"
+    },
+    "potassium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "Severely restricted (KDIGO)"
+    },
+    "protein_g_per_kg": {
+      "min": 0.6,
+      "max": 0.6,
+      "unit": "g/kg/day",
+      "rationale": "Very low protein (KDIGO)"
+    },
+    "carbs_g": {
+      "min": 225,
+      "max": 325,
+      "unit": "g/day",
+      "rationale": "Normal carbs"
+    },
+    "phosphorus_mg": {
+      "max": 800,
+      "unit": "mg/day",
+      "rationale": "Restricted"
+    },
+    "fluid_ml": {
+      "min": 1000,
+      "max": 1500,
+      "unit": "mL/day",
+      "rationale": "Fluid restricted"
+    }
+  },
+  "htn=1_dm=0_ckd=4": {
+    "sodium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "Strict (KDIGO/AHA)"
+    },
+    "potassium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "Severely restricted"
+    },
+    "protein_g_per_kg": {
+      "min": 0.6,
+      "max": 0.6,
+      "unit": "g/kg/day",
+      "rationale": "Very low protein"
+    },
+    "carbs_g": {
+      "min": 225,
+      "max": 325,
+      "unit": "g/day",
+      "rationale": "Normal"
+    },
+    "phosphorus_mg": {
+      "max": 800,
+      "unit": "mg/day",
+      "rationale": "Restricted"
+    },
+    "fluid_ml": {
+      "min": 1000,
+      "max": 1500,
+      "unit": "mL/day",
+      "rationale": "Restricted"
+    }
+  },
+  "htn=0_dm=1_ckd=4": {
+    "sodium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "DKD stage 4"
+    },
+    "potassium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "Severely restricted"
+    },
+    "protein_g_per_kg": {
+      "min": 0.6,
+      "max": 0.6,
+      "unit": "g/kg/day",
+      "rationale": "Very low protein"
+    },
+    "carbs_g": {
+      "min": 130,
+      "max": 200,
+      "unit": "g/day",
+      "rationale": "Controlled carbs"
+    },
+    "phosphorus_mg": {
+      "max": 800,
+      "unit": "mg/day",
+      "rationale": "Restricted"
+    },
+    "fluid_ml": {
+      "min": 1000,
+      "max": 1500,
+      "unit": "mL/day",
+      "rationale": "Restricted"
+    }
+  },
+  "htn=1_dm=1_ckd=4": {
+    "sodium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "Most restrictive (KDIGO/AHA/ADA)"
+    },
+    "potassium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "Severely restricted"
+    },
+    "protein_g_per_kg": {
+      "min": 0.6,
+      "max": 0.6,
+      "unit": "g/kg/day",
+      "rationale": "Very low protein"
+    },
+    "carbs_g": {
+      "min": 130,
+      "max": 180,
+      "unit": "g/day",
+      "rationale": "Strictly controlled carbs"
+    },
+    "phosphorus_mg": {
+      "max": 800,
+      "unit": "mg/day",
+      "rationale": "Restricted"
+    },
+    "fluid_ml": {
+      "min": 1000,
+      "max": 1500,
+      "unit": "mL/day",
+      "rationale": "Restricted"
+    }
+  },
+  "htn=0_dm=0_ckd=5": {
+    "sodium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "KDIGO dialysis guideline"
+    },
+    "potassium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "Severely restricted (KDIGO)"
+    },
+    "protein_g_per_kg": {
+      "min": 1.0,
+      "max": 1.2,
+      "unit": "g/kg/day",
+      "rationale": "Higher protein on dialysis (KDIGO)"
+    },
+    "carbs_g": {
+      "min": 225,
+      "max": 325,
+      "unit": "g/day",
+      "rationale": "Adequate energy intake"
+    },
+    "phosphorus_mg": {
+      "max": 800,
+      "unit": "mg/day",
+      "rationale": "Restricted"
+    },
+    "fluid_ml": {
+      "min": 500,
+      "max": 1000,
+      "unit": "mL/day",
+      "rationale": "Very restricted on dialysis"
+    }
+  },
+  "htn=1_dm=0_ckd=5": {
+    "sodium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "Dialysis guideline"
+    },
+    "potassium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "Severely restricted"
+    },
+    "protein_g_per_kg": {
+      "min": 1.0,
+      "max": 1.2,
+      "unit": "g/kg/day",
+      "rationale": "Higher on dialysis"
+    },
+    "carbs_g": {
+      "min": 225,
+      "max": 325,
+      "unit": "g/day",
+      "rationale": "Normal"
+    },
+    "phosphorus_mg": {
+      "max": 800,
+      "unit": "mg/day",
+      "rationale": "Restricted"
+    },
+    "fluid_ml": {
+      "min": 500,
+      "max": 1000,
+      "unit": "mL/day",
+      "rationale": "Very restricted"
+    }
+  },
+  "htn=0_dm=1_ckd=5": {
+    "sodium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "DKD dialysis"
+    },
+    "potassium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "Severely restricted"
+    },
+    "protein_g_per_kg": {
+      "min": 1.0,
+      "max": 1.2,
+      "unit": "g/kg/day",
+      "rationale": "Higher on dialysis"
+    },
+    "carbs_g": {
+      "min": 130,
+      "max": 200,
+      "unit": "g/day",
+      "rationale": "Controlled carbs"
+    },
+    "phosphorus_mg": {
+      "max": 800,
+      "unit": "mg/day",
+      "rationale": "Restricted"
+    },
+    "fluid_ml": {
+      "min": 500,
+      "max": 1000,
+      "unit": "mL/day",
+      "rationale": "Very restricted"
+    }
+  },
+  "htn=1_dm=1_ckd=5": {
+    "sodium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "Most restrictive (KDIGO/AHA/ADA)"
+    },
+    "potassium_mg": {
+      "max": 1500,
+      "unit": "mg/day",
+      "rationale": "Severely restricted"
+    },
+    "protein_g_per_kg": {
+      "min": 1.0,
+      "max": 1.2,
+      "unit": "g/kg/day",
+      "rationale": "Higher on dialysis"
+    },
+    "carbs_g": {
+      "min": 130,
+      "max": 180,
+      "unit": "g/day",
+      "rationale": "Strictly controlled"
+    },
+    "phosphorus_mg": {
+      "max": 800,
+      "unit": "mg/day",
+      "rationale": "Restricted"
+    },
+    "fluid_ml": {
+      "min": 500,
+      "max": 1000,
+      "unit": "mL/day",
+      "rationale": "Very restricted"
+    }
+  }
+}

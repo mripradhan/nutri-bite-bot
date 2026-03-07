@@ -1,0 +1,867 @@
+Opening PDF: C:\Gayathri\BITE_BOT\nutri-bite-bot\IFCT2017.pdf
+Total pages: 585
+
+================================================================================
+PAGE 2
+================================================================================
+Indian Food Composition Tables
+T. Longvah
+R. Ananthan
+K. Bhaskarachary
+K. Venkaiah
+NATIONAL INSTITUTE OF NUTRITION
+(Indian Council of Medical Research)
+Department of Health Research
+Ministry of Health and Family Welfare, Government of India
+Hyderabad- 500 007, Telangana State, INDIA
+2017
+
+================================================================================
+PAGE 3
+================================================================================
+Citation of this book should be given as-
+Longvah, T., Ananthan, R., Bhaskarachary, K. and Venkaiah, K. (2017). Indian Food
+Composition Tables 2017, National Institute of Nutrition, Indian Council of Medical
+Research, Hyderabad, Telangana, India.
+Copyright © 2017 by National Institute of Nutrition
+Indian Council of Medical Research
+Department of Health Research
+Ministry of Health and Family Welfare, Government of India
+Jamai Osmania (PO), Hyderabad – 500 007
+Telangana State, INDIA
+Telephone: +91 40 27197334, Telefax: +91 40 27000339
+Website: www.ninindia.org; www.ifct2017.com
+Email: nin@ap.nic.in; ifct2017@gmail.com
+The use and dissemination of the data in this book is encouraged. This publication can be reproduced
+for personal use with full acknowledgment of the source. However, no part of this publication can be
+stored or reproduced in any electronic format for creating a product without the prior written
+permission of the National Institute of Nutrition, Hyderabad.
+Editor: T. Longvah
+Page and picture layout: R. Ananthan, S. Devendran, L. Bidyalakshmi & S. Jawahar
+Cover design: S. Devendran
+Printer and Publisher: National Institute of Nutrition
+Indian Council of Medical Research
+Department of Health Research
+Ministry of Health and Family Welfare, Government of India
+Jamai Osmania (PO), Hyderabad – 500 007
+Telangana State, INDIA
+Telephone: +91 40 27197334, Telefax: +91 40 27000339
+Website: www.ninindia.org; www.ifct2017.com
+Email: nin@ap.nic.in; ifct2017@gmail.com
+Disclaimer
+The National Institute of Nutrition (NIN) has exercised great care and diligence to ensure that the data
+provided in the food composition tables is as correct and accurate as possible. NIN makes no warranty
+of the data and in no event shall be held liable for any incidental or consequential event arising from
+the use of the data.
+
+================================================================================
+PAGE 4
+================================================================================
+C. Gopalan
+MD., Ph.D., D.Sc. (London), D.Sc. (Hon.), F.R.S., F.R.C.P. (Edin.),
+F.R.C.P. (London)
+The Father of Nutrition in India
+i
+
+================================================================================
+PAGE 5
+================================================================================
+PREFACE
+Ever since the pioneering Indian FCT was brought out in the year 1937, the National
+Institute of Nutrition (ICMR), Hyderabad, has been constantly updating the compositional
+database of Indian foods. The new ‘Indian Food Composition Tables, 2017’, provides nutritional
+information on 151 discrete food components for 528 key foods. All data presented in this book
+originate from regional composite samples averaged for six geographical regions of the country.
+The voluminous food composition data of unprecedented analytical quality is statistically
+representative of both the national food supply and consumption pattern. The standard deviation
+of each component data point represents the overall variability within. No data in this book has
+been borrowed or derived from other data sources and represents accurate nutritional
+information of foods that are consumed across the country. The data are of reasonable
+representation of year round nationwide means and fit for assessment of nutrient intakes and
+their impact on health of the population. Except for eggs, all other food component data are for
+foods in the raw form. Food being a biological matter exhibits variations in chemical
+composition due to multiple factors. This is particularly true for labile nutrients like vitamins
+and variations are imminent due to food processing. These limitations of the FCT need to be
+understood by the users.
+Recent studies of the relationship between diet and health have led to increased interest
+in the range of biologically active constituents present in foods that accompany the nutrients.
+This book not only provides data of regular nutrients in foods complete in all respect but also on
+a whole range of bioactive substances. Vitamin D2 content in plant foods is presented here for
+the first time in the world. The tables contain data on oligosaccharides, phytosterols, organic
+acids and individual polyphenols. This book also embodies an exhaustive database on amino
+acid and fatty acid pr
+
+--- Found 2 table(s) on page 5 ---
+Table 1: 2 rows, 2 cols
+  Row 0: [None, 'Recent studies of the relationship between diet and health have led to increased interest']
+  Row 1: ['in the range of biologically active constituents present in foods that accompany the nutrients.', None]
+Table 2: 4 rows, 2 cols
+  Row 0: [None, 'the International Network of Food Data Systems']
+  Row 1: ['(INFOODS) at the Food and Agriculture Organization of the United Nations (FAO), Rome', None]
+  Row 2: ['continues to provide assistance in terms of standards development and capacity building to', None]
+  Row 3: ['strengthen national food composition activities across the world.', None]
+
+================================================================================
+PAGE 6
+================================================================================
+ACKNOWLEDGEMENTS
+Several individuals and organizations have been involved in the development of the
+‘Indian Food Composition Tables, 2017’ right from conception of the programme, infrastructure
+establishment, capacity building and execution. This herculean task could not have been
+possible without the immense support from all corners.
+Particular acknowledgement is due to Dr. V. M. Katoch, Former Secretary, Department
+of Health Research & Director General, Indian Council of Medical Research (ICMR) who
+recognized the importance and the need for new Indian Food Composition Database and
+provided the required financial grant for implementing the programme.
+Special thanks to Dr. Soumya Swaminathan, Secretary, Department of Health Research
+& Director General, Indian Council of Medical Research for her constant support and
+encouragement in accomplishing the task.
+Sincere thanks to Dr. B. Sesikeran, Former Director, National Institute of Nutrition
+(NIN) and Dr. G. S. Toteja, Scientist-G & Head, Nutrition, ICMR for facilitating the smooth
+operation of the project without which the project would not have seen the light of the day.
+Particular thanks to Late Dr. B. S. Narasinga Rao, former Director of NIN and
+Dr. Padam Singh former Adll. Director General, ICMR and all the Expert Committee Members
+for their invaluable scientific inputs which strengthened the programme.
+The constant support and encouragement provided by Dr. Ute Ruth Charrondiere,
+INFOODS Coordinator, FAO, Rome is gratefully acknowledged. Special appreciation and
+thanks to Dr. Kailash Chandra, Director, ZSI., Dr. Rajkumar Rajan, Officer-in-charge,
+Mr. A. Anand Kumar and Mr. Shrini Vaasu from Marine Biological Regional Centre, Chennai
+for their tireless effort in taxonomical identification of all varieties of fish, shellfish and mollusc
+analyzed.
+To the project scientists Dr. P. Ravindra Naik, Dr. Charles Dorni, Dr. Hyma Pardipur,
+Dr. B. Sreedhar, Dr. S. Muthuswami, Dr. V. S. S. Prasad, Dr. Smitha Mathews and all th
+
+================================================================================
+PAGE 7
+================================================================================
+CONTENTS
+S. No. Title Page No.
+1. Origin and progression of Indian Food Composition Tables i
+2. Identification of key foods, National sampling plan and xii
+analytical parameters
+3. General Information xx
+4. References xxiv
+5. Abbreviations xxxi
+6. Food Composition Tables
+Table 1: Proximate Principles and Dietary Fiber 1
+Table 2: Water Soluble Vitamins 31
+Table 3: Fat Soluble Vitamins 61
+Table 4: Carotenoids 91
+Table 5: Minerals and Trace Elements 111
+Table 6: Starch and Individual Sugars 169
+Table 7: Fatty Acid Profile 187
+Table 8: Amino Acid Profile 257
+Table 9: Organic Acids 313
+Table 10: Polyphenols 333
+Table 11: Oligosaccharides, Phytosterols, Saponins and 403
+Phytates
+Table 12: Fatty Acid Profile of Edible Oils and Fats 423
+7. Food Pictures and Description 427
+8. Index 501
+i
+
+================================================================================
+PAGE 8
+================================================================================
+The origin and progression of Indian food composition tables: 1937-2017
+1. Introduction responsible for the prevalence of malnutrition in order
+Food composition tables (FCT) are data repository for to issue guidelines and deliver solutions for its
+the content of nutritionally relevant chemical prevention and control. In the year 1918, an enquiry
+constituents and energy values of foods. The data headed by Sir Robert McCarrison was launched to
+compiled in the FCT normally comprises of analytical, investigate the prevalence of beriberi under the
+archival, imputed, calculated and/or derived values auspices of Indian Research Fund Association (IRFA),
+weighted towards the most representative of the true now Indian Council of Medical Research (ICMR).
+content in a given food (Greenfield & Southgate, Subsequently, the research broadened to a ‗deficiency
+2003). FCT are relied upon for nutrition research and disease enquiry‘ and ultimately transformed into a fully
+health practice as they provide critical information functional research organization named Nutrition
+regarding the content and distribution of various Research Laboratories (NRL) housed at the Pasteur
+components in different foods. The multi-dimensional Institute, Coonoor, Nilgiri, India (Narasinga Rao,
+utility of FCT is enabled by a great deal of effort that 2005a).
+goes into their construction, development and
+management involving statistical designs, food One of the major public health concerns that NRL,
+sampling, component characterization, analytical Coonoor started looking into was the protein energy
+method development, estimation, data quality malnutrition (PEM). Incipient reports on nutrient
+assessment, documentation and presentation. evaluations in India, suggested an emphasis on protein
+content and quality of Indian foods and diets (Lewis,
+Compositional values of foods are useful in manifold 1880; McNamara, 1906; McCay, 1910; McCay, 1911;
+ways; in nutritional surveillance, consumer nutrition McCay, 1912; P
+
+================================================================================
+PAGE 9
+================================================================================
+results for the chemical analyses of few common Indian compiled by Aykroyd (1937) and released in the form
+foods. Data generated by McCarrison (1929) for of Health Bulletin No. 23 entitled ‗The Nutritive Value
+limited number of foods was nevertheless devoid of of Indian Foods and The Planning of Satisfactory
+information on mineral content, an important Diets‘. These foodstuffs were classified into 11 food
+component in the diet. Similarly, the chemical groups among which, other vegetables (20.1%), fruits
+composition of common Indian foods reported by (18.3%) and cereals (12.3%) were predominant. These
+Ranganathan, Sundararajan, and Swaminathan (1937) vegetal foods were given importance as they were
+was lacking in information on critical vitamins content being widely consumed and were considered to have
+probably because quantification of vitamins in those the potential to mitigate the prevalent nutritional
+times required specialized analytical expertise. The problems. Animal source foods such as milk and milk
+available reports on nutrient content of Indian foods products (3.6%) and flesh foods (5%) constituted
+were not comprehensive and required consolidation for relatively a small proportion (Figure 1). Condiments
+wider outreach and effective utility. Based on and spices accounted for 9.6% of the total foods. Fish
+nutritional studies, McCarrison (1932) had advised that samples represented those consumed in west-coast of
+the solution to the nutritional problems in India should Malabar region. All the selected foods were procured
+evolve from a survey of food sources and classification from the markets of Coonoor and Coimbatore in south
+of natural products into nutritive values involving India, and few other places such as Bellary (Sorghum
+biochemical analysis of foods for its nutrient content. cernuum), Bijnor (Fagopyrum esculentum; Trapa
+Consequently, the League of Nations Technical bispinosa), Mangalore (Eleucine coracana; Triticum
+Commission on Nutrition recommended
+
+================================================================================
+PAGE 10
+================================================================================
+Values for a total of 17 components were reported in presented in terms of IU per 100g. The tables thus
+the first edition though some components were not provided the baseline availability of vitamin B1 in
+complete for every food (Table 1). The methods Indian foods to help formulate balanced diet and
+described by Ranganathan et al. (1937) were adopted alleviate the incidence of beriberi. Vitamin B2 was
+for analysis of various foodstuffs. The values for estimated by biological method and the results were
+moisture, mineral matter, fat, crude fibre and protein presented under the categories of rich (+++), good
+were determined analytically and the results were (++), presence (+) and poor (negligible). Vitamin C
+presented as percentage of the original sample. was estimated by chemical method and expressed as
+Carbohydrate content was obtained by subtracting the mg/100g (Table 2).
+sum of moisture, total mineral matter, ether extractives,
+crude fibre and proteins from 100 while calorific values The protein biological value (BV) of 36 proteinaceous
+were derived by calculation according to Atwater foodstuffs was also provided as an appendix in addition
+(1889), assuming that a gram of protein or carbohydrate to the protein content of foods in regular tables. BV of
+yields 4 Cal and a gram of fat yields 9 Cal of energy. proteins came from NRL, Coonoor and Seth
+Calcium was analyzed by titrimetry (Ranganthan et al., Gordhandas Sunderdas Medical College (Now King
+1937), phosphorus by volumetric method (Association Edward Memorial Hospital), Bombay (now Mumbai)
+of Official Agricultural Chemists AOAC, 1930) and where determination of protein BV was initiated
+these minerals were expressed as g/100g. Total iron (Narasinga Rao, 2005b). Similarly, the percentage of
+content was estimated by colorimetry following available iron out of total iron in 26 hematopoietic
+potassium thiocyanate method and the results were foodstuffs was also provided as an appendix to help in
+reported as mg/100g. 
+
+================================================================================
+PAGE 11
+================================================================================
+Rao, Deosthale, and Pant (1989).
+No. 23 (Aykroyd, 1937) mostly represented the with 76% and soya bean with 54%. Among the vegetal
+composition of Indian foods analyzed at NRL, Coonoor foods, pulses were found to be rich sources of protein
+(Swaminathan, 1937; Ranganathan et al., 1937). ranging from 17.08% in bengal gram to 43.22% in soya
+Additionally some nutrient values from India published bean. Vitamin A was found to occur in animal fats and
+in scientific articles particularly those from the the richest source was halibut liver oil containing
+Department of Biochemistry and Nutrition, All India 3900000 IU/100g. Vegetable oils and fats were found
+Institute of Hygiene and Public Health, Calcutta (now to be generally devoid of vitamin A and carotene
+Kolkata) were also made use of. However, the except red palm (Elaeis guineensis) oil, which
+proportion of data from NRL, Coonoor and those contained carotene equivalent to 44,000 IU of vitamin
+collected from other research laboratories in India A per 100g. Apart from leafy vegetables (2000 – 12630
+could not be ascertained. Even though, the iodine IU), carrots (2000 – 4300 IU), ripe fruits such as
+content of 100 varieties of Indian foods was reported mangoes and papaya with 2020 and 4800 IU carotene
+by Patnaik (1934) from NRL, Coonoor, they were not equivalent vitamin A per 100g, respectively were
+included in this edition of composition tables as the considered among the richest dietary source of
+topic was so convoluted that it was considered outside carotene. Foods such as coconut, soy and avocado had
+the scope of the bulletin. fat content of 41.6, 19.5 and 22.8%, respectively and
+were regarded as rich sources of fat. Calcium was
+Many significant interpretations emanated from the found to be present in large amounts in buffalo milk
+food values in the first compiled edition of NRL, (0.203%), ‗ragi’ (0.334%) as well as leafy vegetables
+Coonoor. The data enabled calculation of the actual such as ‗agathi’ (1.131%) and ‗curry le
+
+================================================================================
+PAGE 12
+================================================================================
+eggs, pulses, leafy vegetables, certain roots and tubers constituted 19.7, 15.7, 11.4 and 10.4%, respectively.
+were reported as good sources of vitamin B2. Un- The number of flesh foods increased 2.2 times with
+sprouted pulses lacked vitamin C; nevertheless, addition of 14 new foods. Miscellaneous foods
+sprouted pulses contained 10 to 15 mg of vitamin C per increased 3.1 times with addition of 17 new foods.
+100g. Fruits and GLVs were expanded with addition of 19
+After one year, the second edition of Health Bulletin and 13 foods, respectively. Three new foods were
+No. 23 was published in the year 1938 which was added in the class of milk and milk products. Pre-
+widely circulated and translated into several Indian emptive knowledge regarding distribution of key
+languages for greater popularity, wider outreach, micronutrients, mostly gained from past compilation,
+general public nutrition education and utility. In this perhaps led to expansion of these food groups. The
+edition, a section on infant feeding was also added and number of foods in pulses category however remained
+corrections were incorporated for bringing in more the same. Food sampling locations were the same as
+clarity. The general configuration however, remained reported in the previous edition.
+unchanged.
+The 1951 version of the Health Bulletin No. 23
+A revised and enlarged third edition was published in reflected improvement of analytical technique, which
+the year 1941 wherein the reported number of foods was quickly adopted in India. Unlike the previous 1937
+increased to 284. Content wise the third edition was edition where the values for B1 were sourced from
+substantially similar to previous two editions. Calorie scientific journals and expressed as IU/100g, in this
+values of the foods per ounce were provided as an revised edition, vitamin B1 was determined
+additional column. The scientific nomenclature of the experimentally and the analytical values were
+foods was provided as a separate column alongs
+
+================================================================================
+PAGE 13
+================================================================================
+glucose and devoid of vitamins except vitamin C. The sixth revised edition was brought out by Aykroyd,
+Vitamin A content was found to be distributed in Gopalan, and Balasubramanian (1963) in the form of a
+animal source foods like butter, ghee, whole milk, egg Special Report Series No. 42 retaining the original title
+yolk, liver and fish. Among animal fats, cod liver oil ‗Nutritive value of Indian foods and the planning of the
+(60000 to 200000 IU/100g) and halibut liver oil satisfactory diets‘. All the available literature based
+(390000 IU/100g) were reported as richest sources of nutrient values of the Indian foods in this edition were
+vitamin A. Whole bengal gram (Cicer arietinum) was inclusively compiled which significantly raised the
+found to be devoid of vitamin C in their native state. total number of foods to 856; the highest among all the
+Sprouted mung or green gram (Phaseolus radiatus) FCT published so far (Figure 1). Fruits and GLVs
+contained about three times more vitamin C than constituted 24.2 and 14.8%, respectively. ‗Fishes and
+sprouted bengal gram whereas, ‗amla’ (Emblica other sea foods‘ category, introduced as a new food
+officinalis) containing 600 mg of vitamin C per 100g group in this edition, constituted about 12.6% of total
+was regarded as the richest source of vitamin C. foods. Fats and edible oils were classified as yet
+another additional food group accounting for 0.7% of
+The fifth edition of Health Bulletin No. 23, published total foods in the FCT. Addition of fish, fats and edible
+by Aykroyd and Patwardhan (1956) focused on the oils as new food groups implied a better understanding
+general aspects of nutritional physiology in India. Since about the role of amino and fatty acids in regulation of
+rice was the major staple consumed in larger human health and their distribution in different foods
+proportion, the nutritive values of rice and rice products (Chakrabarty & Hilditch, 1951; Master & Magar, 1954;
+were studied in detail and published ex
+
+================================================================================
+PAGE 14
+================================================================================
+In order to provide dietetic solutions for alleviating In order to meet the demands of teachers of home
+IDA, iron content of foods were reported as total, science and nutrition; researchers of diet and nutrition
+ionizable and percentage of ionizable iron out of total surveys as well as dieticians in hospitals, a handy and
+iron. Percent ionizable iron content was introduced into portable document, named Special Report Series No.
+the main table rather than as appendix to enlist different 42 entitled ―Nutritive Value of Indian Foods-Tables of
+haematopoietic foods. Calcium and magnesium salts of Food Values‖ was brought out by Aykroyd, Gopalan,
+phytic acid are insoluble and these minerals are hence and Balasubramanian (1966). This book contained only
+rendered less bio-available. Phytates are resistant to the tabulated values and brief text on principles of
+digestion and the phosphorus in them is also not readily nutrition and dietetics while the number of foods and
+available. Therefore, phosphorus contents of certain component parameters, scientific and vernacular names
+foods was reported in three different forms namely, remained unchanged.
+total phosphorus, phytin-phosphorus and percent
+phytin-phosphorus out of total phosphorus to aid in 5. Nutritive value of Indian foods (NVIF), 1971
+efficient diet based mitigation of osteomalacia. For the In a relatively short duration between 1964 and 1970
+first time, oxalic acid content was also reported for 830 there was very little probability for the alteration in the
+food entries in this 1963 edition. Oxalic acid was nutritive value of Indian foods. The dietary pattern
+considered as an anti-nutrient along with phytin- remained similar despite economic growth, probably
+phosphorus and were tabulated together, since due to concomitant population expansion, low income
+physiology of mineral absorption and nutritional and inadequate food supply (Rao, 1967). A slight
+impedances caused by anti-nutrients were well upward trend was noted
+
+================================================================================
+PAGE 15
+================================================================================
+edition, since analytical values were prioritized. Fruits Mysore and NIN, Hyderabad and the results were
+in particular were reduced by 50%. The descriptive expressed as gram percentage. The vernacular names of
+column for the nature of edible portion was removed foods in Indian languages saw the inclusion of
+probably due to more emphasis on nutrient data. ‗Kashmiri‘ and ‗Punjabi‘ in this edition. The data
+presented in this edition was primarily taken from the
+Free folic acid and vitamin B12 were included as new work carried out at NIN, Hyderabad funded by ICMR,
+components in this 1971 edition to provide dietetic New Delhi. In order to increase the coverage of
+options for solving the issues of certain types of foodstuffs and the number of food constituents, data
+anemia, cardiovascular disorders and neural that originated from University College of Science and
+dysfunctions caused by their inadequacy. Folate Technology, Calcutta; Haffkine Institute, Bombay
+contents for 68 food entries were evaluated (now Mumbai); CFTRI, Mysore; State Food and Drug
+microbiologically and were presented as free and total Laboratories, Ambala Cantonment and Nutrition
+folate to aid in deciphering the degree of bioavailability Laboratory, Patna were also included. The extent of
+from different foods. The free and total folate contents sourced food values from various Indian scientific
+were estimated before and after incubation of food journals were neither specifically demarcated nor cited
+extracts with folic acid conjugase, respectively. as to which components or foods.
+Vitamin B12 was estimated by biological method using
+Euglena gracilis as the test organism, and the data was Among the notable observations in this publication,
+presented for 17 animal source foods in terms of fresh green vegetables, liver and pulses were regarded
+µg/100g of edible portion. Many vitamins such as as good sources of folates. It was also reported that
+biotin, inositol, pantothenic acid, pyridoxine and only animal
+
+================================================================================
+PAGE 16
+================================================================================
+classified into ‗common‘ and ‗less familiar‘. The components of oxalic acid and phytin-phosphorus were
+content of proximate, minerals and trace elements, retained and that of vitamin B6 was reintroduced.
+vitamins and essential amino acids were tabulated
+separately for ‗common‘ and ‗less familiar‘ foods. In this edition, pulses, millets and GLVs were in
+Total and β-carotene contents were quantified using general regarded as relatively rich sources of dietary
+high performance liquid chromatography (HPLC) for iron. Fenugreek seeds were found to contain 48.6%
+29 food entries and the values were reported as IDF and 20% SDF, substantially higher compared to
+µg/100g in a separate table. Similarly, fatty acid other foods. Safflower oil contained high levels of
+composition, analyzed by gas chromatography for 16 unsaturated fats. Groundnut oil with moderate levels of
+commonly consumed edible oils and fats were given as polyunsaturated fatty acids (PUFA) was considered as
+separate table in addition to fat and fatty acid a good source of essential fatty acids. Rice bran oil was
+composition of 26 ‗common foods‘. Thus, fatty acid found to have fatty acid composition similar to
+compositions for a cumulative 42 food entries were groundnut oil. Fishes were found to contain omega-3
+provided, to aid in devising nutrition solutions for fatty acids, considered beneficial for cardiovascular
+various age and physiological groups of populations. health.
+Vitamin B12 content of 2 fish foods, 8 flesh foods and
+7 ‗milk and milk products‘ were also provided as 7. Notable transitions between 1937 and 1989
+separate table. In this edition, miscellaneous foods were editions of Indian FCT
+integrated with ‗less familiar‘ foods (Figure 1). A steady progress in the analytical methods and
+techniques ensued with every major revision. In 1937,
+Recognizing the importance of dietary fibers in crude fibre was estimated in the residue left after ether
+regulation of human health, contents of soluble dietary ext
+
+================================================================================
+PAGE 17
+================================================================================
+Table 4. Summary of changes in the composition of foods from 1937 to 1989.
+Caro-
+Food group Moisture Protein Fat Ash Fibre CHO Energy Ca P Fe B1 Vit-C
+tene
+Cereals -2.1 -2.1 10.4 -7.7 0.2 -0.6 -0.4 -0.8 -1.8 3.4 -13.3 -11.3 -
+Condiments
+1.3 1.2 19.8 2.7 7.7 -5.6 1.3 -6.6 5.7 16.4 -8.0 -33.8 9.3
+& spices
+Flesh foods -0.1 -2.6 1.7 3.0 - -1.5 0.2 10.9 -0.5 9.4 -2.7 -30.7 -
+Fruits 0.2 -6.4 23.1 9.7 -1.8 -4.6 -1.8 24.8 7.4 79.4 -6.4 -22.5 -7.7
+Leafy
+1.0 6.4 8.3 6.5 10.0 -12.3* -4.4 1.4 6.1 -25.6 15.1 -60.4 -16.9
+vegetables
+Milk & milk
+-0.3 -4.3 1.6 -3.1 - -19.8 -4.0 4.5 0.0 -70.3 -10.1 - -
+products
+Miscellaneous
+0.0 0.4 6.0 1.3 -1.6 0.0 0.0 0.2 -4.0 34.7 - - -
+foods
+Nuts & oil
+-7.9 -5.2 -0.6 2.2 -0.4 5.5 -0.3 2.7 -3.3 -21.6 -9.0 -2.9
+seeds
+Other
+0.5 1.5 12.7 -0.8 -0.7 -8.0 -6.4 -0.5 -0.5 -23.1 8.6 -31.2 -1.8
+vegetables
+Pulses 0.0 0.1 0.1 0.0 -0.8 -1.8 -1.6 -6.2 -4.0 -4.7 2.9 -7.1 -
+Root and -
+0.1 1.6 26.8 7.6 1.1 -5.3 -4.3 -30.4 145.5 -19.3 47.7 -37.5
+tubers 66.9*
+Notes: Values were normalized to uniform expression units for each food group on dry weigh basis. * Significant change at
+p≤ 0.05 in the two-sided pair-wise comparisons test. - Not included in the analysis due to less than two common foods with data
+points. CHO, Carbohydrates.
+data expression units and precision indicates enhanced belonging to eleven common food groups were meager
+accuracy and sensitivities of analytical techniques. The despite several intermittent revisions. Percent change in
+number of food constituents in FCT editions from 1963 the mean moisture, protein, ash, fibre and energy
+onwards was resolved further into sub-components like values of all food groups were insignificant and below
+phytin-phosphorus, ionizable iron fraction, free folic 10%. Apparent rise observed in fat contents of food
+acid, individual essential amino acids, individual fatty groups, perhaps due to improvement in the extraction
+acids, oxalic acid, SDF and IDF. Even while the techniques and reduced interference, were neverth
+
+================================================================================
+PAGE 18
+================================================================================
+documentation is available as to the sampling with various nutritional issues present today. Individual
+procedure followed or the source of the data. Due to data for endemic foods of six geographic regions of the
+deficit of many of the nutrient data which stimulate country were generated and compiled.
+disproportional costs and inefficient use of resources, it
+was deemed necessary to completely revamp the Indian 9. Conclusions
+FCT with a totally new compositional database. In India, nutrient evaluation of food was pioneered by
+Sir Robert McCarrison almost a century back resulting
+8. The New Indian Food Composition Tables, 2017 in the publication of the first Indian FCT in the year
+Economic liberalization and globalization changed the 1937. Indian FCT underwent revisions both in design
+food and nutrition scenario in India. Between 1990 and and data quality in about every 12.5 years until 1989
+2010, the daily per capita supply of energy, protein and and has effectively served dieticians, nutritionists and
+fat increased by 11, 12 and 30%, respectively. clinicians. Demerging, extension and expansion of food
+Consumption of fruits, starchy roots, vegetables groups brought more clarity and widened the options to
+increased by 91, 52 and 46%, respectively (Food and formulate effective nutrition solutions. In every edition
+Agriculture Organization Statistics, FAOSTAT, 2013), emphasis was laid on nutritionally relevant component
+though a steady increase in the food price was also of food according to the nutritional situation of the
+observed. A change in dietary pattern was observed as country. During progression of the FCT it was
+the conventional diet of the Indian populations shifted observed that analytical data gained importance with
+largely due to the modified food supply systems. the availability of improved methods of analysis and
+Reduction in incidence of kwashiorkor from 0.2 to 0% resources. Increase in the number of individual food
+and bitot‘s spot from 0.7 to 0.2%, r
+
+================================================================================
+PAGE 19
+================================================================================
+Identification of key foods, development of national sampling plan and
+nutrient parameters for generating the Indian food composition tables
+1. Introduction passage of time, due to improvement in analytical
+Food composition tables (FCT) provides data of techniques and change in the food supply, the
+nutritionally relevant components in foods along with proportion of data that are considered to be reliable
+their biophysical descriptions (Dwyer, 1994). FCT is decreases. Further, keeping in mind the changing scope
+vital for the development of the nutritional sciences and of the range of nutrients and bioactive substances in
+represents the primary scientific resource from which foods and their importance in health and disease,
+all other nutritional and health studies flow. Earlier, generating new data or revising FCT is necessary to
+attempts were made to globalize FCT, however, it was cater the needs of the users.
+found necessary to have national or regional food
+composition tables as variations in nutritional contents In the previous versions of NVIF several limitations and
+exist due to multiple factors such as genetic variability, deficiencies existed including limited coverage of
+agro-climatic conditions, edaphic and processing effects foods, nutritional parameters, and other uncertainties
+(Vaask et al., 2004). Thus, compilation of FCT specific regarding sampling, representativeness, use of outdated
+to a country or region reflects the said variations in the analytical methods and data origin etc. In order to
+nutritional value of common foods. address those issues the government of India initiated a
+program to generate new comprehensive compositional
+Accurate food composition data is critical for those data on nutrient and bioactive substances in foods from
+involved in nutrition and epidemiological research and nationally representative samples. The frame work that
+in formulating government policies. Today, the use of was adopted for identification of key foods,
+FCT go
+
+--- Found 3 table(s) on page 19 ---
+Table 1: 3 rows, 3 cols
+  Row 0: [None, None, 'is']
+  Row 1: ['vital for the development of the nutritional sciences and', None, None]
+  Row 2: [None, 'primary scientific resource from which', None]
+Table 2: 3 rows, 2 cols
+  Row 0: [None, 'is critical for those']
+  Row 1: ['involved in nutrition and epidemiological research and', None]
+  Row 2: ['in formulating government policies', None]
+Table 3: 3 rows, 1 cols
+  Row 0: ['characterized by the use of different spices, vegetables,']
+  Row 1: ['grains, fruits and a variety of animal source foods.']
+  Row 2: ['Analysing all the foods']
+
+================================================================================
+PAGE 20
+================================================================================
+out by NNMB (NNMB, 2006) in rural areas of India Central, West, South, East and Northeast India (Table
+was utilized. Dietary intakes data of 30,244 1). Similar categorization of states into regions is done
+individuals of all age groups collected using 24 hour in the National Family Health Surveys (NFHS, 2006)
+dietary recall method (Thimmayamma & Rao, 1969) carried out at different time-points. The only exception
+was utilized. in this case is the State of Uttar Pradesh which is
+considered under central region.
+The method adopted to determine key foods for
+analysis is the nutrient consumption scoring approach. Table 1. Categorization of the States/UTs into six
+However, in the present study, the use of nutrients of different regions.
+current or potential health importance as carried out by Central Chhattisgarh; Madhya Pradesh; Uttar
+the USDA (Pehrsson, Haytowitz, Holden, Perry, & Pradesh and Uttaranchal
+Beckler, 2000) is not used; rather contribution of each East Bihar; Jharkhand; Orissa and West-
+food to one or more nutrients is taken into Bengal
+consideration. The first step in determining the key North Chandigarh; Delhi; Haryana; Himachal
+foods is based on the consumption pattern of different Pradesh; Jammu & Kashmir; Punjab
+recipes/foods prepared and used at household level. and Rajasthan
+Food wise ingredients are listed and weighted to Northeast Arunachal Pradesh; Assam; Manipur;
+represent the amounts consumed by the survey Mizoram; Meghalaya; Nagaland;
+respondents. All the foods that are consumed by the Sikkim and Tripura
+population are considered and their contributions for South Andaman & Nicobar Islands; Andhra
+each nutrient is calculated. The amount of each food Pradesh; Karnataka; Kerala;
+consumed is multiplied by the nutrient in the food Lakshadweep; Pondicherry; Telangana
+obtained from NVIF to arrive at the nutrient State and Tamil Nadu
+contribution per food for the amount consumed by the
+West Dadra & Nagar Haveli; Diu & Daman;
+population. Due to limitatio
+
+================================================================================
+PAGE 21
+================================================================================
+Overall, 107 districts out of the total 630 districts adequate number of samples, which takes care of the
+representing 17% of the country are selected for the variables affecting their composition in order to obtain
+collection of key foods for analysis (Map 1). The representative data (Greenfield et al., 2009; Tarley,
+number of districts sampled in each state is presented in Visentainer, Matsushita, & de Souza, 2004). This
+Table 3. Due to logistic reasons, the district sampling plan is considered adequate for each food to
+headquarters of the selected districts constituted the express the data through distribution of values,
+primary sampling units (PSUs) and retail shops in the calculation of mean/median, ranges and coefficient of
+main markets of towns constituted the secondary variation taking into account the operational, logistic
+sampling units (SSUs). and perishable nature of the food. The mean of the six
+regions will represent the national value.
+The sampling design thus arrived at provides
+geographically well dispersed districts that are 2.3 Validation of sampling design
+statistically representative with respect to region and National Bureau of Soil Survey & Land Use Planning
+country. A centrally located well connected city is (NBSS & LUP) (Velayutham, Mandal, Mandal, &
+identified within each region for region wise collection Sehgal, 1999) has mapped twenty agro-ecological
+and compositing of samples (Table 4). The sample size zones in the country. When the selected towns were
+varied from a minimum of 11 districts in Northeast super imposed on the agro-ecological map, it was
+India to a maximum of 23 in North India to obtain a observed that the spatial distributions of the selected
+comprehensive picture of what is being consumed sites were adequately dispersed across all twenty agro-
+regionally; through compositing at regional level ecological zones in the country indicating adequate
+(Figure 1), it was possible to reduce the cost of analysis representation of the
+
+================================================================================
+PAGE 22
+================================================================================
+Table 3. Number of primary sampling units sampling sites are categorised into six regions therefore,
+(districts) in each State/UT. food sampling is carried out region-wise.
+Table 4. Regional compositing centres and sample
+No. of
+Sl. Total No. size of each region.
+State name Districts
+No. of Districts
+Selected Region Regional Sample size
+1 Andhra Pradesh 23 4 Compositing centre
+2 Arunachal Pradesh 16 2 North Delhi 23
+3 Assam 27 3 East Kolkata 20
+4 Bihar 38 9 South Bangalore 19
+5 Chhattisgarh 18 3 West Mumbai 12
+6 Goa 2 1 Central Varanasi 22
+7 Gujarat 25 4 North East Guwahati 11
+8 Haryana 21 4
+9 Himachal Pradesh 12 3 All plant foods, egg and poultry are continuously
+Jammu and sampled in batches from the selected sampling sites in
+10 15 3
+Kashmir the country (Figure 1). Purchase, collection and
+11 Jharkhand 24 4 delivery to the laboratory is staggered to minimise any
+12 Karnataka 30 4 nutrient loss that may occur prior to analysis. All the
+13 Kerala 14 3 samplers are trained in-house and on-site in one district
+14 Madhya Pradesh 50 8 to reduce intra and inter sampler variability and also to
+15 Maharashtra 35 5 gain practical experience in order to ensure consistency
+16 Manipur 9 1 in the handling methods such as packaging, storage and
+17 Meghalaya 7 1 transportation. Each food sampler reaches the sampling
+18 Mizoram 8 1 site with adequate necessary supplies and information
+19 Nagaland 11 1 on the samples to be collected, method of collection,
+20 Orissa 30 4 amount to be sampled, labeling and transportation to
+21 Punjab 20 3 the regional compositing centre. Detailed instructions
+22 Rajasthan 32 7 specifically customized for the type of foods to be
+23 Sikkim 4 1 sampled are given to each food sampler. All samplers
+24 Tamil Nadu 32 5 are instructed not to sample fresh produce with signs of
+25 Tripura 4 1 spoilage or intrinsic damage. The sampling of
+26 Uttarakhand 13 3 perishable foods is carried out using coolers and ice
+27 Uttar Pradesh 71 8 packs/dry ice.
+28 West Benga
+
+================================================================================
+PAGE 23
+================================================================================
+portion of the fresh produce are separated out and 2.5 Sampling plan for ‘meat & meat products’ and
+composite samples of each food are prepared. In case of ‘inland fish & shellfish’
+staple foods like rice and wheat, individual units from Due to logistic reasons, all meat and meat products
+every sampling point of the region are collected and including inland fish are collected from the regional
+analysed individually. Similar varieties of some fruits compositing centres only. However, six numbers of
+and vegetables within the species are composited and each meat sample is collected from six different outlets
+analysed. Thus, a composite sample is a homogenous dispersed spatially across the city. Different meat cuts
+mixture of several samples of the same food collected of all animals including organ meat are collected from
+from within the specified regions as per the sampling every shop. The bone and connective tissues are
+plan (Figure 1). Compositing reduces nutrient removed, extra fat is trimmed as per the current practice
+variability by increasing the effective sample size. Two in the regions and ready-to-cook samples are collected
+aliquots of the composited samples from each of the six from the butcher. Six samples of each body part or
+regions are transported by air to NIN, Hyderabad. One organs collected from every shop are composited. Two
+aliquot is used for analysis while another is stored as aliquots of composited samples are collected,, frozen
+reserve sample. under dry ice and transported by air under frozen
+condition to NIN for analysis. Similarly for inland fish
+and shellfish, samples are cleaned, scaled/skinned,
+eviscerated and deboned at the shop itself and only
+edible portion is collected from six different outlets.
+After compositing, the samples are sealed/air lock and
+frozen under dry ice and transported to NIN for
+analysis.
+2.6 Sampling plan of marine fish and shellfish
+All marine samples are collected directly from the fish
+landing ports stratified into
+
+================================================================================
+PAGE 24
+================================================================================
+Simple random sampling procedure is used to select (5) (Table 5). All the methods adopted here have been
+three sites from the two coastal belts in India for fully scrutinized for their robustness in analysing the
+collection of fish and shellfish. The selected sites are compound of interest in different food matrices of
+Vishakhapatnam, Chennai and Mandapam from east different foods types.
+coast belt as well as Mumbai, Goa and Kochi from
+west coast belt. All varieties of marine fish and shellfish 2.8 Quality assurance and quality control (QAQC)
+available at the time of sampling at all the six landing scheme
+sites are collected. All samples are cleaned, Analytical Quality Assurance (QA) plan was designed
+scaled/skinned, eviscerated and deboned at the to monitor the performance of the measurement
+collection site and only edible portion is composited. systems to maintain statistical control and provide rapid
+Two identical composited samples are collected and feedback so that corrective measures could be taken
+transported to NIN by air in frozen condition under dry before data quality was compromised. The programme
+ice, for analysis. ensures that reported data were sufficiently complete,
+comparable, representative, unbiased and precise so as
+Upon arrival at the laboratory, the samples are checked to be suitable for their intended use. Certified Reference
+for sample integrity. Fresh vegetables are expected to Material (CRMs) in which one or more properties are
+arrive at the laboratory cold and fresh in acceptable well quantified is used for calibration of analytical
+conditions, while frozen meat or fish samples are to be methods and to ensure data quality. The CRMs are
+without any apparent sign of thawing. Any damaged procured from the European Commission Community
+sample was immediately discarded and logged onto the Bureau of Reference (BCR), Belgium and the National
+list for collection in the next sampling cycle. Institute of Standards and Technology (NIST),
+Descriptions
+
+================================================================================
+PAGE 25
+================================================================================
+Table 5. Analytical methods of nutrient and bioactive components.
+Analyte Method Reference
+Moisture Gravimetric using vacuum /Hot air oven AOAC 934.01
+Titrimetry by combustion/Kjeldahl/Mixed
+Protein AOAC 2001.11; Jones (1941)
+catalyst
+Ash Gravimetric using Muffle furnace AOAC 942.05
+Gravimetry; Ether extraction using Soxhlet
+Total fat AOAC 963.15
+apparatus
+Total, soluble and
+Enzymatic-gravimetric AOAC 991.43
+insoluble dietary fiber
+Available carbohydrate Calculation by difference Greenfield & Southgate (2003)
+Trienzyme extraction and
+AOAC 991.43; AOAC 985.29
+spectrophotometry
+Merrill & Watt (1973); FAO / INFOODS
+Energy Atwater conversion factors
+Guidelines (2012)
+Thiamin Fluorometry AOAC 942.23; Ramasastri (1975)
+Riboflavin Turbidometric-Microbiological assay AOAC 940.33; AOAC 960.46
+Niacin Turbidometric-Microbiological assay AOAC 985.34; 960.46
+Pantothenic acid RP-HPLC with UV detector David & Harvey (2000)
+Vitamin B6 HPLC-fluorometric detection AOAC 985.32; Ollilainen (2008)
+Biotin U-HPLC and LC-ESI-IT-MS method Holler et al. (2006)
+Trienzyme Extraction and U-HPLC - UV or Finglas et al. (1999); Vahteristo et al. (1996);
+Vitamin B9
+fluorescence detection AOAC 2011.06; AOAC 2013.13
+Vitamin C RP-HPLC AOAC 985.33; Keating & Haddad (1982)
+Vitamin E HPLC AOAC 992.03; AOAC 2012.10
+Vitamin A HPLC AOAC 974.29; Bieri et al. (1979)
+Carotenoids HPLC Delia & Mieko (2004)
+Vitamin D2 & D3 RP- HPLC-APCI-MS. AOAC 982.29
+Vitamin K1 & K2 RP- HPLC-APCI-MS AOAC 992.27
+Free sugars HPLC-RID AOAC 2013.12
+Calculated from the increase in the amount
+Starch Casterline et al. (1998)
+of glucose by using conversion factor
+Oligosaccharides
+(Raffinose, Stachyose, Frias et al. (1994); Johansen et al. (1996);
+HPLC
+Verbascose and Sanchez-Mata et al. (1998)
+Ajucose)
+Iron, Zinc, Copper,
+Manganese, Potassium, Atomic Absorption Spectrophotometry
+Magnesium, Sodium, (AAS)
+Calcium, Aluminium
+Lead, Cadmium,
+AOAC 968.08; AOAC 999.10; AOAC 999.11
+Nickel, Cobalt, Graphite furnace Atomic Absorption
+Chromium, Li
+
+================================================================================
+PAGE 26
+================================================================================
+Table 5. Continue…
+Analyte Method Reference
+Oxalic acid (Total)
+Soluble oxalic acid Fast- HPLC Moreau & Savage (2009)
+Insoluble oxalic acid
+Gas Chromatography with Flame Ionization
+Fatty acid profile AOAC 996.06; AOAC 996.01; AOAC 2012.13
+Detector
+Amino acid analyzer (Ion exchange AOAC 994.12; AOAC 985.28; Landry &
+Amino acid profile
+chromatography) Delhaye (1992)
+Stigmasterol, β-
+Sitosterol, Campesterol,
+Gas Chromatography (GC)
+Ergosterol, 5-alpha- AOAC 922.06; Sorenson & Sullivan (2007)
+Cholestenol
+Polyphenols HPLC Sakakibara et al. (2003)
+Phyates Ion Exchange and Spectrophotometry AOAC 986.11-1988
+Total Saponin Colorimetry Dini et al. (2009)
+parameters in each food representing six regions of the standard deviation provides estimates of the content
+country to enable region specific nutritional and variability. The ambitious plan could be implemented
+epidemiological data interpretation. For every food due to the generous funds received from the Indian
+sampled under this design, composite nutrient means Council of Medical Research, Department of Health
+are determined for each region and the means of six Research, Government of India, New Delhi.
+regions form the country wide average, wherein the
+xix
+
+================================================================================
+PAGE 27
+================================================================================
+General information
+The new Indian Food Composition Tables (IFCT) 2017 3.2 Available carbohydrate is the sum of total free
+is the major source of food composition data in India, sugars and total starch. Free sugars are individual
+generated, developed, managed and maintained by the monosaccharides (galactose, glucose and fructose) and
+National institute of Nutrition (ICMR), Hyderabad. All disaccharides (sucrose, lactose and maltose). The
+data except for poultry and egg pertains to raw food. values for available carbohydrate have generally been
+None of the food sampled for analysis is fortified and it obtained from the sum of individually analyzed values
+represents only inherent values. The uniqueness of the for these components and will differ with figures for
+IFCT is that all nutrient values presented here have carbohydrate ‗by difference‘. Available carbohydrates
+been derived from comprehensive national food are those which is digested and absorbed, and are
+sampling followed by analysis and contains only glucogenic in human corresponding to the term
+analytical data. The data set were carefully scrutinized ‗glycaemic carbohydrates‘. For conversion between
+in detail for consistency and validity, using carbohydrate weights and monosaccharide equivalents,
+FAO/INFOODS ‗Guidelines for Checking Food the factors shown in Table 2 was used.
+Composition Data prior to Publication of a User
+Tables/Database – version 1.0 (2012)‘. 3.3 Total dietary fibre (TDF) is made of complex and
+heterogeneous polymeric materials such as soluble and
+1. Food identification insoluble polysaccharides and non-digestible
+The Food entity is described by its most common oligosaccharides, as well as a range of non-swellable,
+english name, scientific name and photographs of the more or less hydrophobic compounds such as cutins,
+food sampled for analysis in order to provide as much suberins and lignins. Currently three different AOAC
+description as possible. Scientific names consisting of approved metho
+
+--- Found 3 table(s) on page 27 ---
+Table 1: 6 rows, 2 cols
+  Row 0: [None, 'such as soluble and']
+  Row 1: ['insoluble polysaccharides and non-digestible', None]
+  Row 2: ['oligosaccharides, as well as a range of non-swellable,', None]
+  Row 3: ['more or less hydrophobic compounds such as cutins,', None]
+  Row 4: ['suberins and lignins. Currently three different AOAC', None]
+Table 2: 4 rows, 8 cols
+  Row 0: ['', None, None, '', None, None, '', 'No. of food']
+  Row 1: ['', 'Code', '', '', 'Food groups', '', None, None]
+  Row 2: [None, None, None, None, None, None, None, 'entries']
+  Row 3: ['', None, None, '', None, None, None, None]
+Table 3: 1 rows, 2 cols
+  Row 0: ['', '4']
+
+================================================================================
+PAGE 28
+================================================================================
+Table 2. Conversion of carbohydrate weights to monosaccharide equivalents.
+Equivalent after Conversion to
+S.No. Carbohydrate
+Hydrolysis(g/100g) monosaccharide equivalent
+1 Monosaccharides e.g. glucose 100 No conversion necessary
+2 Disaccharides e.g. sucrose, lactose, maltose 105 x1.05 or ÷ 0.95
+3 Oligosaccharides
+a. Raffinose (trisaccharide) 107 x 1.07 or ÷ 0.93
+b. Stachyose (tetrasaccharide) 108 x 1.08 or ÷ 0.93
+c. Verbascose (pentasaccharide) 109 x 1.09 or ÷ 0.92
+4 Polysaccharides e.g. starch 110 x 1.10 or ÷ 0.90
+Table 3. Jones factors for conversion of nitrogen to mass spectrophotometry (ICP-MS). Phosphorus was
+protein. determined by spectrophotometric method.
+Food Conversion Factor
+Barley and its Flour; Rye 3.8 Thiamin, Riboflavin and Niacin: Thiamin was
+5.83
+and its flour; Oats determined chemically by the thiochrome procedure
+Rice and its flour 5.95 and riboflavin by microbiological method. Niacin is
+Wheat whole 5.83 determined by microbiological method. The values
+Wheat bran 6.31 represent only preformed niacin and do not include the
+Refined wheat flour (Maida) 5.70 niacin contributed by tryptophan, a niacin precursor.
+Almonds 5.18 Niacin equivalent applies to the sum of the preformed
+Peanuts 5.46 niacin and the amount that could be derived from
+Soybean 5.71 tryptophan can be calculated as
+Cashew nuts, pistachio nut, Niacin equivalents (mg) = Niacin (mg)+ (Tryptophan,
+5.30
+Chest nut mg / 60).
+Egg whole 6.25
+Meat and Fish 6.25 3.9 Vitamin C data include both ascorbic and L-
+Milk and milk products 6.38 dehydroascorbic acids, as both forms are biologically
+Sunflower seeds 5.30 active, the sum of which is expressed as total ascorbic
+Food where specific factor acid content.
+6.25
+is not listed
+3.10 Vitamin B6 occurs in foods as pyridoxine,
+3.5 Total fat content of foods is determined by pyridoxal, pyridoxamine and their phosphates which
+gravimetric methods, including acid hydrolysis and were estimated by HPLC. The sum of all forms
+extraction methods using a mixed s
+
+================================================================================
+PAGE 29
+================================================================================
+3.13 Vitamin A content is expressed as retinol and variety of foods especially fruits, berries and
+provitamin A carotenoid. The groups of plant pigments vegetables. Organic acids cis-aconitic acid, citric acid,
+that are precursors of vitamin A are called carotenoids. fumaric acid, mallic acid, quinic acid, succinic acid and
+Individual carotenoids available in the IFCT includes tartaric acid were determined in single liquid
+Lutein, zeaxanthin, lycopene, β-cryptoxanthin, α- chromatographic run. Soluble, insoluble and total
+carotene, β-carotene, γ-carotene and total carotenoids. oxalates were determined separately by HPLC method.
+The body can utilize these inactive forms once they are The organic acids are energy contributing components,
+converted to the active form, retinol. Vitamin A although it varies between the different organic acids.
+activity values in Retinol Activity Equivalents (RAE) According to the Codex Alimentarius Commission‘s
+are calculated from the content of individual Guidelines for Nutrition Labeling, the energy
+carotenoids using appropriate factors. Incidentally, conversion factor for organic acids is 13 kJ/g.
+there are many conversion factors for carotenoids and However, organic acids have not been included in the
+no universal factor exists. total energy of foods given in the IFCT.
+3.14 Vitamin D have been reported in the IFCT which 3.20 Polyphenols exhibit highly diverse structures
+is lacking in many food composition databases. characterized by the presence in their structure of one
+Ergocalciferol or vitamin D2 content in plant foods or several phenolic groups. The recognition of the
+measured by LC-MS has been reported for the first antioxidant properties of polyphenols, and their
+time in the world. Cholecalciferol or vitamin D3 in probable role in the prevention of various diseases
+animal source foods including 25 hydroxy-D3 associated with oxidative stress has generated great
+measured by LC-MS/MS has also been reported. The interest. Polyphenol
+
+================================================================================
+PAGE 30
+================================================================================
+or some of its degradation products have been The data presented in this book is the nutrient mean of
+recognized as antioxidant and may help fight some all six regions representing the country wide value
+cancers and other diseases. where the standard deviation represents the variation of
+the particular nutrient. The second type of sample is the
+4. The expression of nutrient values individual sample of rice and wheat collected from the
+All foods are expressed per 100g edible portion. 107 sampling sites and analysed individually which
+Generally the values have been expressed to a constant increased variability by increasing the effective sample
+number of decimal places for each nutrient. The values size. Such samples were drawn only for the main
+of the more variable vitamins or minerals and trace staples in the country and not for other foods due to the
+elements have been expressed to less than their usual high cost associated with such analysis. The third type
+number of places where greater values render the extra of samples are those of food within the species which
+places non-significant. were also analysed according to varieties/cultivars for
+some foods.
+5. Nutrient identification-Tagnames
+A unique abbreviation for a food component developed The values of six separate regions namely East,
+by International Network of Food Data Systems Northeast, North, West, South and Central India
+(INFOODS), have been used to aid in data interchange. obtained from compositing adequate number of similar
+Tagnames unambiguously indicate how the nutrient foods collected from within the region was tabulated.
+data are obtained indicating the methods of analysis The mean value of six regional data was then used to
+used for the data. In case data was derived by calculate the national value with standard deviation to
+calculation, tagname even indicates the formula used represent the variation within each nutrient. The
+for calculation. INFOODS Tagnames, utilized mean±SD of all nutrients and
+
+Extraction complete.
