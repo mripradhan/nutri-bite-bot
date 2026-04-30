@@ -6,5 +6,6 @@
 .env.keys
 .env.local
 .env.*.local
+.env
 .claude
 .tex
