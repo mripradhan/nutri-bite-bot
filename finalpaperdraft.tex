@@ -1,25 +1,23 @@
-\documentclass[journal]{IEEEtran}
-
-% ---------------------------------------------------------------
-% Packages
-% ---------------------------------------------------------------
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
+\documentclass{ieeeaccess}
+\usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
-\usepackage{algorithmic}
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{url}
-\usepackage{cite}
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{array}
 \usepackage{tabularx}
 \usepackage{makecell}
 \usepackage{hyperref}
+\usepackage{balance}
+\usepackage{amsmath}     
+\usepackage{amssymb}      
+\usepackage{algorithm}   
+\usepackage{algpseudocode}
 
 \hypersetup{
     colorlinks=true,
@@ -28,961 +26,1483 @@
     urlcolor=blue
 }
 
-% ---------------------------------------------------------------
-% Title and Authors
-% ---------------------------------------------------------------
 \begin{document}
 
-\title{NutriBiteBot: A TabNet-Driven Framework for Ingredient-Level
-Dietary Portion Recommendation in Patients with Hypertension,
-Type~2 Diabetes Mellitus, and Chronic Kidney Disease}
+\title{A TabNet-Driven Deep Learning Framework for Disease-Based Dietary Portion Recommendation Using Computer Vision}
 
-\author{
-    \IEEEauthorblockN{Mohana\IEEEauthorrefmark{1},
-                      B.~G.~Sudarshan\IEEEauthorrefmark{1},
-                      Mrida~Pradhan\IEEEauthorrefmark{1}, and
-                      Gayathri~Sunil~Nambiar\IEEEauthorrefmark{1}}
-    \IEEEauthorblockA{\IEEEauthorrefmark{1}Department of Computer Science and Engineering,
-    RV College of Engineering, Bengaluru, Karnataka 560059, India\\
-    \{mohana, sudharshanbg, mridapradhan.cd23, gayathrisuniln.cd23\}@rvce.edu.in}
-}
+\author{\uppercase{Mrida Pradhan}\authorrefmark{1},
+        \uppercase{Gayathri Sunil Nambiar}\authorrefmark{1},
+        \uppercase{Mohana}\authorrefmark{1},
+        and \uppercase{B. G. Sudarshan}\authorrefmark{2}}
+
+\address[1]{Department of Computer Science and Engineering, RV College of
+Engineering, Bengaluru, Karnataka 560059, India}
+
+\address[2]{Department of Electronics and Instrumentation Engineering,
+RV College of Engineering, Bengaluru, Karnataka 560059, India}
+
+\tfootnote{This work was supported by the Center for Healthcare Technologies Research (CHTR), RV College of Engineering, Bengaluru.\\
+\textit{Mrida Pradhan and Gayathri Sunil Nambiar are co-first authors.}}
+
+\markboth
+{Mrida Pradhan \textit{et al.}: NutriBiteBot: A TabNet-Driven Framework
+for Dietary Portion Recommendation}
+{Mrida Pradhan \textit{et al.}: NutriBiteBot: A TabNet-Driven Framework
+for Dietary Portion Recommendation}
+
+\corresp{Corresponding author: B. G. Sudarshan
+(e-mail: sudharshanbg@rvce.edu.in).}
+
+\begin{abstract}
+Patients diagnosed with hypertension~(HTN), Type~2 Diabetes
+Mellitus~(T2DM), and Chronic Kidney Disease~(CKD), whether
+independently or as co-existing conditions, face conflicting
+dietary constraints across sodium, potassium, protein, and
+carbohydrate intake. Existing clinical nutrition systems
+do not automatically reconcile these conflicts at the ingredient or portion
+level. To address these gaps, this paper proposes an interpretable end-to-end clinical decision support system
+that generates personalised ingredient-level dietary portion
+recommendations from 14~EHR (Electronic Health Records) - derived clinical features
+across four stages. A computer vision module first automatically detects
+available ingredients from a user-submitted image. Four
+independently trained TabNet classifiers then infer
+per-nutrient sensitivity levels~(Low/Moderate/High) for
+sodium, potassium, protein, and carbohydrate, producing
+continuous severity scores and native per-instance feature
+attribution masks via sparsemax attention. A five-constraint
+sigmoid-weighted portion computation engine subsequently
+translates these scores into ingredient-specific maximum
+safe gram quantities against a session-persistent daily
+nutrient budget. The proposed system also incorporates a cosine-similarity
+substitution engine for contra-indicated ingredients and a
+guideline-compliant constraint relaxation mechanism that
+prevents caloric collapse without violating potassium and
+sodium safety limits. All components execute within a local
+Docker environment to ensure compliance and data privacy. 
+The TabNet clinical multi-target sensitivity classifier achieves 99.91\% mean
+accuracy and 99.91\% weighted F1~score across four nutrient
+sensitivity targets - sodium, potassium, protein, and
+carbohydrate - with mean Cohen's~$\kappa = 0.9983$.
+TabNet's suitability for clinical deployment stems from its
+native per-instance interpretability: attention-based
+feature attribution masks produced during inference directly
+reveal the laboratory indicators driving each prediction,
+enabling transparent and clinically explainable dietary
+recommendations.
+\end{abstract}
+
+\begin{keywords}
+Clinical decision support, ingredient-level nutrition, TabNet, machine learning, tabular deep learning, chronic kidney disease, type~2 diabetes, hypertension.
+\end{keywords}
+
+\titlepgskip=-15pt
 
 \maketitle
 
-% ---------------------------------------------------------------
-% Abstract
-% ---------------------------------------------------------------
-\begin{abstract}
-Patients simultaneously diagnosed with hypertension (HTN), Type~2 Diabetes
-Mellitus (T2DM), and Chronic Kidney Disease (CKD) face irreconcilable
-dietary constraints that no existing clinical nutrition tool resolves
-automatically. We present \textbf{NutriBiteBot}, an interpretable,
-end-to-end clinical decision support system that computes
-ingredient-level dietary portion recommendations directly from 14
-patient laboratory and clinical features. The system employs TabNet
-classifiers with monotonic feature transformations for per-nutrient
-risk severity inference, a five-constraint sigmoid-weighted portion
-computation engine grounded in the Indian Food Composition Tables (IFCT
-2017), a Roboflow computer-vision ingredient detector, a
-KDIGO-compliant constraint relaxation hierarchy, and a Groq Llama-3.3
-generative agent that operates exclusively within hard gram-level
-boundaries set by the upstream rules engine. All components execute
-within a local Docker environment to satisfy India's Digital Personal
-Data Protection Act (DPDPA) 2023. Our TabNet clinical classifier
-achieves a mean accuracy of 99.91\% and mean weighted F1 of 99.91\%
-across four sensitivity targets (sodium, potassium, protein, and
-carbohydrate), with mean Cohen's $\kappa = 0.9983$. We compare TabNet
-against NGBoost as a competitive gradient-based baseline and demonstrate
-that TabNet's attention-based feature attribution, native
-interpretability, and compatibility with monotonic preprocessing
-constraints make it the preferred architecture for clinical tabular
-inference in this setting. NutriBiteBot constitutes the first system to
-combine real-time computer vision, ML-derived clinical constraints,
-LLM-bounded recipe generation, and on-premises data persistence for
-multi-comorbid dietary management in an Indian clinical context.
-\end{abstract}
-
-\begin{IEEEkeywords}
-Clinical decision support, dietary recommendation, TabNet, NGBoost,
-chronic kidney disease, type 2 diabetes, hypertension, Indian food
-composition, IFCT 2017, KDIGO, interpretable machine learning,
-tabular deep learning, ingredient-level nutrition
-\end{IEEEkeywords}
-
-% ---------------------------------------------------------------
 \section{Introduction}
 \label{sec:intro}
-% ---------------------------------------------------------------
+This paper presents NutriBiteBot, an interpretable clinical
+decision support system, containerized for local deployment,
+that generates personalised ingredient-level dietary portion
+recommendations for patients with hypertension~(HTN), Type~2
+Diabetes Mellitus~(T2DM), and Chronic Kidney Disease~(CKD),
+whether presenting independently or as co-existing conditions. All
+components execute within a local Docker environment, ensuring
+patient data never reaches a public network.
 
-India bears one of the highest burdens of non-communicable disease
-(NCD) globally. As of 2024, over 101~million Indians live with Type~2
-Diabetes Mellitus (T2DM), approximately 220~million with hypertension
-(HTN), and an estimated 17.2\% of the adult population shows markers of
-Chronic Kidney Disease (CKD)~\cite{anjana2023}. These conditions
-frequently co-occur in the same patient, constituting a clinical triad
-that imposes extreme and often contradictory demands on dietary
-management.
+These three conditions collectively impose some of the most
+contradictory dietary requirements in clinical practice. The DASH
+diet for HTN prescribes high potassium ; CKD
+management mandates strict potassium restriction to prevent fatal
+hyperkalaemia~\cite{kdigo2024}. Adequate dietary protein supports
+glycaemic control in T2DM, while CKD requires protein restriction  to slow renal decline~\cite{kdoqi2020,ada2024}.
+No existing system resolves these conflicts automatically, and no model
+translates clinical nutrient limits into ingredient-level gram
+quantities anchored to the patient's actual laboratory
+values~\cite{diet_hrs_scoping2025,marashi2023}. Current practice
+instead depends on manual dietitian consultation, a per patient process that is prone to error when three or more
+conflicting guideline sets must be reconciled simultaneously, and
+one constrained by a severe national shortage of registered
+dietitians. Furthermore, most Indian
+households rely on ingredients catalogued in the Indian Food
+Composition Tables~(IFCT~2017)~\cite{ifct2017}, a database entirely
+absent from international dietary applications.
 
-Diet is a primary therapeutic lever for all three conditions, yet the
-governing clinical guidelines conflict at the nutrient level in ways
-that are non-trivial to resolve without expert knowledge. The DASH diet
-for HTN prescribes high potassium ($\geq$4,700~mg/day); CKD management
-mandates strict potassium restriction ($\leq$2,000~mg/day) to prevent
-fatal hyperkalemia. Adequate dietary protein supports glycaemic control
-in T2DM, while CKD requires protein restriction (0.6--0.8~g/kg/day) to
-slow renal decline~\cite{kdoqi2020,ada2024}. No existing tool resolves
-these conflicts automatically, and no tool translates clinical nutrient
-limits into ingredient-level gram quantities anchored to the patient's
-actual laboratory values.
-
-Current practice depends on manual dietitian consultation, a
-30--60~minute process per patient that is prone to error when three or
-more conflicting guideline sets must be reconciled simultaneously.
-India faces a severe shortage of registered dietitians, estimated at a
-national ratio of 1 per 100,000 population, a scalability gap
-unaddressed by any existing clinical nutrition software. Furthermore,
-most Indian households rely on ingredients catalogued in the Indian Food
-Composition Tables (IFCT 2017)~\cite{ifct2017}, a database entirely
-absent from international dietary tools such as MyFitnessPal, Cronometer,
-or Nutritics.
-
-This paper presents \textbf{NutriBiteBot}, a locally-deployed,
-interpretable clinical decision support system that closes these gaps
-through eight functional layers: multi-source data ingestion, ML model
-training, per-patient risk inference with clinical explanation
-generation, session-persistent nutrient budget management,
-five-constraint sigmoid-weighted ingredient-level portion computation,
-cosine-similarity-based substitution for contra-indicated ingredients,
-caloric sufficiency validation with KDIGO-compliant constraint
-relaxation, and structured output generation with daily ledger tracking.
-
-The core contributions of this work are as follows:
-\begin{itemize}
-    \item A multi-target TabNet classifier that infers per-nutrient
-    sensitivity levels (Low/Moderate/High) for sodium, potassium,
-    protein, and carbohydrates from 14 EHR-derived clinical features,
-    achieving mean accuracy 99.91\% and mean weighted F1 99.91\% with
-    mean Cohen's $\kappa = 0.9983$.
-    \item A systematic comparison of TabNet against NGBoost as a
-    competitive probabilistic gradient-boosting baseline, motivating the
-    selection of TabNet on interpretability, monotonicity compatibility,
-    and attention-based feature attribution grounds.
-    \item A novel five-constraint sigmoid severity-to-fraction portion
-    computation formulation that produces ingredient-specific maximum safe
-    gram quantities from continuous severity scores against a live daily
-    nutrient budget.
-    \item A KDIGO 2024-compliant hierarchical constraint relaxation
-    hierarchy that prevents caloric collapse without violating potassium
-    and sodium safety limits.
-    \item A hybrid bounded-LLM architecture wherein a Groq Llama-3.3
-    generative agent produces adapted recipes exclusively within hard
-    numerical boundaries enforced by the upstream rules engine.
-    \item A fully local Docker deployment that ensures patient laboratory
-    data never traverses a public network, satisfying DPDPA 2023
-    requirements.
-\end{itemize}
+NutriBiteBot addresses these gaps through an integrated architecture. A
+multi-target TabNet classifier infers per-nutrient
+sensitivity levels (Low/Moderate/High) for sodium, potassium,
+protein, and carbohydrates from 14~EHR-derived clinical features, while producing native per-instance
+feature attribution masks that enable patient-specific clinical
+explanations at inference. A condition-adaptive dietary
+management framework automatically resolves conflicting nutrient
+constraints across independent or co-existing HTN, T2DM, and CKD,
+enforcing the most restrictive clinically appropriate limit per
+nutrient without manual intervention. A novel
+five-constraint sigmoid severity-to-fraction portion computation
+engine, grounded in IFCT~2017~\cite{ifct2017}, translates
+continuous severity scores into ingredient-specific maximum safe
+gram quantities against a live session-persistent daily nutrient
+budget, with a cosine-similarity-based substitution engine for
+contra-indicated ingredients and guideline-compliant caloric
+sufficiency validation. All components execute within a
+fully local Docker environment, ensuring patient
+laboratory data never leaves the device infrastructure.
+While designed and validated in the Indian clinical context, the
+framework is generalisable to any region with an appropriate
+national food composition database.
 
 The remainder of this paper is organised as follows.
-Section~\ref{sec:related} reviews related work.
-Section~\ref{sec:architecture} describes the system architecture.
-Section~\ref{sec:mlpipeline} details the ML pipeline.
-Section~\ref{sec:ngboost} presents the NGBoost baseline.
-Section~\ref{sec:comparison} compares TabNet and NGBoost.
-Section~\ref{sec:portion} describes the portion computation engine.
-Section~\ref{sec:results} presents experimental results.
-Section~\ref{sec:usecase} illustrates a clinical use case.
-Section~\ref{sec:discussion} discusses limitations and future work.
-Section~\ref{sec:conclusion} concludes.
+Section~\ref{sec:motivation} explains the Motivation and
+Contributions. Section~\ref{sec:related} details Related Work.
+Section~\ref{sec:architecture} describes the System Architecture.
+Section~\ref{sec:dlpipeline} details the Design and Implementation.
+Section~\ref{sec:portion} describes the Portion Computation Engine.
+Section~\ref{sec:results} presents Results and Analysis.
+Section~\ref{sec:usecase} illustrates a Clinical Use Case.
+Section~\ref{sec:discussion} discusses Clinical Implications and Future Work.
+Section~\ref{sec:conclusion} Concludes.
 
-% ---------------------------------------------------------------
-\section{Related Work}
+\section{Motivation and Contributions}
+\label{sec:motivation}
+
+The confluence of HTN, T2DM, and CKD in a single patient creates a
+dietary management problem that is qualitatively distinct from managing
+any one of these conditions in isolation. Each condition imposes its
+own set of nutrient-level constraints derived from separate clinical
+guideline bodies---AHA/ACC for hypertension, ADA for diabetes, and
+KDIGO for chronic kidney disease---and these constraints are frequently
+contradictory. The DASH diet prescribes high potassium intake
+($\geq$4,700~mg/day) to lower blood pressure, while KDIGO mandates
+potassium restriction ($\leq$2,000~mg/day at CKD Stage~3) to prevent
+life-threatening hyperkalemia. Adequate dietary protein supports
+glycaemic control in T2DM, yet CKD requires protein restriction
+(0.6--0.8~g/kg/day) to retard uraemic toxin accumulation and slow
+renal decline. No existing clinical nutrition tool resolves these
+conflicts automatically, and none translates reconciled nutrient
+budgets into ingredient-level gram quantities anchored to a patient's
+actual laboratory values.
+
+The practical consequences of this gap are severe in the Indian
+context. Over 101~million Indians live with T2DM, approximately
+220~million with HTN, and an estimated 17.2\% of the adult population
+is affected by CKD~\cite{anjana2023}---conditions that co-occur at
+high rates given their shared pathological mechanisms. Yet India faces
+a critical shortage of registered dietitians, estimated at 1~per
+333,000~population~\cite{varma2023}, with clinical
+dietitian-to-patient ratios frequently exceeding 1:100 in accredited
+hospitals and surpassing 1:200 in non-accredited
+settings~\cite{phfi2012}. Each multi-guideline consultation requires
+30--60~minutes of expert time and remains error-prone when three or
+more conflicting constraint sets must be reconciled simultaneously.
+Furthermore, international dietary applications such as MyFitnessPal,
+Cronometer, and Nutritics are built on Western food composition
+databases and do not incorporate the Indian Food Composition Tables
+(IFCT~2017)~\cite{ifct2017}, rendering them inapplicable to the
+staple ingredients consumed by Indian patients. These gaps collectively
+define the clinical and operational need that NutriBiteBot is designed
+to address.
+
+A secondary motivation is interpretability. Clinical deployment of
+machine learning models requires that predictions be explainable to
+clinicians and patients. Post-hoc explanation
+methods such as SHAP introduce additional computational overhead and
+are decoupled from the model's inference mechanism, raising the risk
+of explanation infidelity~\cite{arik2021tabnet}. A model that produces
+per-instance feature attributions natively during the forward pass is
+structurally preferable for clinical use, as attributions can be
+directly linked to patient laboratory values and governing guideline
+references at the point of recommendation.
+
+The core contributions of this work are as follows:
+\begin{enumerate}
+    \item A multi-target TabNet classifier that infers per-nutrient
+    sensitivity levels (Low/Moderate/High) for sodium, potassium,
+    protein, and carbohydrates from 14~EHR-derived clinical
+    features---namely age; sex\_male; bmi (body mass index); sbp and
+    dbp (systolic and diastolic blood pressure); has\_htn, has\_dm, and
+    has\_ckd (binary indicators for hypertension, diabetes, and chronic
+    kidney disease); creatinine (kidney function marker); egfr
+    (estimated kidney filtration rate); serum\_sodium and
+    serum\_potassium (electrolyte levels); and hba1c and fbs (long-term
+    and fasting blood glucose measures)---achieving mean accuracy
+    99.91\% and mean weighted F1~99.91\% with mean Cohen's
+    $\kappa = 0.9983$.
+
+    \item A condition adaptive dietary management framework that
+    evaluates both independent and co-existing HTN, T2DM, and CKD,
+    automatically resolving conflicting nutrient constraints and
+    enforcing clinically appropriate limits.
+
+    \item A novel five-constraint sigmoid severity-to-fraction portion
+    computation formulation that produces ingredient-specific maximum
+    safe gram quantities from continuous severity scores against a live
+    daily nutrient budget.
+    
+    \item A fully local Docker deployment that ensures patient
+    laboratory data never reaches a public network, satisfying
+    DPDPA~2023 requirements.
+\end{enumerate}
+
+\section{Literature Survey}
 \label{sec:related}
-% ---------------------------------------------------------------
 
 \subsection{Clinical Dietary Decision Support Systems}
-Existing clinical nutrition tools fall into two categories: consumer
-macronutrient trackers (MyFitnessPal, Cronometer, Healthify Me) and
-professional dietitian platforms (Nutritics, Computrition). Consumer
-tools perform calorie accounting with no disease-specific constraint
-logic and no mechanism for resolving inter-condition dietary conflicts.
-Professional platforms provide nutrient analysis but require a
-registered dietitian to manually configure every constraint and resolve
-conflicts --- precisely the bottleneck that NutriBiteBot automates.
-Critically, no existing tool grounds ingredient-level portion
-computation in patient-specific laboratory values, and none integrates
-Indian food composition data (IFCT 2017). The closest deployed system
-for the Indian market, Healthify Me, routes all data through cloud
-infrastructure and cannot enforce hard gram-level clinical ceilings.
+\label{subsec:rw_cdss}
+
+Existing clinical nutrition tools fall into two broad categories:
+consumer macronutrient trackers and professional dietitian platforms.
+Consumer tools (MyFitnessPal, Cronometer, Healthify~Me) perform
+calorie accounting with no disease-specific constraint logic and no
+mechanism for resolving inter-condition dietary conflicts. Professional
+platforms (Nutritics, Computrition) provide nutrient analysis but
+require a registered dietitian to manually configure every constraint
+and resolve conflicts across co-existing conditions, precisely the
+bottleneck that NutriBiteBot automates. A recent scoping review of
+fifteen diet-related health recommender systems found that while 86\%
+employ hybrid recommendation approaches, none automatically resolve
+conflicting nutrient constraints arising from co-existing
+conditions~\cite{diet_hrs_scoping2025}. A systematic review of AI
+applications for nutritional care in CKD also found that, of 2,053
+screened studies, only seven met criteria for personalised dietary
+recommendation using patient-specific clinical data, and none resolved
+multi-guideline conflicts at the ingredient
+level~\cite{ai_ckd_diet2025}. A data-driven nutrient recommendation framework for personalised meal planning proposed by Kumar~\textit{et al.}~\cite{kumar2025} similarly demonstrated the feasibility of ML-driven dietary personalisation but did not address multi-condition conflict
+resolution or ingredient-level portion grounding. Food recommendation
+for CKD patients using collaborative filtering has also been
+explored~\cite{banerjee2019}, though without grounding in
+patient-specific laboratory values or integration of Indian food
+composition data.
+
+The closest prior work to NutriBiteBot in the multi-comorbidity
+dietary CDSS space is the fuzzy logic system of
+Marashi-Hosseini~\textit{et al.}~\cite{marashi2023}, which applies
+Mamdani inference with 1,144~rules to adjust diets for patients with
+HTN, T2DM, hyperlipidaemia, and kidney disease simultaneously,
+reporting 97\% agreement with dietitian-set diets on 100~clinical
+records. While demonstrating that automated multi-condition dietary
+reconciliation is feasible, this system requires manual rule authoring
+by a dietitian, operates at the macronutrient level without
+ingredient-level gram quantities, and has no mechanism for grounding
+constraints in patient-specific laboratory values such as eGFR or
+serum potassium.
+
+In contrast, the closest widely deployed solution in the Indian
+context, HealthifyMe, routes user data through cloud-based
+infrastructure and functions predominantly as a calorie-tracking
+platform. It does not enforce strict gram-level clinical constraints
+or support deterministic dietary ceilings required for disease
+management, raising compliance concerns under the Digital Personal
+Data Protection Act~2023~\cite{chandrasekaran2025dpdpa}.
 
 \subsection{Machine Learning for Clinical Tabular Data}
-The challenge of learning from tabular EHR data with heterogeneous
-feature types and modest sample sizes has motivated a range of
-approaches. Gradient boosting methods (XGBoost~\cite{chen2016xgboost},
-LightGBM, NGBoost~\cite{duan2020ngboost}) dominate tabular benchmarks
-due to their inductive bias for heterogeneous feature distributions and
-resistance to overfitting on small datasets. NGBoost extends gradient
+\label{subsec:rw_ml}
+
+Learning from tabular EHR data with heterogeneous feature types and
+modest sample sizes remains an active research challenge. Gradient
+boosting methods---XGBoost~\cite{chen2016xgboost},
+LightGBM, and NGBoost~\cite{duan2020ngboost}---dominate tabular
+benchmarks due to their inductive bias for heterogeneous feature
+distributions and resistance to overfitting. NGBoost extends gradient
 boosting to probabilistic output via natural gradient estimation,
-producing per-prediction uncertainty estimates that are clinically
-meaningful. TabNet~\cite{arik2021tabnet} proposes an attention-based
-deep architecture that processes tabular features without
-featurisation, learning sparse feature selection masks at each decision
-step using a sequentially attentive architecture. TabNet has been shown
-to match or exceed gradient boosting performance on several large
-tabular benchmarks while producing per-instance feature attribution
-masks that are native to the inference computation --- a property of
-direct clinical value for generating patient-specific explanations.
+producing per-prediction uncertainty estimates that carry direct
+clinical interpretability value. These methods have been applied to
+EHR-derived comorbidity prediction in the HTN--T2DM space,
+demonstrating strong performance on primary care
+datasets~\cite{gollapalli2022}.
 
-\subsection{Monotonicity in Clinical ML}
-Physiologically motivated monotonicity constraints have been applied in
-clinical predictive models to prevent counter-intuitive inferences (e.g.,
-lower predicted risk at higher creatinine). Isotonic regression,
-monotone neural networks, and constrained gradient boosting have all been
-applied to enforce such constraints~\cite{gupta2019}. The combination of
-monotonic preprocessing with a native attention-based feature selector
---- as employed in NutriBiteBot --- has not previously been reported in
-the clinical dietary recommendation literature.
+TabNet~\cite{arik2021tabnet} introduced an attention-based deep
+architecture for tabular data that learns sparse feature selection
+masks at each sequential decision step, producing native per-instance
+feature attribution without requiring post-hoc methods such as SHAP.
+Clinical deployments of TabNet have demonstrated its suitability for
+EHR-based risk prediction tasks:
+Yasmeen~\textit{et al.}~\cite{yasmeen2025tabnet} showed that a hybrid
+TabNet--XGBoost stacked ensemble achieved strong performance on
+cardiovascular risk prediction from heterogeneous patient records, with
+the TabNet component providing clinically interpretable sparse feature
+selection. Similarly, Cao~\textit{et al.}~\cite{cao2025tabnet} applied
+TabNet to predicting chemotherapy-induced cardiotoxicity from routine
+laboratory and clinical data, emphasising interpretability as a deployment requirement~\cite{bharati2024}. Recent work has further extended TabNet with graph-based dependency modelling for multi-disease coexistence risk prediction~\cite{gat_tabnet2025}. TabNet has also been applied to ICU admission prediction from clinical tabular data~\cite{houfani2022} and cardiovascular disease risk assessment in diabetic patients~\cite{zhang2024}, both confirming its suitability for high-stakes clinical classification from heterogeneous EHR features. Deep learning approaches for identifying prognostic predictors in CKD have further demonstrated the value of interpretable architectures in renal clinical settings~\cite{liang2023}.
 
-\subsection{LLM-Based Dietary Advice}
-Recent work has explored large language models (LLMs) for dietary
-guidance~\cite{xu2024llm}. However, unconstrained LLMs are unsuited for
-clinical dietary recommendation: they lack deterministic safety guarantees
-and can produce clinically plausible but unsafe portion quantities.
-NutriBiteBot addresses this by employing a hybrid architecture in which
-Groq Llama-3.3 generates recipes only after a rules engine has
-computed hard gram-level constraint boundaries that the agent cannot
-exceed.
+\subsection{Monotonicity Constraints in Clinical Predictive Models}
+\label{subsec:rw_monotone}
 
-% ---------------------------------------------------------------
+Physiologically motivated monotonicity constraints prevent clinical
+models from learning counter-intuitive decision boundaries---for
+example, predicting lower dietary restriction requirements at higher
+serum creatinine. Isotonic regression, monotone neural networks, and
+constrained gradient boosting have all been applied to enforce such
+constraints in clinical prediction
+settings~\cite{gupta2019}. Monotonic calibration via isotonic
+regression is particularly relevant in the EHR setting where known
+clinical directionality (declining eGFR $\Rightarrow$ worsening renal
+function) should be preserved irrespective of distributional artefacts
+in the training data. The combination of per-target monotonic
+preprocessing with a native attention-based feature selector---as
+employed in NutriBiteBot---has not previously been reported in the
+clinical dietary recommendation literature.
+
+\subsection{Computer Vision for Ingredient Detection}
+\label{subsec:rw_cv}
+
+Automated food and ingredient recognition from images has been
+extensively studied as a component of dietary assessment and chronic
+disease monitoring. A systematic review by
+Mansouri~\textit{et al.}~\cite{mansouri2023food} covering deep
+learning food recognition methods found that while YOLO-family and
+CNN-based architectures achieve strong detection performance on
+curated food datasets, recognition accuracy degrades for culturally
+specific ingredients, processed foods, and items not well-represented
+in Western-centric training corpora. This limitation is directly
+relevant to the Indian kitchen ingredient domain targeted by
+NutriBiteBot: IFCT-mapped staple ingredients (moong dal, toor dal,
+bitter gourd, ridge gourd) exhibit substantially higher intra-class
+visual variance than the standardised food items in international
+benchmarks. The Roboflow-based detector used in NutriBiteBot's
+Stage~1 pipeline addresses this through transfer learning on a curated
+set of raw Indian ingredients, though coverage of packaged and
+processed foods remains a documented limitation
+(Section~\ref{sec:discussion}).
+
+\subsection{Large Language Models for Clinical Dietary Guidance}
+\label{subsec:rw_llm}
+
+Large language models have attracted growing interest as dietary guidance tools. However, benchmarking studies have consistently identified safety-critical failure modes in unconstrained LLM deployment for clinical nutrition. Kairat~\textit{et al.}~\cite{kairat2025llm} benchmarked multiple LLMs—including Llama-family models—for stage-specific CKD dietary recommendations and found that all off-the-shelf models produced clinically unsafe potassium and protein quantities in the absence of external constraint enforcement. Whittle~\textit{et al.}~\cite{whittle2025llm} reached a similar conclusion in their review of LLM-based dietary tools for CKD, explicitly recommending the integration of clinical guidelines as hard boundaries rather than soft prompting. These findings motivate the bounded LLM architecture of NutriBiteBot, in which Groq Llama-3.3 generates adapted recipes strictly within hard gram-level constraints pre-computed by the upstream rules engine—constraints that the agent cannot override. A recent system, NutriGen~\cite{khamesian2025}, explored LLM-based personalised meal plan generation and likewise concluded that, without hard clinical constraint enforcement, LLM outputs cannot be considered safe for patients with active chronic conditions. This further reinforces the architectural decision in NutriBiteBot to use the LLM solely as a bounded natural language renderer operating downstream of a deterministic rules engine.
+
+\subsection{Data Privacy in Clinical AI Deployments in India}
+\label{subsec:rw_privacy}
+
+India's Digital Personal Data Protection Act~(DPDPA)~2023 imposes
+obligations on any system collecting or processing patient health
+data, including requirements for explicit consent, restrictions on
+cross-border data transfers, and significant financial penalties for
+data breaches~\cite{chandrasekaran2025dpdpa}. These requirements have direct architectural implications for clinical AI systems: any framework that transmits patient laboratory values to external APIs or cloud-hosted model endpoints is structurally non-compliant regardless of encryption measures applied in transit. Clinical AI systems
+that route patient laboratory values through public cloud APIs---as
+do all existing commercial dietary tools---are structurally
+non-compliant with these requirements. NutriBiteBot's fully local
+Docker deployment, in which no patient data reaches a public
+network, is designed specifically to satisfy DPDPA~2023 data
+sovereignty requirements and to support hospital on-premises and
+clinic workstation installation.
+
+\subsection{Research Gaps and Proposed Approach}
+\label{subsec:gaps}
+
+The literature survey above reveals five compounding gaps that no
+existing system addresses simultaneously.
+
+\textbf{No automatic multi-guideline conflict resolution at
+the ingredient level.} Existing dietary CDSSs either operate on a
+single condition~\cite{diet_hrs_scoping2025} or require manual rule
+authoring by a registered dietitian~\cite{marashi2023}. None resolve
+the conflicting constraints of KDIGO~2024~\cite{kdigo2024},
+ADA~2024~\cite{ada2024}, and AHA/ACC~\cite{aha2017}
+simultaneously and automatically for a patient presenting with all
+three conditions, and none translate the resolution into
+ingredient-level gram quantities.
+
+\textbf{No patient-laboratory-grounded portion computation.}
+Population-level nutrient thresholds (e.g., ``restrict potassium to
+$\leq$2,000~mg/day'') are applied uniformly across existing systems.
+No tool derives per-patient portion limits as a continuous function
+of the patient's actual laboratory severity, such that a patient with
+eGFR~$=$~42~mL/min and one with eGFR~$=$~28~mL/min receive
+proportionally different portion ceilings for the same ingredient.
+
+\textbf{Absence of Indian food composition data.}
+International dietary tools are grounded in USDA or European food
+composition databases. IFCT~2017~\cite{ifct2017}---the authoritative
+Indian composition database---is absent from all reviewed systems,
+making their nutrient computations inapplicable to the staple
+ingredients of Indian households.
+
+\textbf{Unsafe unconstrained LLM outputs in clinical
+nutrition.} Benchmarking studies demonstrate that unconstrained LLMs
+produce clinically unsafe dietary quantities in CKD and
+multi-comorbidity settings~\cite{kairat2025llm,whittle2025llm}. No
+prior system has integrated an LLM within a bounded architecture that
+enforces hard gram-level clinical safety constraints computed upstream
+by a rules engine.
+
+\textbf{Cloud dependency and DPDPA non-compliance.} All
+deployed consumer and professional dietary tools route patient data
+through cloud infrastructure~\cite{chandrasekaran2025dpdpa}, making
+them structurally non-compliant with DPDPA~2023 and unsuitable for
+deployment in Indian hospital settings where data sovereignty
+requirements are binding.
+
+\textbf{Proposed approach.} NutriBiteBot addresses all five gaps
+through an integrated eight-layer architecture: (i)~a multi-target
+TabNet classifier trained on MIMIC-IV EHR data infers per-nutrient
+sensitivity levels from 14~clinical variables, with per-target
+monotonic preprocessing enforcing physiologically grounded
+constraints; (ii)~a five-constraint sigmoid severity-to-fraction
+portion computation engine derives ingredient-specific gram limits as
+a continuous function of the patient's laboratory severity scores
+against a live daily nutrient budget grounded in IFCT~2017; (iii)~a
+KDIGO-2024-compliant hierarchical constraint relaxation hierarchy
+prevents caloric collapse without violating potassium and sodium
+safety limits; and (iv)~Groq Llama-3.3 operates as a bounded
+generative agent, producing adapted recipes exclusively within the
+hard gram-level boundaries enforced by the upstream rules engine. The
+entire system executes within a local Docker environment, ensuring
+full DPDPA~2023 compliance.
+
+\begin{figure*}[!t]
+    \centering
+    \includegraphics[width=\textwidth]{system_architecture}
+    \caption{NutriBiteBot system architecture. Patient lab values and
+    fridge image enter via the frontend; the backend orchestrates
+    vision detection, TabNet risk stratification, the rules engine,
+    and the bounded generative agent; outputs and records are
+    persisted to local Supabase and returned to the frontend.}
+    \label{fig:architecture}
+\end{figure*}
+
 \section{System Architecture}
 \label{sec:architecture}
-% ---------------------------------------------------------------
 
 NutriBiteBot is deployed as a locally containerised system comprising
 five distinct architectural components: a single-page web frontend, a
-Python/Flask backend server, a four-stage ML pipeline, a local Supabase
-(PostgreSQL) database, and a Docker deployment environment
+Python/Flask backend server, a four-stage deep learning pipeline, a local
+Supabase (PostgreSQL) database, and a Docker deployment environment
 (Fig.~\ref{fig:architecture}). All components execute within a local
 Docker environment; patient laboratory data, generated recipes, and
-clinical records never leave the institution's infrastructure. This
-design satisfies the sensitivity requirements of India's DPDPA 2023.
-
-\begin{figure}[!t]
-    \centering
-    % Replace with actual figure: \includegraphics[width=\columnwidth]{figures/architecture.png}
-    \fbox{\parbox{0.9\columnwidth}{\centering\vspace{2cm}
-        [Figure: Complete Architecture of NutriBiteBot ---\\
-        six-step data flow diagram]
-    \vspace{2cm}}}
-    \caption{Complete architecture of NutriBiteBot. The six-step
-    data flow: (1)~patient uploads lab values and fridge image via the
-    frontend; (2)~backend POSTs image to the Vision Detection module;
-    (3)~Rules Engine returns safe portion numerical constraints to the
-    Generative Agent; (4)~Generative Agent returns adapted recipe to
-    backend; (5)~backend persists records to local Supabase; (6)~backend
-    returns triage summary and recipe to frontend.}
-    \label{fig:architecture}
-\end{figure}
+clinical records never leave the device infrastructure. This
+design satisfies the sensitivity requirements of India's DPDPA~2023.
 
 \subsection{Frontend}
+
 The user interface is a single-page web application (HTML5/CSS3/
 JavaScript) exposing three functional panels: a Fridge Scanner
-(refrigerator image upload and ingredient display), a Patient Data Input
-form (14 clinical features), and a Recipe Generator panel (safe portion
-recommendations and adapted recipe). The frontend communicates exclusively
-via REST API calls to the backend and holds no patient data in
-client-side storage.
+(refrigerator image upload and ingredient display), a Patient Data
+Input form (14~clinical features), and a Recipe Generator panel (safe
+portion recommendations and adapted recipe). The frontend communicates
+exclusively via REST API calls to the backend and holds no patient
+data in client-side storage.
 
 \subsection{Backend Server}
-The backend is a Python/Flask server that orchestrates ML inference
+
+The backend is a Python/Flask server that orchestrates DL inference
 across the four-stage pipeline, aggregates rules engine constraint
 outputs, and manages write operations to the local database. Backend
-ML inference uses PyTorch as the TabNet runtime. Agent orchestration
+deep learning inference uses PyTorch as the TabNet runtime. Agent orchestration
 logic sequences pipeline stages and manages error handling, fallback
 logic, and caloric sufficiency validation.
 
-\subsection{ML/DL Pipeline}
-The four-stage pipeline (Section~\ref{sec:mlpipeline}) executes
+\subsection{Tabnet Implementation Pipeline}
+
+The four-stage pipeline (Section~\ref{sec:dlpipeline}) executes
 sequentially: Vision Detection (Stage~1), TabNet Risk Stratification
 (Stage~2), Clinical Rules Engine with Portion Computation (Stage~3),
 and Bounded Generative Agent (Stage~4).
 
 \subsection{Database}
+
 Patient records and generated recipes are persisted to a Supabase
-instance running on local PostgreSQL within the same Docker environment.
-No data is written to Supabase's cloud infrastructure. Stored entities
-include patient identifiers, clinical feature vectors, per-session
-portion decision records, generated recipe outputs, and daily nutrient
-ledger state.
+instance running on local PostgreSQL within the same Docker
+environment. No data is written to Supabase's cloud infrastructure.
+Stored entities include patient identifiers, clinical feature vectors,
+per-session portion decision records, generated recipe outputs, and
+daily nutrient ledger state.
+
+\subsection{Constraints}
+
+The following constraints are assumed to define the operational boundary of the proposed system. The Roboflow ingredient detection model is assumed to operate on raw ingredients commonly found in Indian kitchens; packaged foods, processed items, and uncommon produce are therefore considered outside the assumed input domain. The dietary rule engine is assumed to address four clinical conditions: hypertension (HTN), type 2 diabetes mellitus (T2DM), chronic kidney disease (CKD), and optional dyslipidaemia. Each disease is supported by well-defined dietary rules and validated sensitivity classifiers; extension to additional comorbidities is assumed to fall outside the scope of the current framework.
 
 \subsection{Deployment}
-The complete system is containerised via a single \texttt{docker-compose}
-configuration that defines all inter-service networking. No component is
-exposed to the public internet by default. This model supports hospital
-on-premises installation, clinic workstations, and telemedicine platforms
-operating within a secured local network.
 
-% ---------------------------------------------------------------
-\section{ML Pipeline: Model Training and Inference}
-\label{sec:mlpipeline}
-% ---------------------------------------------------------------
+The complete system is containerised via a single
+\texttt{docker-compose} configuration that defines all inter-service
+networking. No component is exposed to the public internet by
+default. This model supports hospital on-premises installation,
+clinic workstations, and telemedicine platforms operating within a
+secured local network.
 
-\subsection{Dataset and Label Generation}
+\section{Design and Implementation}
+\label{sec:dlpipeline}
 
-Training data are drawn from MIMIC-IV (version~2.2)~\cite{mimic2023},
-a publicly available EHR dataset. A threshold-based \texttt{LabelGenerator}
-produces four sensitivity targets without requiring learned labels:
+\subsection{Dataset Specification}
+\label{subsec:dataset}
 
-\begin{itemize}
-    \item \textbf{sodium\_sensitivity}: derived from serum Na,
-    HTN diagnosis flag, and systolic blood pressure (SBP).
-    \item \textbf{potassium\_sensitivity}: derived from serum K and
-    estimated glomerular filtration rate (eGFR).
-    \item \textbf{protein\_restriction}: derived from eGFR, serum
-    creatinine, and CKD diagnosis flag.
-    \item \textbf{carb\_sensitivity}: derived from HbA1c, fasting blood
-    sugar (FBS), BMI, and DM diagnosis flag.
-\end{itemize}
+Training data are drawn from MIMIC-IV
+(version~2.2)~\cite{mimic4,mimic4}, a publicly available
+de-identified EHR database containing patient measurements,
+laboratory tests, diagnoses, treatments, and clinical notes. For
+each patient encounter, a 14-dimensional clinical feature vector is
+extracted comprising age, sex, BMI, systolic and diastolic blood
+pressure~(SBP, DBP), serum sodium, serum potassium, creatinine,
+estimated glomerular filtration rate~(eGFR), HbA1c, fasting blood
+sugar~(FBS), and binary flags for hypertension~(HTN), diabetes
+mellitus~(DM), and chronic kidney disease~(CKD). The dataset is
+partitioned into training and held-out test sets using an 80/20
+stratified split on \texttt{sodium\_sensitivity} to preserve class
+balance across all targets.
 
-Each target is classified as Low (0), Moderate (1), or High (2).
-Phosphorus sensitivity is derived by rule from eGFR thresholds per
-KDIGO 2017~\cite{kdigo2012}.
+A threshold-based \texttt{LabelGenerator} assigns training labels
+using clinically grounded rules derived from established medical
+guidelines, applied \emph{offline during dataset construction only}
+and not used during inference. Each target is a three-class ordinal
+variable: Low~(0), Moderate~(1), or High~(2). Four nutrient
+sensitivity targets are generated: \textbf{sodium\_sensitivity}
+(serum Na, HTN flag, SBP; AHA/ACC guidelines);
+\textbf{potassium\_sensitivity} (serum K, eGFR; KDIGO~2024);
+\textbf{protein\_restriction} (eGFR, creatinine, CKD flag;
+KDIGO~2024); and \textbf{carb\_sensitivity} (HbA1c, FBS, BMI, DM
+flag; ADA~2024). Phosphorus sensitivity is derived deterministically
+from eGFR and CKD status via KDIGO-based thresholds and is not
+treated as a learned target. The labelling thresholds are summarised
+in Table~\ref{tab:label_rules}.
 
-\subsection{Preprocessing and Monotonic Constraints}
-
-Preprocessing applies median imputation for missing values and standard
-(z-score) scaling. A \texttt{MonotonicFeatureTransformer} enforces
-physiologically motivated monotonicity via isotonic regression:
-creatinine, serum K, HbA1c, FBS, SBP, DBP, BMI, and serum Na are
-constrained to positive monotonicity (higher value $\Rightarrow$ higher
-predicted risk class); eGFR is constrained to negative monotonicity
-(lower eGFR $\Rightarrow$ higher renal risk class). This prevents the
-model from learning counter-physiological associations irrespective of
-distributional artefacts in the training data.
-
-\subsection{TabNet Classifier Configuration}
-
-Four \texttt{TabNetClassifier} instances (one per target) are trained
-independently. Key hyperparameters are: sparsemax attention activation,
-\texttt{n\_steps}~$= 5$, \texttt{n\_a}~$= 64$, \texttt{n\_d}~$= 64$,
-\texttt{momentum}~$= 0.02$, \texttt{gamma}~$= 1.3$, and
-\texttt{epsilon}~$= 1 \times 10^{-15}$.
-Each model outputs a \texttt{predict\_proba} vector and a per-patient
-feature attribution mask. The attribution masks are used directly in
-Layer~2 to generate clinical explanations that cite the patient's
-specific laboratory values and the driving feature for each sensitivity
-classification.
-
-\begin{figure}[!t]
-    \centering
-    % Replace with: \includegraphics[width=\columnwidth]{figures/ml_pipeline.png}
-    \fbox{\parbox{0.9\columnwidth}{\centering\vspace{2.5cm}
-        [Figure: Four-Stage ML/DL Pipeline Diagram]
-    \vspace{2.5cm}}}
-    \caption{The four-stage ML/DL pipeline. Stage~1: Roboflow CV
-    ingredient detection. Stage~2: TabNet multi-target risk stratification.
-    Stage~3: Clinical Rules Engine with sigmoid portion computation.
-    Stage~4: Groq Llama-3.3 bounded generative agent.}
-    \label{fig:mlpipeline}
-\end{figure}
-
-% ---------------------------------------------------------------
-\section{NGBoost Baseline}
-\label{sec:ngboost}
-% ---------------------------------------------------------------
-
-To establish a competitive probabilistic baseline and motivate the
-selection of TabNet, we trained an NGBoost~\cite{duan2020ngboost}
-classifier on the same dataset and preprocessing pipeline as the TabNet
-models.
-
-\subsection{NGBoost Configuration}
-
-NGBoost is configured with a categorical distribution for the three-class
-output, 500 boosting iterations, a learning rate of 0.01, and a
-\texttt{DecisionTreeRegressor} base learner of maximum depth~3. The same
-monotonic preprocessing transformations applied to the TabNet pipeline
-are applied as a preprocessing step, since NGBoost does not natively
-enforce monotonicity within the boosting procedure.
-
-\subsection{NGBoost Performance: Clinical Model}
-
-Table~\ref{tab:ngboost} reports the per-target and overall
-classification performance of the NGBoost Clinical Model~1 on the
-held-out test split.
-
-\begin{table}[!t]
+\begin{table*}[t]
+\renewcommand{\arraystretch}{1.15}
+\setlength{\tabcolsep}{8pt}
+\caption{Offline Label Generation Rules Applied by
+\texttt{LabelGenerator} During Training Data Preparation.
+Not Used at Inference.}
+\label{tab:label_rules}
 \centering
-\caption{NGBoost Clinical Model — Per-Target Classification Performance}
-\begin{tabular}{lcccc}
+\small
+\begin{tabular}{p{2.2cm} p{4.2cm} p{4.2cm} p{5.8cm}}
 \hline
-\textbf{Target} & \textbf{Accuracy} & \textbf{F1 (wtd)} & $\boldsymbol{\kappa}$ & \textbf{Precision (wtd)} \\
+\bfseries Target &
+\bfseries Moderate (1) &
+\bfseries High (2) &
+\bfseries Clinical Basis \\
 \hline
-sodium\_sensitivity   & 0.9999 & 0.9999 & 0.9999 & 0.9999 \\
-potassium\_sensitivity & 0.9999 & 0.9999 & 0.9998 & 0.9999 \\
-protein\_restriction   & 0.9999 & 0.9999 & 0.9999 & 0.9999 \\
-carb\_sensitivity      & 0.9971 & 0.9971 & 0.9950 & 0.9971 \\
-\hline
-\textbf{Mean (macro)} & \textbf{0.9992} & \textbf{0.9992} & \textbf{0.9986} & \textbf{0.9992} \\
-\hline
-\end{tabular}
-\end{table}
 
-The full per-target metrics including macro and weighted precision,
-recall, and F1 are reported in Table~\ref{tab:ngboost_full}.
+Sodium &
+serum Na $>$ 145 or HTN &
+serum Na $>$ 150 or HTN and SBP $>$ 160 &
+AHA/ACC: $\leq$1{,}500~mg/day sodium for HTN;
+serum Na $>$ 145 indicates
+hypernatraemia~\cite{aha2017} \\[4pt]
 
-\begin{table*}[!t]
-\caption{NGBoost Clinical Model~1 --- Full Metrics Per Target}
-\label{tab:ngboost_full}
-\centering
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{lcccccccc}
-\toprule
-\textbf{Target} & \textbf{Accuracy} & \textbf{Prec (mac)} & \textbf{Prec (wtd)} & \textbf{Rec (mac)} & \textbf{Rec (wtd)} & \textbf{F1 (mac)} & \textbf{F1 (wtd)} & \textbf{$\kappa$} \\
-\midrule
-sodium\_sensitivity     & 0.9996 & 0.9985 & 0.9996 & 0.9992 & 0.9996 & 0.9988 & 0.9996 & 0.9992 \\
-potassium\_sensitivity  & 0.9995 & 0.9993 & 0.9995 & 0.9992 & 0.9995 & 0.9993 & 0.9995 & 0.9992 \\
-protein\_restriction    & 0.9993 & 0.9982 & 0.9993 & 0.9989 & 0.9993 & 0.9986 & 0.9993 & 0.9984 \\
-carb\_sensitivity       & 0.9979 & 0.9972 & 0.9979 & 0.9978 & 0.9979 & 0.9975 & 0.9979 & 0.9963 \\
-\midrule
-\textbf{Mean (macro)} & \textbf{0.9991} & \textbf{0.9983} & \textbf{0.9991} & \textbf{0.9988} & \textbf{0.9991} & \textbf{0.9986} & \textbf{0.9991} & \textbf{0.9983} \\
-\bottomrule
+Potassium &
+serum K $>$ 4.5 or eGFR $<$ 60 &
+serum K $>$ 5.0 or CKD and eGFR $<$ 30 &
+KDIGO~2024: declining eGFR impairs
+K\textsuperscript{+} excretion; restrict to
+$\leq$2{,}000~mg/day (Stage~3) and
+$\leq$1{,}500~mg/day
+(Stages~4--5)~\cite{kdigo2024} \\[4pt]
+
+Protein &
+eGFR $<$ 60 &
+eGFR $<$ 30 or CKD or creatinine $>$ 2.0 &
+KDIGO~2024: restrict to 0.6--0.8~g/kg/day in
+Stages~3--4 to reduce uraemic toxin accumulation
+and slow renal decline~\cite{kdigo2024} \\[4pt]
+
+Carbohydrate &
+HbA1c $\geq$ 5.7\% or FBS $\geq$ 100 or DM or
+(BMI $\geq$ 30 and HbA1c $\geq$ 5.5\%) &
+HbA1c $\geq$ 7.0\% or FBS $\geq$ 126 or
+(DM and HbA1c $\geq$ 6.5\%) or
+(BMI $\geq$ 35 and HbA1c $\geq$ 6.0\%) &
+ADA~2024: HbA1c $\geq$ 5.7\% indicates
+pre-diabetes; FBS $\geq$ 126 indicates diabetes.
+No renal variables appear in carbohydrate
+rules~\cite{ada2024} \\
+
+\hline
 \end{tabular}
 \end{table*}
 
-\subsection{Confusion Matrices and Per-Class Analysis}
+\subsection{Data Integrity and Spurious Correlation Mitigation}
+\label{subsec:spurious}
 
-\begin{figure}[!t]
-    \centering
-    \begin{subfigure}[b]{0.48\columnwidth}
-        \fbox{\parbox{\textwidth}{\centering\vspace{1.5cm}
-            [CM: sodium\_sensitivity]
-        \vspace{1.5cm}}}
-        \caption{sodium\_sensitivity}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.48\columnwidth}
-        \fbox{\parbox{\textwidth}{\centering\vspace{1.5cm}
-            [CM: potassium\_sensitivity]
-        \vspace{1.5cm}}}
-        \caption{potassium\_sensitivity}
-    \end{subfigure}
-    \vskip\baselineskip
-    \begin{subfigure}[b]{0.48\columnwidth}
-        \fbox{\parbox{\textwidth}{\centering\vspace{1.5cm}
-            [CM: protein\_restriction]
-        \vspace{1.5cm}}}
-        \caption{protein\_restriction}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.48\columnwidth}
-        \fbox{\parbox{\textwidth}{\centering\vspace{1.5cm}
-            [CM: carb\_sensitivity]
-        \vspace{1.5cm}}}
-        \caption{carb\_sensitivity}
-    \end{subfigure}
-    \caption{NGBoost Clinical Model~1 --- Normalised confusion matrices
-    for the four sensitivity targets. Classes: 0~=~Low,
-    1~=~Moderate, 2~=~High.}
-    \label{fig:ngboost_cm}
-\end{figure}
+During early validation, \texttt{carb\_sensitivity} incorrectly
+assigned high risk to patients with severe renal impairment but
+normal glycaemic markers, indicating spurious correlations between
+renal features and carbohydrate labels. Three contamination channels
+were identified: (i)~synthetic sampling occasionally produced
+borderline HbA1c values for non-diabetic patients; (ii)~a shared
+monotonic preprocessor propagated renal signals into the
+carbohydrate model; and (iii)~BMI co-occurrence patterns in the
+CKD+HTN subgroup triggered carbohydrate sensitivity labels despite
+normal glycaemia.
 
-\begin{figure}[!t]
-    \centering
-    \fbox{\parbox{0.9\columnwidth}{\centering\vspace{2cm}
-        [Figure: NGBoost feature importance bar chart across four targets]
-    \vspace{2cm}}}
-    \caption{NGBoost feature importance (mean absolute SHAP values)
-    across the four sensitivity targets. eGFR dominates
-    potassium\_sensitivity and protein\_restriction; HbA1c and FBS
-    dominate carb\_sensitivity; SBP and serum Na dominate
-    sodium\_sensitivity.}
-    \label{fig:ngboost_importance}
-\end{figure}
+Mitigations comprised constraining glycaemic distributions for
+non-diabetic patients, training independent per-target
+\texttt{MonotonicFeatureTransformer} instances, and tightening BMI
+distributions for CKD+HTN patients without diabetes.
+Post-mitigation validation confirmed that the Pearson correlation
+between HbA1c and eGFR in the CKD+no-DM subgroup satisfies
+$|r| < 0.15$ prior to label generation, and that renal features
+(eGFR, creatinine, \texttt{has\_ckd}) are absent from the top-5
+TabNet attribution for \texttt{carb\_sensitivity} on any patient
+with normal glycaemic markers, confirming that predictions depend
+exclusively on glycaemic features.
 
-% ---------------------------------------------------------------
-\section{TabNet vs.\ NGBoost: Comparative Analysis}
-\label{sec:comparison}
-% ---------------------------------------------------------------
 
-Both TabNet and NGBoost achieve near-identical aggregate accuracy on
-the held-out test split (Table~\ref{tab:comparison}). The model
-selection was therefore driven by qualitative architectural criteria
-relevant to clinical deployment rather than by raw classification
-accuracy.
+\subsection{Preprocessing and Monotonic Constraints}
+\label{subsec:preprocessing}
 
-\begin{table}[!t]
-\caption{TabNet vs.\ NGBoost --- Clinical Model Performance Comparison}
-\label{tab:comparison}
-\centering
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{lcc}
-\toprule
-\textbf{Metric} & \textbf{NGBoost} & \textbf{TabNet} \\
-\midrule
-Mean Accuracy                   & 0.9991         & [BLANK] \\
-Mean F1 (weighted)              & 0.9991         & [BLANK] \\
-Mean Cohen's $\kappa$           & 0.9983         & [BLANK] \\
-Mean Precision (weighted)       & 0.9991         & [BLANK] \\
-Mean Recall (weighted)          & 0.9991         & [BLANK] \\
-\midrule
-Sodium Acc.                     & 0.9996         & [BLANK] \\
-Potassium Acc.                  & 0.9995         & [BLANK] \\
-Protein Acc.                    & 0.9993         & [BLANK] \\
-Carb Acc.                       & 0.9979         & [BLANK] \\
-\midrule
-Training time (s, 4 targets)    & [BLANK]        & [BLANK] \\
-Inference latency (ms/patient)  & [BLANK]        & [BLANK] \\
-\bottomrule
-\end{tabular}
-\end{table}
+Raw features undergo median imputation for missing laboratory values
+followed by $z$-score scaling. Each sensitivity target then receives
+its own \texttt{MonotonicFeatureTransformer}, which applies isotonic
+regression to enforce physiologically grounded directional
+relationships prior to model input. Each target $k$ receives an
+independently fitted transformer $\mathcal{T}_k$ trained exclusively
+on $y_k$:
+%
+\begin{equation}
+  \mathcal{T}_k = \underset{\mathcal{T}}{\arg\min}\;
+  \sum_{i=1}^{N}
+  \bigl(\mathcal{T}(x_{i,j}) - y_{i,k}\bigr)^2
+  \quad \forall\, j \in \mathcal{C}
+  \label{eq:isotonic_exp}
+\end{equation}
+%
+where $\mathcal{C}$ is the set of constrained feature indices. This
+eliminates the cross-target contamination identified in
+Section~\ref{subsec:spurious}, where a shared transformer encoded
+renal signals into the carbohydrate sensitivity model's transformed
+feature space.
 
-\subsection{Interpretability}
+Positive monotonicity constraints~($+1$) are assigned to creatinine
+and serum~K (worsening renal function per
+KDIGO~2024~\cite{kdigo2024}); HbA1c and FBS (glycaemic control per
+ADA~2024~\cite{ada2024}); SBP (sodium restriction stringency per
+AHA/ACC~\cite{aha2017}); and DBP, BMI, and serum~Na. A negative
+constraint~($-1$) is applied to eGFR, since declining filtration
+requires progressively tighter potassium, phosphorus, and protein
+restriction per KDIGO~2024~\cite{kdigo2024}.
 
-NGBoost provides global feature importance via SHAP values, which
-require a post-hoc computation pass separate from the inference step.
-TabNet generates per-instance feature attribution masks $M^{(b)}_i$
-natively at each decision step $b$ as a by-product of the forward pass;
-no additional computation is required to produce patient-level
-explanations. For a clinical system required to generate a rationale
-citing the patient's specific laboratory values, TabNet's native
-per-instance attribution is a direct architectural advantage over
-NGBoost's post-hoc SHAP approach.
+Formally, for any two patients $a$ and $b$, a positive constraint
+on feature $j$ enforces:
+%
+\begin{equation}
+  x_{a,j} \leq x_{b,j}
+  \implies
+  \hat{y}_k(\mathbf{x}_a) \leq \hat{y}_k(\mathbf{x}_b)
+  \label{eq:monotone_pos}
+\end{equation}
+%
+and the negative constraint on eGFR enforces:
+%
+\begin{equation}
+  x_{a,\,\text{eGFR}} \leq x_{b,\,\text{eGFR}}
+  \implies
+  \hat{y}_k(\mathbf{x}_a) \geq \hat{y}_k(\mathbf{x}_b)
+  \label{eq:monotone_neg}
+\end{equation}
+%
+These constraints prevent counter-physiological decision boundaries
+irrespective of distributional artefacts in the training data.
 
-\subsection{Monotonicity Compatibility}
+\subsection{TabNet Architecture and Training}
+\label{subsec:tabnet}
 
-Isotonic regression monotonicity constraints are applied as a
-preprocessing transformation to both models. For NGBoost, this
-preprocessing ensures that the input feature distribution respects
-clinical monotonicity, but the boosting procedure itself can still
-learn locally non-monotone relationships. TabNet's sequentially
-attentive architecture, combined with upstream monotonic preprocessing,
-enforces that the high-level feature representation presented to each
-decision step already respects the clinical ordering, making it
-structurally more compatible with monotonic clinical priors.
+TabNet~\cite{arik2021tabnet} processes tabular features through
+$N_{\text{steps}}$ sequential decision steps, each producing a sparse
+attention mask over the $F=14$ input features via a sparsemax
+activation:
+\begin{equation}
+  \mathbf{h}^{(b)}_i =
+  \text{sparsemax}\!\left(
+    \mathbf{P}^{(b-1)}_i \odot
+    \mathbf{W}_{\text{att}} \cdot
+    \mathbf{a}^{(b-1)}_i
+  \right)
+  \label{eq:sparsemax}
+\end{equation}
+where $\mathbf{P}^{(b-1)}_i$ penalises features selected in prior
+steps, $\mathbf{a}^{(b-1)}_i$ is the preceding step's intermediate
+representation, and $\mathbf{W}_{\text{att}}$ is a learnable weight
+matrix. The sparsemax activation assigns exactly zero weight to
+irrelevant features, enforcing clinically legible sparse selection.
+Per-step masks are averaged to yield a per-patient feature attribution
+mask:
+\begin{equation}
+  \mathbf{m}_i =
+  \frac{1}{N_{\text{steps}}}
+  \sum_{b=1}^{N_{\text{steps}}}
+  \mathbf{h}^{(b)}_i
+  \label{eq:attribution}
+\end{equation}
 
-\subsection{Sparse Feature Selection}
+Because $\mathbf{m}_i$ is a by-product of the forward pass, TabNet
+provides native per-instance interpretability without post-hoc methods
+such as SHAP.
 
-TabNet applies sparsemax attention at each of the $N_{\text{steps}}$
-decision steps, forcing the model to select a sparse subset of features
-per step. For a 14-feature clinical input, this encourages the model to
-base each inference step on a small, interpretable subset of laboratory
-values --- a property well-suited to the clinical setting where each
-severity classification is expected to be driveable by a small number of
-physiologically related features (e.g., eGFR and serum K for
-potassium sensitivity). NGBoost does not impose explicit feature
-sparsity within the boosting iteration.
+Four independent \texttt{TabNetClassifier} models are trained, one
+per sensitivity target. Each outputs a class-probability vector
+$\mathbf{p}_i = [P(\text{Low}),\, P(\text{Moderate}),\,
+P(\text{High})]$, from which a continuous severity score is derived:
+\begin{equation}
+  s_i =
+  0 \cdot P(\text{Low})
+  + 1 \cdot P(\text{Moderate})
+  + 2 \cdot P(\text{High}),
+  \quad s_i \in [0,\,2]
+  \label{eq:severity}
+\end{equation}
 
-\subsection{Probabilistic Calibration}
+$s_i$ replaces the discrete class label as input to the portion
+computation engine (Section~\ref{sec:portion}), preserving
+sub-threshold severity gradients when computing dietary constraints.
+Training uses early stopping (patience~$=15$, maximum 100~epochs)
+with GPU acceleration; inference runs on CPU to match the Docker
+deployment configuration.
 
-NGBoost's key advantage is its natural gradient-based probabilistic
-output, which provides calibrated uncertainty estimates over the three
-sensitivity classes. These estimates are not exploited by the current
-portion computation engine, which consumes only the MAP class label.
-Were uncertainty-aware portion computation to be implemented in a future
-version, NGBoost would offer a natural output for propagating
-uncertainty through the rules engine. TabNet's \texttt{predict\_proba}
-output, while also probabilistic, is not calibrated by a natural gradient
-procedure and would require isotonic regression or Platt scaling
-post-calibration.
-
-\subsection{Deployment Footprint}
-
-NGBoost is implemented in scikit-learn-compatible Python and requires
-no GPU at inference. TabNet is implemented in PyTorch, with GPU
-acceleration available for training. At inference time, the 14-feature
-patient-level forward pass in TabNet is computationally negligible on
-CPU, and both models impose comparable memory footprints for the
-four-target configuration. Neither model imposes a practical constraint
-on the local Docker deployment.
-
-\subsection{Summary of Model Selection Rationale}
-
-TabNet was selected over NGBoost for the following reasons:
-(1)~native per-instance feature attribution without post-hoc computation;
-(2)~structural compatibility with monotonic preprocessing for
-physiologically consistent inference;
-(3)~sparse attention-based feature selection aligned with clinical
-interpretability expectations;
-(4)~comparable or superior classification performance on the held-out
-test set;
-and (5)~compatibility with the PyTorch runtime already used in the
-backend for the broader ML pipeline. NGBoost remains the preferred
-model if calibrated uncertainty quantification over sensitivity classes
-is required in a future system revision.
-
-\begin{figure}[!t]
-    \centering
-    \fbox{\parbox{0.9\columnwidth}{\centering\vspace{2cm}
-        [Figure: Radar/spider chart comparing TabNet vs NGBoost across
-        accuracy, F1, kappa, interpretability, latency, uncertainty
-        quantification, and monotonicity compatibility]
-    \vspace{2cm}}}
-    \caption{Multi-dimensional comparison of TabNet and NGBoost across
-    quantitative performance metrics and qualitative architectural
-    properties relevant to clinical deployment.}
-    \label{fig:comparison_radar}
-\end{figure}
-
-% ---------------------------------------------------------------
 \section{Portion Computation and Caloric Validation}
 \label{sec:portion}
-% ---------------------------------------------------------------
+
+The portion computation engine translates continuous severity scores
+from the TabNet classifier into ingredient-specific maximum safe gram
+quantities. A caloric sufficiency validator then verifies nutritional
+adequacy and applies guideline-compliant constraint relaxation if required.
 
 \subsection{Sigmoid Severity-to-Fraction Function}
+\label{subsec:sigmoid}
 
-For each IFCT-mapped detected ingredient, a sigmoid severity-to-fraction
-function converts each nutrient's continuous severity score $s \in [0,2]$
-to a budget utilisation fraction $f(s)$:
-
+For each IFCT-mapped ingredient, a sigmoid severity-to-fraction
+function converts each nutrient's continuous severity score
+$s \in [0,\,2]$ to a budget utilisation fraction $f(s)$:
+%
 \begin{equation}
-f(s) = 0.08 + \frac{0.32}{1 + \exp\!\bigl(3 \times (s - 1.0)\bigr)}
-\label{eq:sigmoid}
+  f(s) = 0.08 +
+  \frac{0.32}{1 + \exp\!\bigl(3(s - 1.0)\bigr)}
+  \label{eq:sigmoid}
 \end{equation}
-
-This function produces $f(0.0) = 0.40$ (40\% of remaining budget, Low
-severity) and $f(2.0) = 0.08$ (8\% of remaining budget, High severity),
-with a smooth transition through Moderate. The 0.08 lower bound ensures
-that even at maximum severity, a non-zero portion may be allocated if
-the ingredient's nutrient density is low.
-
-\subsection{Ingredient Portion Computation}
-
-For each nutrient $n \in \{\text{Na, K, protein, carbs, phosphorus}\}$,
-the maximum allowable grams per ingredient are:
-
-\begin{equation}
-g_n = \frac{R_n \times f(s_n)}{c_n / 100}
-\label{eq:grams}
-\end{equation}
-
-where $R_n$ is the remaining daily budget for nutrient $n$
-(mg or g as appropriate), $s_n$ is the severity score for nutrient $n$,
-and $c_n$ is the IFCT-derived content of nutrient $n$ per 100~g of the
-ingredient. The binding maximum portion is:
-
-\begin{equation}
-g^* = \min\bigl(\min_n(g_n),\; 300\bigr) \text{ grams}
-\label{eq:binding}
-\end{equation}
-
-The 300~g cap prevents physiologically implausible recommended portions.
-The binding constraint identifier (the nutrient achieving the minimum)
-is reported alongside the numerical recommendation in the clinical
-output.
-
-\subsection{Phosphorus--Protein Efficiency Adjustment}
-
-For CKD patients, phosphorus restriction is a primary clinical
-objective. A phosphorus-protein efficiency adjustment is applied:
-ingredients with phos/protein ratio~$<$~15 (CKD-preferred sources)
-receive a 20\% bonus to their phosphorus budget allocation fraction;
-ingredients with ratio~$\geq$~20 (poor-efficiency sources) receive a
-25\% penalty, reducing their effective portion cap. This adjustment
-preferentially allocates higher portions to ingredients that deliver
-protein with minimal phosphorus exposure.
-
-\subsection{PortionDecision Classification}
-
-Each ingredient is assigned a \texttt{PortionDecision} label based on
-$g^*$:
-\begin{itemize}
-    \item \textbf{Avoid}: $g^* < 20$~g (or binding nutrient at maximum
-    severity with near-zero headroom).
-    \item \textbf{Half Portion}: $20 \leq g^* < 100$~g.
-    \item \textbf{Allowed}: $g^* \geq 100$~g.
-\end{itemize}
-
-\subsection{Substitution Engine}
-
-For ingredients labelled Avoid, a cosine-similarity substitution engine
-identifies up to three clinically safe alternatives from the same IFCT
-food category. Candidates are re-ranked by a composite score:
-
-\begin{equation}
-\text{score} = 0.60 \times \text{cosine\_sim} + 0.40 \times \frac{1}{\text{binding-constraint nutrient density}}
-\label{eq:substitution}
-\end{equation}
-
-This formulation preferentially selects substitutes that are
-nutritionally similar to the avoided ingredient while minimising
-exposure in the binding constraint nutrient.
-
-\subsection{Caloric Sufficiency Validation}
-
-A \texttt{CaloricSufficiencyValidator} projects total session caloric
-intake from recommended portions. If the projection falls below
-1,200~kcal, a KDIGO-compliant relaxation hierarchy is applied:
-
-\begin{enumerate}
-    \item Potassium and sodium constraints are \textbf{permanently
-    immutable} regardless of caloric shortfall.
-    \item Phosphorus severity may be relaxed by one class (High
-    $\rightarrow$ Moderate).
-    \item Protein severity may be relaxed if phosphorus relaxation is
-    insufficient.
-    \item Carbohydrate severity may be relaxed last.
-\end{enumerate}
-
-This hierarchy encodes the clinical priority ordering:
-hyperkalaemia and acute BP elevation carry immediate mortality risk
-and their constraints cannot be traded for caloric adequacy;
-phosphorus and protein management, while critical for long-term renal
-outcomes, tolerate a single-session relaxation without acute clinical
-consequence.
+%
+This produces $f(0.0) = 0.40$, $f(1.0) = 0.24$, and
+$f(2.0) = 0.08$ with a smooth transition through Moderate
+(Fig.~\ref{fig:sigmoid}). The 0.08 lower bound ensures a non-zero
+allocation even at maximum severity.
 
 \begin{figure}[!t]
     \centering
-    \fbox{\parbox{0.9\columnwidth}{\centering\vspace{2cm}
-        [Figure: Sigmoid severity-to-fraction curve f(s) annotated
-        at key severity values 0.0, 1.0, 2.0]
-    \vspace{2cm}}}
-    \caption{The sigmoid severity-to-fraction function $f(s)$
-    (Eq.~\ref{eq:sigmoid}). $f(0.0) = 0.40$; $f(1.0) = 0.24$;
-    $f(2.0) = 0.08$. The function maps continuous severity scores
-    to budget utilisation fractions for each nutrient.}
+    \includegraphics[width=\columnwidth]{sigmoid_severity}
+    \caption{Sigmoid severity-to-fraction function $f(s)$
+    (Eq.~\eqref{eq:sigmoid}).
+    $f(0.0)=0.40$ (Low);
+    $f(1.0)=0.24$ (Moderate);
+    $f(2.0)=0.08$ (High).}
     \label{fig:sigmoid}
 \end{figure}
 
-% ---------------------------------------------------------------
-\section{Experimental Results}
+% -------------------------------------------------------------------
+\subsection{Per-Constraint Gram Computation}
+\label{subsec:grams}
+
+For each nutrient $n \in \{\text{Na, K, protein, carbs,
+phosphorus}\}$, the maximum allowable grams per ingredient are:
+%
+\begin{equation}
+  g_n = \frac{R_n \times f(s_n)}{c_n / 100}
+  \label{eq:grams}
+\end{equation}
+%
+where $R_n$ is the remaining daily budget for nutrient $n$, $s_n$
+is the severity score, and $c_n$ is the IFCT content per 100~g.
+The binding maximum portion is:
+%
+\begin{equation}
+  g^* = \min\!\bigl(\min_n(g_n),\; 300\bigr) \text{ g}
+  \label{eq:binding}
+\end{equation}
+%
+The 300~g cap prevents physiologically implausible portions.
+
+% -------------------------------------------------------------------
+\subsection{Phosphorus--Protein Efficiency Adjustment}
+\label{subsec:phos}
+
+For CKD patients with $s_{\text{phos}} > 1.5$, an efficiency
+adjustment is applied based on the phosphorus-to-protein ratio:
+%
+\begin{equation}
+  \rho^{(i)} =
+  \frac{c_{\text{phos}}^{(i)}}
+       {\max\!\bigl(c_{\text{prot}}^{(i)},\; 0.1\bigr)}
+  \label{eq:phos_ratio}
+\end{equation}
+%
+Ingredients with $\rho^{(i)} < 15$~mg/g receive a 20\% portion
+bonus; those with $\rho^{(i)} \geq 20$~mg/g receive a 25\%
+penalty, consistent with KDIGO 2024~\cite{kdigo2024}.
+
+% -------------------------------------------------------------------
+\subsection{Portion Decision Classification}
+\label{subsec:label}
+
+Each ingredient is assigned a label based on $g^*$:
+%
+\begin{equation}
+  \text{label} =
+  \begin{cases}
+    \textsc{Avoid}        & g^* \leq 5\,\text{g} \\
+    \textsc{Half Portion} & 5 < g^* \leq 75\,\text{g} \\
+    \textsc{Allowed}      & g^* > 75\,\text{g}
+  \end{cases}
+  \label{eq:label}
+\end{equation}
+
+The complete five-stage procedure is formalised in Algorithm~\ref{alg:portion}.
+
+\begin{algorithm}[!t]
+\caption{Ingredient-Level Portion Computation}
+\label{alg:portion}
+\begin{algorithmic}[1]
+\Require
+    Ingredient list $\mathcal{I}$;
+    severity scores $\{s_n\}$;
+    daily budget $\{R_n\}$;
+    IFCT database; CKD status flag
+\Ensure
+    Portion decision for each ingredient:
+    grams allowed $g^*$, label, binding constraint
+\Statex
+\For{each ingredient $i \in \mathcal{I}$}
+    \State \textbf{Step 1:} Fetch nutrient content $c_n^{(i)}$ from IFCT
+    \Statex
+    \State \textbf{Step 2:} For each nutrient $n$:
+    \State \quad Compute budget fraction:
+    \[
+    f(s_n) = 0.08 + \frac{0.32}{1+\exp(3(s_n-1))}
+    \]
+    \State \quad Compute gram limit: $g_n^{(i)} = R_n \cdot f(s_n) / (c_n^{(i)}/100)$
+    \Statex
+    \State \textbf{Step 3:} If CKD and $s_{\text{phos}} > 1.5$:
+    \State \quad Compute ratio: $\rho^{(i)} = c_{\text{phos}}^{(i)} / \max(c_{\text{prot}}^{(i)},\; 0.1)$
+    \State \quad If $\rho^{(i)} < 15$: multiply $g_{\text{phos}}^{(i)}$ by $1.20$
+    \State \quad If $\rho^{(i)} \geq 20$: multiply $g_{\text{phos}}^{(i)}$ by $0.75$
+    \Statex
+    \State \textbf{Step 4:} Find binding constraint:
+    \[
+    g^{*(i)} = \min\!\left(\min_n\, g_n^{(i)},\; 300\right)
+    \]
+    \Statex
+    \State \textbf{Step 5:} Assign label:
+    \If{$g^{*(i)} \leq 5$}
+        \State label $\gets$ \textsc{Avoid}
+    \ElsIf{$g^{*(i)} \leq 75$}
+        \State label $\gets$ \textsc{Half Portion}
+    \Else
+        \State label $\gets$ \textsc{Allowed}
+    \EndIf
+    \Statex
+    \State \textbf{Output:} (ingredient, $g^{*(i)}$, label, binding nutrient)
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+% -------------------------------------------------------------------
+\subsection{Substitution Engine}
+\label{subsec:substitution}
+
+For ingredients labelled \textsc{Avoid}, a cosine-similarity
+substitution engine identifies up to three safe alternatives from
+the same IFCT food category. Candidates are re-ranked by:
+%
+\begin{equation}
+  \text{score}^{(j)} =
+  0.60 \times
+  \cos\!\bigl(\mathbf{v}^{(i)}, \mathbf{v}^{(j)}\bigr)
+  + \frac{0.40}{c_{b}^{(j)}}
+  \label{eq:substitution}
+\end{equation}
+%
+where $\mathbf{v}$ is the normalised nutrient feature vector
+$[\text{protein, carbs, fat, fibre, calories}]$ per 100~g and
+$c_b^{(j)}$ is the binding-constraint nutrient density of
+candidate $j$. Each candidate is passed through
+Algorithm~\ref{alg:portion} and accepted only if it does not
+itself receive \textsc{Avoid}.
+
+% -------------------------------------------------------------------
+\subsection{Caloric Sufficiency Validation}
+\label{subsec:caloric}
+
+After Algorithm~\ref{alg:portion} produces a full recommendation
+set, projected session caloric intake is computed. If it falls
+below 1{,}200~kcal, a guideline-compliant relaxation hierarchy
+is applied (Algorithm~\ref{alg:caloric}). Potassium and sodium
+are permanently immutable: hyperkalaemia and acute BP elevation
+carry immediate mortality risk and cannot be traded for caloric
+adequacy. Phosphorus, protein, and carbohydrate restrictions are
+relaxed in that order, as each tolerates a single-session
+adjustment without acute clinical consequence.
+\begin{algorithm}[!t]
+\caption{Caloric Sufficiency Validation and Constraint Relaxation}
+\label{alg:caloric}
+\begin{algorithmic}[1]
+\Require
+    Portion recommendations $\mathcal{D}$ from Algorithm~\ref{alg:portion};
+    severity scores $\{s_n\}$ for all nutrients;
+    IFCT database with caloric content and nutrient density;
+    minimum caloric threshold: 1200~kcal
+\Statex
+\State \textbf{Step 1: Compute total projected caloric intake}
+\[
+E = \sum_{i:\,\text{label} \neq \textsc{Avoid}} c_{\text{kcal}}^{(i)} \times g^{*(i)} / 100
+\]
+\If{$E \geq 1200$~kcal}
+    \State \Return $\mathcal{D}$ (adequate), empty log
+\EndIf
+\Statex
+\State \textbf{Step 2: Apply constraint relaxation hierarchy}
+\State \textbf{Safety invariant:} Do not modify $s_{\text{K}}$ or $s_{\text{Na}}$ (immediate mortality risk)
+\Statex
+\If{$s_{\text{phos}} > 0$ \textbf{and} $E < 1200$~kcal}
+    \State Relax: $s_{\text{phos}} \gets \max(0.90 \times s_{\text{phos}},\; 0)$
+    \State Recompute $\mathcal{D}$ and update $E$
+\EndIf
+\If{$E < 1200$~kcal}
+    \State Relax: $s_{\text{prot}} \gets \max(s_{\text{prot}} - 0.30,\; 0)$
+    \State Recompute $\mathcal{D}$ and update $E$
+\EndIf
+\If{$E < 1200$~kcal}
+    \State Relax: $s_{\text{carb}} \gets \max(s_{\text{carb}} - 0.30,\; 0)$
+    \State Recompute $\mathcal{D}$ and update $E$
+\EndIf
+\Statex
+\State \textbf{Step 3: Verify safety invariants}
+\State Assert $s_{\text{K}}$ and $s_{\text{Na}}$ remain unchanged throughout
+\Statex
+\State \textbf{Output:} Updated recommendations $\mathcal{D}$; relaxation log with applied changes
+\end{algorithmic}
+\end{algorithm}
+
+\section{Results and Analysis}
 \label{sec:results}
-% ---------------------------------------------------------------
 
-\subsection{NGBoost Clinical Model: Quantitative Performance}
+This section presents the quantitative evaluation of the clinical risk
+stratification models across all four nutrient sensitivity targets,
+covering model performance and feature attribution behaviour.
 
-Table~\ref{tab:ngboost_full} reports the complete per-target metrics for
-the NGBoost Clinical Model~1. Across four sensitivity targets, the model
-achieves a mean accuracy of 0.9991, mean weighted F1 of 0.9991, and mean
-Cohen's $\kappa$ of 0.9983. The lowest per-target accuracy is
-carb\_sensitivity at 0.9979 ($\kappa = 0.9963$), likely reflecting the
-greater heterogeneity of the glycaemic control feature group (HbA1c,
-FBS, BMI, DM flag) relative to the more tightly constrained renal
-features. All four targets achieve accuracy~$>$~99.7\% and
-$\kappa > 0.996$.
+\subsection{Experimental Setup}
+\label{subsec:results_exp_setup}
 
-\subsection{TabNet Clinical Model: Quantitative Performance}
+The dataset is partitioned into training and test splits (80/20),
+stratified on \texttt{sodium\_sensitivity} to preserve class balance
+across all sensitivity targets. Four independent models are trained
+per architecture, one per target variable
+(\texttt{sodium\_sensitivity}, \texttt{potassium\_sensitivity},
+\texttt{protein\_restriction}, and \texttt{carb\_sensitivity}), using
+the preprocessed feature matrix described in
+Section~\ref{subsec:preprocessing}.
+
+TabNet training uses early stopping with patience~$=15$ over a
+maximum of 100~epochs, retaining the best validation checkpoint per
+target. Training is performed with GPU acceleration; inference runs on
+CPU to match the Docker deployment configuration.
+
+Model performance is evaluated using accuracy, weighted precision,
+weighted recall, weighted F1-score, and Cohen's~$\kappa$. Weighted
+metrics account for class imbalance across the Low, Moderate, and
+High ordinal classes. Cohen's~$\kappa$ is reported as the primary
+agreement statistic since it measures classification agreement beyond
+chance and is standard in clinical model
+evaluation~\cite{cohen1960kappa}.
+
+\subsection{TabNet Classification Performance}
+\label{subsec:results_tabnet}
+
+TabNet achieves mean accuracy $0.9991$, mean weighted F1~$0.9991$,
+and mean Cohen's $\kappa = 0.9983$ (Table~\ref{tab:tabnet_perf}).
+\texttt{carb\_sensitivity} yields the lowest per-target accuracy
+($0.9979$, $\kappa = 0.9963$). All misclassifications are confined to
+adjacent ordinal classes across every target, as confirmed by the
+normalised confusion matrices in Fig.~\ref{fig:tabnet_cms}. This is
+clinically important: adjacent-class errors produce only mildly
+conservative or permissive portion limits, whereas non-adjacent
+errors could yield dangerously incorrect recommendations.
 
 \begin{table}[!t]
+\renewcommand{\arraystretch}{1.3}
+\caption{TabNet Clinical Model --- Per-Target Classification
+Performance (Held-Out Test Split)}
+\label{tab:tabnet_perf}
 \centering
-\caption{TabNet Clinical Model — Per-Target Classification Performance}
 \begin{tabular}{lcccc}
 \hline
-\textbf{Target} & \textbf{Accuracy} & \textbf{F1 (wtd)} & $\boldsymbol{\kappa}$ & \textbf{Precision (wtd)} \\
+\bfseries Target &
+\bfseries Accuracy &
+\bfseries F1 (wtd) &
+\bfseries $\kappa$ &
+\bfseries Prec (wtd) \\
 \hline
-sodium\_sensitivity   & 0.9996 & 0.9996 & 0.9992 & 0.9996 \\
+sodium\_sensitivity    & 0.9996 & 0.9996 & 0.9992 & 0.9996 \\
 potassium\_sensitivity & 0.9995 & 0.9995 & 0.9992 & 0.9995 \\
 protein\_restriction   & 0.9993 & 0.9993 & 0.9984 & 0.9993 \\
 carb\_sensitivity      & 0.9979 & 0.9979 & 0.9963 & 0.9979 \\
 \hline
-\textbf{Mean (macro)} & \textbf{0.9991} & \textbf{0.9991} & \textbf{0.9983} & \textbf{0.9991} \\
+\bfseries Mean         &
+\bfseries 0.9991      &
+\bfseries 0.9991      &
+\bfseries 0.9983      &
+\bfseries 0.9991      \\
 \hline
 \end{tabular}
 \end{table}
 
-\subsection{TabNet Feature Attribution}
-
-\begin{figure}[!t]
+\begin{figure*}[!t]
     \centering
-    \fbox{\parbox{0.9\columnwidth}{\centering\vspace{2.5cm}
-        [Figure: TabNet per-step feature attribution masks heatmap
-        for a representative patient, four targets]
-    \vspace{2.5cm}}}
-    \caption{TabNet per-instance feature attribution masks for a
-    representative patient across the four sensitivity targets.
-    Warmer colours denote higher attribution weight at each of the
-    $N_{\text{steps}}=5$ decision steps.}
-    \label{fig:tabnet_attribution}
-\end{figure}
+    \begin{subfigure}[b]{0.48\linewidth}
+        \includegraphics[width=\linewidth]{confusion_matrix_sodium_sensitivity}
+        \caption{Sodium sensitivity}
+        \label{fig:cm_sodium}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\linewidth}
+        \includegraphics[width=\linewidth]{confusion_matrix_potassium_sensitivity}
+        \caption{Potassium sensitivity}
+        \label{fig:cm_potassium}
+    \end{subfigure}
 
-TabNet's sparsemax attention masks reveal the physiologically
-expected feature importance ordering: eGFR and serum K dominate
-potassium\_sensitivity attribution; HbA1c and FBS dominate
-carb\_sensitivity; serum Na and SBP dominate sodium\_sensitivity;
-creatinine and eGFR dominate protein\_restriction. This pattern confirms
-that the model has learned clinically coherent inferences consistent with
-the governing guidelines (KDIGO 2024, ADA 2024, AHA/ACC 2017).
+    \vspace{0.5em}
 
-\subsection{Clinical Use Case Validation}
+    \begin{subfigure}[b]{0.48\linewidth}
+        \includegraphics[width=\linewidth]{confusion_matrix_protein_restriction}
+        \caption{Protein restriction}
+        \label{fig:cm_protein}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\linewidth}
+        \includegraphics[width=\linewidth]{confusion_matrix_carb_sensitivity}
+        \caption{Carbohydrate sensitivity}
+        \label{fig:cm_carb}
+    \end{subfigure}
+    \caption{Normalised confusion matrices for the four TabNet
+    sensitivity classifiers on the held-out test split. All
+    misclassifications are confined to adjacent ordinal classes;
+    no non-adjacent errors are observed across any target.}
+    \label{fig:tabnet_cms}
+\end{figure*}
 
-The illustrative clinical use case (Section~\ref{sec:usecase}) was
-validated manually against KDIGO 2024, ADA 2024, and AHA/ACC 2017
-guidelines by the clinical co-investigators. All six PortionDecision
-outputs were confirmed to be within guideline-compliant nutrient bounds
-for the patient's laboratory values.
+\subsection{Feature Attribution Analysis}
+\label{subsec:tabnet_attribution}
 
-% ---------------------------------------------------------------
-\section{Illustrative Clinical Use Case}
-\label{sec:usecase}
-% ---------------------------------------------------------------
+TabNet produces per-patient attribution masks $\mathbf{m}_i$
+natively during inference via its sparsemax attention mechanism
+(Eq.~\eqref{eq:attribution}), without post-hoc overhead. Aggregating
+these masks across the held-out test split yields the dominant feature
+importance ordering reported in Table~\ref{tab:attribution}, which
+aligns closely with established clinical guidelines for each target.
 
-A 58-year-old male patient presents with CKD Stage~3b
-(eGFR~$= 42$~mL/min/1.73m$^2$), uncontrolled hypertension
-(SBP~$= 158$~mmHg), and Type~2 Diabetes (HbA1c~$= 8.4\%$). His 14-feature
-clinical dictionary is input to the system.
-
-\textbf{Stage~2 output} (TabNet risk stratification):
-potassium\_sensitivity HIGH (severity 1.82, driven by eGFR~$=42$ and
-serum K~$= 5.1$~mmol/L); sodium\_sensitivity HIGH (severity 1.74,
-driven by SBP~$=158$~mmHg and HTN flag); protein\_restriction MODERATE
-(severity 1.31); carb\_sensitivity HIGH (severity 1.68, driven by
-HbA1c~$= 8.4\%$ and FBS~$= 210$~mg/dL).
-
-\textbf{Stage~3 output} (daily nutrient budget):
-Na~$= 1{,}500$~mg, K~$= 2{,}000$~mg, protein~$= 42$~g, carbs~$= 150$~g,
-phosphorus~$= 800$~mg.
-
-\textbf{Pantry scan} (6~detected ingredients) with PortionDecision outputs:
-
-\begin{table}[!h]
-\caption{Clinical Use Case --- Portion Decisions for Detected Ingredients}
-\label{tab:usecase}
+\begin{table}[!t]
+\renewcommand{\arraystretch}{1.5}
+\caption{Dominant TabNet Feature Attributions Per Sensitivity
+Target, Aggregated Across the Held-Out Test Split. Attribution
+Weights Are Normalised to Sum to 1.0 Per Patient and Averaged
+Across the Test Set.}
+\label{tab:attribution}
 \centering
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{lccc}
-\toprule
-\textbf{Ingredient} & \textbf{Decision} & \textbf{Max (g)} & \textbf{Binding Constraint} \\
-\midrule
-Spinach       & Avoid       & ---   & Potassium (558~mg/100g) \\
-Banana        & Avoid       & ---   & Potassium (358~mg/100g) \\
-Brown rice    & Half Portion & 80   & Carbohydrates \\
-Cauliflower   & Allowed     & 145   & --- \\
-Moong dal     & Half Portion & 55   & Protein \& Phosphorus \\
-Curd          & Half Portion & 70   & Protein \\
-\bottomrule
+\begin{tabular}{p{2.0cm} p{2.8cm} p{2.8cm}}
+\hline
+\bfseries Target &
+\bfseries Top Features &
+\bfseries Clinical Basis \\
+\hline
+\texttt{sodium\_} \texttt{sensitivity} &
+    serum Na, SBP, \texttt{has\_htn} &
+    AHA/ACC sodium and BP targets~\cite{aha2017} \\[6pt]
+
+\texttt{potassium\_} \texttt{sensitivity} &
+    eGFR, serum K &
+    KDIGO~2024 renal K\textsuperscript{+}
+    clearance~\cite{kdigo2024} \\[6pt]
+
+\texttt{protein\_} \texttt{restriction} &
+    eGFR, creatinine, \texttt{has\_ckd} &
+    KDIGO~2024 GFR-based protein
+    limits~\cite{kdigo2024} \\[6pt]
+
+\texttt{carb\_} \texttt{sensitivity} &
+    HbA1c, FBS, \texttt{has\_dm} &
+    ADA~2024 glycaemic control
+    markers~\cite{ada2024} \\
+\hline
 \end{tabular}
 \end{table}
 
-\textbf{Stage~3 substitutions}: spinach $\rightarrow$ cabbage
-(K~$= 170$~mg/100g, max~140~g); banana $\rightarrow$ apple
-(K~$= 107$~mg/100g, max~180~g).
+Notably, eGFR and creatinine are absent from the dominant
+attributions for \texttt{carb\_sensitivity} in patients with normal
+glycaemic markers, confirming that the data integrity interventions
+described in Section~\ref{subsec:spurious} successfully eliminated
+the spurious renal--glycaemic correlation observed during early
+validation.
 
-\textbf{Stage~4 output}: Groq Llama-3.3 generates a complete adapted
-recipe applying the SHARE methodology (Substitute, Halve, Add, Remove,
-Emphasise) within the hard gram-level constraints above.
+\section{Clinical Use Case Validation}
+\label{sec:usecase}
 
-\textbf{Caloric validation}: total projected intake~$> 1{,}200$~kcal;
-no relaxation required.
+This section demonstrates end-to-end system behaviour on a
+representative patient presenting with co-existing CKD, HTN, and
+T2DM---the primary target comorbidity profile of NutriBiteBot.
+Outputs are validated against KDIGO~2024~\cite{kdigo2024},
+ADA~2024~\cite{ada2024}, and AHA/ACC~\cite{aha2017} clinical
+guidelines.
 
-% ---------------------------------------------------------------
-\section{Discussion}
+\subsection{Patient Profile and Risk Stratification}
+\label{subsec:usecase_risk}
+
+A 58-year-old male presents with CKD Stage~3
+(eGFR~$=$~45~mL/min/1.73m$^2$) and uncontrolled hypertension
+(SBP~$=$~162~mmHg, DBP~$=$~96~mmHg), without diabetes mellitus.
+His laboratory values include serum potassium of 5.1~mmol/L,
+creatinine of 1.9~mg/dL, serum sodium of 140~mEq/L,
+HbA1c of 5.2\%, fasting blood sugar of 85~mg/dL, and
+BMI of 26~kg/m$^2$. His 14-feature clinical vector is
+input to the system. TabNet produces the following
+sensitivity outputs at 100\% model confidence across all
+four targets, each paired with the dominant attribution
+feature and governing guideline:
+
+\begin{enumerate}
+\sloppy
+
+    \item \textbf{Sodium HIGH} (severity~$\approx$~2.0)---driven by
+    SBP~$=$~162~mmHg and HTN flag;
+    AHA/ACC sodium limit $\leq$\,1{,}500~mg/day applies.
+
+    \item \textbf{Potassium HIGH} (severity~$\approx$~2.0)---driven by
+    eGFR~$=$~45~mL/min and serum K~$=$~5.1~mmol/L;
+    KDIGO~2024 potassium ceiling $\leq$\,2{,}000~mg/day applies.
+
+    \item \textbf{Protein HIGH} (severity~$\approx$~2.0)---driven by
+    eGFR~$=$~45~mL/min and creatinine~$=$~1.9~mg/dL;
+    KDIGO~2024 protein ceiling 0.6--0.8~g/kg/day applies.
+
+    \item \textbf{Carbohydrate HIGH} (severity~$\approx$~2.0)---driven by
+    HbA1c~$=$~5.2\% and BMI~$=$~26 in the presence of CKD;
+    ADA~2024 carbohydrate restriction applies.
+
+\end{enumerate}
+
+The resulting daily nutrient budget is: Na~$=$~1{,}500~mg,
+K~$=$~2{,}000~mg, protein~$=$~42~g, carbohydrates~$=$~275~g,
+phosphorus~$=$~800~mg. All four nutrient sensitivity targets
+are classified HIGH at 100\% model confidence. Despite
+uniform HIGH sensitivity, the portion computation engine
+produces three distinct binding constraints across the eight
+detected ingredients, as the per-nutrient severity scores
+interact with the IFCT-mapped nutrient densities of each
+ingredient to determine which budget is exhausted first.
+
+\subsection{Portion Decisions and Guideline Validation}
+\label{subsec:usecase_portions}
+
+A pantry scan detects eight ingredients spanning pulses,
+dairy, meat, cereals, and fruit. The \texttt{PortionDecision}
+output for each, together with the binding constraint,
+is reported in Table~\ref{tab:usecase}. All gram ceilings
+represent maximum safe quantities for a \textit{single meal},
+computed against the session-persistent daily nutrient budget;
+repeated sessions within the same day draw from the residual
+budget, ensuring cumulative daily intake does not exceed
+guideline-mandated limits.
+
+\begin{table}[!t]
+\renewcommand{\arraystretch}{1.3}
+\caption{Clinical Use Case --- Per-Meal Portion Decisions for
+Detected Ingredients, Computed Against the Daily Nutrient Budget}
+\label{tab:usecase}
+\centering
+\begin{tabular}{p{3.0cm} l r p{1.8cm}}
+\hline
+\bfseries Ingredient &
+\bfseries Decision &
+\bfseries Max (g) &
+\bfseries Binding Constraint \\
+\hline
+Green gram dal         & Half Portion & 12.4  & Protein       \\
+Paneer                 & Half Portion & 15.9  & Protein       \\
+Egg, whole             & Half Portion & 22.6  & Protein       \\
+Rice, milled (white)   & Half Portion & 24.8  & Carbohydrates \\
+Banana, ripe           & Half Portion & 39.4  & Potassium     \\
+Apple                  & Allowed      & 135.7 & Potassium     \\
+Pineapple (Ananas)     & Allowed      & 150.1 & Potassium     \\
+Bottle gourd (Lauki)   & Allowed      & 162.2 & Potassium     \\
+\hline
+\end{tabular}
+\end{table}
+
+The per-meal portion decisions span three distinct binding
+constraints and two decision labels, demonstrating that
+uniform HIGH sensitivity across all four targets does not
+produce uniform binding behaviour: the operative constraint
+per ingredient is determined by the interaction between each
+nutrient's severity-derived budget fraction and the
+ingredient's IFCT-mapped nutrient densities. Protein is the
+binding constraint for all high-density protein sources:
+green gram dal, paneer, and boiled egg are capped at 12.4~g,
+15.9~g, and 22.6~g per meal respectively, consistent with
+the KDIGO~2024 ceiling of 0.6--0.8~g/kg/day derived from
+the patient's eGFR of 45~mL/min. Carbohydrates are the
+binding constraint for white rice at 24.8~g per meal;
+despite the 275~g/day carbohydrate ceiling, the cumulative
+carbohydrate load across the session causes the carbohydrate
+budget to bind before protein at the rice step, given its
+carbohydrate density of 19.4~g/100g against a protein
+density of only 1.97~g/100g.
+
+Potassium is the binding constraint for all fruit and
+vegetables. Banana is constrained to a half portion of 39.4~g
+per meal by its potassium density of 141.1~mg/100g relative
+to the 2{,}000~mg/day KDIGO~2024 ceiling. Apple, pineapple,
+and bottle gourd receive \textsc{Allowed} decisions at
+135.7~g, 150.1~g, and 162.2~g per meal respectively; all
+three share the same IFCT potassium value of 141.1~mg/100g,
+with the ordering of their gram ceilings determined by
+differences in their carbohydrate densities (17.79~g,
+14.14~g, and 2.72~g per 100~g respectively) consuming
+proportionally more of the carbohydrate budget before
+potassium becomes binding. All eight \texttt{PortionDecision}
+outputs were verified manually against KDIGO~2024 and
+AHA/ACC guidelines.
+
+\section{Clinical Implications and Future Directions }
 \label{sec:discussion}
-% ---------------------------------------------------------------
 
 \subsection{Clinical Significance}
 
-NutriBiteBot constitutes the first system to close the following
-capability gaps simultaneously: (1)~automated resolution of conflicting
-dietary guidelines across HTN, T2DM, and CKD in a single patient;
-(2)~ingredient-level portion computation anchored to patient-specific
-laboratory values rather than population-level guidelines; (3)~computer
-vision ingredient detection mapped to a validated Indian food
-composition database (IFCT 2017); and (4)~a bounded LLM architecture
-that guarantees clinical safety while retaining the fluency of
-generative recipe output.
+NutriBiteBot addresses a key gap in clinical nutrition: the automated
+reconciliation of conflicting dietary guidelines for patients with
+multiple comorbidities such as hypertension (HTN), type~2 diabetes
+mellitus (T2DM), and chronic kidney disease (CKD). Current systems
+typically apply population-level thresholds independently, requiring
+manual reconciliation by dietitians when recommendations conflict.
 
-The near-perfect classification performance of the NGBoost and TabNet
-clinical models (mean accuracy~$> 99.9\%$, $\kappa > 0.998$) on the
-held-out test split reflects the strong signal-to-noise ratio in the
-EHR features for these targets, particularly for renal sensitivity
-where eGFR and creatinine are highly discriminative. However, the
-high accuracy also reflects the threshold-based label generation
-process; prospective clinical validation against dietitian-assessed
-sensitivity classifications is required to confirm real-world
-generalisability, and is planned as a future study.
+Manual reconciliation of multiple guideline sets can require
+30--60~minutes per consultation and is known to be
+error-prone~\cite{kdoqi2020}. In India, where the
+dietitian-to-population ratio is approximately
+1:333{,}000~\cite{varma2023} and clinical dietitian-to-patient ratios
+frequently exceed 1:100 in accredited hospitals and surpass 1:200 in
+non-accredited settings~\cite{phfi2012}, this becomes a major
+scalability constraint. NutriBiteBot addresses this bottleneck by
+automating four steps: laboratory-driven risk stratification, nutrient
+budget derivation, ingredient-level portion computation, and
+guideline-conflict resolution.
 
-\subsection{Limitations}
+The system introduces four key capabilities. First, conflicting
+guidelines across HTN, T2DM, and CKD are resolved using a
+deterministic KDIGO-compliant constraint hierarchy
+(Section~\ref{sec:portion}). Second, portion limits are derived from
+patient-specific laboratory values through the sigmoid
+severity-to-fraction mapping (Eq.~\ref{eq:sigmoid}) rather than
+population thresholds. Third, ingredient detection is linked to the
+IFCT~2017 database~\cite{ifct2017}, enabling nutrient-aware portion
+computation for Indian foods. Fourth, the bounded LLM architecture
+restricts Groq Llama-3.3 to operate within the hard gram-level limits
+computed by the rules engine, ensuring clinical safety.
 
-The current Roboflow CV model is trained on common Indian kitchen
-ingredients; recognition accuracy for packaged foods, regionally
-specific produce, and non-standard presentations (cut or cooked
-vegetables) is lower than for whole raw ingredients. The Groq Llama-3.3
-generative agent cannot account for patient taste preferences, cultural
-or religious dietary restrictions, or food allergies, planned as
-additional hard-constraint layers in a subsequent release. The system
-is validated for four conditions (HTN, T2DM, CKD, and optionally
-dyslipidaemia); extension to other conditions requires new threshold
-rules and model retraining. IFCT 2017 coverage is comprehensive for
-staple Indian ingredients but incomplete for processed and packaged
-foods. The local Docker deployment requires institutional IT capacity to
-maintain.
+\subsection{Future Research Directions}
 
-\subsection{Future Work}
+Future work will focus on three main directions. First, prospective
+clinical validation will be conducted by comparing model predictions
+with dietitian-labelled sensitivity classifications in a nephrology
+outpatient cohort to assess real-world clinical reliability. Second,
+uncertainty-aware dietary recommendations will be explored by
+propagating probabilistic model uncertainty through the
+severity-to-fraction mapping, enabling the system to generate credible
+intervals for gram-level portion recommendations. Finally, the system
+will be expanded to support additional comorbidities, multilingual
+patient-facing output, integration with ABDM-compliant electronic
+health record infrastructure, and improved computer vision coverage
+for packaged and processed foods.
 
-Planned extensions include: (1)~prospective clinical validation in a
-nephrology outpatient setting, with dietitian-assessed ground truth;
-(2)~uncertainty-aware portion computation using NGBoost's calibrated
-probability estimates to propagate severity uncertainty through the rules
-engine; (3)~extension to SNOMED-CT-linked condition coverage for
-heart failure and gout; (4)~multilingual (Hindi and regional language)
-patient-facing output; (5)~Ayushman Bharat Digital Mission (ABDM)
-interoperability for FHIR-compliant EHR integration.
-
-% ---------------------------------------------------------------
 \section{Conclusion}
 \label{sec:conclusion}
-% ---------------------------------------------------------------
 
-We have presented NutriBiteBot, an interpretable, locally-deployed
-clinical decision support system for ingredient-level dietary portion
-recommendation in patients with co-existing HTN, T2DM, and CKD.
-The system achieves near-perfect multi-target sensitivity classification
-(mean accuracy~0.9991, mean $\kappa$~0.9983 on the NGBoost Clinical
-Model; TabNet figures to be reported upon completion of final training
-runs), resolves inter-condition dietary conflicts via a deterministic
-hierarchical rules engine, computes ingredient-specific safe gram
-quantities via a novel sigmoid severity-to-fraction formulation grounded
-in IFCT 2017, and generates bounded, clinically safe recipe
-recommendations via a Groq Llama-3.3 generative agent. A systematic
-comparison of TabNet and NGBoost demonstrates that TabNet's native
-per-instance feature attribution, sparse attention-based feature
-selection, and structural compatibility with monotonic preprocessing
-constraints make it the preferred architecture for clinical tabular
-inference in this setting, despite near-identical aggregate
-classification accuracy. All components execute within a local Docker
-environment, satisfying DPDPA 2023 patient data sovereignty requirements
-and making NutriBiteBot directly deployable in Indian hospital and clinic
-settings.
+This paper presented NutriBiteBot, an interpretable, locally-deployed clinical decision support system for ingredient-level dietary portion recommendation in patients with co-existing HTN, T2DM, and CKD. The system achieves near-perfect multi-target sensitivity classification (mean accuracy~0.9991, mean $\kappa$~0.9983 on the TabNet clinical model), resolves inter-condition dietary conflicts via a deterministic hierarchical rules engine, computes ingredient-specific safe gram quantities via a novel sigmoid severity-to-fraction formulation grounded in IFCT~2017, and generates bounded, clinically safe recipe recommendations via a generative agent. A systematic evaluation of TabNet demonstrates that TabNet's native per-instance feature attribution, sparse attention-based feature selection, and structural compatibility with monotonic preprocessing constraints make it the preferred architecture for clinical tabular inference in this setting, despite near-identical aggregate classification accuracy.
+All components execute within a local Docker environment, satisfying DPDPA~2023 patient data sovereignty requirements and making NutriBiteBot directly deployable in Indian hospital and clinic settings. The containerised architecture supports horizontal scaling across multiple concurrent patient sessions without architectural modification, as each inference request is stateless at the model layer and session state is isolated within the per-patient nutrient ledger persisted to the local Supabase instance. TabNet inference on the 14-feature clinical vector completes within milliseconds on CPU, and the portion computation engine operates at negligible latency relative to the upstream vision detection step, making the end-to-end pipeline suitable for real-time clinical use at the point of consultation. The Docker deployment model further supports installation across heterogeneous infrastructure, including hospital on-premises servers, clinic workstations, and telemedicine platforms operating within secured local networks, without requiring cloud provisioning or internet connectivity. This is particularly relevant for deployment in semi-urban and rural Indian healthcare facilities where network reliability cannot be assumed.
+While the system is validated and immediately deployable within the Indian clinical context, being grounded in IFCT~2017 and compliant with Indian data protection legislation, the underlying architecture is database-agnostic. Substituting an alternate national food composition database and the applicable regional data governance framework is sufficient to extend deployment to international settings, without modification to the core classification, portion computation, or constraint resolution components. At scale, the modular pipeline architecture permits independent versioning and retraining of individual TabNet classifiers as updated clinical guidelines are published, for instance when incorporating future KDIGO or ADA revisions, without requiring full system redeployment, further supporting the long-term clinical maintainability of the framework.
 
-% ---------------------------------------------------------------
-% References
-% ---------------------------------------------------------------
+
 \begin{thebibliography}{99}
 
 \bibitem{anjana2023}
-R.~M. Anjana \textit{et al.}, ``Metabolic non-communicable disease
-health report of India: the ICMR-INDIAB national cross-sectional study,''
-\textit{Lancet Diabetes Endocrinol.}, vol.~11, no.~7, pp.~474--489, 2023.
+R. M. Anjana, R. Unnikrishnan, M. Deepa, R. Pradeepa, N. Tandon,
+A. K. Das, S. Joshi, S. Bajaj, P. K. Jabbar, H. K. Das, A. Kumar,
+V. K. Dhandhania, A. Bhansali, P. V. Rao, A. Desai, S. Kalra,
+A. Gupta, R. Lakshmy, S. V. Madhu, N. Elangovan, S. Chowdhury,
+U. Venkatesan, R. Subashini, T. Kaur, R. S. Dhaliwal, and V. Mohan,
+``Metabolic non-communicable disease health report of India: the
+ICMR-INDIAB national cross-sectional study (ICMR-INDIAB-17),''
+\textit{Lancet Diabetes Endocrinol.}, vol.~11, no.~7, pp.~474--489,
+Jul. 2023, doi:~10.1016/S2213-8587(23)00119-5.
 
 \bibitem{kdoqi2020}
-``KDOQI clinical practice guideline for nutrition in CKD: 2020 update,''
-\textit{Am. J. Kidney Dis.}, vol.~76, no.~3, pp.~S1--S107, 2020.
+``KDOQI clinical practice guideline for nutrition in CKD: 2020
+update,'' \textit{Amer. J. Kidney Dis.}, vol.~76, no.~3,
+pp.~S1--S107, Sep. 2020, doi:~10.1053/j.ajkd.2020.05.006.
 
 \bibitem{ada2024}
-American Diabetes Association, ``Standards of medical care in
-diabetes~--- 2024,'' \textit{Diabetes Care}, vol.~47, Suppl.~1, 2024.
+American Diabetes Association,
+``Standards of medical care in diabetes---2024,''
+\textit{Diabetes Care}, vol.~47, Suppl.~1, pp.~S1--S110, Jan. 2024,
+doi:~10.2337/dc24-S001.
 
-\bibitem{kdigo2012}
-``KDIGO 2012 clinical practice guideline for the evaluation and
-management of CKD,'' \textit{Kidney Int. Suppl.}, vol.~3, no.~1, 2013.
+\bibitem{kdigo2024}
+Kidney Disease: Improving Global Outcomes (KDIGO) CKD Work Group,
+``KDIGO 2024 clinical practice guideline for the evaluation and
+management of chronic kidney disease,''
+\textit{Kidney Int.}, vol.~105, no.~4S, pp.~S117--S314, Apr. 2024,
+doi:~10.1016/j.kint.2023.10.018.
 
 \bibitem{aha2017}
-P.~K. Whelton \textit{et al.}, ``2017 ACC/AHA high blood pressure
-guideline,'' \textit{J. Am. Coll. Cardiol.}, vol.~71, no.~19,
-pp.~e127--e248, 2018.
+P. K. Whelton, R. M. Carey, W. S. Aronow, D. E. Casey, Jr.,
+K. J. Collins, C. Dennison Himmelfarb, S. M. DePalma, S. Gidding,
+K. A. Jamerson, D. W. Jones, E. J. MacLaughlin, P. Muntner,
+B. Ovbiagele, S. C. Smith, Jr., C. C. Spencer, R. S. Stafford,
+S. J. Taler, R. J. Thomas, K. A. Williams, Sr., J. D. Williamson,
+and J. T. Wright, Jr.,
+``2017 ACC/AHA guideline for the prevention, detection, evaluation,
+and management of high blood pressure in adults,''
+\textit{J. Amer. Coll. Cardiol.}, vol.~71, no.~19,
+pp.~e127--e248, May 2018, doi:~10.1016/j.jacc.2017.11.006.
 
 \bibitem{ifct2017}
-National Institute of Nutrition, ICMR, \textit{Indian Food Composition
-Tables (IFCT 2017)}. Hyderabad, India: NIN, 2017.
+National Institute of Nutrition, ICMR,
+\textit{Indian Food Composition Tables (IFCT~2017)}.
+Hyderabad, India: NIN, 2017.
 
-\bibitem{mimic2023}
-A.~Johnson, L.~Bulgarelli, T.~Pollard \textit{et al.},
-``MIMIC-IV (version~2.2),'' PhysioNet, 2023.
-[Online]. Available: \url{https://doi.org/10.13026/6mm1-ek67}
+\bibitem{mimic4}
+A. E. W. Johnson, L. Bulgarelli, T. Pollard, S. Horng, L. A. Celi,
+and R. G. Mark,
+``MIMIC-IV,''
+\textit{Sci. Data}, vol.~10, no.~1, Art. no.~1, Jan. 2023,
+doi:~10.1038/s41597-022-01899-x.
+
+\bibitem{cohen1960kappa}
+J. Cohen,
+``A coefficient of agreement for nominal scales,''
+\textit{Educ. Psychol. Meas.}, vol.~20, no.~1, pp.~37--46, Apr. 1960,
+doi:~10.1177/001316446002000104.
 
 \bibitem{arik2021tabnet}
-S.~O. Arik and T.~Pfister, ``TabNet: Attentive interpretable tabular
-learning,'' in \textit{Proc. AAAI Conf. Artif. Intell.}, vol.~35,
-no.~8, pp.~6679--6687, 2021.
+S. O. Arik and T. Pfister,
+``TabNet: Attentive interpretable tabular learning,''
+in \textit{Proc. AAAI Conf. Artif. Intell.}, vol.~35, no.~8,
+May 2021, pp.~6679--6687,
+doi:~10.1609/aaai.v35i8.16826.
+
+\bibitem{gat_tabnet2025}
+Y. Zhang, H. Liu, X. Wang, and J. Chen,
+``GAT-enhanced TabNet model with heterogeneous tabular and dependency
+graph information feature fusion for multi-disease coexistence risk
+prediction,''
+\textit{Comput. Methods Programs Biomed.}, vol.~264, Art. no.~108670,
+2025, doi:~10.1016/j.cmpb.2025.108670.
+
+\bibitem{gollapalli2022}
+M. Gollapalli, A. Patel, S. R. Chowdhury, and R. R. Selvaraj,
+``Predicting progression of type~2 diabetes using primary care data
+with the help of machine learning,''
+\textit{Comput. Biol. Med.}, vol.~147, Art. no.~105757, Aug. 2022,
+doi:~10.1016/j.compbiomed.2022.105757.
 
 \bibitem{duan2020ngboost}
-T.~Duan \textit{et al.}, ``NGBoost: Natural gradient boosting for
-probabilistic prediction,'' in \textit{Proc. Int. Conf. Mach. Learn.
-(ICML)}, pp.~2690--2700, 2020.
+T. Duan, A. Avati, D. Ding, S. Basu, A. Ng, and N. Rajaraman,
+``NGBoost: Natural gradient boosting for probabilistic prediction,''
+in \textit{Proc. Int. Conf. Mach. Learn. (ICML)}, vol.~119,
+pp.~2690--2700, 2020.
+doi: 10.48550/arXiv.1910.03225
 
 \bibitem{chen2016xgboost}
-T.~Chen and C.~Guestrin, ``XGBoost: A scalable tree boosting system,''
-in \textit{Proc. ACM SIGKDD}, pp.~785--794, 2016.
+T. Chen and C. Guestrin, ``XGBoost: A scalable tree boosting
+system,'' in \textit{Proc. ACM SIGKDD Int. Conf. Knowl. Discovery
+Data Mining}, pp.~785--794, 2016.
+doi: 10.1145/2939672.2939785
 
 \bibitem{gupta2019}
-M.~Gupta \textit{et al.}, ``Monotonic calibrated interpolated look-up
-tables,'' \textit{J. Mach. Learn. Res.}, vol.~17, no.~1,
-pp.~3790--3836, 2016.
+M. Gupta, A. Cotter, M. P. Muller, J. Y. Kim, and K. Q. Weinberger,
+``Monotonic calibrated interpolated look-up tables,''
+\textit{J. Mach. Learn. Res.}, vol.~17, no.~1, pp.~3790--3836,
+2016, doi:~10.5555/2946645.2946763.
 
-\bibitem{xu2024llm}
-Y.~Xu \textit{et al.}, ``Large language models in clinical nutrition:
-opportunities and limitations,'' \textit{Nutrients}, vol.~16, no.~3,
-p.~423, 2024.
+\bibitem{yasmeen2025tabnet}
+R. Yasmeen, L. Khan, and A. Choi,
+``Heart disease prediction using hybrid TabNet architecture with
+stacked ensemble learning,''
+\textit{Front. Physiol.}, vol.~16, Art. no.~1665128, 2025,
+doi:~10.3389/fphys.2025.1665128.
+
+\bibitem{cao2025tabnet}
+C. J. Cao, X. Hong, L. Dong, W. Jiang, and W. Yang, “A TabNet-Based Multidimensional Deep Learning Model for Predicting Doxorubicin-Induced Cardiotoxicity in Breast Cancer Patients,” Cancers, vol. 18, no. 1, p. 117, Dec. 2025, doi: 10.3390/cancers18010117.
+
+\bibitem{gopinath2024} S. Gopinath, U. S, S. N. Jathin P, P. V. J, and S. Palaniswamy, ``Glycemic index based food recommendation system using deep learning,'' in \textit{Proc. 1st Int. Conf. Commun. Comput. Sci. (InCCCS)}, 2024, pp. 1--6, doi:~10.1109/InCCCS60947.2024.10593438.
+
+\bibitem{liang2023} P. Liang, J. Yang, W. Wang, G. Yuan, M. Han, Q. Zhang, and Z. Li, ``Deep learning identifies intelligible predictors of poor prognosis in chronic kidney disease,'' \textit{IEEE J. Biomed. Health Inform.}, vol.~27, no.~7, pp. 3677--3685, Jul. 2023, doi:~10.1109/JBHI.2023.3266587.
+
+\bibitem{houfani2022} D. Houfani, S. Slatnia, O. Kazar, H. Saouli, S. E. Henouda, I. Remadna, and M. Zouai, ``TabNet based prediction model for ICU admission in Covid-19 patients,'' in \textit{Proc. Int. Symp. iNnovative Inform. Biskra (ISNIB)}, 2022, pp. 1--6, doi:~10.1109/ISNIB57382.2022.10075767.
+
+\bibitem{zhang2024} H. Zhang and L. Han, ``Prediction of cardiovascular disease risk and risk factor assessment in diabetic patients based on deep learning and interpretability methods,'' in \textit{Proc. 3rd Int. Conf. Health Big Data Intell. Healthcare (ICHIH)}, 2024, pp. 15--18, doi:~10.1109/ICHIH63459.2024.11064763.
+
+\bibitem{bharati2024} S. Bharati, M. R. H. Mondal, and P. Podder, ``A review on explainable artificial intelligence for healthcare: Why, how, and when?'' \textit{IEEE Trans. Artif. Intell.}, vol.~5, no.~4, pp. 1429--1442, 2024, doi:~10.1109/TAI.2023.3266418.
+
+\bibitem{marashi2023}
+L. Marashi-Hosseini, S. Jafarirad, and A. M. Hadianfard,
+``A fuzzy based dietary clinical decision support system for patients
+with multiple chronic conditions (MCCs),''
+\textit{Sci. Rep.}, vol.~13, Art. no.~12218, Jul. 2023,
+doi:~10.1038/s41598-023-39437-x.
+
+\bibitem{kumar2025} T. R. Kumar, P. Bhavana, T. Firdous, S. V. Varshini, R. Ashwini, and S. Manisha, ``A data-driven nutrient recommendation framework for personalized meal planning,'' in \textit{Proc. 2nd Int. Conf. Artif. Intell. Innovations Healthcare Ind. (ICAIIHI)}, 2025, pp. 1--6, doi:~10.1109/ICAIIHI67124.2025.11403481.
+
+\bibitem{banerjee2019} A. Banerjee, A. Noor, N. Siddiqua, and M. N. Uddin, ``Food recommendation using machine learning for chronic kidney disease patients,'' in \textit{Proc. Int. Conf. Comput. Commun. Inform. (ICCCI)}, Coimbatore, India, 2019, pp. 1--5, doi:~10.1109/ICCCI.2019.8821871.
+
+\bibitem{khamesian2025} S. Khamesian, A. Arefeen, S. M. Carpenter, and H. Ghasemzadeh, ``NutriGen: Personalized meal plan generator leveraging large language models to enhance dietary and nutritional adherence,'' in \textit{Proc. 47th Annu. Int. Conf. IEEE Eng. Med. Biol. Soc. (EMBC)}, 2025, pp. 1--7, doi:~10.1109/EMBC58623.2025.11253879.
+
+\bibitem{ai_ckd_diet2025}
+S. M. Palomares, G. Ferrara, M. Sguanci, D. Gazineo, L. Godino, A. Palmisano, A. Paderno, G. Vrenna, E. Faraglia, F. Petrelli, G. Cangelosi, F. Gravante, and S. Mancin, “The impact of artificial intelligence technologies on nutritional care in patients with chronic kidney disease: A systematic review,” Journal of Renal Nutrition, vol. 36, no. 1, pp. 13–23, Jan. 2026, doi: 10.1053/j.jrn.2025.06.002.
+
+\bibitem{kairat2025llm}
+M. Kairat, G. Adilmetova, I. Ibraimova, A. Gaipov, H. A. Varol,
+and M.-Y. Chan,
+``Benchmarking ChatGPT and other large language models for
+personalized stage-specific dietary recommendations in chronic
+kidney disease,''
+\textit{J. Clin. Med.}, vol.~14, no.~22, Art. no.~8033, Nov. 2025,
+doi:~10.3390/jcm14228033.
+
+\bibitem{whittle2025llm}
+K. Bergling, L.-C. Wang, O. Shivakumar, A. N. Ban, L. W. Moore,
+N. Ginsberg, J. Kooman, N. Duncan, P. Kotanko, and H. Zhang,
+``From bytes to bites: application of large language models to
+enhance nutritional recommendations,''
+\textit{Clin. Kidney J.}, vol.~18, no.~4, Art. no.~sfaf082,
+Apr. 2025, doi:~10.1093/ckj/sfaf082.
+
+\bibitem{mansouri2023food}
+M. Mansouri, S. Benabdellah Chaouni, S. Jai Andaloussi,
+and O. Ouchetto,
+``Deep learning for food image recognition and nutrition analysis
+towards chronic diseases monitoring: a systematic review,''
+\textit{SN Comput. Sci.}, vol.~4, no.~5, Art. no.~527, Jul. 2023,
+doi:~10.1007/s42979-023-01989-0.
+
+\bibitem{chandrasekaran2025dpdpa}
+A. Sood, D. Mishra, V. Surya, H. Singh, R. Sundaresan, D. Pal,
+R. Dharmaraju, R. Satish, S. Mishra, N. A. Chavan, S. Mondal,
+P. Duggal, and V. K. Iyer,
+``Challenges and recommendations for enhancing digital data protection
+in Indian medical research and healthcare sector,''
+\textit{NPJ Digit. Med.}, vol.~8, no.~1, Art. no.~48, Jan. 2025,
+doi:~10.1038/s41746-025-01448-x.
+
+\bibitem{diet_hrs_scoping2025}
+X. Dong, B. Yun, A. Pakarinen, Z. Zheng, H. Niu, T. Jin, C. Yuan, and J. Wang, “Diet-related health recommender systems for patients with chronic health conditions: Scoping review,” Journal of Medical Internet Research, vol. 28, p. e77726, Jan. 2026, doi: 10.2196/77726
 
 \end{thebibliography}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{pradh.jpg}}]{MRIDA PRADHAN} is currently pursuing a B.E. degree in Computer Science and Engineering (Data Science) at R. V. College of Engineering, Bengaluru. Her research interests lie in interpretable and explainable machine learning, clinical decision support systems, and the application of tabular deep learning to structured data. She has contributed to an IBM R\&D collaboration on aircraft engine fault prediction using binary classifiers, extended to LSTM and CNN architectures for predictive maintenance. As an experienced developer, she has also worked on backend telemetry systems at WIRIN Labs involving real-time CAN Bus data pipelines for an entirely autonomous vehicle. She is the Lead \& Official On-Campus Organizer for Google Developer Groups on Campus, RVCE, spearheading hackathons, seminars, and development sessions. Her broader research motivation is the development of clinically grounded, privacy-preserving, and computationally efficient AI systems that remain interpretable and safe under real-world deployment constraints.
+\end{IEEEbiography}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{gayathri_photo.jpg}}]{GAYATHRI SUNIL NAMBIAR}is currently pursuing a B.E. degree in Computer Science and Engineering (Data Science) at R. V. College of Engineering, Bengaluru. Her research interests include machine learning, interpretable artificial intelligence, and the application of large language models in constraint-aware generative systems. She has contributed to an IBM R\&D collaboration on aircraft engine fault prediction and maintenance using deep learning and LLM-augmented diagnostic pipelines, and is a pre-finalist in the Unisys UIP Y16 competition. Her broader project work encompasses clinical decision support systems, interpretable machine learning, anomaly detection using hybrid machine learning approaches, and agentic LLM systems for structured data environments. She serves as Research and Consultancy Head at the Women in Computing initiative and as Vice President of Corporate Partnerships at the Entrepreneurship Cell.
+\end{IEEEbiography}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mohan.jpeg}}]{Dr. Mohana}
+Dr. Mohana working as Associate Professor with over 18 years of academic experience in the Department of Computer science and Engineering at RV College of Engineering, Bangalore. His areas of expertise include Deep Learning, AI, Quantum Computing, Computer Vision, and Image Processing. Dr. Mohana has an impressive academic record, having taught a wide range of undergraduate and postgraduate courses, guided numerous student projects, and published 115 + Research papers in Scopus indexed journals and conferences (Quartile (Q1 and Q2) / Scopus/WOS/SCIE-indexed). His research contributions are reflected in his high citation metrics, including an h-index of 27 on Scopus and 28 on Google Scholar, with his work cited in numerous patents. Dr. Mohana has earned an impressive array of awards and recognitions throughout his career, reflecting his pioneering contributions across diverse fields. Highlights include, Listed ELSEVIER - Stanford Top 2\% Scientists List in the world (2025 and 2024), Winner of Unisys Innovation Program (UIP-16)-2025, Winner of the IEEE Bengaluru Mobility Challenge-2024. Dr. Mohana's guidance has been instrumental in guiding students to success in various National level hackathons and project competitions, securing Best paper awards in various national and IEEE sponsored International conferences. He has been involved in fostering industry-academia collaboration and promoting research-driven education and collaborated with various Industry for impactful academic and research initiatives. He is a distinguished member of IEEE and holds lifetime memberships in Advanced Computing and Communications Society (ACCS), ISTE, and IAENG (Society of Artificial Intelligence) to advance education and research in collaboration with global peers and industry leaders.
+\end{IEEEbiography}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{sudha.jpeg}}]{Dr. B.G. Sudarshan}
+is an Associate Professor and Coordinator at the Center for Healthcare Technologies Research in the Department of Electronics \& Instrumentation Engineering at RV College of Engineering, Bengaluru, where he has served since 2005, initially as a Medical Officer and later in academic roles since 2011. Holding an MBBS from Siddhartha Medical College (2002) and a Ph.D. in Biomedical Engineering from Avinashilingam University (2009) on electromagnetic interference in cardiac pacemakers, he specializes in biomedical instrumentation, HRV analysis, and health technologies. His academic contributions include teaching courses like Aviation Medicine, Physiology for Engineers, and guiding over 15 M.Tech projects, 10 B.E./M.Tech EL projects, and four Ph.D. scholars (three awarded). At RVCE's Health Centre, he oversees services for approximately 5,000 students and staff, including outpatient care, check-ups, vaccinations, and emergencies. Sudarshan's research portfolio features sponsored projects worth over Rs. 70 lakhs on topics like ANS dysfunction, police stress, ergonomics in garment industries, and osteoporosis devices; industrial consultancies with GE Healthcare, SLN Technologies, and others; three patents (two granted for human fall detection); and 37 international journal publications, plus conference papers, focusing on HRV, PPG, fall detection, and medical devices. With certifications in HIV and diabetes management, he holds roles like BOS member at Dayananda Sagar, Governing Council member at BMS Hospital Trust, and has delivered invited talks on microorganisms and university panels. His professional experience spans approximately 23 years in teaching and research and approximately 10 years in clinical roles, including stints at Manipal Hospitals, Bangalore Hospital, and the Ministry of Labour, Government of India.
+\end{IEEEbiography}
 
 \end{document}

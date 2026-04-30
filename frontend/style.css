@@ -100,9 +100,158 @@ body {
     text-transform: uppercase;
 }
 
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
 .header-badges {
     display: flex;
     gap: 0.5rem;
+}
+
+.github-link {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xs);
+    transition: color var(--transition), border-color var(--transition);
+    white-space: nowrap;
+}
+
+.github-link:hover {
+    color: var(--accent);
+    border-color: rgba(245, 166, 35, 0.4);
+}
+
+.github-icon {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+}
+
+/* ─── HERO INFO ─────────────────────────────────────────── */
+.app-hero {
+    background: linear-gradient(180deg, #141722 0%, var(--bg-primary) 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+}
+
+.hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero-paper-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+}
+
+.hero-paper-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+    max-width: 900px;
+}
+
+.hero-authors {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 1.75rem;
+    font-weight: 400;
+}
+
+.hero-explainers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.hero-explain {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.15rem;
+    position: relative;
+}
+
+.hero-explain--technical {
+    border-left: 3px solid var(--accent);
+}
+
+.hero-explain--layman {
+    border-left: 3px solid var(--risk-low);
+}
+
+.explain-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 0.5rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+}
+
+.hero-explain--technical .explain-tag {
+    background: var(--accent-glow);
+    color: var(--accent);
+}
+
+.hero-explain--layman .explain-tag {
+    background: var(--risk-low-bg);
+    color: var(--risk-low);
+}
+
+.hero-explain p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+}
+
+.hero-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.hero-chip {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 0.25rem 0.75rem;
+    letter-spacing: 0.01em;
+}
+
+@media (max-width: 768px) {
+    .hero-explainers {
+        grid-template-columns: 1fr;
+    }
+    .header-right {
+        gap: 0.5rem;
+    }
+    .header-badges {
+        display: none;
+    }
 }
 
 .badge {

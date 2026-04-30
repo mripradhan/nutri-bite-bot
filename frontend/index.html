@@ -20,15 +20,50 @@
                 <span class="logo-icon">&#9883;</span>
                 <div>
                     <h1>NutriBiteBot</h1>
-                    <p class="subtitle">Clinical Risk Stratification Engine</p>
+                    <p class="subtitle">Clinical Decision Support System</p>
                 </div>
             </div>
-            <div class="header-badges">
-                <span class="badge badge-accent" id="accuracy-badge">99.91% Accuracy</span>
-                <span class="badge badge-outline">4 ML Models</span>
+            <div class="header-right">
+                <div class="header-badges">
+                    <span class="badge badge-accent">99.91% Accuracy</span>
+                    <span class="badge badge-outline">&kappa; = 0.9983</span>
+                    <span class="badge badge-outline">TabNet · MIMIC-IV</span>
+                </div>
+                <a href="https://github.com/mripradhan/nutri-bite-bot" target="_blank" rel="noopener" class="github-link">
+                    <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                    GitHub
+                </a>
             </div>
         </div>
     </header>
+
+    <!-- ─── HERO INFO ─────────────────────────────────────── -->
+    <section class="app-hero">
+        <div class="hero-inner">
+            <p class="hero-paper-label">IEEE Access &mdash; Under Review</p>
+            <h2 class="hero-paper-title">A TabNet-Driven Deep Learning Framework for Disease-Based Dietary Portion Recommendation Using Computer Vision</h2>
+            <p class="hero-authors">Mrida Pradhan &middot; Gayathri Sunil Nambiar &middot; Mohana &middot; B. G. Sudarshan &nbsp;&mdash;&nbsp; RV College of Engineering, Bengaluru</p>
+
+            <div class="hero-explainers">
+                <div class="hero-explain hero-explain--technical">
+                    <span class="explain-tag">Technical</span>
+                    <p>A multi-target TabNet classifier trained on MIMIC-IV EHR data infers per-nutrient sensitivity (Low / Moderate / High) for sodium, potassium, protein, and carbohydrates from 14 clinical features via sparsemax attention, producing native per-instance attribution masks without post-hoc overhead. A five-constraint sigmoid severity-to-fraction engine translates continuous severity scores into ingredient-specific maximum safe gram quantities against a session-persistent daily budget grounded in IFCT&nbsp;2017. A bounded Groq Llama-3.3 agent generates recipes strictly within the hard gram-level limits enforced upstream by the rules engine.</p>
+                </div>
+                <div class="hero-explain hero-explain--layman">
+                    <span class="explain-tag">In plain terms</span>
+                    <p>Patients with kidney disease, diabetes, or hypertension face conflicting dietary rules that no single tool reconciles automatically. Enter your blood test results and NutriBiteBot uses trained ML models to tell you exactly how many grams of each ingredient are safe for you specifically &mdash; not just generic guidelines. Scan your fridge to detect ingredients, then generate a clinically constrained recipe. The AI cannot suggest more than your lab values allow.</p>
+                </div>
+            </div>
+
+            <div class="hero-chips">
+                <span class="hero-chip">4 Nutrient Sensitivity Targets</span>
+                <span class="hero-chip">14 EHR Features</span>
+                <span class="hero-chip">IFCT 2017 &mdash; Indian Food Composition</span>
+                <span class="hero-chip">KDIGO 2024 &middot; ADA 2024 &middot; AHA/ACC</span>
+                <span class="hero-chip">DPDPA 2023 Compliant</span>
+            </div>
+        </div>
+    </section>
 
     <main class="container">
         <!-- ─── PATIENT INPUT SECTION ──────────────────────── -->

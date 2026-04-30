@@ -38,7 +38,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_DIR = os.path.join(BASE_DIR, "artifacts", "models")
 REPORTS_DIR = os.path.join(MODEL_DIR, "reports")
 FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
-IFCT_CSV = os.path.join(BASE_DIR, "clinical models", "ifct_database.csv")
+IFCT_CSV = os.path.join(BASE_DIR, "clinical-models", "ifct_database.csv")
 
 # ── load ML models at startup ─────────────────────────────────────
 print("Loading ML model weights (TabNet) …")
