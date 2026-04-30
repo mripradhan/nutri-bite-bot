@@ -40,18 +40,17 @@
     <!-- ─── HERO INFO ─────────────────────────────────────── -->
     <section class="app-hero">
         <div class="hero-inner">
-            <p class="hero-paper-label">IEEE Access &mdash; Under Review</p>
             <h2 class="hero-paper-title">A TabNet-Driven Deep Learning Framework for Disease-Based Dietary Portion Recommendation Using Computer Vision</h2>
             <p class="hero-authors">Mrida Pradhan &middot; Gayathri Sunil Nambiar &middot; Mohana &middot; B. G. Sudarshan &nbsp;&mdash;&nbsp; RV College of Engineering, Bengaluru</p>
 
             <div class="hero-explainers">
-                <div class="hero-explain hero-explain--technical">
-                    <span class="explain-tag">Technical</span>
-                    <p>A multi-target TabNet classifier trained on MIMIC-IV EHR data infers per-nutrient sensitivity (Low / Moderate / High) for sodium, potassium, protein, and carbohydrates from 14 clinical features via sparsemax attention, producing native per-instance attribution masks without post-hoc overhead. A five-constraint sigmoid severity-to-fraction engine translates continuous severity scores into ingredient-specific maximum safe gram quantities against a session-persistent daily budget grounded in IFCT&nbsp;2017. A bounded Groq Llama-3.3 agent generates recipes strictly within the hard gram-level limits enforced upstream by the rules engine.</p>
-                </div>
                 <div class="hero-explain hero-explain--layman">
-                    <span class="explain-tag">In plain terms</span>
-                    <p>Patients with kidney disease, diabetes, or hypertension face conflicting dietary rules that no single tool reconciles automatically. Enter your blood test results and NutriBiteBot uses trained ML models to tell you exactly how many grams of each ingredient are safe for you specifically &mdash; not just generic guidelines. Scan your fridge to detect ingredients, then generate a clinically constrained recipe. The AI cannot suggest more than your lab values allow.</p>
+                    <span class="explain-tag">What it does</span>
+                    <p>Patients with kidney disease, diabetes, or hypertension face conflicting dietary constraints that no single tool reconciles automatically. Enter your blood test results and NutriBiteBot tells you exactly how many grams of each ingredient are safe for you specifically &mdash; grounded in your actual lab values, not population averages. Scan your fridge to detect ingredients, then generate a recipe that cannot exceed your clinical limits.</p>
+                </div>
+                <div class="hero-explain hero-explain--technical">
+                    <span class="explain-tag">How it works</span>
+                    <p>A multi-target TabNet classifier trained on MIMIC-IV EHR data infers per-nutrient sensitivity (Low / Moderate / High) for sodium, potassium, protein, and carbohydrates from 14 clinical features via sparsemax attention, producing native per-instance attribution masks without post-hoc overhead. A five-constraint sigmoid severity-to-fraction engine translates continuous severity scores into ingredient-specific maximum safe gram quantities against a session-persistent daily budget grounded in IFCT&nbsp;2017. A bounded Groq Llama-3.3 agent generates recipes strictly within the hard gram-level limits enforced upstream by the rules engine.</p>
                 </div>
             </div>
 

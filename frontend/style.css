@@ -117,18 +117,19 @@ body {
     gap: 0.4rem;
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--text-secondary);
+    color: var(--accent);
     text-decoration: none;
     padding: 0.35rem 0.75rem;
-    border: 1px solid var(--border);
+    border: 1px solid rgba(245, 166, 35, 0.35);
     border-radius: var(--radius-xs);
-    transition: color var(--transition), border-color var(--transition);
+    transition: color var(--transition), border-color var(--transition), background var(--transition);
     white-space: nowrap;
 }
 
 .github-link:hover {
-    color: var(--accent);
-    border-color: rgba(245, 166, 35, 0.4);
+    color: var(--accent-hover);
+    border-color: rgba(245, 166, 35, 0.65);
+    background: var(--accent-glow);
 }
 
 .github-icon {
@@ -141,12 +142,13 @@ body {
 .app-hero {
     background: linear-gradient(180deg, #141722 0%, var(--bg-primary) 100%);
     border-bottom: 1px solid var(--border);
-    padding: 2.5rem 2rem;
+    padding: 2.5rem 0;
 }
 
 .hero-inner {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 2rem;
 }
 
 .hero-paper-label {
