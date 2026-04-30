@@ -11,6 +11,27 @@
 // ─── API Base URL ──────────────────────────────────────────
 const API_BASE = "https://nutri-bite-bot.onrender.com";
 
+// ─── Wake-up Notice ────────────────────────────────────────
+// Shows a notice after 4s if the backend is still cold-starting.
+function fetchWithWakeup(url, options) {
+    let notice = null;
+    const timer = setTimeout(() => {
+        notice = document.createElement("div");
+        notice.className = "wakeup-notice";
+        notice.innerHTML = `
+            <span class="wakeup-icon">&#9711;</span>
+            Backend is waking up from sleep &mdash; first request may take ~30 seconds on Render's free tier.
+        `;
+        const container = document.querySelector(".container");
+        if (container) container.prepend(notice);
+    }, 4000);
+
+    return fetch(url, options).finally(() => {
+        clearTimeout(timer);
+        if (notice) notice.remove();
+    });
+}
+
 // ─── Preset Patient Profiles ───────────────────────────────
 const PRESETS = {
     healthy: {
