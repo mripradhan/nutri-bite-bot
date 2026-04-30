@@ -5,8 +5,12 @@ mimic IV/
 *.parquet
 
 # env / caches
+.env
 .venv/
 __pycache__/
 *.joblib
 *.pkl
 *.h5
+
+# tooling
+.claude/
