@@ -11,6 +11,27 @@
 // ─── API Base URL ──────────────────────────────────────────
 const API_BASE = "https://nutri-bite-bot.onrender.com";
 
+// ─── Wake-up Notice ────────────────────────────────────────
+// Shows a notice after 4s if the backend is still cold-starting.
+function fetchWithWakeup(url, options) {
+    let notice = null;
+    const timer = setTimeout(() => {
+        notice = document.createElement("div");
+        notice.className = "wakeup-notice";
+        notice.innerHTML = `
+            <span class="wakeup-icon">&#9711;</span>
+            Backend is waking up from sleep &mdash; first request may take ~30 seconds on Render's free tier.
+        `;
+        const container = document.querySelector(".container");
+        if (container) container.prepend(notice);
+    }, 4000);
+
+    return fetch(url, options).finally(() => {
+        clearTimeout(timer);
+        if (notice) notice.remove();
+    });
+}
+
 // ─── Preset Patient Profiles ───────────────────────────────
 const PRESETS = {
     healthy: {
@@ -136,7 +157,7 @@ async function runPrediction() {
         }
 
         // Call Flask backend — model.predict() runs server-side
-        const res = await fetch(`${API_BASE}/api/predict`, {
+        const res = await fetchWithWakeup(`${API_BASE}/api/predict`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
@@ -572,7 +593,7 @@ async function runRecommendation() {
             if (isNaN(val)) throw new Error(`Fill in patient data first (missing: ${key})`);
         }
 
-        const res = await fetch(`${API_BASE}/api/recommend`, {
+        const res = await fetchWithWakeup(`${API_BASE}/api/recommend`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ patient, ingredients: selectedIngredients }),
@@ -856,7 +877,7 @@ async function generateClinicalRecipe() {
         const cuisine = document.getElementById("recipe-cuisine").value;
         const time_limit = document.getElementById("recipe-time").value;
 
-        const res = await fetch(`${API_BASE}/api/generate-recipe`, {
+        const res = await fetchWithWakeup(`${API_BASE}/api/generate-recipe`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

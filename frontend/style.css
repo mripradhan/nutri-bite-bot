@@ -972,6 +972,34 @@ body {
     color: var(--text-muted);
 }
 
+/* ─── WAKE-UP NOTICE ────────────────────────────────────── */
+.wakeup-notice {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--accent-glow);
+    border: 1px solid rgba(245, 166, 35, 0.25);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+    color: var(--accent);
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    animation: fadeInUp 0.3s ease;
+}
+
+.wakeup-icon {
+    font-size: 1rem;
+    animation: spin 2s linear infinite;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
 /* ─── ERROR STATE ───────────────────────────────────────── */
 .error-banner {
     background: var(--risk-high-bg);
