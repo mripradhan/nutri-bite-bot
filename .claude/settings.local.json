@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -v \"^#\\\\|^$\" /mnt/c/Users/pradh/OneDrive/Documents/nutri-bite-bot/.env)",
+      "Bash(git *)"
+    ]
+  }
+}
