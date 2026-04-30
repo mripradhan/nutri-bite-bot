@@ -9,7 +9,7 @@
  */
 
 // ─── API Base URL ──────────────────────────────────────────
-const API_BASE = window.location.origin;
+const API_BASE = "https://nutri-bite-bot.onrender.com";
 
 // ─── Preset Patient Profiles ───────────────────────────────
 const PRESETS = {
