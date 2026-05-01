@@ -1,15 +1,10 @@
-# datasets
+# datasets and research documents
 mimic IV/
 *.csv
 *.zip
 *.parquet
 *.pdf
-
-# force-include runtime-required data files (needed for HF Spaces / Render)
-!clinical-models/ifct_database.csv
-!artifacts/models/imputer.joblib
-!artifacts/models/scaler.joblib
-!artifacts/models/feature_names.joblib
+*.tex
 
 # env / caches
 .env
@@ -18,6 +13,23 @@ __pycache__/
 *.joblib
 *.pkl
 *.h5
+
+# dev-session artifacts (logs, temp outputs, task tracking)
+*.log
+*_status.json
+temp_*.txt
+task.md
+test_output.txt
+test_result.txt
+test_out.log
+db_activity.txt
+
+# force-include runtime-required data files (needed for HF Spaces)
+# MUST come after wildcard rules above — last matching rule wins
+!clinical-models/ifct_database.csv
+!artifacts/models/imputer.joblib
+!artifacts/models/scaler.joblib
+!artifacts/models/feature_names.joblib
 
 # tooling
 .claude/
