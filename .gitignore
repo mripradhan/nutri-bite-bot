@@ -3,6 +3,7 @@ mimic IV/
 *.csv
 *.zip
 *.parquet
+*.pdf
 
 # env / caches
 .env
