@@ -4,6 +4,16 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useApp } from '@/context/AppContext'
 import { apiIngredients, apiRecommend } from '@/lib/api'
 import type { IngredientRecommendation, DailyBudget } from '@/types'
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+  ReferenceLine,
+} from 'recharts'
 
 // ─── Label badge ─────────────────────────────────────────────────────────────
 const LABEL_STYLES = {
@@ -233,7 +243,7 @@ export default function IngredientSection() {
       <div className="section-label mb-2">Model 2</div>
       <h2 className="text-[20px] font-bold text-text-primary mb-1">Portion Analysis</h2>
       <p className="text-text-secondary text-[13px] mb-6">
-        Search for ingredients and get ML-driven safe portion sizes tailored to your lab values.
+        Search for ingredients and get Deep Learning-driven safe portion sizes tailored to your lab values.
       </p>
 
       {/* Search */}
@@ -352,10 +362,12 @@ export default function IngredientSection() {
       {/* Results */}
       {recommendResult && (
         <div className="space-y-6 animate-fade-in">
-          {/* Daily Budget */}
+          {/* Daily Budget Breakdown */}
           <div className="card">
-            <div className="section-label mb-4">Daily Nutrient Budget</div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+            <div className="section-label mb-4">Daily Nutrient Budget & Consumption</div>
+            
+            {/* Value grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-6">
               {[
                 { label: 'Sodium', value: recommendResult.daily_budget.sodium_mg, unit: 'mg', color: '#8a8f98' },
                 { label: 'Potassium', value: recommendResult.daily_budget.potassium_mg, unit: 'mg', color: '#8a8f98' },
@@ -365,10 +377,71 @@ export default function IngredientSection() {
               ].map(({ label, value, unit }) => (
                 <div key={label} className="text-center p-3 rounded-[4px] bg-[#0d0d0d] border border-[#303236]">
                   <div className="text-[18px] font-bold text-accent">{value.toLocaleString()}</div>
-                  <div className="text-[10px] text-text-muted mt-0.5">{unit}/day</div>
+                  <div className="text-[10px] text-text-muted mt-0.5">{unit}/day limit</div>
                   <div className="text-[11px] text-text-secondary mt-0.5">{label}</div>
                 </div>
               ))}
+            </div>
+
+            {/* Consumption Chart */}
+            <div className="mt-4">
+              <h3 className="text-[13px] font-bold text-text-primary mb-2">Total Portion Load vs Budget</h3>
+              <div className="h-[200px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={[
+                      {
+                        name: 'Sodium (mg)',
+                        budget: recommendResult.daily_budget.sodium_mg,
+                        consumed: recommendResult.recommendations.reduce((acc, r) => acc + (r.nutrient_load?.sodium_mg || 0), 0),
+                      },
+                      {
+                        name: 'Potassium (mg)',
+                        budget: recommendResult.daily_budget.potassium_mg,
+                        consumed: recommendResult.recommendations.reduce((acc, r) => acc + (r.nutrient_load?.potassium_mg || 0), 0),
+                      },
+                      {
+                        name: 'Protein (g)',
+                        budget: recommendResult.daily_budget.protein_g,
+                        consumed: recommendResult.recommendations.reduce((acc, r) => acc + (r.nutrient_load?.protein_g || 0), 0),
+                      },
+                      {
+                        name: 'Carbs (g)',
+                        budget: recommendResult.daily_budget.carbs_g,
+                        consumed: recommendResult.recommendations.reduce((acc, r) => acc + (r.nutrient_load?.carbs_g || 0), 0),
+                      },
+                    ].map(d => ({ ...d, pct: Math.min(100, (d.consumed / (d.budget || 1)) * 100) }))}
+                    layout="vertical"
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                  >
+                    <XAxis type="number" domain={[0, 100]} tickFormatter={(v) => `${v}%`} tick={{ fill: '#8a8f98', fontSize: 10 }} axisLine={false} tickLine={false} />
+                    <YAxis type="category" dataKey="name" tick={{ fill: '#d1d5db', fontSize: 11 }} width={90} axisLine={false} tickLine={false} />
+                    <Tooltip 
+                      cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+                      content={({ active, payload }) => {
+                        if (active && payload && payload.length) {
+                          const d = payload[0].payload;
+                          return (
+                            <div className="bg-bg-card border border-[#303236] p-2 rounded shadow-lg text-[11px]">
+                              <div className="font-bold text-text-primary mb-1">{d.name}</div>
+                              <div className="text-accent">Consumed: {Math.round(d.consumed)}</div>
+                              <div className="text-text-muted">Budget: {d.budget}</div>
+                            </div>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+                    <Bar dataKey="pct" radius={[0, 4, 4, 0]} maxBarSize={16}>
+                      {
+                        [0, 1, 2, 3].map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill="#34d59a" fillOpacity={0.8} />
+                        ))
+                      }
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </div>
           </div>
 
