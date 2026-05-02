@@ -9,7 +9,7 @@
  */
 
 // ─── API Base URL ──────────────────────────────────────────
-const API_BASE = "https://nutri-bite-bot.onrender.com";
+const API_BASE = "https://gayathri-27-nutri-bite-bot.hf.space";
 
 // ─── Wake-up Notice ────────────────────────────────────────
 // Shows a notice after 4s if the backend is still cold-starting.
