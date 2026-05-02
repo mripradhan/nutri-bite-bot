@@ -1,7 +1,3 @@
-# NutriBiteBot: A Clinical Nutrition Decision Support System
-
-NutriBiteBot is an end-to-end clinical nutrition platform that generates safe, personalized recipes for patients with chronic conditions (CKD, Hypertension, Type 2 Diabetes). It combines a fine-tuned TabNet deep-learning model for risk stratification, a hierarchical clinical rules engine for conflict resolution, computer vision for fridge scanning, and an LLM for recipe generation — all running locally with a Dockerized Supabase database for data privacy.
-=======
 ---
 title: Nutri Bite Bot
 emoji: 🥗
