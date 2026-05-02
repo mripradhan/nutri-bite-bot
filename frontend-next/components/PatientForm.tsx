@@ -1,6 +1,16 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+  ReferenceLine,
+} from 'recharts'
 import { useApp } from '@/context/AppContext'
 import { apiPredict } from '@/lib/api'
 import type { PatientData } from '@/types'
@@ -41,6 +51,32 @@ const PRESET_LABELS: Array<{ key: string; label: string; color: string }> = [
   { key: 'htn', label: 'HTN', color: 'text-risk-moderate border-risk-moderate/30' },
   { key: 'multi', label: 'CKD+HTN+DM', color: 'text-risk-high border-risk-high/30' },
 ]
+
+// ─── Lab reference ranges for chart ──────────────────────────────────────────
+const LAB_RANGES: Array<{
+  key: keyof PatientData
+  label: string
+  unit: string
+  low: number
+  high: number
+  max: number
+}> = [
+  { key: 'serum_sodium', label: 'Na⁺', unit: 'mEq/L', low: 136, high: 145, max: 160 },
+  { key: 'serum_potassium', label: 'K⁺', unit: 'mEq/L', low: 3.5, high: 5.0, max: 7 },
+  { key: 'creatinine', label: 'Creatinine', unit: 'mg/dL', low: 0.6, high: 1.2, max: 6 },
+  { key: 'egfr', label: 'eGFR', unit: 'mL/min', low: 60, high: 120, max: 150 },
+  { key: 'hba1c', label: 'HbA1c', unit: '%', low: 4.0, high: 5.7, max: 14 },
+  { key: 'fbs', label: 'FBS', unit: 'mg/dL', low: 70, high: 100, max: 300 },
+  { key: 'sbp', label: 'SBP', unit: 'mmHg', low: 90, high: 120, max: 200 },
+  { key: 'dbp', label: 'DBP', unit: 'mmHg', low: 60, high: 80, max: 120 },
+]
+
+function getLabColor(value: number, low: number, high: number): string {
+  if (value >= low && value <= high) return '#34d399'
+  const margin = (high - low) * 0.3
+  if (value >= low - margin && value <= high + margin) return '#fbbf24'
+  return '#f87171'
+}
 
 // ─── Toggle component ─────────────────────────────────────────────────────────
 function Toggle({
@@ -95,6 +131,19 @@ function Field({
   )
 }
 
+// ─── Lab Chart Tooltip ────────────────────────────────────────────────────────
+function LabTooltip({ active, payload }: { active?: boolean; payload?: Array<{ payload: { label: string; value: number; unit: string; normalRange: string } }> }) {
+  if (!active || !payload?.length) return null
+  const d = payload[0].payload
+  return (
+    <div className="bg-bg-card border border-[#303236] rounded-lg px-3 py-2 text-[12px] shadow-lg">
+      <p className="font-semibold text-text-primary">{d.label}</p>
+      <p className="text-accent font-bold">{d.value} {d.unit}</p>
+      <p className="text-text-muted">Normal: {d.normalRange}</p>
+    </div>
+  )
+}
+
 // ─── Main component ───────────────────────────────────────────────────────────
 export default function PatientForm() {
   const { patientData, setPatientData, setPredictionResult } = useApp()
@@ -131,12 +180,28 @@ export default function PatientForm() {
     }
   }
 
+  // Lab chart data
+  const labChartData = useMemo(() => {
+    return LAB_RANGES.map((r) => {
+      const value = patientData[r.key] as number
+      return {
+        label: r.label,
+        value,
+        unit: r.unit,
+        max: r.max,
+        normalRange: `${r.low}–${r.high}`,
+        color: getLabColor(value, r.low, r.high),
+        pct: Math.min(100, (value / r.max) * 100),
+      }
+    })
+  }, [patientData])
+
   return (
     <section id="patient-data" className="px-6 md:px-8 py-10">
       <div className="section-label mb-2">Clinical Input</div>
       <h2 className="text-[20px] font-bold text-text-primary mb-1">Patient Data</h2>
       <p className="text-text-secondary text-[13px] mb-6">
-        Enter patient lab values to run ML-based nutrient risk stratification.
+        Enter patient lab values to run Deep Learning-based nutrient risk stratification.
       </p>
 
       {/* Preset bar */}
@@ -299,13 +364,59 @@ export default function PatientForm() {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
-              Running ML Prediction…
+              Running Deep Learning Prediction…
             </span>
           ) : (
-            'Run ML Prediction'
+            'Run Deep Learning Prediction'
           )}
         </button>
       </form>
+
+      {/* ── Lab Values Overview Chart ──────────────────────────────────────── */}
+      <div className="card mt-6">
+        <div className="section-label mb-1">Lab Panel</div>
+        <h3 className="text-[15px] font-bold text-text-primary mb-1">Lab Values Overview</h3>
+        <p className="text-[11px] text-text-muted mb-4">
+          Each bar shows the current value relative to its clinical reference range.
+          <span className="inline-flex items-center gap-1.5 ml-3">
+            <span className="w-2 h-2 rounded-full bg-[#34d399]" /> Normal
+            <span className="w-2 h-2 rounded-full bg-[#fbbf24] ml-2" /> Borderline
+            <span className="w-2 h-2 rounded-full bg-[#f87171] ml-2" /> Abnormal
+          </span>
+        </p>
+        <ResponsiveContainer width="100%" height={280}>
+          <BarChart
+            data={labChartData}
+            layout="vertical"
+            margin={{ top: 0, right: 60, bottom: 0, left: 0 }}
+            barCategoryGap="20%"
+          >
+            <XAxis
+              type="number"
+              domain={[0, 100]}
+              tick={{ fill: '#4b5563', fontSize: 10 }}
+              tickLine={false}
+              axisLine={false}
+              tickFormatter={(v) => `${v}%`}
+            />
+            <YAxis
+              type="category"
+              dataKey="label"
+              tick={{ fill: '#8a8f98', fontSize: 12, fontFamily: "'Geist Mono', monospace" }}
+              tickLine={false}
+              axisLine={false}
+              width={80}
+            />
+            <Tooltip content={<LabTooltip />} cursor={{ fill: 'rgba(255,255,255,0.03)' }} />
+            <Bar dataKey="pct" radius={[0, 4, 4, 0]} maxBarSize={20}>
+              {labChartData.map((entry, index) => (
+                <Cell key={index} fill={entry.color} fillOpacity={0.85} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </section>
   )
 }
+

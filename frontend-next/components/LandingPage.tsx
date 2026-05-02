@@ -4,11 +4,6 @@ import React, { useEffect, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import { TextEffect } from '@/components/ui/text-effect'
 
-const ShaderAnimation = dynamic(
-  () => import('@/components/ui/shader-lines').then((mod) => ({ default: mod.ShaderAnimation })),
-  { ssr: false, loading: () => <div className="w-full h-full bg-black" /> }
-)
-
 const STATS = [
   { value: '99.91%', label: 'Mean Accuracy' },
   { value: 'κ 0.9983', label: "Cohen's Kappa" },
@@ -90,15 +85,7 @@ export default function LandingPage({ onEnter }: LandingPageProps) {
   }, [stableOnEnter])
 
   return (
-    <section className="relative min-h-screen flex flex-col overflow-hidden bg-black w-full select-none">
-      {/* ── Background shader ─────────────────────────────────────────── */}
-      <div className="absolute inset-0 z-0">
-        <ShaderAnimation />
-      </div>
-
-      {/* Semitransparent black overlay to dim the shader */}
-      <div className="absolute inset-0 z-[0] bg-black/50 pointer-events-none" />
-
+    <section className="relative min-h-screen flex flex-col overflow-hidden w-full select-none">
       {/* Gradient overlays */}
       <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black/80 via-black/20 to-black/50 pointer-events-none" />
       <div className="absolute inset-0 z-[1] bg-gradient-to-r from-black/40 via-transparent to-black/40 pointer-events-none" />
@@ -176,7 +163,7 @@ export default function LandingPage({ onEnter }: LandingPageProps) {
               as="span"
               className="block text-[#34d59a] [text-shadow:0_0_48px_rgba(52,213,154,0.4),0_0_96px_rgba(52,213,154,0.18)]"
             >
-              powered by ML.
+              powered by Deep Learning.
             </TextEffect>
           </h1>
 
