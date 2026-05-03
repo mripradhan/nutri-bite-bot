@@ -5,20 +5,20 @@ import type { PatientData, PredictionResult, RecommendResult } from '@/types'
 
 // ─── Default patient (healthy preset) ────────────────────────────────────────
 const DEFAULT_PATIENT: PatientData = {
-  age: 35,
-  sex_male: 0,
+  age: '',
+  sex_male: '',
   has_htn: false,
   has_dm: false,
   has_ckd: false,
-  serum_sodium: 140,
-  serum_potassium: 4.0,
-  creatinine: 0.9,
-  egfr: 110,
-  hba1c: 5.2,
-  fbs: 88,
-  sbp: 118,
-  dbp: 75,
-  bmi: 22,
+  serum_sodium: '',
+  serum_potassium: '',
+  creatinine: '',
+  egfr: '',
+  hba1c: '',
+  fbs: '',
+  sbp: '',
+  dbp: '',
+  bmi: '',
 }
 
 // ─── Context shape ────────────────────────────────────────────────────────────

@@ -92,7 +92,7 @@ export default function HeroInfo() {
           <span className="text-accent glow-text-accent">
             dietary portions
           </span>
-          ,<br className="hidden sm:block" /> powered by ML.
+          ,<br className="hidden sm:block" /> powered by Deep Learning.
         </h1>
 
         {/* Subheading */}

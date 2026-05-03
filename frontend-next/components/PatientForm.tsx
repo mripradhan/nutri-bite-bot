@@ -183,15 +183,15 @@ export default function PatientForm() {
   // Lab chart data
   const labChartData = useMemo(() => {
     return LAB_RANGES.map((r) => {
-      const value = patientData[r.key] as number
+      const value = Number(patientData[r.key]) || 0
       return {
         label: r.label,
         value,
         unit: r.unit,
         max: r.max,
         normalRange: `${r.low}–${r.high}`,
-        color: getLabColor(value, r.low, r.high),
-        pct: Math.min(100, (value / r.max) * 100),
+        color: value === 0 ? '#303236' : getLabColor(value, r.low, r.high),
+        pct: value === 0 ? 0 : Math.min(100, (value / r.max) * 100),
       }
     })
   }, [patientData])

@@ -82,7 +82,7 @@ export default function RiskDashboard() {
     return Math.max(...radarData.map(d => d.score))
   }, [radarData])
 
-  const radarColor = maxScore >= 1.5 ? '#f87171' : maxScore >= 0.5 ? '#fbbf24' : '#34d59a'
+  const radarColor = '#8a8f98'
 
   if (!predictionResult) return null
 

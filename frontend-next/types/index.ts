@@ -1,20 +1,20 @@
 // ─── Patient & Form Types ───────────────────────────────────────────────────
 
 export interface PatientData {
-  age: number
-  sex_male: number          // 0 = Female, 1 = Male
+  age: number | ''
+  sex_male: number | ''          // 0 = Female, 1 = Male
   has_htn: boolean
   has_dm: boolean
   has_ckd: boolean
-  serum_sodium: number
-  serum_potassium: number
-  creatinine: number
-  egfr: number
-  hba1c: number
-  fbs: number
-  sbp: number
-  dbp: number
-  bmi: number
+  serum_sodium: number | ''
+  serum_potassium: number | ''
+  creatinine: number | ''
+  egfr: number | ''
+  hba1c: number | ''
+  fbs: number | ''
+  sbp: number | ''
+  dbp: number | ''
+  bmi: number | ''
 }
 
 // ─── API Payload Helpers ────────────────────────────────────────────────────
