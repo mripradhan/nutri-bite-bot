@@ -390,6 +390,55 @@ Every difference CI excludes zero.
 noise-robustness experiments. Both can reuse `train_model1.ClinicalRiskStratifier`
 and `evaluate_model1.metrics`.
 
+## Calibrated severity ✅ (2026-09-19)
+
+- Artifact schema v3: `preprocessing.json` stores a per-target correction
+  factor (training prior ÷ sampler prior).
+- `Model1Predictor.predict` now returns:
+  - `label` — tier, argmax of the balanced scores;
+  - `decision_proba` — the balanced scores;
+  - `proba` — calibrated probabilities;
+  - `severity_score` — from the calibrated probabilities (the portion
+    engine's input);
+  - `confidence`.
+- Deployed and ablation models retrained (identical networks,
+  deterministic) and re-evaluated. Calibration error 0.004–0.008 (deployed).
+  AUROC on calibrated probabilities: 0.756 / 0.721 / 0.673 / 0.775,
+  mean 0.731.
+
+## Phase 5 status (2026-09-19)
+
+- `clinical-models/usecase_report.py` regenerates Section 5 (Model 1 +
+  both portion engines) → `artifacts/models/reports/usecase_report.{json,md}`,
+  `usecase_table.tex`.
+- `clinical-models/attribution_summary.py` → test-set mean attributions,
+  which are clinically coherent: sodium→SBP/eGFR/HTN, potassium→K/eGFR/CKD,
+  protein→eGFR/age/CKD, carb→FBS/HbA1c/DM.
+- `manuscript_edits.md`: section-by-section edit list for Gayathri, with
+  exact replacement numbers and the list of corrected errors for the
+  response letter.
+- **Representative patient:** carb now **LOW** (resolves R2 ¶2); sodium
+  HIGH, potassium MODERATE, protein HIGH.
+- **✅ Engines unified (2026-09-20).** `app.py` now calls
+  `train_model2.PortionControlModel` (stateless: `use_ledger=False`) for
+  `/api/recommend` and `/api/generate-recipe`, with a thin adapter that
+  keeps the frontend contract (`Half Portion`, `Not Found`, full
+  `nutrient_load`). The app's duplicate engine code was removed.
+  `train_model2`'s TFT import is now lazy, so the web app doesn't need the
+  training stack. Use case regenerated: 0 disagreements;
+  `test_model2.py` passes. *(Original note below.)*
+- ~~DECISION PENDING — two portion engines.~~ `app.py` has its own
+  simplified copy of the portion engine: no phosphorus constraint, 300 g
+  cap, no caloric reconciliation. For the same patient it disagrees with
+  `train_model2.PortionControlModel` (what the paper describes) on 6 of 8
+  ingredients, e.g. paneer 67.6 g protein-bound (app) vs 24.9 g
+  phosphorus-bound (train_model2). **Recommendation:** make `app.py`
+  delegate to `train_model2` so there is one engine. Watch out: its
+  `NutrientLedger` is per-instance state and must not be shared across
+  users in the Flask process. Then regenerate the Section 5 table.
+- **Draft vs submitted manuscript:** the `.tex` in the worktree may not be
+  the submitted version (see the note at the top of `manuscript_edits.md`).
+
 ## Phase 4 — Evaluation (hand-off to Gayathri) · ~2 days
 
 Produce these as scripts and CSVs, so Gayathri's CV and robustness work

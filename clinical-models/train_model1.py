@@ -36,7 +36,7 @@ from pytorch_tabnet.tab_model import TabNetClassifier
 import cohort_data
 from mimic_extract import FEATURES
 from model1_artifacts import (
-    ARTIFACT_SCHEMA_VERSION, TARGETS, Model1Predictor, full_proba, save_tabnet,
+    ARTIFACT_SCHEMA_VERSION, TARGETS, Model1Predictor, full_proba, prior_correct, save_tabnet,
 )
 
 # TFT imports (Phase 3B) — guarded for backward compat
@@ -1049,6 +1049,8 @@ class ClinicalRiskStratifier:
         self.imputer: Optional[SimpleImputer] = None
         self.scaler: Optional[StandardScaler] = None
         self.training_info: Dict[str, Dict[str, Any]] = {}
+        # per-target factor that maps balanced-training scores back to calibrated outcome probabilities
+        self.class_prior: Dict[str, np.ndarray] = {}
 
     def _base(self, df: pd.DataFrame) -> np.ndarray:
         return self.scaler.transform(self.imputer.transform(df[list(FEATURES)]))
@@ -1094,6 +1096,13 @@ class ClinicalRiskStratifier:
                 w = w / class_mass[y]
             sampler_weights = w / w.sum() * len(w) if weighted else 0
 
+            # true outcome prior (real rows) / class prior the sampler actually presented
+            true_prior = np.bincount(y_real, minlength=3) / len(y_real)
+            effective = np.bincount(y, weights=w if weighted else None, minlength=3)
+            effective = effective / effective.sum()
+            factor = np.divide(true_prior, effective, out=np.zeros(3), where=effective > 0)
+            self.class_prior[target] = factor / factor.sum()
+
             X_in = mono.transform(X).astype(np.float32)
             X_val = self._model_input(va, target)
             y_val = va[target].astype(int).to_numpy()
@@ -1118,16 +1127,19 @@ class ClinicalRiskStratifier:
                       f"{info['fit_seconds']:.0f}s (real {info['n_train_real']:,} + synthetic {n_synth:,})")
         return self
 
-    def predict_proba(self, df: pd.DataFrame, target: str) -> np.ndarray:
-        return full_proba(self.models[target], self._model_input(df, target))
+    def predict_proba(self, df: pd.DataFrame, target: str, calibrated: bool = False) -> np.ndarray:
+        """Balanced-training decision scores (drive the label) or calibrated outcome probabilities."""
+        proba = full_proba(self.models[target], self._model_input(df, target))
+        return prior_correct(proba, self.class_prior[target]) if calibrated else proba
 
     def evaluate(self, df: pd.DataFrame) -> Tuple[Dict[str, Dict[str, float]], Dict, Dict, Dict]:
         metrics, y_true, y_pred, y_proba = {}, {}, {}, {}
         for target in self.cfg.targets:
             part = df[df[target].notna()]
-            proba = self.predict_proba(part, target)
+            decision = self.predict_proba(part, target)
+            proba = prior_correct(decision, self.class_prior[target])
             y_true[target] = part[target].astype(int).to_numpy()
-            y_pred[target] = proba.argmax(axis=1)
+            y_pred[target] = decision.argmax(axis=1)
             y_proba[target] = proba
             metrics[target] = ModelEvaluator.compute_metrics(y_true[target], y_pred[target], proba)
         return metrics, y_true, y_pred, y_proba
@@ -1141,6 +1153,7 @@ class ClinicalRiskStratifier:
             "scaler_mean": self.scaler.mean_.tolist(),
             "scaler_scale": self.scaler.scale_.tolist(),
             "monotonic": {t: m.export() for t, m in self.mono.items()},
+            "class_prior": {t: p.tolist() for t, p in self.class_prior.items()},
         }
         (model_dir / "preprocessing.json").write_text(json.dumps(prep))
         for target, model in self.models.items():
@@ -1150,9 +1163,9 @@ class ClinicalRiskStratifier:
         predictor = Model1Predictor(model_dir)
         sample = check_df.sample(n=min(200, len(check_df)), random_state=0)
         for target in self.cfg.targets:
-            want = self.predict_proba(sample, target)
-            got = np.vstack([list(predictor.predict(r)[target]["proba"].values())
-                             for r in sample[list(FEATURES)].to_dict("records")])
+            preds = [predictor.predict(r)[target] for r in sample[list(FEATURES)].to_dict("records")]
+            want = np.hstack([self.predict_proba(sample, target), self.predict_proba(sample, target, calibrated=True)])
+            got = np.vstack([list(p["decision_proba"].values()) + list(p["proba"].values()) for p in preds])
             if not np.allclose(want, got, atol=1e-3):
                 raise RuntimeError(f"Saved artifacts do not reproduce in-memory predictions for {target}")
         print(f"  ✓ Artifacts written to {model_dir} and verified against in-memory predictions")

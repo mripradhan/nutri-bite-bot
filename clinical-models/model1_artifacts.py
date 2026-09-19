@@ -5,7 +5,8 @@ train_model2.py and app.py, so training and deployment cannot drift apart.
 Layout (artifacts/models/):
     manifest.json                       provenance, config, metrics
     preprocessing.json                  feature order, imputer medians, scaler params,
-                                        per-target isotonic (monotonic) maps
+                                        per-target isotonic (monotonic) maps and
+                                        training class priors (for calibration)
     tabnet/<target>/model_params.json   TabNet architecture
     tabnet/<target>/network.pt          TabNet weights
 
@@ -22,7 +23,7 @@ import numpy as np
 
 TARGETS = ["sodium_sensitivity", "potassium_sensitivity", "protein_restriction", "carb_sensitivity"]
 LABELS = ["low", "moderate", "high"]
-ARTIFACT_SCHEMA_VERSION = 2
+ARTIFACT_SCHEMA_VERSION = 3
 
 
 def _tabnet_dir(model_dir: Path, target: str) -> Path:
@@ -66,6 +67,13 @@ def full_proba(model, X: np.ndarray) -> np.ndarray:
     return full
 
 
+def prior_correct(proba: np.ndarray, prior: np.ndarray) -> np.ndarray:
+    """Models trained with class-balanced sampling learn under a uniform class prior;
+    multiplying by the true training prior and renormalising recovers calibrated risks."""
+    p = proba * prior
+    return p / p.sum(axis=-1, keepdims=True)
+
+
 def apply_monotonic(X: np.ndarray, feature_names: List[str], maps: Dict[str, Dict[str, List[float]]]) -> np.ndarray:
     """Equivalent to sklearn IsotonicRegression(out_of_bounds='clip').transform per feature."""
     X = X.copy()
@@ -94,16 +102,20 @@ class Model1Predictor:
         self.mean = np.asarray(prep["scaler_mean"], dtype=float)
         self.scale = np.asarray(prep["scaler_scale"], dtype=float)
         self.monotonic: Dict[str, Dict] = prep["monotonic"]
-        missing = [t for t in TARGETS if t not in self.monotonic]
+        self.class_prior = {t: np.asarray(v, dtype=float) for t, v in prep["class_prior"].items()}
+        missing = [t for t in TARGETS if t not in self.monotonic or t not in self.class_prior]
         if missing:
-            raise ValueError(f"preprocessing.json has no monotonic map for: {missing}")
+            raise ValueError(f"preprocessing.json is incomplete for: {missing}")
         self.models = {t: load_tabnet(self.model_dir, t) for t in TARGETS}
 
-    def predict_proba_matrix(self, X_raw: np.ndarray, target: str) -> np.ndarray:
-        """Batch class probabilities for raw feature rows (columns in self.feature_names order, NaN = missing)."""
+    def predict_proba_matrix(self, X_raw: np.ndarray, target: str, calibrated: bool = False) -> np.ndarray:
+        """Batch class probabilities for raw feature rows (columns in self.feature_names order, NaN = missing).
+        calibrated=False: the balanced-training scores used for the risk tier (label);
+        calibrated=True: prior-corrected outcome probabilities."""
         X = np.where(np.isnan(X_raw), self.medians, X_raw)
         X = apply_monotonic((X - self.mean) / self.scale, self.feature_names, self.monotonic[target])
-        return full_proba(self.models[target], X.astype(np.float32))
+        proba = full_proba(self.models[target], X.astype(np.float32))
+        return prior_correct(proba, self.class_prior[target]) if calibrated else proba
 
     def _scaled(self, patient: Dict[str, Any]) -> np.ndarray:
         x = np.array([np.nan if patient.get(f) is None else float(patient[f]) for f in self.feature_names])
@@ -111,22 +123,32 @@ class Model1Predictor:
         return ((x - self.mean) / self.scale)[None, :]
 
     def predict(self, patient: Dict[str, Any]) -> Dict[str, dict]:
+        """
+        label           risk tier from the class-balanced model (argmax of decision_proba);
+                        balanced training is what lets moderate/high patients be detected
+        decision_proba  the balanced-training class scores behind the label
+        proba           calibrated probabilities of each observed outcome level
+        severity_score  calibrated expected outcome level in [0, 2]; input to portion sizing
+        confidence      decision_proba of the assigned tier
+        """
         base = self._scaled(patient)
         out = {}
         for target, model in self.models.items():
             X = apply_monotonic(base, self.feature_names, self.monotonic[target]).astype(np.float32)
-            proba = full_proba(model, X)[0]
-            proba = proba / proba.sum()
-            pred = int(np.argmax(proba))
+            decision = full_proba(model, X)[0]
+            decision = decision / decision.sum()
+            calibrated = prior_correct(decision, self.class_prior[target])
+            pred = int(np.argmax(decision))
             explain, _ = model.explain(X)
             attr = explain[0]
             attr = attr / attr.sum() if attr.sum() > 0 else np.zeros_like(attr)
             ranked = sorted(zip(self.feature_names, attr), key=lambda kv: kv[1], reverse=True)[:5]
             out[target] = {
                 "label": LABELS[pred],
-                "severity_score": round(float(np.dot(proba, [0.0, 1.0, 2.0])), 4),
-                "confidence": round(float(proba.max()), 4),
-                "proba": {lbl: round(float(p), 4) for lbl, p in zip(LABELS, proba)},
+                "severity_score": round(float(np.dot(calibrated, [0.0, 1.0, 2.0])), 4),
+                "confidence": round(float(decision[pred]), 4),
+                "proba": {lbl: round(float(p), 4) for lbl, p in zip(LABELS, calibrated)},
+                "decision_proba": {lbl: round(float(p), 4) for lbl, p in zip(LABELS, decision)},
                 "feature_attribution": {f: round(float(w), 4) for f, w in ranked},
             }
         return out

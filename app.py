@@ -12,7 +12,6 @@ clinical-models/train_model1.py (see clinical-models/model1_artifacts.py).
 """
 
 import json
-import math
 import os
 import sys
 import base64
@@ -41,10 +40,14 @@ IFCT_CSV = os.path.join(BASE_DIR, "clinical-models", "ifct_database.csv")
 # One TabNet model + one monotonic transformer per target, loaded from the
 # portable artifact set written by clinical-models/train_model1.py.
 sys.path.insert(0, os.path.join(BASE_DIR, "clinical-models"))
-from model1_artifacts import Model1Predictor, TARGETS  # noqa: E402
+from model1_artifacts import TARGETS  # noqa: E402
+from train_model2 import PortionControlModel  # noqa: E402
 
-print("Loading Model 1 (per-target TabNet) …")
-PREDICTOR = Model1Predictor(MODEL_DIR)
+# Model 2 (portion engine) owns the Model 1 predictor, so both endpoints and the
+# research code share one implementation. Requests use it statelessly (use_ledger=False).
+print("Loading Model 1 + Model 2 (portion engine) …")
+ENGINE = PortionControlModel()
+PREDICTOR = ENGINE.model1.predictor
 TARGET_NAMES = list(TARGETS)
 FEATURE_NAMES = PREDICTOR.feature_names
 MODEL_MANIFEST = PREDICTOR.manifest
@@ -95,8 +98,7 @@ RISK_DESCRIPTIONS = {
 
 
 # ══════════════════════════════════════════════════════════════════
-#  MODEL 2 — PORTION RECOMMENDATION ENGINE
-#  Extracted from train_model2.py: PortionRecommender + BudgetCalc
+#  MODEL 2 — PORTION RECOMMENDATION (clinical-models/train_model2.py)
 # ══════════════════════════════════════════════════════════════════
 
 # ── IFCT nutritional database ─────────────────────────────────────
@@ -107,25 +109,6 @@ _ifct_idx = _ifct_df.set_index("ingredient_norm")
 IFCT_INGREDIENTS = _ifct_df["ingredient"].tolist()
 _ifct_ingredients_lower = [i.lower() for i in IFCT_INGREDIENTS]
 print(f"  ✓ IFCT database: {len(_ifct_df)} ingredients loaded\n")
-
-
-def ifct_get_nutrients(ingredient: str) -> dict:
-    """Get nutrient values per 100g for an ingredient."""
-    key = ingredient.lower().strip()
-    if key not in _ifct_idx.index:
-        raise KeyError(f"Ingredient not found: {ingredient}")
-    row = _ifct_idx.loc[key]
-    return {
-        "sodium_mg": float(row.get("sodium_mg_per_100g", 0)),
-        "potassium_mg": float(row.get("potassium_mg_per_100g", 0)),
-        "protein_g": float(row.get("protein_g_per_100g", 0)),
-        "carbs_g": float(row.get("carbs_g_per_100g", 0)),
-        "phosphorus_mg": float(row.get("phosphorus_mg_per_100g", 0)),
-        "fat_g": float(row.get("fat_g_per_100g", 0)),
-        "fiber_g": float(row.get("fiber_g_per_100g", 0)),
-        "calories": float(row.get("calories_per_100g", 0)),
-        "category": str(row.get("category", "")),
-    }
 
 
 def ifct_search(query: str, n: int = 8) -> list:
@@ -148,154 +131,57 @@ def ifct_search(query: str, n: int = 8) -> list:
     return [IFCT_INGREDIENTS[_ifct_ingredients_lower.index(m)] for m in close]
 
 
-# ── Daily nutrient budgets by condition (from Model2Config) ───────
-DAILY_BUDGETS = {
-    "healthy": {
-        "sodium_mg": 2300, "potassium_mg": 4700,
-        "protein_g": 56, "carbs_g": 275, "phosphorus_mg": 1250,
-    },
-    "ckd": {
-        "sodium_mg": 2000, "potassium_mg": 2000,
-        "protein_g": 42, "carbs_g": 275, "phosphorus_mg": 800,
-    },
-    "htn": {
-        "sodium_mg": 1500, "potassium_mg": 4700,
-        "protein_g": 56, "carbs_g": 275, "phosphorus_mg": 1250,
-    },
-    "dm": {
-        "sodium_mg": 2300, "potassium_mg": 4700,
-        "protein_g": 56, "carbs_g": 180, "phosphorus_mg": 1250,
-    },
-    "ckd_htn": {
-        "sodium_mg": 1500, "potassium_mg": 2000,
-        "protein_g": 42, "carbs_g": 275, "phosphorus_mg": 800,
-    },
-    "ckd_dm": {
-        "sodium_mg": 2000, "potassium_mg": 2000,
-        "protein_g": 42, "carbs_g": 150, "phosphorus_mg": 800,
-    },
-    "ckd_htn_dm": {
-        "sodium_mg": 1500, "potassium_mg": 2000,
-        "protein_g": 42, "carbs_g": 150, "phosphorus_mg": 800,
-    },
-}
-
-# Portion thresholds (from Model2Config)
-DEFAULT_CAP_G = 300.0      # max grams per ingredient
-HALF_PORTION_G = 75.0      # below this → "Half portion"
-AVOID_THRESHOLD_G = 5.0    # below this → "Avoid"
-
-# Sigmoid constants for severity→fraction mapping (from PortionRecommender)
-_SIG_L = 0.42       # upper asymptote
-_SIG_K = 1.60       # steepness
-_SIG_S0 = 1.0       # midpoint
-_SIG_FLOOR = 0.05   # minimum fraction
+# ── Portion recommendations via the single Model 2 engine ────────
+_LABEL_API = {"Half portion": "Half Portion"}
+_NUTRIENT_KEYS = ["sodium_mg", "potassium_mg", "protein_g", "carbs_g", "phosphorus_mg", "calories"]
 
 
-def get_daily_budget(has_ckd: bool, has_htn: bool, has_dm: bool) -> dict:
-    """Get daily nutrient budget based on conditions."""
-    conditions = sorted(
-        [c for c, v in [("ckd", has_ckd), ("dm", has_dm), ("htn", has_htn)] if v]
-    )
-    key = "_".join(conditions) if conditions else "healthy"
-    return DAILY_BUDGETS.get(key, DAILY_BUDGETS.get("ckd_htn_dm", DAILY_BUDGETS["healthy"]))
-
-
-def severity_to_fraction(severity_score: float) -> float:
-    """
-    Map severity_score ∈ [0.0, 2.0] to a budget fraction via sigmoid.
-    severity=0.0 → ~0.40 (generous), severity=2.0 → ~0.08 (restrictive).
-    """
-    fraction = _SIG_L / (1.0 + math.exp(_SIG_K * (severity_score - _SIG_S0)))
-    return max(_SIG_FLOOR, fraction)
-
-
-def grams_from_budget(
-    nutrient_per_100g: float, remaining_budget: float, risk_fraction: float
-) -> float:
-    """Compute max grams: (budget * fraction / nutrient_per_100g) * 100."""
-    if nutrient_per_100g <= 0:
-        return float("inf")
-    allowed = max(0.0, remaining_budget) * risk_fraction
-    return max(0.0, (allowed / nutrient_per_100g) * 100.0)
-
-
-def recommend_ingredient(ingredient: str, severity_scores: dict, budget: dict) -> dict:
-    """
-    Recommend a safe portion for one ingredient.
-    Returns: {ingredient, max_grams, label, binding_constraint, nutrient_load, nutrients_per_100g}
-    """
-    try:
-        n = ifct_get_nutrients(ingredient)
-    except KeyError:
-        suggestions = ifct_search(ingredient)
-        return {
-            "ingredient": ingredient,
-            "max_grams": 0,
-            "label": "Not Found",
-            "binding_constraint": "unknown",
-            "explanation": f"Not in IFCT database. Try: {', '.join(suggestions)}" if suggestions else "Not in IFCT database.",
-            "nutrient_load": {},
-            "nutrients_per_100g": {},
-            "suggestions": suggestions,
-        }
-
-    # Convert severity scores to budget fractions via sigmoid
-    f_sod = severity_to_fraction(severity_scores.get("sodium_sensitivity", 1.0))
-    f_pot = severity_to_fraction(severity_scores.get("potassium_sensitivity", 1.0))
-    f_pro = severity_to_fraction(severity_scores.get("protein_restriction", 1.0))
-    f_carb = severity_to_fraction(severity_scores.get("carb_sensitivity", 1.0))
-    f_phos = severity_to_fraction(severity_scores.get("phosphorus_sensitivity", 0.2))
-
-    # Compute max grams per constraint
-    constraints = {
-        "sodium": grams_from_budget(n["sodium_mg"], budget["sodium_mg"], f_sod),
-        "potassium": grams_from_budget(n["potassium_mg"], budget["potassium_mg"], f_pot),
-        "protein": grams_from_budget(n["protein_g"], budget["protein_g"], f_pro),
-        "carbs": grams_from_budget(n["carbs_g"], budget["carbs_g"], f_carb),
-        "phosphorus": grams_from_budget(n["phosphorus_mg"], budget["phosphorus_mg"], f_phos),
-    }
-
-    binding = min(constraints, key=constraints.get)
-    max_g = min(constraints.values())
-    max_g = min(max_g, DEFAULT_CAP_G)
-
-    # Label
-    if max_g <= AVOID_THRESHOLD_G:
-        label = "Avoid"
-    elif max_g <= HALF_PORTION_G:
-        label = "Half Portion"
-    else:
-        label = "Allowed"
-
-    # Nutrient load at recommended portion
-    factor = max_g / 100.0
-    load = {
-        "sodium_mg": round(n["sodium_mg"] * factor, 1),
-        "potassium_mg": round(n["potassium_mg"] * factor, 1),
-        "protein_g": round(n["protein_g"] * factor, 2),
-        "carbs_g": round(n["carbs_g"] * factor, 2),
-        "phosphorus_mg": round(n["phosphorus_mg"] * factor, 1),
-        "calories": round(n["calories"] * factor, 0),
-    }
-
+def _api_decision(rec: dict) -> dict:
+    """Engine PortionDecision dict → the API shape the frontends expect."""
+    n = ENGINE.ifct.get_nutrients_per_100g(rec["ingredient"])
+    factor = rec["max_grams"] / 100.0
+    key = rec["ingredient"].lower().strip()
     return {
-        "ingredient": ingredient,
-        "category": n.get("category", ""),
-        "max_grams": round(max_g, 1),
-        "label": label,
-        "binding_constraint": binding,
-        "nutrient_load": load,
-        "nutrients_per_100g": {
-            "sodium_mg": n["sodium_mg"],
-            "potassium_mg": n["potassium_mg"],
-            "protein_g": n["protein_g"],
-            "carbs_g": n["carbs_g"],
-            "phosphorus_mg": n["phosphorus_mg"],
-            "calories": n["calories"],
-        },
-        "constraint_grams": {k: round(v, 1) if v != float("inf") else None for k, v in constraints.items()},
+        "ingredient": rec["ingredient"],
+        "category": str(_ifct_idx.loc[key].get("category", "")) if key in _ifct_idx.index else "",
+        "max_grams": round(float(rec["max_grams"]), 1),
+        "label": _LABEL_API.get(rec["label"], rec["label"]),
+        "binding_constraint": rec["binding_constraint"],
+        "explanation": rec.get("explanation", ""),
+        "nutrient_load": {k: round(n[k] * factor, 1) for k in _NUTRIENT_KEYS},
+        "nutrients_per_100g": {k: n[k] for k in _NUTRIENT_KEYS},
+        "substitutes": [{**sub, "label": _LABEL_API.get(sub["label"], sub["label"])}
+                        for sub in rec.get("substitutes", [])],
     }
+
+
+def _not_found(ingredient: str) -> dict:
+    suggestions = ifct_search(ingredient)
+    return {
+        "ingredient": ingredient, "max_grams": 0, "label": "Not Found", "binding_constraint": "unknown",
+        "explanation": f"Not in IFCT database. Try: {', '.join(suggestions)}" if suggestions else "Not in IFCT database.",
+        "nutrient_load": {}, "nutrients_per_100g": {}, "suggestions": suggestions,
+    }
+
+
+def portion_recommendations(patient_data: dict, ingredients: list) -> dict:
+    """Model 1 risk → daily budget → per-ingredient portions, all from train_model2.PortionControlModel."""
+    patient = {f: (None if patient_data.get(f) is None else float(patient_data[f])) for f in FEATURE_NAMES}
+    known = [i for i in ingredients if i.lower().strip() in ENGINE.ifct.idx.index]
+    if known:
+        res = ENGINE.get_recommendations(patient, known, include_substitutes=True, use_ledger=False)
+        risk, budget, warnings_ = res["risk_levels"], res["daily_budget"], res["clinical_warnings"]
+        by_name = {r["ingredient"]: _api_decision(r) for r in res["recommendations"]}
+    else:
+        risk, by_name, warnings_ = ENGINE.model1.predict_risk_levels(patient), {}, []
+        b = ENGINE.budget_calc.get_daily_budget(has_ckd=patient.get("has_ckd") == 1,
+                                                has_htn=patient.get("has_htn") == 1,
+                                                has_dm=patient.get("has_dm") == 1)
+        budget = {"sodium_mg": b.sodium_mg_remaining, "potassium_mg": b.potassium_mg_remaining,
+                  "protein_g": b.protein_g_remaining, "carbs_g": b.carbs_g_remaining,
+                  "phosphorus_mg": b.phosphorus_mg_remaining}
+    recs = [by_name[i] if i in by_name else _not_found(i) for i in ingredients]
+    return {"risk_levels": risk, "daily_budget": budget, "recommendations": recs, "clinical_warnings": warnings_}
 
 
 # ── Flask app ──────────────────────────────────────────────────────
@@ -349,7 +235,9 @@ def predict():
         risk_levels[target] = {
             "label": label,
             "confidence": round(r["confidence"] * 100, 2),
+            # calibrated outcome probabilities; the tier label comes from the balanced decision scores
             "probabilities": {k: round(v * 100, 2) for k, v in r["proba"].items()},
+            "severity_score": r["severity_score"],
             "feature_attribution": r["feature_attribution"],
             "display_name": RISK_DESCRIPTIONS[target]["name"],
             "clinical_note": RISK_DESCRIPTIONS[target][label],
@@ -482,30 +370,21 @@ def recommend():
     if missing:
         return jsonify({"error": f"Missing patient features: {missing}"}), 400
 
-    # ── Step 1: Run Model1 — risk predictions ──
-    patient = {f: float(patient_data[f]) for f in FEATURE_NAMES}
-    risk_levels = {}
-    severity_scores = {}
-    for target, r in predict_risk(patient).items():
+    result = portion_recommendations(patient_data, ingredient_list)
+    # severity scores are those the engine actually used (after any caloric reconciliation)
+    risk_levels, severity_scores = {}, {}
+    for target in TARGET_NAMES:
+        r = result["risk_levels"][target]
         risk_levels[target] = {
             "label": r["label"],
             "confidence": round(r["confidence"] * 100, 2),
             "display_name": RISK_DESCRIPTIONS[target]["name"],
         }
-        # severity_score = probability-weighted class index ∈ [0.0, 2.0]
         severity_scores[target] = r["severity_score"]
-
-    # ── Step 2: Get daily budget from conditions ──
+    recommendations = result["recommendations"]
     has_ckd = bool(int(patient_data.get("has_ckd", 0)))
     has_htn = bool(int(patient_data.get("has_htn", 0)))
     has_dm = bool(int(patient_data.get("has_dm", 0)))
-    budget = get_daily_budget(has_ckd, has_htn, has_dm)
-
-    # ── Step 3: Recommend portion for each ingredient ──
-    recommendations = []
-    for ing in ingredient_list:
-        rec = recommend_ingredient(ing, severity_scores, budget)
-        recommendations.append(rec)
 
     # Sort: Avoid first, then Half Portion, then Allowed
     label_order = {"Avoid": 0, "Half Portion": 1, "Allowed": 2, "Not Found": 3}
@@ -514,8 +393,9 @@ def recommend():
     return jsonify({
         "risk_levels": risk_levels,
         "severity_scores": {k: round(v, 4) for k, v in severity_scores.items()},
-        "daily_budget": budget,
+        "daily_budget": result["daily_budget"],
         "recommendations": recommendations,
+        "clinical_warnings": result["clinical_warnings"],
         "patient_conditions": {
             "has_ckd": has_ckd, "has_htn": has_htn, "has_dm": has_dm,
         },
@@ -601,21 +481,11 @@ def generate_recipe():
         return jsonify({"error": "No ingredients provided"}), 400
 
     try:
-        # 1-2. Model 1 risk prediction → severity scores (features matched by name)
-        severity_scores = {t: r["severity_score"] for t, r in predict_risk(patient_data).items()}
-
-        # 3. Calculate nutrient budget
+        # 1-4. Model 1 risk → budget → per-ingredient gram limits (single Model 2 engine)
         has_ckd = bool(int(patient_data.get("has_ckd", 0)))
         has_htn = bool(int(patient_data.get("has_htn", 0)))
         has_dm = bool(int(patient_data.get("has_dm", 0)))
-        daily_budget = get_daily_budget(has_ckd, has_htn, has_dm)
-
-        # 4. Determine safe maximum quantity for each ingredient
-        safe_ingredients = []
-        for ing in ingredients:
-            rec = recommend_ingredient(ing, severity_scores, daily_budget)
-            if rec:
-                safe_ingredients.append(rec)
+        safe_ingredients = portion_recommendations(patient_data, ingredients)["recommendations"]
 
         # 5. Build prompt with constraints
         ingredient_lines = []

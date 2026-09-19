@@ -13,8 +13,8 @@ Target: sodium_sensitivity
   f1_weighted               : 0.6473
   cohen_kappa               : 0.1748
   quadratic_kappa           : 0.2284
-  auroc_ovr_macro           : 0.7395
-  log_loss                  : 0.9029
+  auroc_ovr_macro           : 0.7557
+  log_loss                  : 0.5231
 
 Target: potassium_sensitivity
 ----------------------------------------
@@ -27,8 +27,8 @@ Target: potassium_sensitivity
   f1_weighted               : 0.7092
   cohen_kappa               : 0.1714
   quadratic_kappa           : 0.2444
-  auroc_ovr_macro           : 0.7113
-  log_loss                  : 0.9491
+  auroc_ovr_macro           : 0.7210
+  log_loss                  : 0.4768
 
 Target: protein_restriction
 ----------------------------------------
@@ -41,8 +41,8 @@ Target: protein_restriction
   f1_weighted               : 0.6061
   cohen_kappa               : 0.1425
   quadratic_kappa           : 0.0643
-  auroc_ovr_macro           : 0.6613
-  log_loss                  : 1.0239
+  auroc_ovr_macro           : 0.6726
+  log_loss                  : 0.5213
 
 Target: carb_sensitivity
 ----------------------------------------
@@ -55,14 +55,14 @@ Target: carb_sensitivity
   f1_weighted               : 0.6977
   cohen_kappa               : 0.2988
   quadratic_kappa           : 0.4182
-  auroc_ovr_macro           : 0.7658
-  log_loss                  : 0.8950
+  auroc_ovr_macro           : 0.7748
+  log_loss                  : 0.5990
 
 ======================================================================
 OVERALL (unweighted mean across targets)
 ======================================================================
   Mean Macro-F1          : 0.4172
   Mean Balanced accuracy : 0.4971
-  Mean AUROC (OvR)       : 0.7194
+  Mean AUROC (OvR)       : 0.7310
   Mean Accuracy          : 0.6076
   Mean Cohen Kappa       : 0.1969

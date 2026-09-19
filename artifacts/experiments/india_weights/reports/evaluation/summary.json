@@ -19,7 +19,7 @@
     "synthetic": false
   },
   "git": {
-    "commit": "d60cd8a0d9e228fdba52531167d7aec0f3cf85d7",
+    "commit": "9faead2f8c38383a517a93b9127706665f0117bb",
     "clinical_models_dirty": true
   },
   "n_boot": 500,
@@ -38,7 +38,7 @@
           "balanced_accuracy": 0.5103963766694414,
           "cohen_kappa": 0.15079158218639,
           "quadratic_kappa": 0.19938776769868283,
-          "auroc_ovr_macro": 0.7314534920385994
+          "auroc_ovr_macro": 0.7555809245332449
         },
         "rules": {
           "f1_macro": 0.371302056715058,
@@ -66,8 +66,8 @@
             0.209
           ],
           "auroc_ovr_macro": [
-            0.7242,
-            0.7394
+            0.7486,
+            0.7634
           ]
         },
         "rules": {
@@ -114,7 +114,7 @@
             "balanced_accuracy": 0.5366886724094556,
             "cohen_kappa": 0.18832869290520637,
             "quadratic_kappa": 0.23966614912115713,
-            "auroc_ovr_macro": 0.7701442199110469
+            "auroc_ovr_macro": 0.7881663008803749
           },
           "rules": {
             "f1_macro": 0.4195760787399642,
@@ -142,8 +142,8 @@
               0.2513
             ],
             "auroc_ovr_macro": [
-              0.7614,
-              0.7784
+              0.779,
+              0.7965
             ]
           },
           "rules": {
@@ -185,22 +185,22 @@
         }
       },
       "calibration": {
-        "ece_raw": 0.0699,
-        "ece_prior_corrected": 0.0344,
-        "train_class_prior": [
+        "ece_balanced_scores": 0.0699,
+        "ece_calibrated": 0.0344,
+        "correction_factor": [
           0.7901,
           0.1799,
           0.03
         ],
-        "tabnet_prior_corrected_argmax": {
+        "tabnet_calibrated_argmax": {
           "f1_macro": 0.36129609436422555,
           "balanced_accuracy": 0.3654490947393485,
           "cohen_kappa": 0.12178516307559872,
           "quadratic_kappa": 0.15193685310607608,
           "auroc_ovr_macro": 0.7555809245332449
         },
-        "mean_severity_raw": 0.8731,
-        "mean_severity_prior_corrected": 0.2777,
+        "mean_severity_balanced_scores": 0.8731,
+        "mean_severity_calibrated": 0.2777,
         "mean_observed_level": 0.2365
       }
     },
@@ -218,7 +218,7 @@
           "balanced_accuracy": 0.47184291515907245,
           "cohen_kappa": 0.15078011294001703,
           "quadratic_kappa": 0.21502707511929475,
-          "auroc_ovr_macro": 0.7094834841080372
+          "auroc_ovr_macro": 0.7195488882979947
         },
         "rules": {
           "f1_macro": 0.38605345352825493,
@@ -246,8 +246,8 @@
             0.2251
           ],
           "auroc_ovr_macro": [
-            0.7019,
-            0.7172
+            0.712,
+            0.7273
           ]
         },
         "rules": {
@@ -294,7 +294,7 @@
             "balanced_accuracy": 0.4636549396223873,
             "cohen_kappa": 0.15173090168296888,
             "quadratic_kappa": 0.2113335168961895,
-            "auroc_ovr_macro": 0.7018665564212406
+            "auroc_ovr_macro": 0.7093882146361308
           },
           "rules": {
             "f1_macro": 0.395009083420735,
@@ -322,8 +322,8 @@
               0.2209
             ],
             "auroc_ovr_macro": [
-              0.693,
-              0.7118
+              0.7005,
+              0.7197
             ]
           },
           "rules": {
@@ -365,22 +365,22 @@
         }
       },
       "calibration": {
-        "ece_raw": 0.1604,
-        "ece_prior_corrected": 0.0174,
-        "train_class_prior": [
+        "ece_balanced_scores": 0.1604,
+        "ece_calibrated": 0.0174,
+        "correction_factor": [
           0.8491,
           0.0903,
           0.0607
         ],
-        "tabnet_prior_corrected_argmax": {
+        "tabnet_calibrated_argmax": {
           "f1_macro": 0.35927097004116826,
           "balanced_accuracy": 0.3639180350586877,
           "cohen_kappa": 0.08006519260783063,
           "quadratic_kappa": 0.13339960946415275,
           "auroc_ovr_macro": 0.7195488882979947
         },
-        "mean_severity_raw": 0.95,
-        "mean_severity_prior_corrected": 0.2424,
+        "mean_severity_balanced_scores": 0.95,
+        "mean_severity_calibrated": 0.2424,
         "mean_observed_level": 0.2124
       }
     },
@@ -398,7 +398,7 @@
           "balanced_accuracy": 0.4733461249660131,
           "cohen_kappa": 0.11814874384693086,
           "quadratic_kappa": 0.04169141702460755,
-          "auroc_ovr_macro": 0.6645124773848399
+          "auroc_ovr_macro": 0.6754463797207828
         },
         "rules": {
           "f1_macro": 0.32078163387320785,
@@ -426,8 +426,8 @@
             0.047
           ],
           "auroc_ovr_macro": [
-            0.6572,
-            0.6711
+            0.6684,
+            0.6823
           ]
         },
         "rules": {
@@ -474,7 +474,7 @@
             "balanced_accuracy": 0.4762634997789796,
             "cohen_kappa": 0.11691490939799198,
             "quadratic_kappa": 0.053328092913013436,
-            "auroc_ovr_macro": 0.6640902847231559
+            "auroc_ovr_macro": 0.6747877952246374
           },
           "rules": {
             "f1_macro": 0.3371726190608022,
@@ -502,8 +502,8 @@
               0.059
             ],
             "auroc_ovr_macro": [
-              0.6552,
-              0.6723
+              0.6668,
+              0.6825
             ]
           },
           "rules": {
@@ -545,22 +545,22 @@
         }
       },
       "calibration": {
-        "ece_raw": 0.064,
-        "ece_prior_corrected": 0.0221,
-        "train_class_prior": [
+        "ece_balanced_scores": 0.064,
+        "ece_calibrated": 0.0221,
+        "correction_factor": [
           0.8151,
           0.1515,
           0.0334
         ],
-        "tabnet_prior_corrected_argmax": {
+        "tabnet_calibrated_argmax": {
           "f1_macro": 0.3873607269589579,
           "balanced_accuracy": 0.38307431817608256,
           "cohen_kappa": 0.16611785783268274,
           "quadratic_kappa": 0.10580467485975131,
           "auroc_ovr_macro": 0.6754463797207828
         },
-        "mean_severity_raw": 0.9861,
-        "mean_severity_prior_corrected": 0.2473,
+        "mean_severity_balanced_scores": 0.9861,
+        "mean_severity_calibrated": 0.2473,
         "mean_observed_level": 0.2174
       }
     },
@@ -578,7 +578,7 @@
           "balanced_accuracy": 0.521115535988446,
           "cohen_kappa": 0.27743061497175536,
           "quadratic_kappa": 0.4111762409556693,
-          "auroc_ovr_macro": 0.7641145396933101
+          "auroc_ovr_macro": 0.7718168912575495
         },
         "rules": {
           "f1_macro": 0.3173005954307678,
@@ -606,8 +606,8 @@
             0.422
           ],
           "auroc_ovr_macro": [
-            0.7578,
-            0.7695
+            0.7656,
+            0.7773
           ]
         },
         "rules": {
@@ -654,7 +654,7 @@
             "balanced_accuracy": 0.5062284167503911,
             "cohen_kappa": 0.27490570018644067,
             "quadratic_kappa": 0.4057266440557772,
-            "auroc_ovr_macro": 0.7485210346267221
+            "auroc_ovr_macro": 0.7545687039986904
           },
           "rules": {
             "f1_macro": 0.31001951694527935,
@@ -682,8 +682,8 @@
               0.4189
             ],
             "auroc_ovr_macro": [
-              0.7404,
-              0.7569
+              0.7463,
+              0.7633
             ]
           },
           "rules": {
@@ -725,22 +725,22 @@
         }
       },
       "calibration": {
-        "ece_raw": 0.1521,
-        "ece_prior_corrected": 0.0341,
-        "train_class_prior": [
+        "ece_balanced_scores": 0.1521,
+        "ece_calibrated": 0.0341,
+        "correction_factor": [
           0.7594,
           0.1378,
           0.1028
         ],
-        "tabnet_prior_corrected_argmax": {
+        "tabnet_calibrated_argmax": {
           "f1_macro": 0.4609692643077925,
           "balanced_accuracy": 0.43938431074893375,
           "cohen_kappa": 0.2514209558866356,
           "quadratic_kappa": 0.34251119972529964,
           "auroc_ovr_macro": 0.7718168912575495
         },
-        "mean_severity_raw": 0.9233,
-        "mean_severity_prior_corrected": 0.4076,
+        "mean_severity_balanced_scores": 0.9233,
+        "mean_severity_calibrated": 0.4076,
         "mean_observed_level": 0.3476
       }
     }

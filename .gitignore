@@ -37,6 +37,7 @@ db_activity.txt
 # Model 1 artifacts are json + .pt (not ignored); aggregate metric CSVs are safe to commit
 !artifacts/models/reports/*.csv
 !artifacts/models/reports/evaluation/*.csv
+!artifacts/models/reports/usecase_table.tex
 # pre-revision artifacts kept locally as evidence for the response letter
 artifacts/models/_legacy_pre_revision/
 # ablation models: keep reports, not weights

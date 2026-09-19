@@ -1,41 +1,41 @@
 target,breakdown,group,n,tabnet_f1_macro,rules_f1_macro,tabnet_balanced_accuracy,rules_balanced_accuracy,tabnet_auroc
-sodium_sensitivity,comorbidity,none,13136,0.4362,0.3247,0.4405,0.3347,0.7922
-sodium_sensitivity,comorbidity,HTN only,11931,0.3374,0.1703,0.4389,0.3699,0.6584
-sodium_sensitivity,comorbidity,HTN+DM+CKD,3816,0.2824,0.2084,0.4428,0.3871,0.6652
-sodium_sensitivity,comorbidity,HTN+CKD,3571,0.3039,0.2061,0.4572,0.3936,0.6602
-sodium_sensitivity,comorbidity,HTN+DM,5570,0.3243,0.1731,0.4372,0.3763,0.6587
-sodium_sensitivity,comorbidity,DM only,1691,0.4277,0.3191,0.4457,0.3351,0.7008
-sodium_sensitivity,comorbidity,CKD only,667,0.5166,0.3028,0.5723,0.3263,0.791
-sodium_sensitivity,comorbidity,DM+CKD,263,0.4027,0.3288,0.4581,0.344,0.6309
-sodium_sensitivity,era,2008-2019,37840,0.3923,0.3678,0.512,0.458,0.7387
-sodium_sensitivity,era,2020-2022,2805,0.4182,0.4191,0.4855,0.4713,0.7288
-potassium_sensitivity,comorbidity,none,14885,0.4049,0.3925,0.4165,0.4197,0.6653
-potassium_sensitivity,comorbidity,HTN only,14658,0.4067,0.3788,0.426,0.4279,0.6635
-potassium_sensitivity,comorbidity,HTN+DM+CKD,5201,0.2647,0.2264,0.4016,0.3836,0.6595
-potassium_sensitivity,comorbidity,HTN+CKD,4935,0.3029,0.2166,0.4207,0.3858,0.6496
-potassium_sensitivity,comorbidity,DM only,2073,0.4254,0.4033,0.4687,0.4415,0.6721
-potassium_sensitivity,comorbidity,CKD only,911,0.2896,0.2606,0.4394,0.4484,0.6458
-potassium_sensitivity,comorbidity,HTN+DM,6766,0.4126,0.3817,0.4477,0.4318,0.6864
-potassium_sensitivity,comorbidity,DM+CKD,374,0.2478,0.2432,0.3598,0.3543,0.638
-potassium_sensitivity,era,2008-2019,45215,0.4115,0.3849,0.4774,0.4675,0.712
-potassium_sensitivity,era,2020-2022,4588,0.4161,0.3971,0.445,0.4375,0.7012
-protein_restriction,comorbidity,none,14908,0.3597,0.3694,0.4032,0.3686,0.619
-protein_restriction,comorbidity,HTN only,14588,0.322,0.3494,0.3703,0.3572,0.5635
-protein_restriction,comorbidity,HTN+DM+CKD,5193,0.1966,0.0264,0.3472,0.3333,0.6148
-protein_restriction,comorbidity,HTN+CKD,4927,0.1912,0.022,0.3732,0.3333,0.6245
-protein_restriction,comorbidity,DM only,2070,0.2331,0.3534,0.3335,0.3594,0.5416
-protein_restriction,comorbidity,CKD only,909,0.2,0.022,0.3825,0.3333,0.5694
-protein_restriction,comorbidity,HTN+DM,6736,0.2281,0.3415,0.3706,0.3498,0.5549
-protein_restriction,comorbidity,DM+CKD,374,0.1735,0.0257,0.3409,0.3333,0.5861
-protein_restriction,era,2008-2019,45110,0.3944,0.3188,0.4711,0.358,0.6653
-protein_restriction,era,2020-2022,4595,0.4077,0.3416,0.4748,0.3734,0.6662
-carb_sensitivity,comorbidity,none,14816,0.4561,0.2899,0.4345,0.3875,0.6936
-carb_sensitivity,comorbidity,HTN only,14554,0.4256,0.2601,0.4116,0.38,0.6726
-carb_sensitivity,comorbidity,HTN+DM+CKD,5180,0.2656,0.2306,0.383,0.3533,0.6115
-carb_sensitivity,comorbidity,HTN+CKD,4901,0.4739,0.3199,0.4683,0.4147,0.7161
-carb_sensitivity,comorbidity,DM only,2067,0.3013,0.2222,0.3901,0.339,0.6414
-carb_sensitivity,comorbidity,CKD only,909,0.4477,0.3168,0.4542,0.3806,0.6795
-carb_sensitivity,comorbidity,HTN+DM,6729,0.2976,0.2024,0.3914,0.3409,0.6341
-carb_sensitivity,comorbidity,DM+CKD,374,0.2367,0.2383,0.351,0.3487,0.6101
-carb_sensitivity,era,2008-2019,44950,0.508,0.3123,0.533,0.4229,0.77
-carb_sensitivity,era,2020-2022,4580,0.5078,0.3661,0.5163,0.4447,0.7577
+sodium_sensitivity,comorbidity,none,13136,0.4362,0.3247,0.4405,0.3347,0.794
+sodium_sensitivity,comorbidity,HTN only,11931,0.3374,0.1703,0.4389,0.3699,0.6779
+sodium_sensitivity,comorbidity,HTN+DM+CKD,3816,0.2824,0.2084,0.4428,0.3871,0.698
+sodium_sensitivity,comorbidity,HTN+CKD,3571,0.3039,0.2061,0.4572,0.3936,0.6969
+sodium_sensitivity,comorbidity,HTN+DM,5570,0.3243,0.1731,0.4372,0.3763,0.6771
+sodium_sensitivity,comorbidity,DM only,1691,0.4277,0.3191,0.4457,0.3351,0.7035
+sodium_sensitivity,comorbidity,CKD only,667,0.5166,0.3028,0.5723,0.3263,0.8032
+sodium_sensitivity,comorbidity,DM+CKD,263,0.4027,0.3288,0.4581,0.344,0.6372
+sodium_sensitivity,era,2008-2019,37840,0.3923,0.3678,0.512,0.458,0.7557
+sodium_sensitivity,era,2020-2022,2805,0.4182,0.4191,0.4855,0.4713,0.7472
+potassium_sensitivity,comorbidity,none,14885,0.4049,0.3925,0.4165,0.4197,0.6661
+potassium_sensitivity,comorbidity,HTN only,14658,0.4067,0.3788,0.426,0.4279,0.6647
+potassium_sensitivity,comorbidity,HTN+DM+CKD,5201,0.2647,0.2264,0.4016,0.3836,0.7004
+potassium_sensitivity,comorbidity,HTN+CKD,4935,0.3029,0.2166,0.4207,0.3858,0.6762
+potassium_sensitivity,comorbidity,DM only,2073,0.4254,0.4033,0.4687,0.4415,0.6784
+potassium_sensitivity,comorbidity,CKD only,911,0.2896,0.2606,0.4394,0.4484,0.658
+potassium_sensitivity,comorbidity,HTN+DM,6766,0.4126,0.3817,0.4477,0.4318,0.6905
+potassium_sensitivity,comorbidity,DM+CKD,374,0.2478,0.2432,0.3598,0.3543,0.662
+potassium_sensitivity,era,2008-2019,45215,0.4115,0.3849,0.4774,0.4675,0.7208
+potassium_sensitivity,era,2020-2022,4588,0.4161,0.3971,0.445,0.4375,0.7091
+protein_restriction,comorbidity,none,14908,0.3597,0.3694,0.4032,0.3686,0.6196
+protein_restriction,comorbidity,HTN only,14588,0.322,0.3494,0.3703,0.3572,0.5678
+protein_restriction,comorbidity,HTN+DM+CKD,5193,0.1966,0.0264,0.3472,0.3333,0.6175
+protein_restriction,comorbidity,HTN+CKD,4927,0.1912,0.022,0.3732,0.3333,0.628
+protein_restriction,comorbidity,DM only,2070,0.2331,0.3534,0.3335,0.3594,0.5523
+protein_restriction,comorbidity,CKD only,909,0.2,0.022,0.3825,0.3333,0.579
+protein_restriction,comorbidity,HTN+DM,6736,0.2281,0.3415,0.3706,0.3498,0.5576
+protein_restriction,comorbidity,DM+CKD,374,0.1735,0.0257,0.3409,0.3333,0.6047
+protein_restriction,era,2008-2019,45110,0.3944,0.3188,0.4711,0.358,0.6707
+protein_restriction,era,2020-2022,4595,0.4077,0.3416,0.4748,0.3734,0.6728
+carb_sensitivity,comorbidity,none,14816,0.4561,0.2899,0.4345,0.3875,0.6966
+carb_sensitivity,comorbidity,HTN only,14554,0.4256,0.2601,0.4116,0.38,0.6755
+carb_sensitivity,comorbidity,HTN+DM+CKD,5180,0.2656,0.2306,0.383,0.3533,0.6371
+carb_sensitivity,comorbidity,HTN+CKD,4901,0.4739,0.3199,0.4683,0.4147,0.7157
+carb_sensitivity,comorbidity,DM only,2067,0.3013,0.2222,0.3901,0.339,0.662
+carb_sensitivity,comorbidity,CKD only,909,0.4477,0.3168,0.4542,0.3806,0.681
+carb_sensitivity,comorbidity,HTN+DM,6729,0.2976,0.2024,0.3914,0.3409,0.6595
+carb_sensitivity,comorbidity,DM+CKD,374,0.2367,0.2383,0.351,0.3487,0.6367
+carb_sensitivity,era,2008-2019,44950,0.508,0.3123,0.533,0.4229,0.7766
+carb_sensitivity,era,2020-2022,4580,0.5078,0.3661,0.5163,0.4447,0.766

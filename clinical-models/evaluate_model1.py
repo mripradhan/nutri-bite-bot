@@ -4,8 +4,8 @@ Phase 4 evaluation of a saved Model 1 artifact set on the held-out real test pat
   - TabNet vs guideline-rule baseline with patient-level (cluster) bootstrap 95% CIs,
     including paired TabNet - rules differences
   - the same metrics with the test set reweighted to ICMR-INDIAB prevalence
-  - calibration (expected calibration error, reliability plots), raw and after
-    prior correction for class-balanced training
+  - calibration (expected calibration error, reliability plots) of the balanced-training
+    scores vs the deployed calibrated probabilities
   - comorbidity-subgroup and COVID-era (2020-2022) breakdowns
   - confusion matrices for TabNet and the rules
 
@@ -25,7 +25,7 @@ from sklearn.metrics import (balanced_accuracy_score, cohen_kappa_score, confusi
 
 import cohort_data
 from mimic_extract import SMALL_CELL
-from model1_artifacts import LABELS, TARGETS, Model1Predictor
+from model1_artifacts import LABELS, TARGETS, Model1Predictor, prior_correct
 from train_model1 import LabelGenerator, load_frames
 
 warnings.filterwarnings("ignore")
@@ -84,12 +84,6 @@ def ece(y, proba, n_bins=15) -> float:
     return float(total)
 
 
-def prior_correct(proba, train_prior) -> np.ndarray:
-    """Class-balanced sampling trains under a uniform prior; reweight by the true training prior."""
-    p = proba * train_prior
-    return p / p.sum(axis=1, keepdims=True)
-
-
 def reliability_plot(y, raw, corrected, target, path):
     import matplotlib
     matplotlib.use("Agg")
@@ -97,7 +91,7 @@ def reliability_plot(y, raw, corrected, target, path):
 
     fig, axes = plt.subplots(1, 3, figsize=(13, 4.2))
     for k, ax in enumerate(axes):
-        for proba, name, style in ((raw, "raw (balanced sampling)", "o-"), (corrected, "prior-corrected", "s-")):
+        for proba, name, style in ((raw, "balanced-training scores", "o-"), (corrected, "calibrated (deployed)", "s-")):
             p, obs = proba[:, k], (y == k).astype(float)
             edges = np.quantile(p, np.linspace(0, 1, 11))
             idx = np.clip(np.searchsorted(edges, p, side="right") - 1, 0, 9)
@@ -132,7 +126,6 @@ def main():
     manifest = predictor.manifest
 
     df = load_frames(args.tag)
-    train = df[(df.split == "train") & (df.cv_fold != 0)]
     test = df[df.split == "test"].reset_index(drop=True)
     rules = LabelGenerator.predict(test)
     india_w = cohort_data.india_weights(test).to_numpy()
@@ -146,12 +139,11 @@ def main():
     for target in TARGETS:
         mask = test[target].notna().to_numpy()
         y = test.loc[mask, target].astype(int).to_numpy()
-        proba = predictor.predict_proba_matrix(X_test[mask], target)
-        pred = proba.argmax(axis=1)
+        decision = predictor.predict_proba_matrix(X_test[mask], target)          # balanced scores -> label
+        proba = prior_correct(decision, predictor.class_prior[target])            # calibrated -> reported risk
+        pred = decision.argmax(axis=1)
         rpred = rules.loc[mask, target].to_numpy()
         groups = test.loc[mask, "subject_id"].to_numpy()
-        prior = np.bincount(train[target].dropna().astype(int), minlength=3) / train[target].notna().sum()
-        proba_c = prior_correct(proba, prior)
 
         print(f"\n{target}: n={len(y):,} patients={len(np.unique(groups)):,}")
         res = {
@@ -164,21 +156,21 @@ def main():
                 "ci95": cluster_bootstrap(y, pred, proba, rpred, groups, args.n_boot // 2, args.seed, india_w[mask]),
             },
             "calibration": {
-                "ece_raw": round(ece(y, proba), 4),
-                "ece_prior_corrected": round(ece(y, proba_c), 4),
-                "train_class_prior": [round(float(p), 4) for p in prior],
-                "tabnet_prior_corrected_argmax": metrics(y, proba_c.argmax(axis=1), proba_c),
-                "mean_severity_raw": round(float(np.mean(proba @ np.array([0, 1, 2.0]))), 4),
-                "mean_severity_prior_corrected": round(float(np.mean(proba_c @ np.array([0, 1, 2.0]))), 4),
+                "ece_balanced_scores": round(ece(y, decision), 4),
+                "ece_calibrated": round(ece(y, proba), 4),
+                "correction_factor": [round(float(p), 4) for p in predictor.class_prior[target]],
+                "tabnet_calibrated_argmax": metrics(y, proba.argmax(axis=1), proba),
+                "mean_severity_balanced_scores": round(float(np.mean(decision @ np.array([0, 1, 2.0]))), 4),
+                "mean_severity_calibrated": round(float(np.mean(proba @ np.array([0, 1, 2.0]))), 4),
                 "mean_observed_level": round(float(y.mean()), 4),
             },
         }
         summary["targets"][target] = res
-        reliability_plot(y, proba, proba_c, target, out_dir / f"reliability_{target}.png")
+        reliability_plot(y, decision, proba, target, out_dir / f"reliability_{target}.png")
         p, c = res["point"], res["ci95"]
         print(f"  macro-F1 TabNet {p['tabnet']['f1_macro']:.3f} {c['tabnet']['f1_macro']} | rules "
               f"{p['rules']['f1_macro']:.3f} {c['rules']['f1_macro']} | diff CI {c['diff']['f1_macro']}")
-        print(f"  ECE raw {res['calibration']['ece_raw']:.3f} -> prior-corrected {res['calibration']['ece_prior_corrected']:.3f}")
+        print(f"  ECE balanced scores {res['calibration']['ece_balanced_scores']:.3f} -> calibrated {res['calibration']['ece_calibrated']:.3f}")
 
         for model_name, pr in (("tabnet", pred), ("rules", rpred)):
             cm = confusion_matrix(y, pr, labels=[0, 1, 2])

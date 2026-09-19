@@ -25,7 +25,6 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
-from train_model1 import TFTRiskModel  # Phase 3B
 from model1_artifacts import Model1Predictor
 
 
@@ -988,6 +987,8 @@ class Model1Integration:
             
             # Load TFT model if use_tft is enabled (Phase 3B)
             if self.use_tft:
+                # imported lazily: train_model1 pulls in the training stack, which the web app doesn't ship
+                from train_model1 import TFTRiskModel
                 try:
                     tft_dir = self.model_dir / "tft"
                     self.tft_model = TFTRiskModel.load(tft_dir)
@@ -1755,6 +1756,7 @@ class PortionControlModel:
         ingredients: List[str],
         consumed_today: Optional[Dict[str, float]] = None,
         include_substitutes: bool = True,
+        use_ledger: bool = True,
     ) -> Dict[str, Any]:
         """
         Get portion recommendations for ingredients given patient data.
@@ -1774,6 +1776,9 @@ class PortionControlModel:
             consumed_today: DEPRECATED — ignored; ledger tracks this
             include_substitutes: If True, find substitutes for Avoid items.
                 If False, skip substitution entirely (pre-2A behavior).
+            use_ledger: If False, use the full daily budget and ignore this
+                instance's NutrientLedger (for stateless callers such as the
+                web API, where one instance serves many patients).
         
         Returns:
             Dict with risk_levels, budget, recommendations, and summary
@@ -1787,7 +1792,7 @@ class PortionControlModel:
             has_htn=patient_data.get("has_htn", 0) == 1,
             has_dm=patient_data.get("has_dm", 0) == 1,
         )
-        budget = self.ledger.get_remaining_budget(base_budget)
+        budget = self.ledger.get_remaining_budget(base_budget) if use_ledger else base_budget
         
         # Step 3: Get portion recommendations
         recommendations = self.recommender.recommend_batch(ingredients, risk_levels, budget)

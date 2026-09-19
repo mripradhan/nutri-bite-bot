@@ -1,8 +1,8 @@
 {
-  "schema_version": 2,
-  "created_utc": "2026-09-19T16:21:44+00:00",
+  "schema_version": 3,
+  "created_utc": "2026-09-19T17:46:55+00:00",
   "git": {
-    "commit": "d60cd8a0d9e228fdba52531167d7aec0f3cf85d7",
+    "commit": "9faead2f8c38383a517a93b9127706665f0117bb",
     "clinical_models_dirty": true
   },
   "data": {
@@ -115,7 +115,7 @@
       "n_val": 32322,
       "best_epoch": 19,
       "best_val_balanced_accuracy": 0.515852803674159,
-      "fit_seconds": 174.3
+      "fit_seconds": 175.1
     },
     "potassium_sensitivity": {
       "n_train_real": 158576,
@@ -123,7 +123,7 @@
       "n_val": 39098,
       "best_epoch": 12,
       "best_val_balanced_accuracy": 0.482246405649821,
-      "fit_seconds": 164.6
+      "fit_seconds": 164.4
     },
     "protein_restriction": {
       "n_train_real": 158120,
@@ -131,7 +131,7 @@
       "n_val": 39018,
       "best_epoch": 15,
       "best_val_balanced_accuracy": 0.4700515994485867,
-      "fit_seconds": 187.1
+      "fit_seconds": 184.0
     },
     "carb_sensitivity": {
       "n_train_real": 157677,
@@ -139,7 +139,7 @@
       "n_val": 38877,
       "best_epoch": 24,
       "best_val_balanced_accuracy": 0.5357375205233387,
-      "fit_seconds": 245.9
+      "fit_seconds": 247.9
     }
   },
   "metrics": {
@@ -154,8 +154,8 @@
         "f1_weighted": 0.6312459151855693,
         "cohen_kappa": 0.1810515671684204,
         "quadratic_kappa": 0.2349711182047669,
-        "auroc_ovr_macro": 0.7334756395366587,
-        "log_loss": 0.933389021814554
+        "auroc_ovr_macro": 0.7509553405491239,
+        "log_loss": 0.5381546139159534
       },
       "potassium_sensitivity": {
         "n": 39098,
@@ -167,8 +167,8 @@
         "f1_weighted": 0.7244707935659908,
         "cohen_kappa": 0.17815345111299308,
         "quadratic_kappa": 0.2587003449706575,
-        "auroc_ovr_macro": 0.7134756113869797,
-        "log_loss": 0.9271158581875951
+        "auroc_ovr_macro": 0.7217381529093186,
+        "log_loss": 0.47175528220451934
       },
       "protein_restriction": {
         "n": 39018,
@@ -180,8 +180,8 @@
         "f1_weighted": 0.6383995018139851,
         "cohen_kappa": 0.15829305586947173,
         "quadratic_kappa": 0.0745044019725607,
-        "auroc_ovr_macro": 0.6608939005837403,
-        "log_loss": 0.9802863977379106
+        "auroc_ovr_macro": 0.6657601534467517,
+        "log_loss": 0.5294596325445655
       },
       "carb_sensitivity": {
         "n": 38877,
@@ -193,8 +193,8 @@
         "f1_weighted": 0.709161447302205,
         "cohen_kappa": 0.32090412519149814,
         "quadratic_kappa": 0.46639260143905203,
-        "auroc_ovr_macro": 0.7659433689299243,
-        "log_loss": 0.8393193831866747
+        "auroc_ovr_macro": 0.7724360767256501,
+        "log_loss": 0.6137325246854174
       }
     },
     "test": {
@@ -208,8 +208,8 @@
         "f1_weighted": 0.636922902463687,
         "cohen_kappa": 0.17560652117742392,
         "quadratic_kappa": 0.22982080827499696,
-        "auroc_ovr_macro": 0.7371960789791195,
-        "log_loss": 0.9257740052566483
+        "auroc_ovr_macro": 0.7542837755906548,
+        "log_loss": 0.5252054866051212
       },
       "potassium_sensitivity": {
         "n": 49803,
@@ -221,8 +221,8 @@
         "f1_weighted": 0.7174335627245684,
         "cohen_kappa": 0.17219602367797038,
         "quadratic_kappa": 0.24894296013549944,
-        "auroc_ovr_macro": 0.710164652450402,
-        "log_loss": 0.9326687144626151
+        "auroc_ovr_macro": 0.7188535374159342,
+        "log_loss": 0.47856470219101327
       },
       "protein_restriction": {
         "n": 49705,
@@ -234,8 +234,8 @@
         "f1_weighted": 0.6414427081077474,
         "cohen_kappa": 0.15936105481116292,
         "quadratic_kappa": 0.07821877019301549,
-        "auroc_ovr_macro": 0.6654631858883653,
-        "log_loss": 0.9790904534686443
+        "auroc_ovr_macro": 0.6709171600795919,
+        "log_loss": 0.5213381822703415
       },
       "carb_sensitivity": {
         "n": 49530,
@@ -247,8 +247,8 @@
         "f1_weighted": 0.7120546200847321,
         "cohen_kappa": 0.31411271040410293,
         "quadratic_kappa": 0.4599703542063833,
-        "auroc_ovr_macro": 0.7685890096779157,
-        "log_loss": 0.8338431785477892
+        "auroc_ovr_macro": 0.7753971149088891,
+        "log_loss": 0.6011222367991514
       }
     },
     "test_guideline_rules": {

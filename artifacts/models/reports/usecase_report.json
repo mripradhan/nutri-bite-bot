@@ -1,0 +1,269 @@
+{
+  "model_manifest": {
+    "created_utc": "2026-09-19T17:29:21+00:00",
+    "git": {
+      "commit": "9faead2f8c38383a517a93b9127706665f0117bb",
+      "clinical_models_dirty": true
+    },
+    "config": {
+      "tag": "v3.1",
+      "seed": 42,
+      "n_d": 16,
+      "n_a": 16,
+      "n_steps": 5,
+      "gamma": 1.3,
+      "mask_type": "sparsemax",
+      "weight_decay": 1e-05,
+      "lr": 0.02,
+      "batch_size": 4096,
+      "virtual_batch_size": 256,
+      "max_epochs": 100,
+      "patience": 10,
+      "class_balance": true,
+      "india_weights": false,
+      "synthetic": false
+    }
+  },
+  "patient": {
+    "age": 58,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 140,
+    "serum_potassium": 5.1,
+    "creatinine": 1.9,
+    "egfr": 45,
+    "hba1c": 5.2,
+    "fbs": 85,
+    "sbp": 162,
+    "dbp": 96,
+    "bmi": 26
+  },
+  "model1": {
+    "sodium_sensitivity": {
+      "label": "high",
+      "severity_score": 0.5985,
+      "confidence": 0.56,
+      "proba": {
+        "low": 0.5078,
+        "moderate": 0.3858,
+        "high": 0.1064
+      },
+      "decision_proba": {
+        "low": 0.1014,
+        "moderate": 0.3386,
+        "high": 0.56
+      },
+      "feature_attribution": {
+        "serum_potassium": 0.356,
+        "sbp": 0.3317,
+        "has_htn": 0.1281,
+        "sex_male": 0.0982,
+        "egfr": 0.0486
+      },
+      "guideline_rule_label": "high"
+    },
+    "potassium_sensitivity": {
+      "label": "moderate",
+      "severity_score": 0.6101,
+      "confidence": 0.4653,
+      "proba": {
+        "low": 0.5594,
+        "moderate": 0.2712,
+        "high": 0.1694
+      },
+      "decision_proba": {
+        "low": 0.102,
+        "moderate": 0.4653,
+        "high": 0.4326
+      },
+      "feature_attribution": {
+        "serum_potassium": 0.3825,
+        "egfr": 0.2949,
+        "sex_male": 0.1626,
+        "bmi": 0.1377,
+        "has_dm": 0.0152
+      },
+      "guideline_rule_label": "high"
+    },
+    "protein_restriction": {
+      "label": "high",
+      "severity_score": 0.4269,
+      "confidence": 0.4326,
+      "proba": {
+        "low": 0.6418,
+        "moderate": 0.2895,
+        "high": 0.0687
+      },
+      "decision_proba": {
+        "low": 0.1655,
+        "moderate": 0.4018,
+        "high": 0.4326
+      },
+      "feature_attribution": {
+        "hba1c": 0.3239,
+        "egfr": 0.1615,
+        "sex_male": 0.1511,
+        "has_ckd": 0.1413,
+        "bmi": 0.1289
+      },
+      "guideline_rule_label": "high"
+    },
+    "carb_sensitivity": {
+      "label": "low",
+      "severity_score": 0.131,
+      "confidence": 0.596,
+      "proba": {
+        "low": 0.8998,
+        "moderate": 0.0695,
+        "high": 0.0307
+      },
+      "decision_proba": {
+        "low": 0.596,
+        "moderate": 0.2536,
+        "high": 0.1504
+      },
+      "feature_attribution": {
+        "fbs": 0.2505,
+        "hba1c": 0.2472,
+        "has_dm": 0.1949,
+        "serum_potassium": 0.0942,
+        "bmi": 0.0719
+      },
+      "guideline_rule_label": "moderate"
+    }
+  },
+  "ingredients": [
+    "Green gram dal (Moong dal)",
+    "Paneer (Cottage cheese)",
+    "Egg, whole, boiled",
+    "Rice, milled (white)",
+    "Banana, ripe",
+    "Apple",
+    "Pineapple (Ananas)",
+    "Bottle gourd (Lauki)"
+  ],
+  "model2_research": {
+    "Green gram dal (Moong dal)": {
+      "label": "Half portion",
+      "max_grams": 34.2,
+      "binding_constraint": "phosphorus"
+    },
+    "Paneer (Cottage cheese)": {
+      "label": "Half portion",
+      "max_grams": 24.9,
+      "binding_constraint": "phosphorus"
+    },
+    "Egg, whole, boiled": {
+      "label": "Half portion",
+      "max_grams": 56.7,
+      "binding_constraint": "phosphorus"
+    },
+    "Rice, milled (white)": {
+      "label": "Allowed",
+      "max_grams": 116.3,
+      "binding_constraint": "phosphorus"
+    },
+    "Banana, ripe": {
+      "label": "Allowed",
+      "max_grams": 114.6,
+      "binding_constraint": "potassium"
+    },
+    "Apple": {
+      "label": "Allowed",
+      "max_grams": 225.0,
+      "binding_constraint": "potassium"
+    },
+    "Pineapple (Ananas)": {
+      "label": "Allowed",
+      "max_grams": 300.0,
+      "binding_constraint": "potassium"
+    },
+    "Bottle gourd (Lauki)": {
+      "label": "Allowed",
+      "max_grams": 300.0,
+      "binding_constraint": "potassium"
+    }
+  },
+  "model2_research_warnings": [
+    {
+      "constraint": "protein_restriction",
+      "old_severity": 0.4269,
+      "new_severity": 0.1269,
+      "projected_kcal_after": 962.0,
+      "rationale": "KDIGO 2024: malnutrition risk outweighs CKD progression; protein restriction is the first target to relax."
+    },
+    {
+      "constraint": "protein_restriction",
+      "old_severity": 0.1269,
+      "new_severity": 0.0,
+      "projected_kcal_after": 962.0,
+      "rationale": "KDIGO 2024: malnutrition risk outweighs CKD progression; protein restriction is the first target to relax."
+    },
+    {
+      "constraint": "carb_sensitivity",
+      "old_severity": 0.131,
+      "new_severity": 0.0,
+      "projected_kcal_after": 962.0,
+      "rationale": "Relaxing carb sensitivity second when protein relaxation alone cannot restore caloric adequacy."
+    },
+    {
+      "constraint": "phosphorus_sensitivity",
+      "old_severity": 1.8,
+      "new_severity": 1.6,
+      "projected_kcal_after": 1109.4,
+      "rationale": "Marginal phosphorus relaxation (max \u22120.20 severity) to support caloric adequacy without excessive phosphorus load."
+    }
+  ],
+  "model2_app": {
+    "Paneer (Cottage cheese)": {
+      "label": "Half Portion",
+      "max_grams": 24.9,
+      "binding_constraint": "phosphorus"
+    },
+    "Green gram dal (Moong dal)": {
+      "label": "Half Portion",
+      "max_grams": 34.2,
+      "binding_constraint": "phosphorus"
+    },
+    "Egg, whole, boiled": {
+      "label": "Half Portion",
+      "max_grams": 56.7,
+      "binding_constraint": "phosphorus"
+    },
+    "Banana, ripe": {
+      "label": "Allowed",
+      "max_grams": 114.6,
+      "binding_constraint": "potassium"
+    },
+    "Rice, milled (white)": {
+      "label": "Allowed",
+      "max_grams": 116.3,
+      "binding_constraint": "phosphorus"
+    },
+    "Apple": {
+      "label": "Allowed",
+      "max_grams": 225.0,
+      "binding_constraint": "potassium"
+    },
+    "Pineapple (Ananas)": {
+      "label": "Allowed",
+      "max_grams": 300.0,
+      "binding_constraint": "potassium"
+    },
+    "Bottle gourd (Lauki)": {
+      "label": "Allowed",
+      "max_grams": 300.0,
+      "binding_constraint": "potassium"
+    }
+  },
+  "daily_budget_app": {
+    "carbs_g": 275,
+    "phosphorus_mg": 800,
+    "potassium_mg": 2000,
+    "protein_g": 42,
+    "sodium_mg": 1500
+  },
+  "engine_disagreements": []
+}
