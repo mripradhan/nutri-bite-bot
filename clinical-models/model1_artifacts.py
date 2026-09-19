@@ -99,6 +99,12 @@ class Model1Predictor:
             raise ValueError(f"preprocessing.json has no monotonic map for: {missing}")
         self.models = {t: load_tabnet(self.model_dir, t) for t in TARGETS}
 
+    def predict_proba_matrix(self, X_raw: np.ndarray, target: str) -> np.ndarray:
+        """Batch class probabilities for raw feature rows (columns in self.feature_names order, NaN = missing)."""
+        X = np.where(np.isnan(X_raw), self.medians, X_raw)
+        X = apply_monotonic((X - self.mean) / self.scale, self.feature_names, self.monotonic[target])
+        return full_proba(self.models[target], X.astype(np.float32))
+
     def _scaled(self, patient: Dict[str, Any]) -> np.ndarray:
         x = np.array([np.nan if patient.get(f) is None else float(patient[f]) for f in self.feature_names])
         x = np.where(np.isnan(x), self.medians, x)

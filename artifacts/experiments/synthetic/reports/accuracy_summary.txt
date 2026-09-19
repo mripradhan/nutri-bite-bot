@@ -1,0 +1,68 @@
+======================================================================
+CLINICAL MODEL #1 — EVALUATION SUMMARY (test, real MIMIC-IV patients only)
+======================================================================
+
+Target: sodium_sensitivity
+----------------------------------------
+  n                         : 40645
+  accuracy                  : 0.5688
+  balanced_accuracy         : 0.5089
+  precision_macro           : 0.4148
+  recall_macro              : 0.5089
+  f1_macro                  : 0.3941
+  f1_weighted               : 0.6369
+  cohen_kappa               : 0.1756
+  quadratic_kappa           : 0.2298
+  auroc_ovr_macro           : 0.7372
+  log_loss                  : 0.9258
+
+Target: potassium_sensitivity
+----------------------------------------
+  n                         : 49803
+  accuracy                  : 0.6654
+  balanced_accuracy         : 0.4737
+  precision_macro           : 0.4080
+  recall_macro              : 0.4737
+  f1_macro                  : 0.4119
+  f1_weighted               : 0.7174
+  cohen_kappa               : 0.1722
+  quadratic_kappa           : 0.2489
+  auroc_ovr_macro           : 0.7102
+  log_loss                  : 0.9327
+
+Target: protein_restriction
+----------------------------------------
+  n                         : 49705
+  accuracy                  : 0.5700
+  balanced_accuracy         : 0.4720
+  precision_macro           : 0.4185
+  recall_macro              : 0.4720
+  f1_macro                  : 0.3958
+  f1_weighted               : 0.6414
+  cohen_kappa               : 0.1594
+  quadratic_kappa           : 0.0782
+  auroc_ovr_macro           : 0.6655
+  log_loss                  : 0.9791
+
+Target: carb_sensitivity
+----------------------------------------
+  n                         : 49530
+  accuracy                  : 0.6897
+  balanced_accuracy         : 0.5313
+  precision_macro           : 0.4972
+  recall_macro              : 0.5313
+  f1_macro                  : 0.5081
+  f1_weighted               : 0.7121
+  cohen_kappa               : 0.3141
+  quadratic_kappa           : 0.4600
+  auroc_ovr_macro           : 0.7686
+  log_loss                  : 0.8338
+
+======================================================================
+OVERALL (unweighted mean across targets)
+======================================================================
+  Mean Macro-F1          : 0.4275
+  Mean Balanced accuracy : 0.4965
+  Mean AUROC (OvR)       : 0.7204
+  Mean Accuracy          : 0.6235
+  Mean Cohen Kappa       : 0.2053

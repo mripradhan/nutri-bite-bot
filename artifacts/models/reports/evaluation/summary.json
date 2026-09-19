@@ -1,0 +1,748 @@
+{
+  "model_dir": "artifacts/models",
+  "config": {
+    "tag": "v3.1",
+    "seed": 42,
+    "n_d": 16,
+    "n_a": 16,
+    "n_steps": 5,
+    "gamma": 1.3,
+    "mask_type": "sparsemax",
+    "weight_decay": 1e-05,
+    "lr": 0.02,
+    "batch_size": 4096,
+    "virtual_batch_size": 256,
+    "max_epochs": 100,
+    "patience": 10,
+    "class_balance": true,
+    "india_weights": false,
+    "synthetic": false
+  },
+  "git": {
+    "commit": "d60cd8a0d9e228fdba52531167d7aec0f3cf85d7",
+    "clinical_models_dirty": true
+  },
+  "n_boot": 1000,
+  "targets": {
+    "sodium_sensitivity": {
+      "n": 40645,
+      "n_patients": 15668,
+      "class_counts": {
+        "low": 32290,
+        "moderate": 7096,
+        "high": 1259
+      },
+      "point": {
+        "tabnet": {
+          "f1_macro": 0.3901663074640813,
+          "balanced_accuracy": 0.5136977713061568,
+          "cohen_kappa": 0.1748225753626097,
+          "quadratic_kappa": 0.22844398931800514,
+          "auroc_ovr_macro": 0.7394534614478916
+        },
+        "rules": {
+          "f1_macro": 0.371302056715058,
+          "balanced_accuracy": 0.45826235584694125,
+          "cohen_kappa": 0.11955733167577132,
+          "quadratic_kappa": 0.19261502385030138
+        }
+      },
+      "ci95": {
+        "tabnet": {
+          "f1_macro": [
+            0.3832,
+            0.3972
+          ],
+          "balanced_accuracy": [
+            0.501,
+            0.5259
+          ],
+          "cohen_kappa": [
+            0.1662,
+            0.1833
+          ],
+          "quadratic_kappa": [
+            0.2163,
+            0.2406
+          ],
+          "auroc_ovr_macro": [
+            0.7318,
+            0.7469
+          ]
+        },
+        "rules": {
+          "f1_macro": [
+            0.3612,
+            0.3824
+          ],
+          "balanced_accuracy": [
+            0.4472,
+            0.4699
+          ],
+          "cohen_kappa": [
+            0.1101,
+            0.1281
+          ],
+          "quadratic_kappa": [
+            0.1809,
+            0.2051
+          ]
+        },
+        "diff": {
+          "f1_macro": [
+            0.0093,
+            0.0274
+          ],
+          "balanced_accuracy": [
+            0.0434,
+            0.0677
+          ],
+          "cohen_kappa": [
+            0.0466,
+            0.0642
+          ],
+          "quadratic_kappa": [
+            0.0265,
+            0.045
+          ]
+        }
+      },
+      "india_weighted": {
+        "point": {
+          "tabnet": {
+            "f1_macro": 0.4158548850809585,
+            "balanced_accuracy": 0.5254933273862152,
+            "cohen_kappa": 0.20813074034462165,
+            "quadratic_kappa": 0.2652296764294295,
+            "auroc_ovr_macro": 0.775245530410586
+          },
+          "rules": {
+            "f1_macro": 0.4195760787399642,
+            "balanced_accuracy": 0.4685625491733756,
+            "cohen_kappa": 0.16676437596492588,
+            "quadratic_kappa": 0.236739610441974
+          }
+        },
+        "ci95": {
+          "tabnet": {
+            "f1_macro": [
+              0.4089,
+              0.4242
+            ],
+            "balanced_accuracy": [
+              0.5097,
+              0.5408
+            ],
+            "cohen_kappa": [
+              0.198,
+              0.2185
+            ],
+            "quadratic_kappa": [
+              0.2521,
+              0.2781
+            ],
+            "auroc_ovr_macro": [
+              0.7667,
+              0.7835
+            ]
+          },
+          "rules": {
+            "f1_macro": [
+              0.4092,
+              0.4298
+            ],
+            "balanced_accuracy": [
+              0.4575,
+              0.4806
+            ],
+            "cohen_kappa": [
+              0.1549,
+              0.1773
+            ],
+            "quadratic_kappa": [
+              0.2225,
+              0.2513
+            ]
+          },
+          "diff": {
+            "f1_macro": [
+              -0.0123,
+              0.005
+            ],
+            "balanced_accuracy": [
+              0.0439,
+              0.071
+            ],
+            "cohen_kappa": [
+              0.0299,
+              0.0534
+            ],
+            "quadratic_kappa": [
+              0.0183,
+              0.0396
+            ]
+          }
+        }
+      },
+      "calibration": {
+        "ece_raw": 0.068,
+        "ece_prior_corrected": 0.006,
+        "train_class_prior": [
+          0.7901,
+          0.1799,
+          0.03
+        ],
+        "tabnet_prior_corrected_argmax": {
+          "f1_macro": 0.32506465956752395,
+          "balanced_accuracy": 0.34686102758930404,
+          "cohen_kappa": 0.04867786802628493,
+          "quadratic_kappa": 0.05952980399232621,
+          "auroc_ovr_macro": 0.7556583211266436
+        },
+        "mean_severity_raw": 0.8043,
+        "mean_severity_prior_corrected": 0.2327,
+        "mean_observed_level": 0.2365
+      }
+    },
+    "potassium_sensitivity": {
+      "n": 49803,
+      "n_patients": 23925,
+      "class_counts": {
+        "low": 42239,
+        "moderate": 4549,
+        "high": 3015
+      },
+      "point": {
+        "tabnet": {
+          "f1_macro": 0.41350218618080364,
+          "balanced_accuracy": 0.47588469150279994,
+          "cohen_kappa": 0.17140733289173948,
+          "quadratic_kappa": 0.24435967335115127,
+          "auroc_ovr_macro": 0.7112602528690516
+        },
+        "rules": {
+          "f1_macro": 0.38605345352825493,
+          "balanced_accuracy": 0.46406999574267954,
+          "cohen_kappa": 0.13305109341151322,
+          "quadratic_kappa": 0.22320826852131226
+        }
+      },
+      "ci95": {
+        "tabnet": {
+          "f1_macro": [
+            0.4077,
+            0.4193
+          ],
+          "balanced_accuracy": [
+            0.4677,
+            0.4842
+          ],
+          "cohen_kappa": [
+            0.1636,
+            0.1794
+          ],
+          "quadratic_kappa": [
+            0.2333,
+            0.2559
+          ],
+          "auroc_ovr_macro": [
+            0.704,
+            0.7182
+          ]
+        },
+        "rules": {
+          "f1_macro": [
+            0.3804,
+            0.3922
+          ],
+          "balanced_accuracy": [
+            0.4558,
+            0.4725
+          ],
+          "cohen_kappa": [
+            0.1258,
+            0.1405
+          ],
+          "quadratic_kappa": [
+            0.2129,
+            0.2338
+          ]
+        },
+        "diff": {
+          "f1_macro": [
+            0.0233,
+            0.0315
+          ],
+          "balanced_accuracy": [
+            0.005,
+            0.0184
+          ],
+          "cohen_kappa": [
+            0.0331,
+            0.0435
+          ],
+          "quadratic_kappa": [
+            0.0157,
+            0.0266
+          ]
+        }
+      },
+      "india_weighted": {
+        "point": {
+          "tabnet": {
+            "f1_macro": 0.41641826225120543,
+            "balanced_accuracy": 0.46768750367598405,
+            "cohen_kappa": 0.17035754549338522,
+            "quadratic_kappa": 0.2384496507954983,
+            "auroc_ovr_macro": 0.7038420164478015
+          },
+          "rules": {
+            "f1_macro": 0.395009083420735,
+            "balanced_accuracy": 0.4609244015890852,
+            "cohen_kappa": 0.13673505498027572,
+            "quadratic_kappa": 0.22285472318264776
+          }
+        },
+        "ci95": {
+          "tabnet": {
+            "f1_macro": [
+              0.4109,
+              0.4225
+            ],
+            "balanced_accuracy": [
+              0.4595,
+              0.4763
+            ],
+            "cohen_kappa": [
+              0.1619,
+              0.179
+            ],
+            "quadratic_kappa": [
+              0.2263,
+              0.2516
+            ],
+            "auroc_ovr_macro": [
+              0.6947,
+              0.7137
+            ]
+          },
+          "rules": {
+            "f1_macro": [
+              0.3889,
+              0.4018
+            ],
+            "balanced_accuracy": [
+              0.4514,
+              0.4705
+            ],
+            "cohen_kappa": [
+              0.1285,
+              0.1457
+            ],
+            "quadratic_kappa": [
+              0.2113,
+              0.2356
+            ]
+          },
+          "diff": {
+            "f1_macro": [
+              0.0173,
+              0.0255
+            ],
+            "balanced_accuracy": [
+              0.0001,
+              0.0129
+            ],
+            "cohen_kappa": [
+              0.0286,
+              0.0395
+            ],
+            "quadratic_kappa": [
+              0.0096,
+              0.0213
+            ]
+          }
+        }
+      },
+      "calibration": {
+        "ece_raw": 0.1655,
+        "ece_prior_corrected": 0.0035,
+        "train_class_prior": [
+          0.8491,
+          0.0903,
+          0.0607
+        ],
+        "tabnet_prior_corrected_argmax": {
+          "f1_macro": 0.3169794491662232,
+          "balanced_accuracy": 0.3386325446927996,
+          "cohen_kappa": 0.014424213797358476,
+          "quadratic_kappa": 0.02595456208249025,
+          "auroc_ovr_macro": 0.7210387913315079
+        },
+        "mean_severity_raw": 0.8736,
+        "mean_severity_prior_corrected": 0.2094,
+        "mean_observed_level": 0.2124
+      }
+    },
+    "protein_restriction": {
+      "n": 49705,
+      "n_patients": 23985,
+      "class_counts": {
+        "low": 40608,
+        "moderate": 7390,
+        "high": 1707
+      },
+      "point": {
+        "tabnet": {
+          "f1_macro": 0.37938508735242554,
+          "balanced_accuracy": 0.47175760686843166,
+          "cohen_kappa": 0.14248186985873001,
+          "quadratic_kappa": 0.06428575076484955,
+          "auroc_ovr_macro": 0.6612610606519921
+        },
+        "rules": {
+          "f1_macro": 0.32078163387320785,
+          "balanced_accuracy": 0.3591987130186393,
+          "cohen_kappa": 0.09209790855587352,
+          "quadratic_kappa": 0.14947323975737004
+        }
+      },
+      "ci95": {
+        "tabnet": {
+          "f1_macro": [
+            0.3744,
+            0.3842
+          ],
+          "balanced_accuracy": [
+            0.463,
+            0.481
+          ],
+          "cohen_kappa": [
+            0.1354,
+            0.1492
+          ],
+          "quadratic_kappa": [
+            0.0585,
+            0.0706
+          ],
+          "auroc_ovr_macro": [
+            0.655,
+            0.6686
+          ]
+        },
+        "rules": {
+          "f1_macro": [
+            0.3164,
+            0.3251
+          ],
+          "balanced_accuracy": [
+            0.3507,
+            0.367
+          ],
+          "cohen_kappa": [
+            0.086,
+            0.098
+          ],
+          "quadratic_kappa": [
+            0.1413,
+            0.1578
+          ]
+        },
+        "diff": {
+          "f1_macro": [
+            0.0523,
+            0.0648
+          ],
+          "balanced_accuracy": [
+            0.0999,
+            0.1266
+          ],
+          "cohen_kappa": [
+            0.0436,
+            0.057
+          ],
+          "quadratic_kappa": [
+            -0.094,
+            -0.0759
+          ]
+        }
+      },
+      "india_weighted": {
+        "point": {
+          "tabnet": {
+            "f1_macro": 0.3953698696020689,
+            "balanced_accuracy": 0.47365019021547067,
+            "cohen_kappa": 0.1453640325734602,
+            "quadratic_kappa": 0.08337563172357132,
+            "auroc_ovr_macro": 0.6628521274938733
+          },
+          "rules": {
+            "f1_macro": 0.3371726190608022,
+            "balanced_accuracy": 0.36270372957909375,
+            "cohen_kappa": 0.10143509100073544,
+            "quadratic_kappa": 0.15557742136900177
+          }
+        },
+        "ci95": {
+          "tabnet": {
+            "f1_macro": [
+              0.3901,
+              0.4009
+            ],
+            "balanced_accuracy": [
+              0.4628,
+              0.4854
+            ],
+            "cohen_kappa": [
+              0.1382,
+              0.1538
+            ],
+            "quadratic_kappa": [
+              0.0765,
+              0.0916
+            ],
+            "auroc_ovr_macro": [
+              0.6547,
+              0.6719
+            ]
+          },
+          "rules": {
+            "f1_macro": [
+              0.333,
+              0.3424
+            ],
+            "balanced_accuracy": [
+              0.3546,
+              0.3709
+            ],
+            "cohen_kappa": [
+              0.095,
+              0.108
+            ],
+            "quadratic_kappa": [
+              0.1464,
+              0.1647
+            ]
+          },
+          "diff": {
+            "f1_macro": [
+              0.0507,
+              0.0645
+            ],
+            "balanced_accuracy": [
+              0.0977,
+              0.1249
+            ],
+            "cohen_kappa": [
+              0.0355,
+              0.0514
+            ],
+            "quadratic_kappa": [
+              -0.0824,
+              -0.0626
+            ]
+          }
+        }
+      },
+      "calibration": {
+        "ece_raw": 0.0841,
+        "ece_prior_corrected": 0.0077,
+        "train_class_prior": [
+          0.8151,
+          0.1515,
+          0.0334
+        ],
+        "tabnet_prior_corrected_argmax": {
+          "f1_macro": 0.37693294930928883,
+          "balanced_accuracy": 0.37512171110976045,
+          "cohen_kappa": 0.14458034492266525,
+          "quadratic_kappa": 0.09070172411157407,
+          "auroc_ovr_macro": 0.6725848931580155
+        },
+        "mean_severity_raw": 0.9546,
+        "mean_severity_prior_corrected": 0.2231,
+        "mean_observed_level": 0.2174
+      }
+    },
+    "carb_sensitivity": {
+      "n": 49530,
+      "n_patients": 23864,
+      "class_counts": {
+        "low": 37499,
+        "moderate": 6843,
+        "high": 5188
+      },
+      "point": {
+        "tabnet": {
+          "f1_macro": 0.4856684286942015,
+          "balanced_accuracy": 0.5270051193734612,
+          "cohen_kappa": 0.2987585907942547,
+          "quadratic_kappa": 0.41816601476976933,
+          "auroc_ovr_macro": 0.7657916353758907
+        },
+        "rules": {
+          "f1_macro": 0.3173005954307678,
+          "balanced_accuracy": 0.42478437867429086,
+          "cohen_kappa": 0.08835597640334847,
+          "quadratic_kappa": 0.1706311297787877
+        }
+      },
+      "ci95": {
+        "tabnet": {
+          "f1_macro": [
+            0.4792,
+            0.4918
+          ],
+          "balanced_accuracy": [
+            0.5201,
+            0.5337
+          ],
+          "cohen_kappa": [
+            0.2892,
+            0.3082
+          ],
+          "quadratic_kappa": [
+            0.4066,
+            0.43
+          ],
+          "auroc_ovr_macro": [
+            0.7598,
+            0.7712
+          ]
+        },
+        "rules": {
+          "f1_macro": [
+            0.3122,
+            0.3224
+          ],
+          "balanced_accuracy": [
+            0.4187,
+            0.4309
+          ],
+          "cohen_kappa": [
+            0.0827,
+            0.0935
+          ],
+          "quadratic_kappa": [
+            0.1622,
+            0.1786
+          ]
+        },
+        "diff": {
+          "f1_macro": [
+            0.1622,
+            0.1748
+          ],
+          "balanced_accuracy": [
+            0.0945,
+            0.1101
+          ],
+          "cohen_kappa": [
+            0.2026,
+            0.2187
+          ],
+          "quadratic_kappa": [
+            0.2381,
+            0.2573
+          ]
+        }
+      },
+      "india_weighted": {
+        "point": {
+          "tabnet": {
+            "f1_macro": 0.482904392043969,
+            "balanced_accuracy": 0.5042591969840896,
+            "cohen_kappa": 0.2954824596510566,
+            "quadratic_kappa": 0.4122025784036336,
+            "auroc_ovr_macro": 0.7503462494339955
+          },
+          "rules": {
+            "f1_macro": 0.31001951694527935,
+            "balanced_accuracy": 0.4185269067483188,
+            "cohen_kappa": 0.06814068836037634,
+            "quadratic_kappa": 0.13510266015875705
+          }
+        },
+        "ci95": {
+          "tabnet": {
+            "f1_macro": [
+              0.4759,
+              0.4891
+            ],
+            "balanced_accuracy": [
+              0.4956,
+              0.5109
+            ],
+            "cohen_kappa": [
+              0.2842,
+              0.3053
+            ],
+            "quadratic_kappa": [
+              0.3979,
+              0.4253
+            ],
+            "auroc_ovr_macro": [
+              0.743,
+              0.7575
+            ]
+          },
+          "rules": {
+            "f1_macro": [
+              0.3045,
+              0.3156
+            ],
+            "balanced_accuracy": [
+              0.4104,
+              0.427
+            ],
+            "cohen_kappa": [
+              0.062,
+              0.0745
+            ],
+            "quadratic_kappa": [
+              0.126,
+              0.1435
+            ]
+          },
+          "diff": {
+            "f1_macro": [
+              0.1651,
+              0.1788
+            ],
+            "balanced_accuracy": [
+              0.077,
+              0.094
+            ],
+            "cohen_kappa": [
+              0.2174,
+              0.2362
+            ],
+            "quadratic_kappa": [
+              0.2649,
+              0.2882
+            ]
+          }
+        }
+      },
+      "calibration": {
+        "ece_raw": 0.1493,
+        "ece_prior_corrected": 0.0058,
+        "train_class_prior": [
+          0.7594,
+          0.1378,
+          0.1028
+        ],
+        "tabnet_prior_corrected_argmax": {
+          "f1_macro": 0.4311827558819643,
+          "balanced_accuracy": 0.42391039016367166,
+          "cohen_kappa": 0.2133661329217963,
+          "quadratic_kappa": 0.3153508157563881,
+          "auroc_ovr_macro": 0.7748431799258979
+        },
+        "mean_severity_raw": 0.8509,
+        "mean_severity_prior_corrected": 0.3597,
+        "mean_observed_level": 0.3476
+      }
+    }
+  }
+}

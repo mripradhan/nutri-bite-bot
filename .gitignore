@@ -36,8 +36,13 @@ db_activity.txt
 !clinical-models/ifct_database.csv
 # Model 1 artifacts are json + .pt (not ignored); aggregate metric CSVs are safe to commit
 !artifacts/models/reports/*.csv
+!artifacts/models/reports/evaluation/*.csv
 # pre-revision artifacts kept locally as evidence for the response letter
 artifacts/models/_legacy_pre_revision/
+# ablation models: keep reports, not weights
+artifacts/experiments/*/tabnet/
+!artifacts/experiments/*/reports/*.csv
+!artifacts/experiments/*/reports/evaluation/*.csv
 
 # tooling
 .claude/
