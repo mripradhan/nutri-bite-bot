@@ -1,5 +1,12 @@
 # datasets and research documents
+# MIMIC-IV is PhysioNet credentialed data — never commit it (DUA)
 mimic IV/
+physionet.org/
+mimic-iv-clinical-database-demo-*/
+*.csv.gz
+# derived MIMIC extracts are row-level too; only aggregate cohort cards may be committed
+data/derived/*
+!data/derived/cohort_card_*.json
 *.csv
 *.zip
 *.parquet
@@ -27,9 +34,10 @@ db_activity.txt
 # force-include runtime-required data files (needed for HF Spaces)
 # MUST come after wildcard rules above — last matching rule wins
 !clinical-models/ifct_database.csv
-!artifacts/models/imputer.joblib
-!artifacts/models/scaler.joblib
-!artifacts/models/feature_names.joblib
+# Model 1 artifacts are json + .pt (not ignored); aggregate metric CSVs are safe to commit
+!artifacts/models/reports/*.csv
+# pre-revision artifacts kept locally as evidence for the response letter
+artifacts/models/_legacy_pre_revision/
 
 # tooling
 .claude/

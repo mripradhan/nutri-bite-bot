@@ -1,27 +1,25 @@
 """
 NutriBiteBot — Flask API Backend
 =================================
-Serves clinical risk stratification using TabNet deep learning model:
+Serves clinical risk stratification with one TabNet model per target:
   - sodium_sensitivity
   - potassium_sensitivity
   - protein_restriction
   - carb_sensitivity
 
-ALL predictions come from TabNet model.predict() / model.predict_proba()
-using model_params.json + network.pt weights — NO hardcoded thresholds.
+Model 1 predictions come from the artifact set in artifacts/models/ written by
+clinical-models/train_model1.py (see clinical-models/model1_artifacts.py).
 """
 
 import json
 import math
 import os
+import sys
 import base64
 import tempfile
-import zipfile
-import shutil
 import requests as http_requests
 from difflib import get_close_matches
 
-import joblib
 import numpy as np
 from PIL import Image
 from dotenv import load_dotenv
@@ -31,7 +29,6 @@ from groq import Groq
 import pandas as pd
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
-from pytorch_tabnet.tab_model import TabNetClassifier
 
 # ── paths ──────────────────────────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -41,74 +38,24 @@ FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
 IFCT_CSV = os.path.join(BASE_DIR, "clinical-models", "ifct_database.csv")
 
 # ── load ML models at startup ─────────────────────────────────────
-print("Loading ML model weights (TabNet) …")
+# One TabNet model + one monotonic transformer per target, loaded from the
+# portable artifact set written by clinical-models/train_model1.py.
+sys.path.insert(0, os.path.join(BASE_DIR, "clinical-models"))
+from model1_artifacts import Model1Predictor, TARGETS  # noqa: E402
 
-MODELS = {}
-TARGET_NAMES = [
-    "sodium_sensitivity",
-    "potassium_sensitivity",
-    "protein_restriction",
-    "carb_sensitivity",
-]
-
-# Build a temporary .zip from model_params.json + network.pt for TabNet's load_model()
-def _load_tabnet_from_parts(model_dir):
-    """Load a TabNet model from standalone model_params.json + network.pt files."""
-    params_path = os.path.join(model_dir, "model_params.json")
-    weights_path = os.path.join(model_dir, "network.pt")
-    tmp_zip = os.path.join(model_dir, "_tabnet_tmp.zip")
-    try:
-        with zipfile.ZipFile(tmp_zip, "w") as zf:
-            zf.write(params_path, "model_params.json")
-            zf.write(weights_path, "network.pt")
-        model = TabNetClassifier()
-        model.load_model(tmp_zip)
-        return model
-    finally:
-        if os.path.exists(tmp_zip):
-            os.remove(tmp_zip)
-
-_tabnet_model = _load_tabnet_from_parts(MODEL_DIR)
-print(f"  ✓ TabNet model loaded from model_params.json + network.pt")
-
-# Share the single TabNet model across all 4 risk targets
-for target in TARGET_NAMES:
-    MODELS[target] = _tabnet_model
-    print(f"  ✓ {target} → TabNet model")
-
-# Load preprocessing artifacts and extract fitted parameters.
-# The imputer/scaler .joblib files may be incompatible with the current
-# sklearn version (attribute renames between versions), so we extract
-# the raw numpy arrays and apply preprocessing manually.
-_raw_imputer = joblib.load(os.path.join(MODEL_DIR, "imputer.joblib"))
-_raw_scaler = joblib.load(os.path.join(MODEL_DIR, "scaler.joblib"))
-FEATURE_NAMES = joblib.load(os.path.join(MODEL_DIR, "feature_names.joblib"))
-
-# Extract fitted parameters (these are plain numpy arrays, always compatible)
-IMPUTER_FILL_VALUES = _raw_imputer.statistics_        # median per feature
-SCALER_MEAN = _raw_scaler.mean_                       # mean per feature
-SCALER_SCALE = _raw_scaler.scale_                     # std dev per feature
-
-print(f"  ✓ imputer, scaler, feature_names ({len(FEATURE_NAMES)} features) loaded")
-print(f"  Features: {list(FEATURE_NAMES)}")
-print("All TabNet models loaded successfully.\n")
+print("Loading Model 1 (per-target TabNet) …")
+PREDICTOR = Model1Predictor(MODEL_DIR)
+TARGET_NAMES = list(TARGETS)
+FEATURE_NAMES = PREDICTOR.feature_names
+MODEL_MANIFEST = PREDICTOR.manifest
+print(f"  ✓ {len(TARGET_NAMES)} targets, {len(FEATURE_NAMES)} features, "
+      f"trained {MODEL_MANIFEST['created_utc']} on {MODEL_MANIFEST['data']['source']}\n")
 
 
-def preprocess(X_df):
-    """
-    Apply imputation + scaling using the stored fitted parameters.
-    Equivalent to: scaler.transform(imputer.transform(X))
-    but avoids sklearn version compatibility issues.
-    """
-    X = X_df.values.astype(np.float64)
-    # Impute: replace NaN with median values
-    for col_idx in range(X.shape[1]):
-        mask = np.isnan(X[:, col_idx])
-        if mask.any():
-            X[mask, col_idx] = IMPUTER_FILL_VALUES[col_idx]
-    # Scale: standardize using z-score
-    X = (X - SCALER_MEAN) / SCALER_SCALE
-    return X
+def predict_risk(patient: dict) -> dict:
+    """Per-target {label, severity_score, confidence, proba, feature_attribution}."""
+    return PREDICTOR.predict({f: patient.get(f) for f in FEATURE_NAMES})
+
 
 # ── load reference data ────────────────────────────────────────────
 THRESHOLDS = {}
@@ -117,7 +64,6 @@ if os.path.exists(thresholds_path):
     with open(thresholds_path, "r") as f:
         THRESHOLDS = json.load(f)
 
-LABEL_MAP = {0: "low", 1: "moderate", 2: "high"}
 
 # Clinical descriptions for each risk domain
 RISK_DESCRIPTIONS = {
@@ -264,14 +210,6 @@ def severity_to_fraction(severity_score: float) -> float:
     return max(_SIG_FLOOR, fraction)
 
 
-def compute_severity_score(proba: np.ndarray) -> float:
-    """
-    Compute severity_score as probability-weighted class index.
-    Classes: 0=low, 1=moderate, 2=high → score ∈ [0.0, 2.0].
-    """
-    return float(proba[0] * 0.0 + proba[1] * 1.0 + proba[2] * 2.0)
-
-
 def grams_from_budget(
     nutrient_per_100g: float, remaining_budget: float, risk_fraction: float
 ) -> float:
@@ -404,31 +342,15 @@ def predict():
     if missing:
         return jsonify({"error": f"Missing features: {missing}"}), 400
 
-    # Build feature DataFrame (exactly as test.py does)
     patient = {f: float(data[f]) for f in FEATURE_NAMES}
-    X = pd.DataFrame([patient])[FEATURE_NAMES]
-
-    # Preprocess: impute → scale (using the TRAINED parameters from .joblib)
-    X_processed = preprocess(X)
-
-    # Run each TabNet model (requires float32)
-    X_tabnet = X_processed.astype(np.float32)
     risk_levels = {}
-    for target, model in MODELS.items():
-        pred = int(model.predict(X_tabnet)[0])
-        proba = model.predict_proba(X_tabnet)[0]
-
-        label = LABEL_MAP[pred]
-        confidence = float(proba[pred] * 100)
-
+    for target, r in predict_risk(patient).items():
+        label = r["label"]
         risk_levels[target] = {
             "label": label,
-            "confidence": round(confidence, 2),
-            "probabilities": {
-                "low": round(float(proba[0]) * 100, 2),
-                "moderate": round(float(proba[1]) * 100, 2),
-                "high": round(float(proba[2]) * 100, 2),
-            },
+            "confidence": round(r["confidence"] * 100, 2),
+            "probabilities": {k: round(v * 100, 2) for k, v in r["proba"].items()},
+            "feature_attribution": r["feature_attribution"],
             "display_name": RISK_DESCRIPTIONS[target]["name"],
             "clinical_note": RISK_DESCRIPTIONS[target][label],
         }
@@ -469,7 +391,13 @@ def predict():
 
 @app.route("/api/model-info", methods=["GET"])
 def model_info():
-    """Return model metadata — actual accuracy from training reports."""
+    """Return model metadata; metrics come from the training manifest (held-out real patients)."""
+    test = (MODEL_MANIFEST.get("metrics") or {}).get("test") or {}
+
+    def mean_of(key):
+        vals = [m[key] for m in test.values() if key in m]
+        return round(float(np.mean(vals)), 4) if vals else None
+
     return jsonify({
         "models": {
             target: {
@@ -477,18 +405,24 @@ def model_info():
                 "type": "TabNetClassifier",
                 "classes": ["low", "moderate", "high"],
                 "features_used": list(FEATURE_NAMES),
+                "test_metrics": test.get(target),
             }
             for target in TARGET_NAMES
         },
         "accuracy_metrics": {
-            "mean_accuracy": 0.9991,
-            "mean_f1_weighted": 0.9991,
-            "mean_cohen_kappa": 0.9983,
+            "evaluated_on": "held-out real MIMIC-IV patients",
+            "mean_f1_macro": mean_of("f1_macro"),
+            "mean_balanced_accuracy": mean_of("balanced_accuracy"),
+            "mean_auroc_ovr": mean_of("auroc_ovr_macro"),
+            "mean_accuracy": mean_of("accuracy"),
+            "mean_cohen_kappa": mean_of("cohen_kappa"),
         },
+        "trained": MODEL_MANIFEST.get("created_utc"),
+        "data_source": MODEL_MANIFEST["data"]["source"],
         "feature_count": len(FEATURE_NAMES),
         "feature_names": list(FEATURE_NAMES),
-        "preprocessing": ["SimpleImputer", "StandardScaler"],
-        "model_backend": "TabNet (pytorch_tabnet)",
+        "preprocessing": ["median imputation", "z-score scaling", "per-target isotonic monotonic transform"],
+        "model_backend": "TabNet (pytorch_tabnet), one model per target",
     })
 
 
@@ -550,24 +484,16 @@ def recommend():
 
     # ── Step 1: Run Model1 — risk predictions ──
     patient = {f: float(patient_data[f]) for f in FEATURE_NAMES}
-    X = pd.DataFrame([patient])[FEATURE_NAMES]
-    X_processed = preprocess(X)
-
-    X_tabnet = X_processed.astype(np.float32)
     risk_levels = {}
     severity_scores = {}
-    for target, model in MODELS.items():
-        pred = int(model.predict(X_tabnet)[0])
-        proba = model.predict_proba(X_tabnet)[0]
-        label = LABEL_MAP[pred]
-
+    for target, r in predict_risk(patient).items():
         risk_levels[target] = {
-            "label": label,
-            "confidence": round(float(proba[pred] * 100), 2),
+            "label": r["label"],
+            "confidence": round(r["confidence"] * 100, 2),
             "display_name": RISK_DESCRIPTIONS[target]["name"],
         }
         # severity_score = probability-weighted class index ∈ [0.0, 2.0]
-        severity_scores[target] = compute_severity_score(proba)
+        severity_scores[target] = r["severity_score"]
 
     # ── Step 2: Get daily budget from conditions ──
     has_ckd = bool(int(patient_data.get("has_ckd", 0)))
@@ -675,20 +601,8 @@ def generate_recipe():
         return jsonify({"error": "No ingredients provided"}), 400
 
     try:
-        # 1. Run standard ML prediction to get risk levels
-        patient_df = pd.DataFrame([patient_data])
-        X_scaled = preprocess(patient_df)
-        
-        X_tabnet = X_scaled.astype(np.float32)
-        probability_outputs = {}
-        for target, model in MODELS.items():
-            proba = model.predict_proba(X_tabnet)[0]
-            probability_outputs[target] = proba
-
-        # 2. Get severity mapping
-        severity_scores = {}
-        for target, proba in probability_outputs.items():
-            severity_scores[target] = compute_severity_score(proba)
+        # 1-2. Model 1 risk prediction → severity scores (features matched by name)
+        severity_scores = {t: r["severity_score"] for t, r in predict_risk(patient_data).items()}
 
         # 3. Calculate nutrient budget
         has_ckd = bool(int(patient_data.get("has_ckd", 0)))

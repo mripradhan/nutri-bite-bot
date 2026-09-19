@@ -6,7 +6,6 @@ Comprehensive test cases with user-friendly output
 
 import sys
 from train_model2 import PortionControlModel
-from train_model1 import MonotonicFeatureTransformer  # noqa: F401 — needed for joblib deserialization
 from output_formatter import OutputFormatter, print_recommendations
 
 

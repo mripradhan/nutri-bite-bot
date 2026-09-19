@@ -1,20 +1,43 @@
 """
 Clinical Model #1 Training Script
-Train risk stratification model on MIMIC-IV EventLog and ActivityAttributes data.
-Includes condition-specific nutrient thresholds and accuracy analysis reports.
+
+Trains one TabNet classifier per nutrient-risk target on the real MIMIC-IV v3.1
+cohort built by mimic_extract.py / cohort_data.py. Targets are clinically
+observed outcomes (see mimic_extract.py); the guideline threshold rules in
+LabelGenerator are kept only as the baseline TabNet is compared against.
+
+Data discipline:
+  - patient-level split from cohort_data.make_split (no patient in two splits)
+  - preprocessing, monotonic maps, class/India weights and synthetic rows are
+    all fitted on training rows only
+  - CV fold 0 is the early-stopping / tuning set; the held-out test set is
+    scored once, only with --evaluate-test, and never used for tuning
+
+Usage:
+    python train_model1.py --tag v3.1 --tune                 # grid on fold 0, no test access
+    python train_model1.py --tag v3.1 --evaluate-test [...]  # final fit + single test evaluation
 """
 
-import numpy as np
-import pandas as pd
+import argparse
+import hashlib
+import json
+import subprocess
+import time
+from datetime import datetime, timezone
 from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Dict, Any, Tuple, List, Optional
-import joblib
-import argparse
-import json
 
+import numpy as np
+import pandas as pd
 import torch
 from pytorch_tabnet.tab_model import TabNetClassifier
+
+import cohort_data
+from mimic_extract import FEATURES
+from model1_artifacts import (
+    ARTIFACT_SCHEMA_VERSION, TARGETS, Model1Predictor, full_proba, save_tabnet,
+)
 
 # TFT imports (Phase 3B) — guarded for backward compat
 try:
@@ -25,12 +48,11 @@ try:
 except ImportError:
     TFT_AVAILABLE = False
 from sklearn.isotonic import IsotonicRegression
-from sklearn.model_selection import train_test_split
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import (
-    classification_report, confusion_matrix, accuracy_score,
-    precision_score, recall_score, f1_score, cohen_kappa_score,
+    classification_report, confusion_matrix, accuracy_score, balanced_accuracy_score,
+    precision_score, recall_score, f1_score, cohen_kappa_score, roc_auc_score, log_loss,
 )
 import warnings
 warnings.filterwarnings('ignore')
@@ -46,64 +68,52 @@ import seaborn as sns
 
 @dataclass
 class ClinicalModelConfig:
-    random_state: int = 42
-    test_size: float = 0.2
-    
-    feature_cols: Tuple[str, ...] = (
-        "age",
-        "sex_male",
-        "has_htn",
-        "has_dm",
-        "has_ckd",
-        "serum_sodium",
-        "serum_potassium",
-        "creatinine",
-        "egfr",
-        "hba1c",
-        "fbs",
-        "sbp",
-        "dbp",
-        "bmi",
-    )
-    
-    targets: Tuple[str, ...] = (
-        "sodium_sensitivity",
-        "potassium_sensitivity",
-        "protein_restriction",
-        "carb_sensitivity",
-    )
-    
-    ngboost_params: Dict[str, Any] = field(default_factory=lambda: {
-        "n_estimators": 600,
-        "learning_rate": 0.05,
-        "random_state": 42,
-        "verbose": False,
-    })
-    
-    tabnet_params: Dict[str, Any] = field(default_factory=lambda: {
-        "n_d": 16,
-        "n_a": 16,
-        "n_steps": 5,
-        "gamma": 1.3,
-        "mask_type": "sparsemax",
-        "optimizer_fn": torch.optim.Adam,
-        "optimizer_params": {"lr": 1e-3, "weight_decay": 1e-5},
-        "scheduler_fn": torch.optim.lr_scheduler.StepLR,
-        "scheduler_params": {"step_size": 50, "gamma": 0.9},
-        "verbose": 0,
-        "seed": 42,
-    })
-    
-    tabnet_fit_params: Dict[str, Any] = field(default_factory=lambda: {
-        "max_epochs": 100,
-        "patience": 15,
-        "batch_size": 4096,
-        "virtual_batch_size": 256,
-    })
-    
-    model_dir: Path = Path("../artifacts/models")
-    reports_dir: Path = Path("../artifacts/models/reports")
-    data_dir: Path = Path("../mimic IV")
+    tag: str = "v3.1"
+    seed: int = 42
+    feature_cols: Tuple[str, ...] = tuple(FEATURES)
+    targets: Tuple[str, ...] = tuple(TARGETS)
+
+    # architecture (unchanged from the manuscript)
+    n_d: int = 16
+    n_a: int = 16
+    n_steps: int = 5
+    gamma: float = 1.3
+    mask_type: str = "sparsemax"
+    weight_decay: float = 1e-5
+
+    # optimisation (selected by --tune on CV fold 0)
+    lr: float = 2e-2
+    batch_size: int = 16384
+    virtual_batch_size: int = 1024
+    max_epochs: int = 100
+    patience: int = 10
+    class_balance: bool = True   # inverse-frequency sampling so minority (moderate/high) classes are learned
+    india_weights: bool = False  # raking weights to ICMR-INDIAB prevalence (ablation)
+    synthetic: bool = False      # Gaussian-copula rows for small comorbidity strata (ablation)
+    device: str = "auto"
+
+    model_dir: Path = Path(__file__).resolve().parent.parent / "artifacts" / "models"
+
+    @property
+    def reports_dir(self) -> Path:
+        return self.model_dir / "reports"
+
+    def tabnet_params(self) -> Dict[str, Any]:
+        return {
+            "n_d": self.n_d, "n_a": self.n_a, "n_steps": self.n_steps, "gamma": self.gamma,
+            "mask_type": self.mask_type,
+            "optimizer_fn": torch.optim.Adam,
+            "optimizer_params": {"lr": self.lr, "weight_decay": self.weight_decay},
+            "scheduler_fn": torch.optim.lr_scheduler.StepLR,
+            "scheduler_params": {"step_size": 50, "gamma": 0.9},
+            "device_name": self.device, "verbose": 0, "seed": self.seed,
+        }
+
+    def summary(self) -> Dict[str, Any]:
+        keys = ["tag", "seed", "n_d", "n_a", "n_steps", "gamma", "mask_type", "weight_decay", "lr",
+                "batch_size", "virtual_batch_size", "max_epochs", "patience", "class_balance",
+                "india_weights", "synthetic"]
+        return {k: getattr(self, k) for k in keys}
 
 
 # ===============================
@@ -336,25 +346,27 @@ class ModelEvaluator:
     def evaluate_all(
         self,
         targets: List[str],
-        y_true: pd.DataFrame,
+        y_true: Dict[str, np.ndarray],
         y_pred: Dict[str, np.ndarray],
+        y_proba: Dict[str, np.ndarray],
+        split_name: str = "test",
     ) -> Dict[str, Dict[str, float]]:
         """
-        Run full evaluation suite for every target.
+        Run full evaluation suite for every target (each target has its own labelled rows).
         Returns a dict of target -> metric_name -> value.
         """
         print("\n" + "="*80)
-        print("MODEL ACCURACY ANALYSIS")
+        print(f"MODEL EVALUATION — {split_name.upper()} (real patients only)")
         print("="*80)
 
         all_metrics = {}
         rows_for_csv = []
 
         for target in targets:
-            yt = y_true[target].values
-            yp = y_pred[target]
+            yt = np.asarray(y_true[target])
+            yp = np.asarray(y_pred[target])
 
-            metrics = self._compute_metrics(yt, yp)
+            metrics = self.compute_metrics(yt, yp, y_proba[target])
             all_metrics[target] = metrics
 
             # Confusion matrix heatmap
@@ -367,12 +379,12 @@ class ModelEvaluator:
             })
 
             # Print per-target summary
-            print(f"\n--- {target} ---")
-            print(f"  Accuracy:        {metrics['accuracy']:.4f}")
-            print(f"  Precision (wt):  {metrics['precision_weighted']:.4f}")
-            print(f"  Recall (wt):     {metrics['recall_weighted']:.4f}")
-            print(f"  F1-score (wt):   {metrics['f1_weighted']:.4f}")
-            print(f"  Cohen's Kappa:   {metrics['cohen_kappa']:.4f}")
+            print(f"\n--- {target} (n={len(yt):,}) ---")
+            print(f"  Macro-F1:          {metrics['f1_macro']:.4f}")
+            print(f"  Balanced accuracy: {metrics['balanced_accuracy']:.4f}")
+            print(f"  AUROC (OvR macro): {metrics['auroc_ovr_macro']:.4f}")
+            print(f"  Accuracy:          {metrics['accuracy']:.4f}")
+            print(f"  Cohen's Kappa:     {metrics['cohen_kappa']:.4f}")
 
             # Also print the sklearn classification report
             print(classification_report(
@@ -382,28 +394,34 @@ class ModelEvaluator:
             ))
 
         # Save CSV
-        csv_path = self.reports_dir / "classification_reports.csv"
+        csv_path = self.reports_dir / f"classification_reports_{split_name}.csv"
         pd.DataFrame(rows_for_csv).to_csv(csv_path, index=False)
         print(f"\n  ✓ Saved classification metrics CSV: {csv_path}")
 
         # Save text summary
-        self._save_accuracy_summary(all_metrics)
+        self._save_accuracy_summary(all_metrics, split_name)
 
         return all_metrics
 
-    # ---- private helpers ----
-
-    def _compute_metrics(self, y_true, y_pred) -> Dict[str, float]:
-        return {
+    @staticmethod
+    def compute_metrics(y_true, y_pred, y_proba=None) -> Dict[str, float]:
+        m = {
+            "n":                  int(len(y_true)),
             "accuracy":           accuracy_score(y_true, y_pred),
+            "balanced_accuracy":  balanced_accuracy_score(y_true, y_pred),
             "precision_macro":    precision_score(y_true, y_pred, average='macro', zero_division=0),
-            "precision_weighted":  precision_score(y_true, y_pred, average='weighted', zero_division=0),
             "recall_macro":       recall_score(y_true, y_pred, average='macro', zero_division=0),
-            "recall_weighted":    recall_score(y_true, y_pred, average='weighted', zero_division=0),
             "f1_macro":           f1_score(y_true, y_pred, average='macro', zero_division=0),
             "f1_weighted":        f1_score(y_true, y_pred, average='weighted', zero_division=0),
             "cohen_kappa":        cohen_kappa_score(y_true, y_pred),
+            "quadratic_kappa":    cohen_kappa_score(y_true, y_pred, weights="quadratic"),
         }
+        if y_proba is not None:
+            # OvR AUROC is undefined when a class is absent from y_true
+            m["auroc_ovr_macro"] = (roc_auc_score(y_true, y_proba, multi_class="ovr", average="macro", labels=[0, 1, 2])
+                                    if len(np.unique(y_true)) == 3 else float("nan"))
+            m["log_loss"] = log_loss(y_true, np.clip(y_proba, 1e-7, 1), labels=[0, 1, 2])
+        return m
 
     def _save_confusion_matrix(self, y_true, y_pred, target: str):
         cm = confusion_matrix(y_true, y_pred, labels=[0, 1, 2])
@@ -416,18 +434,18 @@ class ModelEvaluator:
         )
         ax.set_xlabel('Predicted', fontsize=12)
         ax.set_ylabel('Actual', fontsize=12)
-        ax.set_title(f'Confusion Matrix — {target}', fontsize=14)
+        ax.set_title(f'Confusion Matrix — {target} (held-out real patients)', fontsize=12)
         fig.tight_layout()
         path = self.reports_dir / f"confusion_matrix_{target}.png"
         fig.savefig(path, dpi=150)
         plt.close(fig)
         print(f"  ✓ Saved confusion matrix: {path}")
 
-    def _save_accuracy_summary(self, all_metrics: Dict[str, Dict[str, float]]):
+    def _save_accuracy_summary(self, all_metrics: Dict[str, Dict[str, float]], split_name: str):
         path = self.reports_dir / "accuracy_summary.txt"
         lines = [
             "=" * 70,
-            "CLINICAL MODEL #1 — ACCURACY ANALYSIS SUMMARY",
+            f"CLINICAL MODEL #1 — EVALUATION SUMMARY ({split_name}, real MIMIC-IV patients only)",
             "=" * 70,
             "",
         ]
@@ -435,19 +453,16 @@ class ModelEvaluator:
             lines.append(f"Target: {target}")
             lines.append("-" * 40)
             for k, v in metrics.items():
-                lines.append(f"  {k:25s} : {v:.4f}")
+                lines.append(f"  {k:25s} : {v:.4f}" if isinstance(v, float) else f"  {k:25s} : {v}")
             lines.append("")
 
-        # Overall average
         lines.append("=" * 70)
-        lines.append("OVERALL (macro-averaged across targets)")
+        lines.append("OVERALL (unweighted mean across targets)")
         lines.append("=" * 70)
-        avg_acc = np.mean([m['accuracy'] for m in all_metrics.values()])
-        avg_f1  = np.mean([m['f1_weighted'] for m in all_metrics.values()])
-        avg_kappa = np.mean([m['cohen_kappa'] for m in all_metrics.values()])
-        lines.append(f"  Mean Accuracy:     {avg_acc:.4f}")
-        lines.append(f"  Mean F1 (wt):      {avg_f1:.4f}")
-        lines.append(f"  Mean Cohen Kappa:  {avg_kappa:.4f}")
+        for key, name in (("f1_macro", "Macro-F1"), ("balanced_accuracy", "Balanced accuracy"),
+                          ("auroc_ovr_macro", "AUROC (OvR)"), ("accuracy", "Accuracy"),
+                          ("cohen_kappa", "Cohen Kappa")):
+            lines.append(f"  Mean {name:<18}: {np.mean([m[key] for m in all_metrics.values()]):.4f}")
         lines.append("")
 
         with open(path, "w") as f:
@@ -456,277 +471,46 @@ class ModelEvaluator:
 
 
 # ===============================
-# Data Loader
-# ===============================
-
-class MIMICDataLoader:
-    """Load MIMIC-IV EventLog and ActivityAttributes with chunked reading"""
-    
-    def __init__(self, config: ClinicalModelConfig, sample_rows: int = 100000):
-        self.config = config
-        self.sample_rows = sample_rows
-        self.eventlog = None
-        self.activity_attrs = None
-        
-    def load_data(self) -> bool:
-        """Load data files with sampling for initial testing"""
-        print("\n" + "="*80)
-        print("LOADING MIMIC-IV DATA")
-        print("="*80)
-        
-        # Load EventLog
-        eventlog_path = self.config.data_dir / "B_EventLog.csv"
-        print(f"\nLoading EventLog (sample={self.sample_rows})...")
-        self.eventlog = pd.read_csv(eventlog_path, nrows=self.sample_rows)
-        print(f"  ✓ EventLog shape: {self.eventlog.shape}")
-        print(f"  ✓ Activities: {self.eventlog['Activity'].nunique()} unique")
-        
-        # Load ActivityAttributes
-        attrs_path = self.config.data_dir / "E_ActivityAttributes.csv"
-        print(f"\nLoading ActivityAttributes (sample={self.sample_rows})...")
-        self.activity_attrs = pd.read_csv(attrs_path, nrows=self.sample_rows)
-        print(f"  ✓ ActivityAttributes shape: {self.activity_attrs.shape}")
-        print(f"  ✓ Attributes: {self.activity_attrs['Activity_Attribute'].nunique()} unique")
-        
-        return True
-
-
-# ===============================
-# Feature Extractor
-# ===============================
-
-class ClinicalFeatureExtractor:
-    """Extract clinical features from event log and activity attributes"""
-    
-    def __init__(self, config: ClinicalModelConfig):
-        self.config = config
-        
-    def extract_features(self, eventlog: pd.DataFrame, activity_attrs: pd.DataFrame) -> pd.DataFrame:
-        """Extract all features from the data"""
-        print("\n" + "="*80)
-        print("EXTRACTING CLINICAL FEATURES")
-        print("="*80)
-        
-        # Get unique patient-encounter pairs
-        patient_cols = ['temp_patient_id', 'temp_encounter_id']
-        
-        # Merge eventlog with activity attributes
-        merged = eventlog.merge(
-            activity_attrs,
-            on='Activity_Attributes_ID',
-            how='left',
-            suffixes=('', '_attr')
-        )
-        
-        # Pivot vital signs
-        vitals = merged[merged['Activity_y'] == 'vitalsign'].copy() if 'Activity_y' in merged.columns else \
-                 merged[merged['Activity_attr'] == 'vitalsign'].copy()
-        
-        if len(vitals) == 0:
-            # Try with Activity column
-            vitals = merged[merged['Activity'].str.contains('vital|BP', case=False, na=False)].copy()
-        
-        print(f"  ✓ Found {len(vitals)} vital sign records")
-        
-        # Extract vital features per patient-encounter
-        features_df = self._aggregate_vital_features(merged, patient_cols)
-        
-        # Add synthetic demographics and disease flags (for demo purposes)
-        features_df = self._add_synthetic_demographics(features_df)
-        
-        print(f"\n  ✓ Final feature matrix: {features_df.shape}")
-        
-        return features_df
-    
-    def _aggregate_vital_features(self, df: pd.DataFrame, patient_cols: List[str]) -> pd.DataFrame:
-        """Aggregate vital sign measurements per patient-encounter"""
-        
-        # Create pivot for vital signs
-        vital_attrs = ['sbp', 'dbp', 'mbp', 'heart_rate', 'glucose', 'temperature', 'resp_rate', 'spo2']
-        
-        records = []
-        attr_col = 'Activity_Attribute' if 'Activity_Attribute' in df.columns else 'Activity_Attribute_x'
-        value_col = 'Activity_Attribute_Value' if 'Activity_Attribute_Value' in df.columns else 'Activity_Attribute_Value_x'
-        
-        # Group by patient-encounter
-        for (patient_id, encounter_id), group in df.groupby(patient_cols):
-            record = {
-                'temp_patient_id': patient_id,
-                'temp_encounter_id': encounter_id,
-            }
-            
-            # Get vital signs
-            for attr in vital_attrs:
-                attr_values = group[group[attr_col] == attr][value_col]
-                if len(attr_values) > 0:
-                    try:
-                        record[f'{attr}_mean'] = pd.to_numeric(attr_values, errors='coerce').mean()
-                    except:
-                        record[f'{attr}_mean'] = np.nan
-            
-            records.append(record)
-        
-        features_df = pd.DataFrame(records)
-        print(f"  ✓ Extracted features for {len(features_df)} patient-encounters")
-        
-        return features_df
-    
-    def _add_synthetic_demographics(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Add synthetic demographics for demo (replace with real data in production)"""
-        np.random.seed(42)
-        n = len(df)
-        
-        # Demographics
-        df['age'] = np.random.normal(65, 15, n).clip(18, 100).astype(int)
-        df['sex_male'] = np.random.binomial(1, 0.52, n)
-        
-        # Disease flags (simulated based on clinical patterns)
-        df['has_htn'] = np.random.binomial(1, 0.4, n)
-        df['has_dm'] = np.random.binomial(1, 0.25, n)
-        df['has_ckd'] = np.random.binomial(1, 0.15, n)
-        
-        # Lab values (synthetic, correlated with disease status)
-        df['serum_sodium'] = np.where(
-            df['has_htn'] == 1,
-            np.random.normal(142, 5, n),
-            np.random.normal(140, 3, n)
-        ).clip(130, 155)
-        
-        df['serum_potassium'] = np.where(
-            df['has_ckd'] == 1,
-            np.random.normal(5.0, 0.8, n),
-            np.random.normal(4.2, 0.5, n)
-        ).clip(3.0, 7.0)
-        
-        df['creatinine'] = np.where(
-            df['has_ckd'] == 1,
-            np.random.normal(2.5, 1.0, n),
-            np.random.normal(1.0, 0.3, n)
-        ).clip(0.5, 8.0)
-        
-        # Calculate eGFR using CKD-EPI formula approximation
-        df['egfr'] = 142 * (df['creatinine'] / 0.9) ** (-1.2) * (0.9938 ** df['age'])
-        df['egfr'] = df['egfr'].clip(5, 120)
-        
-        df['hba1c'] = np.where(
-            df['has_dm'] == 1,
-            np.random.normal(8.5, 1.5, n),
-            np.random.normal(5.5, 0.5, n)
-        ).clip(4.0, 14.0)
-        
-        df['fbs'] = np.where(
-            df['has_dm'] == 1,
-            np.random.normal(180, 50, n),
-            np.random.normal(95, 15, n)
-        ).clip(60, 400)
-        
-        # Use actual sbp/dbp if available, else synthetic
-        if 'sbp_mean' in df.columns:
-            df['sbp'] = df['sbp_mean'].fillna(np.random.normal(130, 20, n).clip(80, 200))
-        else:
-            df['sbp'] = np.random.normal(130, 20, n).clip(80, 200)
-            
-        if 'dbp_mean' in df.columns:
-            df['dbp'] = df['dbp_mean'].fillna(np.random.normal(80, 12, n).clip(50, 120))
-        else:
-            df['dbp'] = np.random.normal(80, 12, n).clip(50, 120)
-        
-        df['bmi'] = np.random.normal(28, 6, n).clip(16, 50)
-        
-        print(f"  ✓ Added demographics for {n} patients")
-        
-        return df
-
-
-# ===============================
-# Label Generator
+# Guideline Rule Baseline
 # ===============================
 
 class LabelGenerator:
-    """Generate nutrition risk labels from clinical features"""
-    
-    def __init__(self, config: ClinicalModelConfig):
+    """
+    Deterministic guideline threshold rules (AHA/ACC, KDIGO 2024, ADA 2024).
+
+    These rules were the original training labels. They are now the BASELINE
+    that TabNet is compared against on observed outcomes; they are not used to
+    create training labels. Thresholds are exactly those of the original system.
+    Missing inputs evaluate as "threshold not met" (the rule cannot fire).
+    """
+
+    def __init__(self, config: Optional[ClinicalModelConfig] = None):
         self.config = config
-        
-    def generate_labels(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Generate multi-label targets based on clinical thresholds"""
-        print("\n" + "="*80)
-        print("GENERATING CLINICAL RISK LABELS")
-        print("="*80)
-        
-        df = df.copy()
-        
-        # 1. Sodium sensitivity
-        print("\n1. Sodium Sensitivity:")
-        df['sodium_sensitivity'] = 0
-        
-        # Moderate: high sodium OR hypertension
-        mask_moderate = (df['serum_sodium'] > 145) | (df['has_htn'] == 1)
-        df.loc[mask_moderate, 'sodium_sensitivity'] = 1
-        
-        # High: very high sodium OR (hypertension + high BP)
-        mask_high = (df['serum_sodium'] > 150) | ((df['has_htn'] == 1) & (df['sbp'] > 160))
-        df.loc[mask_high, 'sodium_sensitivity'] = 2
-        
-        counts = df['sodium_sensitivity'].value_counts().sort_index()
-        print(f"   Low: {counts.get(0, 0)}, Moderate: {counts.get(1, 0)}, High: {counts.get(2, 0)}")
-        
-        # 2. Potassium sensitivity
-        print("\n2. Potassium Sensitivity:")
-        df['potassium_sensitivity'] = 0
-        
-        # Moderate: high K OR reduced eGFR
-        mask_moderate = (df['serum_potassium'] > 4.5) | (df['egfr'] < 60)
-        df.loc[mask_moderate, 'potassium_sensitivity'] = 1
-        
-        # High: very high K OR (CKD + severely reduced eGFR)
-        mask_high = (df['serum_potassium'] > 5.0) | ((df['has_ckd'] == 1) & (df['egfr'] < 30))
-        df.loc[mask_high, 'potassium_sensitivity'] = 2
-        
-        counts = df['potassium_sensitivity'].value_counts().sort_index()
-        print(f"   Low: {counts.get(0, 0)}, Moderate: {counts.get(1, 0)}, High: {counts.get(2, 0)}")
-        
-        # 3. Protein restriction
-        print("\n3. Protein Restriction:")
-        df['protein_restriction'] = 0
-        
-        # Moderate: reduced eGFR
-        mask_moderate = df['egfr'] < 60
-        df.loc[mask_moderate, 'protein_restriction'] = 1
-        
-        # High: severely reduced eGFR OR CKD OR high creatinine
-        mask_high = (df['egfr'] < 30) | (df['has_ckd'] == 1) | (df['creatinine'] > 2.0)
-        df.loc[mask_high, 'protein_restriction'] = 2
-        
-        counts = df['protein_restriction'].value_counts().sort_index()
-        print(f"   Low: {counts.get(0, 0)}, Moderate: {counts.get(1, 0)}, High: {counts.get(2, 0)}")
-        
-        # 4. Carb sensitivity (diabetes-focused)
-        print("\n4. Carb Sensitivity (Diabetes Risk):")
-        df['carb_sensitivity'] = 0
-        
-        # Moderate: pre-diabetes OR diabetes OR high BMI OR elevated FBS
-        mask_moderate = (
-            (df['hba1c'] >= 5.7) |  # Pre-diabetes threshold
-            (df['fbs'] >= 100) |    # Impaired fasting glucose
-            (df['bmi'] >= 25) |     # Overweight
-            (df['has_dm'] == 1)
-        )
-        df.loc[mask_moderate, 'carb_sensitivity'] = 1
-        
-        # High: uncontrolled diabetes OR very high HbA1c OR very high FBS OR obesity
-        mask_high = (
-            (df['hba1c'] >= 7.0) |   # Diabetic range
-            (df['fbs'] >= 126) |     # Diabetic FBS threshold
-            (df['bmi'] >= 30) |      # Obesity
-            ((df['has_dm'] == 1) & (df['hba1c'] >= 6.5))
-        )
-        df.loc[mask_high, 'carb_sensitivity'] = 2
-        
-        counts = df['carb_sensitivity'].value_counts().sort_index()
-        print(f"   Low: {counts.get(0, 0)}, Moderate: {counts.get(1, 0)}, High: {counts.get(2, 0)}")
-        
-        return df
+
+    @staticmethod
+    def predict(df: pd.DataFrame) -> pd.DataFrame:
+        """Return rule-based levels (0/1/2) for every target without modifying df."""
+        out = pd.DataFrame(0, index=df.index, columns=list(TARGETS), dtype=int)
+
+        # Sodium: moderate = serum Na > 145 or HTN; high = Na > 150 or (HTN and SBP > 160)
+        out.loc[(df["serum_sodium"] > 145) | (df["has_htn"] == 1), "sodium_sensitivity"] = 1
+        out.loc[(df["serum_sodium"] > 150) | ((df["has_htn"] == 1) & (df["sbp"] > 160)), "sodium_sensitivity"] = 2
+
+        # Potassium: moderate = K > 4.5 or eGFR < 60; high = K > 5.0 or (CKD and eGFR < 30)
+        out.loc[(df["serum_potassium"] > 4.5) | (df["egfr"] < 60), "potassium_sensitivity"] = 1
+        out.loc[(df["serum_potassium"] > 5.0) | ((df["has_ckd"] == 1) & (df["egfr"] < 30)), "potassium_sensitivity"] = 2
+
+        # Protein: moderate = eGFR < 60; high = eGFR < 30 or CKD or creatinine > 2.0
+        out.loc[df["egfr"] < 60, "protein_restriction"] = 1
+        out.loc[(df["egfr"] < 30) | (df["has_ckd"] == 1) | (df["creatinine"] > 2.0), "protein_restriction"] = 2
+
+        # Carbohydrate: moderate = HbA1c >= 5.7 or FBS >= 100 or BMI >= 25 or DM;
+        # high = HbA1c >= 7.0 or FBS >= 126 or BMI >= 30 or (DM and HbA1c >= 6.5)
+        out.loc[(df["hba1c"] >= 5.7) | (df["fbs"] >= 100) | (df["bmi"] >= 25) | (df["has_dm"] == 1),
+                "carb_sensitivity"] = 1
+        out.loc[(df["hba1c"] >= 7.0) | (df["fbs"] >= 126) | (df["bmi"] >= 30)
+                | ((df["has_dm"] == 1) & (df["hba1c"] >= 6.5)), "carb_sensitivity"] = 2
+        return out
 
 
 # ===============================
@@ -761,19 +545,17 @@ class MonotonicFeatureTransformer:
     """
     Enforce clinical monotonicity via IsotonicRegression preprocessing.
 
-    Clinical rationale:
-    NGBoost does not natively support monotone_constraints. However, certain
-    lab values have a known dose-response relationship with dietary risk:
-      - Rising creatinine, serum_potassium, hba1c, fbs, sbp, dbp, bmi all
-        increase restriction risk (+1 constraint)
-      - Rising eGFR decreases restriction risk (-1 constraint)
-    By fitting an IsotonicRegression on each constrained feature (mapping
-    feature value -> mean target ordinal), we reshape the feature so that
-    the tree learner receives a monotonically-transformed input, preserving
-    the known clinical relationship without distorting unconstrained features.
+    TabNet has no native monotone constraints. Certain lab values have a known
+    dose-response relationship with dietary risk:
+      - Rising creatinine, serum_potassium, serum_sodium, hba1c, fbs, sbp, dbp,
+        bmi increase risk (+1 constraint)
+      - Rising eGFR decreases risk (-1 constraint)
+    Each constrained feature is replaced by an isotonic fit of that target's
+    ordinal outcome on the feature, so the network receives a monotonically
+    transformed input.
 
-    The transformer is fit on training data only and applied to both train
-    and test to prevent data leakage.
+    One transformer is fitted PER TARGET, on that target's labelled training
+    rows only, so no target's outcome leaks into another target's inputs.
     """
 
     def __init__(self, feature_names: List[str], constraints: List[int]):
@@ -791,20 +573,10 @@ class MonotonicFeatureTransformer:
 
     def fit(self, X: np.ndarray, y: np.ndarray) -> "MonotonicFeatureTransformer":
         """
-        Fit isotonic regressions on constrained features using mean target
-        as the response variable.
-
-        Clinical rationale:
-        We use the mean ordinal target (0=Low, 1=Moderate, 2=High averaged
-        across all four targets) as the supervision signal. This gives the
-        isotonic function a clinically-grounded mapping from lab value to
-        risk magnitude.
-
         Parameters
         ----------
-        X : np.ndarray, shape (n_samples, n_features)
-        y : np.ndarray, shape (n_samples,)
-            Mean ordinal target across all sensitivity targets.
+        X : np.ndarray, shape (n_samples, n_features), imputed and scaled
+        y : np.ndarray, shape (n_samples,), this target's ordinal outcome (0/1/2)
         """
         for i, (fname, c) in enumerate(zip(self.feature_names, self.constraints)):
             if c == 0:
@@ -824,6 +596,13 @@ class MonotonicFeatureTransformer:
         for i, iso in self.isotonic_models.items():
             X_out[:, i] = iso.transform(X_out[:, i])
         return X_out
+
+    def export(self) -> Dict[str, Dict[str, List[float]]]:
+        """Piecewise-linear maps for model1_artifacts.apply_monotonic (sklearn-free)."""
+        return {
+            self.feature_names[i]: {"x": iso.X_thresholds_.tolist(), "y": iso.y_thresholds_.tolist()}
+            for i, iso in self.isotonic_models.items()
+        }
 
 
 # ===============================
@@ -1217,353 +996,299 @@ class TFTRiskModel:
 
 
 # ===============================
+# Data preparation & provenance
+# ===============================
+
+def load_frames(tag: str) -> pd.DataFrame:
+    """Eligible cohort rows joined with the fixed patient-level split."""
+    df = cohort_data.load_cohort(tag)
+    split = pd.read_parquet(cohort_data.DERIVED / f"split_{tag}.parquet")[["hadm_id", "split", "cv_fold"]]
+    return df.merge(split, on="hadm_id", how="inner")
+
+
+def file_sha256(path: Path) -> str:
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def git_state() -> Dict[str, Any]:
+    here = Path(__file__).resolve().parent
+    try:
+        commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=here, text=True).strip()
+        # pathspec "." relative to clinical-models/, so uncommitted or untracked training code is detected
+        dirty = bool(subprocess.check_output(["git", "status", "--porcelain", "--", "."], cwd=here, text=True).strip())
+        return {"commit": commit, "clinical_models_dirty": dirty}
+    except Exception:
+        return {"commit": None, "clinical_models_dirty": None}
+
+
+def _json_default(o):
+    if isinstance(o, (np.integer,)):
+        return int(o)
+    if isinstance(o, (np.floating,)):
+        return float(o)
+    if isinstance(o, Path):
+        return str(o)
+    raise TypeError(type(o))
+
+
+# ===============================
 # Clinical Risk Stratifier
 # ===============================
 
 class ClinicalRiskStratifier:
-    """Train and evaluate clinical risk models using NGBoost probabilistic classifiers."""
-    
+    """One TabNet classifier (and one monotonic transformer) per target, trained on real admissions."""
+
     def __init__(self, cfg: ClinicalModelConfig):
         self.cfg = cfg
-        self.models: Dict[str, NGBClassifier] = {}
-        self.imputer = None
-        self.mono_transformer: Optional[MonotonicFeatureTransformer] = None
-        self.scaler = None
-        
-    def fit(self, df: pd.DataFrame):
-        """Train TabNet models on labeled data"""
-        print("\n" + "="*80)
-        print("TRAINING MODELS (TabNet)")
-        print("="*80)
-        
-        # Prepare features
-        feature_cols = list(self.cfg.feature_cols)
-        available_cols = [c for c in feature_cols if c in df.columns]
-        
-        print(f"\nUsing {len(available_cols)} features: {available_cols}")
-        
-        X = df[available_cols].copy()
-        Y = df[list(self.cfg.targets)].copy()
-        
-        # Impute missing values
-        self.imputer = SimpleImputer(strategy="median")
-        X_imputed = self.imputer.fit_transform(X)
-        
-        # Scale features
-        self.scaler = StandardScaler()
-        X_scaled = self.scaler.fit_transform(X_imputed)
-        
-        # Build monotonic constraints
-        mono = build_monotonic_constraints(available_cols)
-        
-        # Train/test split
-        X_train, X_test, y_train, y_test = train_test_split(
-            X_scaled, Y,
-            test_size=self.cfg.test_size,
-            random_state=self.cfg.random_state,
-            stratify=Y[self.cfg.targets[0]],
-        )
-        
-        print(f"\nTrain size: {len(X_train)}, Test size: {len(X_test)}")
-        
-        # Fit MonotonicFeatureTransformer on training data only
-        y_mean_ordinal = y_train[list(self.cfg.targets)].mean(axis=1).values
-        self.mono_transformer = MonotonicFeatureTransformer(available_cols, mono)
-        self.mono_transformer.fit(X_train, y_mean_ordinal)
-        
-        # Apply monotonic transform to both train and test
-        X_train = self.mono_transformer.transform(X_train)
-        X_test_transformed = self.mono_transformer.transform(X_test)
-        
-        print(f"  \u2713 Monotonic feature transformer fitted on {len(available_cols)} features")
-        
-        # Train TabNet model for each target and collect predictions
-        y_predictions = {}
-        for target in self.cfg.targets:
-            print(f"\n--- Training TabNet: {target} ---")
-            
-            model = TabNetClassifier(**self.cfg.tabnet_params)
-            
-            model.fit(
-                X_train=X_train.astype(np.float32),
-                y_train=y_train[target].values.astype(np.int64),
-                eval_set=[(X_test_transformed.astype(np.float32),
-                           y_test[target].values.astype(np.int64))],
-                eval_name=["val"],
-                eval_metric=["accuracy"],
-                **self.cfg.tabnet_fit_params,
-            )
-            
-            self.models[target] = model
-            y_predictions[target] = model.predict(X_test_transformed.astype(np.float32))
-            print(f"  \u2713 {target} — best epoch: {model.best_epoch}")
-        
-        # Store feature names for prediction
-        self.feature_names = available_cols
-        
-        # Run accuracy analysis reports
-        evaluator = ModelEvaluator(self.cfg.reports_dir)
-        self.eval_metrics = evaluator.evaluate_all(
-            list(self.cfg.targets), y_test, y_predictions,
-        )
-        
-        # Save nutrient thresholds reference
-        threshold_engine = NutrientThresholdEngine()
-        threshold_engine.save_reference(
-            self.cfg.reports_dir / "nutrient_thresholds_reference.json"
-        )
-        
-    def predict(self, clinical_input: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Get risk predictions with per-patient feature attributions.
+        self.models: Dict[str, TabNetClassifier] = {}
+        self.mono: Dict[str, MonotonicFeatureTransformer] = {}
+        self.imputer: Optional[SimpleImputer] = None
+        self.scaler: Optional[StandardScaler] = None
+        self.training_info: Dict[str, Dict[str, Any]] = {}
 
-        Clinical rationale:
-        TabNet uses sequential sparse attention to select which features
-        are most relevant for each individual patient. This produces
-        a per-patient feature importance vector (not just per-model),
-        enabling explanations like "your protein is restricted because
-        your eGFR of 28 is the dominant signal."
-        """
-        X = pd.DataFrame([clinical_input])[self.feature_names]
-        X = self.imputer.transform(X)
-        X = self.scaler.transform(X)
-        if self.mono_transformer is not None:
-            X = self.mono_transformer.transform(X)
-        X = X.astype(np.float32)
-        
-        label_map = {0: "low", 1: "moderate", 2: "high"}
-        class_indices = np.array([0, 1, 2], dtype=float)
-        
-        risk_levels = {}
-        for target, model in self.models.items():
-            pred_label = int(model.predict(X)[0])
-            # TabNet predict_proba returns class probabilities directly
-            probas = model.predict_proba(X)[0]
-            probas = probas / probas.sum()  # numerical safety
-            
-            severity_score = float(np.dot(probas, class_indices))
-            confidence = float(probas.max())
-            
-            # Per-patient feature attribution via TabNet explain()
-            explain_matrix, _ = model.explain(X)
-            attr_row = explain_matrix[0]  # single patient
-            attr_sum = attr_row.sum()
-            if attr_sum > 0:
-                attr_normalized = attr_row / attr_sum
-            else:
-                attr_normalized = np.zeros_like(attr_row)
-            
-            # Build feature_attribution: top 5 sorted by weight
-            attr_dict = {
-                self.feature_names[i]: round(float(attr_normalized[i]), 4)
-                for i in range(len(self.feature_names))
-            }
-            top5 = dict(
-                sorted(attr_dict.items(), key=lambda x: x[1], reverse=True)[:5]
+    def _base(self, df: pd.DataFrame) -> np.ndarray:
+        return self.scaler.transform(self.imputer.transform(df[list(FEATURES)]))
+
+    def _model_input(self, df: pd.DataFrame, target: str) -> np.ndarray:
+        return self.mono[target].transform(self._base(df)).astype(np.float32)
+
+    def fit(self, train_df: pd.DataFrame, val_df: pd.DataFrame, verbose: bool = True):
+        cfg = self.cfg
+        assert not set(train_df.subject_id) & set(val_df.subject_id), "patient overlap between train and validation"
+
+        # Shared preprocessing, fitted on real training rows only
+        self.imputer = SimpleImputer(strategy="median").fit(train_df[list(FEATURES)])
+        self.scaler = StandardScaler().fit(self.imputer.transform(train_df[list(FEATURES)]))
+        constraints = build_monotonic_constraints(list(FEATURES))
+
+        india_w = cohort_data.india_weights(train_df) if cfg.india_weights else None
+        synth = cohort_data.synthesize(train_df, seed=cfg.seed) if cfg.synthetic else None
+
+        for target in cfg.targets:
+            t0 = time.time()
+            tr = train_df[train_df[target].notna()]
+            va = val_df[val_df[target].notna()]
+            X_real = self._base(tr)
+            y_real = tr[target].astype(int).to_numpy()
+
+            mono = MonotonicFeatureTransformer(list(FEATURES), constraints).fit(X_real, y_real)
+            self.mono[target] = mono
+
+            X, y = X_real, y_real
+            w = india_w.loc[tr.index].to_numpy() if india_w is not None else np.ones(len(tr))
+            n_synth = 0
+            if synth is not None:
+                s = synth[synth[target].notna()]
+                n_synth = len(s)
+                X = np.vstack([X, self._base(s)])
+                y = np.concatenate([y, s[target].astype(int).to_numpy()])
+                w = np.concatenate([w, np.ones(n_synth)])
+
+            weighted = cfg.class_balance or india_w is not None or synth is not None
+            if cfg.class_balance:
+                class_mass = np.bincount(y, weights=w, minlength=3)
+                w = w / class_mass[y]
+            sampler_weights = w / w.sum() * len(w) if weighted else 0
+
+            X_in = mono.transform(X).astype(np.float32)
+            X_val = self._model_input(va, target)
+            y_val = va[target].astype(int).to_numpy()
+
+            model = TabNetClassifier(**cfg.tabnet_params())
+            model.fit(
+                X_train=X_in, y_train=y,
+                eval_set=[(X_val, y_val)], eval_name=["val"], eval_metric=["balanced_accuracy"],
+                max_epochs=cfg.max_epochs, patience=cfg.patience,
+                batch_size=cfg.batch_size, virtual_batch_size=cfg.virtual_batch_size,
+                weights=sampler_weights,
             )
-            
-            risk_levels[target] = {
-                "label": label_map[pred_label],
-                "severity_score": round(severity_score, 4),
-                "confidence": round(confidence, 4),
-                "proba": {
-                    "low": round(float(probas[0]), 4),
-                    "moderate": round(float(probas[1]), 4),
-                    "high": round(float(probas[2]), 4),
-                },
-                "feature_attribution": top5,
+            self.models[target] = model
+            self.training_info[target] = {
+                "n_train_real": int(len(tr)), "n_train_synthetic": int(n_synth), "n_val": int(len(va)),
+                "best_epoch": int(model.best_epoch), "best_val_balanced_accuracy": float(model.best_cost),
+                "fit_seconds": round(time.time() - t0, 1),
             }
-        
-        # Get condition-specific permissible nutrient amounts
-        threshold_engine = NutrientThresholdEngine()
-        permissible = threshold_engine.get_permissible_amounts(clinical_input)
-        
-        return {
-            "risk_levels": risk_levels,
-            "permissible_amounts": permissible,
+            if verbose:
+                info = self.training_info[target]
+                print(f"  ✓ {target}: best epoch {info['best_epoch']}, val bal-acc {info['best_val_balanced_accuracy']:.4f}, "
+                      f"{info['fit_seconds']:.0f}s (real {info['n_train_real']:,} + synthetic {n_synth:,})")
+        return self
+
+    def predict_proba(self, df: pd.DataFrame, target: str) -> np.ndarray:
+        return full_proba(self.models[target], self._model_input(df, target))
+
+    def evaluate(self, df: pd.DataFrame) -> Tuple[Dict[str, Dict[str, float]], Dict, Dict, Dict]:
+        metrics, y_true, y_pred, y_proba = {}, {}, {}, {}
+        for target in self.cfg.targets:
+            part = df[df[target].notna()]
+            proba = self.predict_proba(part, target)
+            y_true[target] = part[target].astype(int).to_numpy()
+            y_pred[target] = proba.argmax(axis=1)
+            y_proba[target] = proba
+            metrics[target] = ModelEvaluator.compute_metrics(y_true[target], y_pred[target], proba)
+        return metrics, y_true, y_pred, y_proba
+
+    def save(self, model_dir: Path, manifest: Dict[str, Any], check_df: pd.DataFrame):
+        """Write the portable artifact set, then reload it and check it reproduces in-memory predictions."""
+        model_dir.mkdir(parents=True, exist_ok=True)
+        prep = {
+            "feature_names": list(FEATURES),
+            "imputer_median": self.imputer.statistics_.tolist(),
+            "scaler_mean": self.scaler.mean_.tolist(),
+            "scaler_scale": self.scaler.scale_.tolist(),
+            "monotonic": {t: m.export() for t, m in self.mono.items()},
         }
-    
-    def save(self):
-        """Save trained TabNet models, preprocessing artifacts, and monotonic transformer."""
-        self.cfg.model_dir.mkdir(parents=True, exist_ok=True)
-        
+        (model_dir / "preprocessing.json").write_text(json.dumps(prep))
         for target, model in self.models.items():
-            path = str(self.cfg.model_dir / target)
-            model.save_model(path)
-            print(f"  \u2713 Saved TabNet: {path}")
-        
-        joblib.dump(self.imputer, self.cfg.model_dir / "imputer.joblib")
-        joblib.dump(self.scaler, self.cfg.model_dir / "scaler.joblib")
-        joblib.dump(self.feature_names, self.cfg.model_dir / "feature_names.joblib")
-        
-        # Save monotonic feature transformer
-        if self.mono_transformer is not None:
-            joblib.dump(
-                self.mono_transformer,
-                self.cfg.model_dir / "monotonic_transformer.joblib",
-            )
-            print(f"  \u2713 Saved: {self.cfg.model_dir / 'monotonic_transformer.joblib'}")
-        
-        print(f"\n  \u2713 All models saved to: {self.cfg.model_dir}")
+            save_tabnet(model, model_dir, target)
+        (model_dir / "manifest.json").write_text(json.dumps(manifest, indent=2, default=_json_default))
+
+        predictor = Model1Predictor(model_dir)
+        sample = check_df.sample(n=min(200, len(check_df)), random_state=0)
+        for target in self.cfg.targets:
+            want = self.predict_proba(sample, target)
+            got = np.vstack([list(predictor.predict(r)[target]["proba"].values())
+                             for r in sample[list(FEATURES)].to_dict("records")])
+            if not np.allclose(want, got, atol=1e-3):
+                raise RuntimeError(f"Saved artifacts do not reproduce in-memory predictions for {target}")
+        print(f"  ✓ Artifacts written to {model_dir} and verified against in-memory predictions")
 
 
 # ===============================
 # Main Training Pipeline
 # ===============================
 
-def main(sample_rows: int = 100000):
-    """Execute training pipeline"""
-    
-    print("\n" + "="*80)
-    print("CLINICAL RISK STRATIFICATION - MODEL #1")
-    print(f"Training on {sample_rows:,} sample rows")
-    print("="*80)
-    
-    # Initialize
-    config = ClinicalModelConfig()
-    
-    # 1. Load data
-    loader = MIMICDataLoader(config, sample_rows=sample_rows)
-    loader.load_data()
-    
-    # 2. Extract features
-    extractor = ClinicalFeatureExtractor(config)
-    features = extractor.extract_features(loader.eventlog, loader.activity_attrs)
-    
-    if len(features) < 10:
-        print("✗ Not enough patient records to train. Exiting.")
-        return
-    
-    # 3. Generate labels
-    labeler = LabelGenerator(config)
-    labeled_data = labeler.generate_labels(features)
-    
-    # 4. Train models
-    model = ClinicalRiskStratifier(config)
-    model.fit(labeled_data)
-    
-    # 4B. Train TFT longitudinal model (Phase 3B)
-    tft_model = None
-    if TFT_AVAILABLE:
-        preparer = LongitudinalDataPreparer()
-        long_df = preparer.prepare(labeled_data)
-        
-        if len(long_df) > 0:
-            tft_model = TFTRiskModel()
-            tft_model.fit(long_df, max_epochs=15)
-    else:
-        print("\n  TFT skipped (pytorch_forecasting not installed)")
-    
-    # 5. Save models
-    print("\n" + "="*80)
-    print("SAVING MODELS")
-    print("="*80)
-    model.save()
-    
-    # Save TFT model
-    if tft_model is not None:
-        tft_model.save()
-    
-    # 6. Test prediction
-    print("\n" + "="*80)
-    print("TEST PREDICTION")
-    print("="*80)
-    
-    test_patient = {
-        "age": 55,
-        "sex_male": 1,
-        "has_htn": 1,
-        "has_dm": 1,
-        "has_ckd": 1,
-        "serum_sodium": 144,
-        "serum_potassium": 5.6,
-        "creatinine": 2.3,
-        "egfr": 28,
-        "hba1c": 8.4,
-        "fbs": 170,
-        "sbp": 152,
-        "dbp": 94,
-        "bmi": 29,
+TUNING_GRID = [
+    # manuscript's original optimisation settings, for reference
+    {"lr": 1e-3, "batch_size": 4096, "virtual_batch_size": 256, "class_balance": False},
+    {"lr": 2e-2, "batch_size": 4096, "virtual_batch_size": 256, "class_balance": False},
+    {"lr": 2e-2, "batch_size": 4096, "virtual_batch_size": 256, "class_balance": True},
+    {"lr": 2e-2, "batch_size": 16384, "virtual_batch_size": 1024, "class_balance": False},
+    {"lr": 2e-2, "batch_size": 16384, "virtual_batch_size": 1024, "class_balance": True},
+    {"lr": 2e-2, "batch_size": 32768, "virtual_batch_size": 2048, "class_balance": False},
+    {"lr": 2e-2, "batch_size": 32768, "virtual_batch_size": 2048, "class_balance": True},
+]
+
+
+def run_tuning(base_cfg: ClinicalModelConfig, train_df: pd.DataFrame, val_df: pd.DataFrame):
+    """Grid search on CV fold 0 only. The held-out test set is never touched here."""
+    rows = []
+    for i, params in enumerate(TUNING_GRID):
+        cfg = ClinicalModelConfig(**{**base_cfg.__dict__, **params})
+        print(f"\n[{i + 1}/{len(TUNING_GRID)}] {params}")
+        strat = ClinicalRiskStratifier(cfg).fit(train_df, val_df)
+        metrics, *_ = strat.evaluate(val_df)
+        for target, m in metrics.items():
+            rows.append({**params, "target": target, **m, **strat.training_info[target]})
+        mean_f1 = np.mean([m["f1_macro"] for m in metrics.values()])
+        print(f"  → mean validation macro-F1 {mean_f1:.4f}")
+
+    res = pd.DataFrame(rows)
+    base_cfg.reports_dir.mkdir(parents=True, exist_ok=True)
+    out = base_cfg.reports_dir / "tuning_results_fold0.csv"
+    res.to_csv(out, index=False)
+    keys = ["lr", "batch_size", "virtual_batch_size", "class_balance"]
+    summary = (res.groupby(keys)[["f1_macro", "balanced_accuracy", "auroc_ovr_macro", "log_loss", "fit_seconds"]]
+               .agg({"f1_macro": "mean", "balanced_accuracy": "mean", "auroc_ovr_macro": "mean",
+                     "log_loss": "mean", "fit_seconds": "sum"})
+               .sort_values("f1_macro", ascending=False))
+    print("\nTUNING SUMMARY (validation = CV fold 0, mean over targets)")
+    print(summary.round(4).to_string())
+    print(f"\n  ✓ Saved {out}")
+
+
+def run_final(cfg: ClinicalModelConfig, df: pd.DataFrame, evaluate_test: bool):
+    train_df = df[(df.split == "train") & (df.cv_fold != 0)]
+    val_df = df[(df.split == "train") & (df.cv_fold == 0)]
+    test_df = df[df.split == "test"]
+    print(f"  train {len(train_df):,} | early-stopping val (fold 0) {len(val_df):,} | held-out test {len(test_df):,}")
+
+    strat = ClinicalRiskStratifier(cfg).fit(train_df, val_df)
+    val_metrics, *_ = strat.evaluate(val_df)
+
+    test_metrics, rules_metrics = None, None
+    if evaluate_test:
+        test_metrics, y_true, y_pred, y_proba = strat.evaluate(test_df)
+        ModelEvaluator(cfg.reports_dir).evaluate_all(list(cfg.targets), y_true, y_pred, y_proba, "test")
+        rules = LabelGenerator.predict(test_df)
+        rules_metrics = {}
+        for t in cfg.targets:
+            mask = test_df[t].notna()
+            rules_metrics[t] = ModelEvaluator.compute_metrics(test_df.loc[mask, t].astype(int), rules.loc[mask, t])
+        print("\n  Guideline-rule baseline vs TabNet on held-out test (macro-F1):")
+        for t in cfg.targets:
+            print(f"    {t:<24} rules {rules_metrics[t]['f1_macro']:.4f} | TabNet {test_metrics[t]['f1_macro']:.4f}")
+
+    card = cohort_data.DERIVED / f"cohort_card_{cfg.tag}.json"
+    split_card = cohort_data.DERIVED / f"cohort_card_{cfg.tag}_split.json"
+    manifest = {
+        "schema_version": ARTIFACT_SCHEMA_VERSION,
+        "created_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "git": git_state(),
+        "data": {
+            "source": f"MIMIC-IV {cfg.tag} (PhysioNet credentialed access)",
+            "cohort_card_sha256": file_sha256(card),
+            "split_sha256": file_sha256(cohort_data.DERIVED / f"split_{cfg.tag}.parquet"),
+            "n_train_admissions": int(len(train_df)),
+            "n_val_admissions": int(len(val_df)),
+            "n_test_admissions": int(len(test_df)),
+            "label_definitions": json.loads(card.read_text())["definitions"],
+            "eligibility": json.loads(split_card.read_text()).get("eligibility"),
+        },
+        "features": list(FEATURES),
+        "targets": list(cfg.targets),
+        "config": cfg.summary(),
+        "training": strat.training_info,
+        "metrics": {"validation_fold0": val_metrics, "test": test_metrics, "test_guideline_rules": rules_metrics},
     }
-    
-    predictions = model.predict(test_patient)
-    
-    print(f"\nTest patient: HTN + DM + CKD (eGFR=28)")
-    print(f"\n  Risk Levels:")
-    for target, risk_info in predictions["risk_levels"].items():
-        if isinstance(risk_info, dict):
-            print(f"    {target}: {risk_info['label']} "
-                  f"(severity={risk_info['severity_score']:.3f}, "
-                  f"confidence={risk_info['confidence']:.3f})")
-        else:
-            print(f"    {target}: {risk_info}")
-    
-    pa = predictions["permissible_amounts"]
-    print(f"\n  Condition Profile: {pa['condition_profile']}")
-    print(f"  CKD Stage: {pa['ckd_stage']}")
-    print(f"\n  Permissible Daily Nutrient Amounts:")
-    print(f"  {'Nutrient':<22} {'Limit':<20} {'Rationale'}")
-    print(f"  {'-'*70}")
-    for nutrient, info in pa["nutrients"].items():
-        lo = info.get('min', '')
-        hi = info.get('max', '')
-        unit = info['unit']
-        if lo and hi:
-            limit_str = f"{lo}–{hi} {unit}"
-        elif hi:
-            limit_str = f"≤{hi} {unit}"
-        else:
-            limit_str = f"≥{lo} {unit}"
-        print(f"    {nutrient:<20} {limit_str:<20} {info['rationale']}")
-    
-    # 6B. Test TFT trajectory (Phase 3B)
-    print("\n" + "="*80)
-    print("TEST: TFT TRAJECTORY PREDICTION (Phase 3B)")
-    print("="*80)
-    
-    tft_test = tft_model if tft_model is not None else TFTRiskModel()
-    declining_egfr = [
-        {"age": 55, "sex_male": 1, "has_htn": 1, "has_dm": 0, "has_ckd": 0,
-         "serum_sodium": 140, "serum_potassium": 4.2, "creatinine": 1.2,
-         "egfr": 60, "hba1c": 5.5, "fbs": 95, "sbp": 130, "dbp": 80, "bmi": 27},
-        {"age": 56, "sex_male": 1, "has_htn": 1, "has_dm": 0, "has_ckd": 0,
-         "serum_sodium": 141, "serum_potassium": 4.5, "creatinine": 1.6,
-         "egfr": 42, "hba1c": 5.8, "fbs": 100, "sbp": 135, "dbp": 82, "bmi": 28},
-        {"age": 57, "sex_male": 1, "has_htn": 1, "has_dm": 0, "has_ckd": 1,
-         "serum_sodium": 142, "serum_potassium": 5.2, "creatinine": 2.8,
-         "egfr": 28, "hba1c": 6.0, "fbs": 105, "sbp": 145, "dbp": 90, "bmi": 29},
-    ]
-    
-    traj = tft_test.predict_trajectory(declining_egfr)
-    print(f"\n  Declining eGFR trajectory: 60 -> 42 -> 28")
-    for target, info_t in traj.items():
-        print(f"    {target}: {info_t['label']} (trend={info_t['trend']})")
-    
-    prot_trend = traj.get("protein_restriction", {}).get("trend", "")
-    print(f"\n  protein_restriction trend: {prot_trend}")
-    assert prot_trend == "deteriorating", f"Expected 'deteriorating', got '{prot_trend}'"
-    print("  OK -- declining eGFR produces 'deteriorating' protein_restriction (CORRECT)")
-    
-    # 7. Final summary
-    print("\n" + "="*80)
-    print("✓ TRAINING COMPLETE")
-    print("="*80)
-    print(f"\n  Reports saved to: {config.reports_dir.resolve()}")
-    print(f"  Models saved to:  {config.model_dir.resolve()}")
-    
-    if hasattr(model, 'eval_metrics'):
-        print(f"\n  {'Target':<30} {'Accuracy':>10} {'F1 (wt)':>10} {'Kappa':>10}")
-        print(f"  {'-'*62}")
-        for t, m in model.eval_metrics.items():
-            print(f"  {t:<30} {m['accuracy']:>10.4f} {m['f1_weighted']:>10.4f} {m['cohen_kappa']:>10.4f}")
-    
-    print()
+    strat.save(cfg.model_dir, manifest, check_df=val_df)
+    return strat
+
+
+def main():
+    ap = argparse.ArgumentParser(description="Train Clinical Risk Model #1 on the MIMIC-IV cohort")
+    ap.add_argument("--tag", default="v3.1")
+    ap.add_argument("--tune", action="store_true", help="grid search on CV fold 0 (never touches test)")
+    ap.add_argument("--evaluate-test", action="store_true", help="score the held-out test set once")
+    ap.add_argument("--synthetic", action="store_true", help="add Gaussian-copula rows (training only)")
+    ap.add_argument("--india-weights", action="store_true", help="rake training rows to ICMR-INDIAB prevalence")
+    ap.add_argument("--no-class-balance", action="store_true")
+    ap.add_argument("--lr", type=float)
+    ap.add_argument("--batch-size", type=int)
+    ap.add_argument("--virtual-batch-size", type=int)
+    ap.add_argument("--max-epochs", type=int)
+    ap.add_argument("--patience", type=int)
+    ap.add_argument("--device", default="auto")
+    ap.add_argument("--targets", nargs="+", choices=TARGETS)
+    ap.add_argument("--model-dir", type=Path, help="artifact output dir (use a separate dir for ablations)")
+    args = ap.parse_args()
+
+    cfg = ClinicalModelConfig(tag=args.tag, device=args.device, synthetic=args.synthetic,
+                              india_weights=args.india_weights, class_balance=not args.no_class_balance)
+    for name in ("lr", "batch_size", "virtual_batch_size", "max_epochs", "patience"):
+        if getattr(args, name) is not None:
+            setattr(cfg, name, getattr(args, name))
+    if args.targets:
+        cfg.targets = tuple(args.targets)
+    if args.model_dir:
+        cfg.model_dir = args.model_dir.resolve()
+
+    print("\n" + "=" * 80)
+    print(f"CLINICAL MODEL #1 — MIMIC-IV {cfg.tag} — device {torch.cuda.get_device_name(0) if torch.cuda.is_available() and cfg.device != 'cpu' else 'cpu'}")
+    print("=" * 80)
+    df = load_frames(cfg.tag)
+
+    if args.tune:
+        train_df = df[(df.split == "train") & (df.cv_fold != 0)]
+        val_df = df[(df.split == "train") & (df.cv_fold == 0)]
+        run_tuning(cfg, train_df, val_df)
+    else:
+        run_final(cfg, df, evaluate_test=args.evaluate_test)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Train Clinical Risk Model #1")
-    parser.add_argument("--sample", type=int, default=100000,
-                        help="Number of rows to sample (default: 100000)")
-    args = parser.parse_args()
-    
-    main(sample_rows=args.sample)
+    main()

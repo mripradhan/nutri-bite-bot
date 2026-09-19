@@ -1,54 +1,68 @@
 ======================================================================
-CLINICAL MODEL #1 — ACCURACY ANALYSIS SUMMARY
+CLINICAL MODEL #1 â€” EVALUATION SUMMARY (test, real MIMIC-IV patients only)
 ======================================================================
 
 Target: sodium_sensitivity
 ----------------------------------------
-  accuracy                  : 0.9996
-  precision_macro           : 0.9985
-  precision_weighted        : 0.9996
-  recall_macro              : 0.9992
-  recall_weighted           : 0.9996
-  f1_macro                  : 0.9988
-  f1_weighted               : 0.9996
-  cohen_kappa               : 0.9992
+  n                         : 40645
+  accuracy                  : 0.5794
+  balanced_accuracy         : 0.5137
+  precision_macro           : 0.4133
+  recall_macro              : 0.5137
+  f1_macro                  : 0.3902
+  f1_weighted               : 0.6473
+  cohen_kappa               : 0.1748
+  quadratic_kappa           : 0.2284
+  auroc_ovr_macro           : 0.7395
+  log_loss                  : 0.9029
 
 Target: potassium_sensitivity
 ----------------------------------------
-  accuracy                  : 0.9995
-  precision_macro           : 0.9993
-  precision_weighted        : 0.9995
-  recall_macro              : 0.9992
-  recall_weighted           : 0.9995
-  f1_macro                  : 0.9993
-  f1_weighted               : 0.9995
-  cohen_kappa               : 0.9992
+  n                         : 49803
+  accuracy                  : 0.6523
+  balanced_accuracy         : 0.4759
+  precision_macro           : 0.4125
+  recall_macro              : 0.4759
+  f1_macro                  : 0.4135
+  f1_weighted               : 0.7092
+  cohen_kappa               : 0.1714
+  quadratic_kappa           : 0.2444
+  auroc_ovr_macro           : 0.7113
+  log_loss                  : 0.9491
 
 Target: protein_restriction
 ----------------------------------------
-  accuracy                  : 0.9993
-  precision_macro           : 0.9982
-  precision_weighted        : 0.9993
-  recall_macro              : 0.9989
-  recall_weighted           : 0.9993
-  f1_macro                  : 0.9986
-  f1_weighted               : 0.9993
-  cohen_kappa               : 0.9984
+  n                         : 49705
+  accuracy                  : 0.5253
+  balanced_accuracy         : 0.4718
+  precision_macro           : 0.4160
+  recall_macro              : 0.4718
+  f1_macro                  : 0.3794
+  f1_weighted               : 0.6061
+  cohen_kappa               : 0.1425
+  quadratic_kappa           : 0.0643
+  auroc_ovr_macro           : 0.6613
+  log_loss                  : 1.0239
 
 Target: carb_sensitivity
 ----------------------------------------
-  accuracy                  : 0.9979
-  precision_macro           : 0.9972
-  precision_weighted        : 0.9979
-  recall_macro              : 0.9978
-  recall_weighted           : 0.9979
-  f1_macro                  : 0.9975
-  f1_weighted               : 0.9979
-  cohen_kappa               : 0.9963
+  n                         : 49530
+  accuracy                  : 0.6732
+  balanced_accuracy         : 0.5270
+  precision_macro           : 0.4741
+  recall_macro              : 0.5270
+  f1_macro                  : 0.4857
+  f1_weighted               : 0.6977
+  cohen_kappa               : 0.2988
+  quadratic_kappa           : 0.4182
+  auroc_ovr_macro           : 0.7658
+  log_loss                  : 0.8950
 
 ======================================================================
-OVERALL (macro-averaged across targets)
+OVERALL (unweighted mean across targets)
 ======================================================================
-  Mean Accuracy:     0.9991
-  Mean F1 (wt):      0.9991
-  Mean Cohen Kappa:  0.9983
+  Mean Macro-F1          : 0.4172
+  Mean Balanced accuracy : 0.4971
+  Mean AUROC (OvR)       : 0.7194
+  Mean Accuracy          : 0.6076
+  Mean Cohen Kappa       : 0.1969

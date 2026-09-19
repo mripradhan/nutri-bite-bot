@@ -1,0 +1,17 @@
+{
+  "has_htn": {
+    "prevalence": 0.355,
+    "ci95": [0.338, 0.373],
+    "source": "Anjana RM et al. Metabolic non-communicable disease health report of India: the ICMR-INDIAB national cross-sectional study (ICMR-INDIAB-17). Lancet Diabetes Endocrinol. 2023;11(7):474-489. doi:10.1016/S2213-8587(23)00119-5"
+  },
+  "has_dm": {
+    "prevalence": 0.114,
+    "ci95": [0.102, 0.125],
+    "source": "Anjana RM et al. Lancet Diabetes Endocrinol. 2023;11(7):474-489 (ICMR-INDIAB-17)"
+  },
+  "has_ckd": {
+    "prevalence": 0.1324,
+    "ci95": [0.1052, 0.1622],
+    "source": "Talukdar R et al. Chronic Kidney Disease Prevalence in India: A Systematic Review and Meta-Analysis From Community-Based Representative Evidence Between 2011 to 2023. Nephrology (Carlton). 2025;30(1):e14420. doi:10.1111/nep.14420"
+  }
+}

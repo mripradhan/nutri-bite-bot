@@ -1,0 +1,130 @@
+{
+  "generated_utc": "2026-09-19T10:01:36+00:00",
+  "splits": {
+    "train": {
+      "n_admissions": 297623,
+      "n_patients": 129230,
+      "strata": {
+        "000": 101189,
+        "001": 4665,
+        "010": 11814,
+        "011": 2043,
+        "100": 85418,
+        "101": 26880,
+        "110": 38858,
+        "111": 26756
+      },
+      "targets": {
+        "sodium_sensitivity": {
+          "low": 127765,
+          "moderate": 29180,
+          "high": 4917
+        },
+        "potassium_sensitivity": {
+          "low": 167901,
+          "moderate": 17829,
+          "high": 11944
+        },
+        "protein_restriction": {
+          "low": 160661,
+          "moderate": 29792,
+          "high": 6685
+        },
+        "carb_sensitivity": {
+          "low": 148872,
+          "moderate": 27209,
+          "high": 20473
+        }
+      }
+    },
+    "test": {
+      "n_admissions": 74663,
+      "n_patients": 32330,
+      "strata": {
+        "000": 25150,
+        "001": 1179,
+        "010": 3080,
+        "011": 487,
+        "100": 21724,
+        "101": 6435,
+        "110": 9894,
+        "111": 6714
+      },
+      "targets": {
+        "sodium_sensitivity": {
+          "low": 32290,
+          "moderate": 7096,
+          "high": 1259
+        },
+        "potassium_sensitivity": {
+          "low": 42239,
+          "moderate": 4549,
+          "high": 3015
+        },
+        "protein_restriction": {
+          "low": 40608,
+          "moderate": 7390,
+          "high": 1707
+        },
+        "carb_sensitivity": {
+          "low": 37499,
+          "moderate": 6843,
+          "high": 5188
+        }
+      }
+    }
+  },
+  "cv_fold_sizes": {
+    "0": 59205,
+    "1": 58934,
+    "2": 59733,
+    "3": 60037,
+    "4": 59714
+  },
+  "india_weights": {
+    "weighted_prevalence": {
+      "has_htn": 0.355,
+      "has_dm": 0.114,
+      "has_ckd": 0.1324
+    },
+    "unweighted_prevalence": {
+      "has_htn": 0.5978,
+      "has_dm": 0.267,
+      "has_ckd": 0.2028
+    },
+    "effective_sample_size": 228921.0,
+    "weight_range": [
+      0.344,
+      1.745
+    ]
+  },
+  "synthetic": {
+    "n_real_train": 297623,
+    "n_synthetic": 61932,
+    "synthetic_share_pct": 17.2,
+    "per_stratum": {
+      "001": 22153,
+      "010": 15004,
+      "011": 24775
+    },
+    "fidelity": {
+      "001": {
+        "max_abs_std_mean_diff": 0.017,
+        "mean_abs_corr_diff": 0.03
+      },
+      "010": {
+        "max_abs_std_mean_diff": 0.024,
+        "mean_abs_corr_diff": 0.018
+      },
+      "011": {
+        "max_abs_std_mean_diff": 0.016,
+        "mean_abs_corr_diff": 0.019
+      }
+    },
+    "note": "Synthetic rows are for the training-set ablation only and are regenerated inside each CV fold; never evaluated."
+  },
+  "eligibility": {
+    "n_admissions_before": 545848,
+    "n_excluded_no_baseline_chemistry": 173562
+  }
+}

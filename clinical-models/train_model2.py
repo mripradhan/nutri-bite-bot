@@ -16,7 +16,6 @@ Dependencies:
 
 import pandas as pd
 import numpy as np
-import joblib
 import math
 from pathlib import Path
 from dataclasses import dataclass, field
@@ -26,11 +25,8 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
-# Import MonotonicFeatureTransformer so joblib can deserialize
-# monotonic_transformer.joblib (class must be in namespace at load time)
-from train_model1 import MonotonicFeatureTransformer  # noqa: F401
 from train_model1 import TFTRiskModel  # Phase 3B
-from pytorch_tabnet.tab_model import TabNetClassifier
+from model1_artifacts import Model1Predictor
 
 
 # ===============================
@@ -966,50 +962,28 @@ class SubstitutionEngine:
 # ===============================
 class Model1Integration:
     """
-    Load and use Model1's trained NGBoost clinical risk models.
-    Predicts: sodium_sensitivity, potassium_sensitivity, 
+    Load and use Model1's per-target TabNet risk models (see model1_artifacts.py).
+    Predicts: sodium_sensitivity, potassium_sensitivity,
               protein_restriction, carb_sensitivity
     Each prediction returns a dict with label, severity_score, confidence, proba.
     """
-    
+
     def __init__(self, model_dir: Path, use_tft: bool = False):
         self.model_dir = Path(model_dir)
+        self.predictor: Optional[Model1Predictor] = None
         self.models = {}
-        self.imputer = None
-        self.scaler = None
         self.feature_names = None
-        self.mono_transformer = None
         self.use_tft = use_tft
         self.tft_model = None
-        
+
         self._load_models()
-    
+
     def _load_models(self):
-        """Load all Model1 TabNet components including monotonic transformer."""
+        """Load the complete Model1 artifact set; any missing artifact is an error."""
         try:
-            targets = [
-                "sodium_sensitivity", "potassium_sensitivity",
-                "protein_restriction", "carb_sensitivity",
-            ]
-            self.models = {}
-            for target in targets:
-                model = TabNetClassifier()
-                model.load_model(str(self.model_dir / f"{target}.zip"))
-                self.models[target] = model
-            
-            self.imputer = joblib.load(self.model_dir / "imputer.joblib")
-            self.scaler = joblib.load(self.model_dir / "scaler.joblib")
-            self.feature_names = joblib.load(self.model_dir / "feature_names.joblib")
-            
-            # Load monotonic transformer (graceful fallback for older artifacts)
-            mono_path = self.model_dir / "monotonic_transformer.joblib"
-            if mono_path.exists():
-                self.mono_transformer = joblib.load(mono_path)
-                print(f"\u2713 Loaded MonotonicFeatureTransformer from {mono_path}")
-            else:
-                self.mono_transformer = None
-                print("\u26a0 No monotonic_transformer.joblib found \u2014 skipping")
-            
+            self.predictor = Model1Predictor(self.model_dir)
+            self.models = self.predictor.models
+            self.feature_names = self.predictor.feature_names
             print(f"\u2713 Loaded Model1 components from {self.model_dir}")
             
             # Load TFT model if use_tft is enabled (Phase 3B)
@@ -1098,57 +1072,8 @@ class Model1Integration:
     
     def _tabnet_predict(self, patient_data: Dict[str, Any]) -> Dict[str, dict]:
         """Single-encounter TabNet prediction with feature attribution."""
-        # Prepare features
-        X = pd.DataFrame([patient_data])[self.feature_names]
-        X = self.imputer.transform(X)
-        X = self.scaler.transform(X)
-        if self.mono_transformer is not None:
-            X = self.mono_transformer.transform(X)
-        X = X.astype(np.float32)
-        
-        label_map = {0: "low", 1: "moderate", 2: "high"}
-        class_indices = np.array([0, 1, 2], dtype=float)
-        
-        results = {}
-        for target, model in self.models.items():
-            pred_label = int(model.predict(X)[0])
-            # TabNet predict_proba returns class probabilities directly
-            probas = model.predict_proba(X)[0]
-            probas = probas / probas.sum()  # numerical safety
-            
-            severity_score = float(np.dot(probas, class_indices))
-            confidence = float(probas.max())
-            
-            # Per-patient feature attribution via TabNet explain()
-            explain_matrix, _ = model.explain(X)
-            attr_row = explain_matrix[0]
-            attr_sum = attr_row.sum()
-            if attr_sum > 0:
-                attr_normalized = attr_row / attr_sum
-            else:
-                attr_normalized = np.zeros_like(attr_row)
-            
-            # Top 5 features by weight
-            attr_dict = {
-                self.feature_names[i]: round(float(attr_normalized[i]), 4)
-                for i in range(len(self.feature_names))
-            }
-            top5 = dict(
-                sorted(attr_dict.items(), key=lambda x: x[1], reverse=True)[:5]
-            )
-            
-            results[target] = {
-                "label": label_map[pred_label],
-                "severity_score": round(severity_score, 4),
-                "confidence": round(confidence, 4),
-                "proba": {
-                    "low": round(float(probas[0]), 4),
-                    "moderate": round(float(probas[1]), 4),
-                    "high": round(float(probas[2]), 4),
-                },
-                "feature_attribution": top5,
-            }
-        
+        results = self.predictor.predict(patient_data)
+
         # Add phosphorus sensitivity based on CKD status (rule-derived)
         has_ckd = patient_data.get("has_ckd", 0) == 1
         egfr = patient_data.get("egfr", 90)
