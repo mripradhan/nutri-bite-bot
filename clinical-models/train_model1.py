@@ -1008,12 +1008,17 @@ def load_frames(tag: str) -> pd.DataFrame:
     return df.merge(split, on="hadm_id", how="inner")
 
 
-def file_sha256(path: Path) -> str:
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(1 << 20), b""):
-            h.update(chunk)
-    return h.hexdigest()
+def frame_sha256(df: pd.DataFrame, columns: List[str]) -> str:
+    """Content hash of the data actually used, row order and dtype independent.
+
+    Hashing the cohort-card or parquet FILE instead would change whenever the file is
+    regenerated (its timestamp, the recording machine's path separators, parquet
+    metadata), even when the underlying cohort is identical — so the recorded
+    provenance would spuriously fail to match after any re-extraction.
+    """
+    part = df[list(columns)].sort_values(columns).reset_index(drop=True)
+    digests = pd.util.hash_pandas_object(part, index=False).to_numpy()
+    return hashlib.sha256(digests.tobytes()).hexdigest()
 
 
 def git_state() -> Dict[str, Any]:
@@ -1246,8 +1251,9 @@ def run_final(cfg: ClinicalModelConfig, df: pd.DataFrame, evaluate_test: bool):
         "git": git_state(),
         "data": {
             "source": f"MIMIC-IV {cfg.tag} (PhysioNet credentialed access)",
-            "cohort_card_sha256": file_sha256(card),
-            "split_sha256": file_sha256(cohort_data.DERIVED / f"split_{cfg.tag}.parquet"),
+            "cohort_content_sha256": frame_sha256(df, [c for c in df.columns
+                                                       if c not in ("split", "cv_fold")]),
+            "split_content_sha256": frame_sha256(df, ["hadm_id", "subject_id", "split", "cv_fold"]),
             "n_train_admissions": int(len(train_df)),
             "n_val_admissions": int(len(val_df)),
             "n_test_admissions": int(len(test_df)),
