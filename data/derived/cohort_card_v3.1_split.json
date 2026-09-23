@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-09-19T10:01:36+00:00",
+  "generated_utc": "2026-09-22T08:07:19+00:00",
   "splits": {
     "train": {
       "n_admissions": 297623,
@@ -109,16 +109,16 @@
     },
     "fidelity": {
       "001": {
-        "max_abs_std_mean_diff": 0.017,
+        "max_abs_std_mean_diff": 0.013,
         "mean_abs_corr_diff": 0.03
       },
       "010": {
-        "max_abs_std_mean_diff": 0.024,
-        "mean_abs_corr_diff": 0.018
+        "max_abs_std_mean_diff": 0.018,
+        "mean_abs_corr_diff": 0.019
       },
       "011": {
-        "max_abs_std_mean_diff": 0.016,
-        "mean_abs_corr_diff": 0.019
+        "max_abs_std_mean_diff": 0.008,
+        "mean_abs_corr_diff": 0.018
       }
     },
     "note": "Synthetic rows are for the training-set ablation only and are regenerated inside each CV fold; never evaluated."
