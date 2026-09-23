@@ -32,12 +32,14 @@ NutriBiteBot is an end-to-end clinical nutrition platform that generates safe, p
 
 ## Features
 
-- **Clinical Risk Stratification (TabNet)** — Predicts sodium sensitivity, potassium sensitivity, protein restriction need, and carbohydrate sensitivity from 14 EHR-derived features. Mean accuracy 99.91%, mean Cohen's κ 0.9983.
+- **Clinical Risk Stratification (TabNet)** — Predicts sodium sensitivity, potassium sensitivity, protein restriction need, and carbohydrate sensitivity from 14 EHR-derived features, trained on real MIMIC-IV v3.1 observed outcomes. Mean macro-F1 0.417 and mean macro-AUROC 0.731 on a 74,663-admission held-out test set, outperforming a deterministic guideline-rule baseline (macro-F1 0.349) on every target, confirmed by 5×5 repeated patient-grouped cross-validation.
 - **Sigmoid Portion Engine** — Converts continuous severity scores into ingredient-specific maximum safe gram quantities against a session-persistent daily nutrient budget, grounded in IFCT 2017.
 - **Hierarchical Clinical Rules Engine** — Automatically resolves conflicting dietary guidelines across co-existing conditions. Priority: Renal (KDIGO) > Cardiac (AHA/ACC) > Metabolic (ADA).
 - **Fridge Scanner** — Upload a fridge photo; Roboflow CV detects ingredients and maps them to the IFCT nutritional database.
 - **Bounded Recipe Generation (Groq / Llama 3.3)** — Generates recipes strictly within pre-computed per-ingredient gram limits. The LLM cannot override clinical constraints.
-- **Optional Local Storage** — Supabase (PostgreSQL) instance for persisting patient data and recipes. Gracefully disabled if not configured.
+- **Quantitative Recipe Adherence Check** — A second, structured-output Groq call independently extracts the gram quantities the generated recipe actually used and checks them against the computed limits; violations are logged, not just prompted against.
+- **Caloric Sufficiency Safeguard** — If a recommendation set would fall below 1,200 kcal, severity is progressively relaxed (protein → carbohydrate → phosphorus, KDIGO-prioritised) until adequacy is restored. Sodium and potassium severity are never relaxed.
+- **Optional Local Storage** — Supabase (PostgreSQL) instance for persisting patient data, recipes, and clinical-warning/adherence logs. Gracefully disabled if not configured.
 
 ---
 
@@ -67,7 +69,7 @@ NutriBiteBot is an end-to-end clinical nutrition platform that generates safe, p
 | Frontend | HTML / CSS / Vanilla JS (SPA) | Vercel |
 | Backend | Python 3.9, Flask, Gunicorn | Hugging Face Spaces (Docker) |
 | ML Model | TabNet (`pytorch_tabnet`), PyTorch | Bundled in Docker image |
-| Nutritional DB | IFCT 2017 CSV (102 ingredients) | Bundled in Docker image |
+| Nutritional DB | IFCT 2017 CSV (101 ingredients) | Bundled in Docker image |
 | Computer Vision | Roboflow API | External API |
 | LLM | Groq API (Llama-3.3-70b-versatile) | External API |
 | Database | Supabase (PostgreSQL) | Optional / local |
@@ -130,34 +132,56 @@ TabNet uses a sparsemax attention mask at each sequential decision step, selecti
 | Parameter | Value |
 |---|---|
 | Architecture | `TabNetClassifier` (pytorch_tabnet) |
-| Training device | GPU |
+| Training device | GPU where available |
 | Inference device | CPU (Docker) |
-| Early stopping patience | 15 epochs |
+| Early stopping patience | 10 epochs |
 | Max epochs | 100 |
-| Training data | MIMIC-IV EHR (80/20 stratified split) |
+| Optimiser | Adam, lr 0.02, batch 4096, virtual batch 256 |
+| Training data | MIMIC-IV v3.1, patient-level `StratifiedGroupKFold` split (no patient in both train and test) |
+| Targets | Clinically observed outcomes measured after a 24 h baseline window (hyperkalaemia, AKI, hyperglycaemia, follow-up BP), not rule-derived labels |
 | Classes per target | 3 (Low / Moderate / High) |
 
-### Performance (Held-Out Test Split)
+### Performance (Held-Out Test Split — 74,663 admissions / 32,330 patients)
 
-| Target | Accuracy | F1 (weighted) | Cohen's κ |
+TabNet vs. a deterministic guideline-rule baseline, macro-F1 [95% CI]; every paired
+difference excludes zero and is confirmed by 5×5 repeated patient-grouped
+cross-validation.
+
+| Target | TabNet macro-F1 | Rules macro-F1 | TabNet AUROC |
 |---|---|---|---|
-| sodium\_sensitivity | 0.9996 | 0.9996 | 0.9992 |
-| potassium\_sensitivity | 0.9995 | 0.9995 | 0.9992 |
-| protein\_restriction | 0.9993 | 0.9993 | 0.9984 |
-| carb\_sensitivity | 0.9979 | 0.9979 | 0.9963 |
-| **Mean** | **0.9991** | **0.9991** | **0.9983** |
+| sodium\_sensitivity | 0.390 [0.383, 0.397] | 0.371 [0.361, 0.382] | 0.756 |
+| potassium\_sensitivity | 0.414 [0.408, 0.419] | 0.386 [0.380, 0.392] | 0.721 |
+| protein\_restriction | 0.379 [0.374, 0.384] | 0.321 [0.316, 0.325] | 0.673 |
+| carb\_sensitivity | 0.486 [0.479, 0.492] | 0.317 [0.312, 0.322] | 0.775 |
+| **Mean** | **0.417** | **0.349** | **0.731** |
 
-All misclassifications are confined to adjacent ordinal classes — no non-adjacent errors observed across any target.
+A gradient-boosting reference model on the same validation fold reaches AUROC
+0.70–0.77, the same range as TabNet — performance is limited by what the 14
+admission-time features can predict about later outcomes, not by architecture choice.
+TabNet's advantage over the reference model is native per-instance attribution at no
+accuracy cost. Full methodology and robustness results (measurement-noise sweep,
+missing-data test, subgroup/COVID-era breakdowns) are in
+`clinical-models/evaluate_model1.py`, `repeated_cv.py` and `robustness_test.py`.
 
 ### Model Artifacts
 
+One portable format shared by training and deployment (`clinical-models/model1_artifacts.py`) — no joblib/sklearn pickles, so loading doesn't depend on the sklearn version, and a missing file is a hard error rather than a silent fallback:
+
 ```
 artifacts/models/
-├── model_params.json     # TabNet architecture config (N_steps, N_a, N_d, etc.)
-├── network.pt            # Trained weights (Git LFS, ~218 KB)
-├── imputer.joblib        # Fitted SimpleImputer
-├── scaler.joblib         # Fitted StandardScaler
-└── feature_names.joblib  # Ordered list of 14 feature names
+├── manifest.json                          # provenance, training config, held-out test metrics
+├── preprocessing.json                     # feature order, imputer medians, scaler params,
+│                                           # per-target isotonic (monotonic) maps, class priors
+├── tabnet/
+│   ├── sodium_sensitivity/
+│   │   ├── model_params.json              # TabNet architecture config
+│   │   └── network.pt                     # Trained weights (~218 KB)
+│   ├── potassium_sensitivity/  ...
+│   ├── protein_restriction/    ...
+│   └── carb_sensitivity/       ...
+└── reports/                               # accuracy summary, confusion matrices,
+                                            # evaluation/ (CIs, calibration, subgroups),
+                                            # robustness/ (noise + missing-data tests)
 ```
 
 ---
@@ -249,15 +273,18 @@ python app.py
 Expected startup output:
 
 ```
-Loading ML model weights (TabNet) ...
-  ✓ TabNet model loaded from model_params.json + network.pt
-  ✓ sodium_sensitivity     → TabNet
-  ✓ potassium_sensitivity  → TabNet
-  ✓ protein_restriction    → TabNet
-  ✓ carb_sensitivity       → TabNet
-  ✓ imputer, scaler, feature_names (14 features) loaded
-Loading IFCT nutritional database ...
-  ✓ IFCT database: 102 ingredients loaded
+Loading Model 1 + Model 2 (portion engine) …
+============================================================
+INITIALIZING MODEL2: PORTION CONTROL SYSTEM
+============================================================
+✓ Loaded IFCT database with 101 ingredients
+✓ Loaded Model1 components from ../artifacts/models
+✓ Model2 initialization complete
+============================================================
+  ✓ 4 targets, 14 features, trained <timestamp> on MIMIC-IV v3.1 (PhysioNet credentialed access)
+
+Loading IFCT nutritional database …
+  ✓ IFCT database: 101 ingredients loaded
 
 Starting NutriBiteBot server on http://localhost:5000
 ```
@@ -310,7 +337,7 @@ Enter the patient's lab values and click **Run Risk Assessment**. TabNet predict
 ### Phase 2 — Ingredient Selection
 
 - **Upload a fridge photo** — Roboflow CV detects ingredients and maps them to IFCT automatically.
-- **Select manually** — search the 102-ingredient IFCT database.
+- **Select manually** — search the 101-ingredient IFCT database.
 
 ### Phase 3 — Portions & Recipe
 
@@ -356,6 +383,32 @@ Click **Generate Recipe** — Groq Llama 3.3 generates a recipe that strictly re
 }
 ```
 
+Both `/api/recommend` and `/api/generate-recipe` return a `clinical_warnings` array —
+non-empty only when the caloric-sufficiency safety mechanism fired (projected session
+calories fell below 1,200 kcal), logging which constraint's severity was relaxed and by
+how much. Sodium and potassium severity are never relaxed by this mechanism.
+
+**`POST /api/generate-recipe` response:**
+```json
+{
+  "recipe": "## Spiced Paneer & Dal Bowl\n...",
+  "portions_used": [ { "ingredient": "Paneer", "max_grams": 24.9, "binding_constraint": "phosphorus", ... } ],
+  "clinical_warnings": [
+    { "constraint": "protein_restriction", "old_severity": 1.8, "new_severity": 1.5,
+      "projected_kcal_after": 1240.0, "rationale": "KDIGO 2024: malnutrition risk outweighs CKD progression; protein restriction is the first target to relax." }
+  ],
+  "adherence": [
+    { "ingredient": "Paneer", "max_grams": 24.9, "stated_grams": 25.0, "matched": true,
+      "violated": false, "overage_grams": 0.1 }
+  ]
+}
+```
+`adherence` is a second, structured-output Groq call that independently extracts what
+the recipe text actually says it used and checks it against `max_grams` — the
+recipe-writing call is never trusted to have followed its own prompt limits. Both
+`clinical_warnings` and `adherence` entries are also logged to Supabase
+(`recipes` and `recipe_adherence` tables) when configured.
+
 ---
 
 ## Project Structure
@@ -364,41 +417,41 @@ Click **Generate Recipe** — Groq Llama 3.3 generates a recipe that strictly re
 nutri-bite-bot/
 ├── app.py                        # Flask backend — inference, routing, startup
 ├── supabase_client.py            # Supabase REST bindings (optional)
-├── clinical_rules_engine.py      # Hierarchical multi-condition conflict resolver
-├── pantry_inventory.py           # Pantry + IFCT lookup module
-├── recipe_generator.py           # SHARE recipe adaptation logic
 ├── requirements.txt
 ├── Dockerfile                    # HF Spaces Docker build
 ├── .env                          # API keys — never committed
 │
-├── frontend/
-│   ├── index.html                # Single-page application
-│   ├── script.js                 # API calls, rendering, wake-up logic
+├── frontend/                     # Deployed vanilla-JS SPA (served by app.py)
+│   ├── index.html
+│   ├── script.js
 │   ├── style.css
-│   └── vercel.json               # Vercel static site config
+│   └── vercel.json
+├── frontend-next/                # Next.js/React/TypeScript frontend (actively developed;
+│                                  # see remaining_work.md — not yet reconciled with app.py's
+│                                  # static-serving, which still points at frontend/)
 │
-├── artifacts/models/
-│   ├── model_params.json         # TabNet architecture config
-│   ├── network.pt                # Trained weights (Git LFS)
-│   ├── imputer.joblib            # Fitted median imputer
-│   ├── scaler.joblib             # Fitted StandardScaler
-│   ├── feature_names.joblib      # Ordered 14-feature list
-│   └── reports/
-│       ├── accuracy_summary.txt
-│       ├── confusion_matrix_*.png
-│       └── nutrient_thresholds_reference.json
+├── artifacts/models/             # Model 1 (TabNet) portable artifact set — see
+│                                  # "Model Artifacts" above for the real layout
 │
-├── clinical-models/
+├── clinical-models/              # Training/evaluation pipeline (not needed to run the app)
 │   ├── ifct_database.csv         # IFCT 2017 — 102 Indian food ingredients
-│   ├── clinicalbb_model#1.ipynb  # TabNet training notebook
-│   ├── clinicalbb_model#2.ipynb  # Portion engine notebook
-│   ├── train_model1.py
-│   ├── train_model2.py
-│   └── ...
+│   ├── mimic_extract.py          # Raw MIMIC-IV v3.1 -> cohort parquet (DuckDB)
+│   ├── cohort_data.py            # Patient-level split, India reweighting, synthetic ablation
+│   ├── train_model1.py           # TabNet training (Model 1: risk stratification)
+│   ├── train_model2.py           # Portion engine + caloric-sufficiency validator (Model 2)
+│   ├── evaluate_model1.py        # Held-out test metrics, bootstrap CIs, calibration
+│   ├── repeated_cv.py            # 5x5 repeated patient-grouped cross-validation
+│   ├── robustness_test.py        # Measurement-noise + missing-data robustness comparison
+│   ├── test_model2.py            # Portion engine / caloric reconciliation test scenarios
+│   ├── model1_artifacts.py       # Shared artifact read/write format (training <-> deployment)
+│   └── output_formatter.py       # Pretty-printer for Model 2 output (manual testing)
 │
-└── supabase/
-    ├── config.toml
-    └── migrations/               # PostgreSQL schema migrations
+├── supabase/
+│   ├── config.toml
+│   └── migrations/               # PostgreSQL schema (patients, recipes, recipe_adherence)
+│
+└── remaining_work.md             # Repo audit + open items (legacy files, deployment
+                                   # questions, manuscript/response-letter status)
 ```
 
 ---
@@ -409,7 +462,7 @@ nutri-bite-bot/
 Run `pip install pytorch_tabnet torch` separately, then retry.
 
 **TabNet model fails to load on startup**
-Ensure `artifacts/models/model_params.json` and `artifacts/models/network.pt` both exist and have not been moved. `network.pt` is tracked via Git LFS — run `git lfs pull` if it is missing.
+Ensure `artifacts/models/manifest.json`, `artifacts/models/preprocessing.json`, and each `artifacts/models/tabnet/<target>/{model_params.json,network.pt}` exist and have not been moved — `Model1Predictor` (`clinical-models/model1_artifacts.py`) treats any missing file as a hard error. These are plain git-tracked files (~218 KB each), not Git LFS.
 
 **UnicodeEncodeError on Windows at startup**
 Set `PYTHONIOENCODING=utf-8` before running: `set PYTHONIOENCODING=utf-8 && python app.py`

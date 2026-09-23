@@ -18,6 +18,14 @@ joblib>=1.3.0
 pytorch_tabnet
 torch
 
+# Clinical model training pipeline (clinical-models/: extraction, cohort splitting,
+# training reports/plots)
+duckdb
+pyarrow
+scipy
+matplotlib
+seaborn
+
 # LLM Integration
 groq
 

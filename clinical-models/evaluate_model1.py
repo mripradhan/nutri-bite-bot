@@ -18,6 +18,7 @@ import json
 import warnings
 from pathlib import Path
 
+import torch  # noqa: F401  -- must be imported before sklearn (below) or torch's DLL init fails on Windows
 import numpy as np
 import pandas as pd
 from sklearn.metrics import (balanced_accuracy_score, cohen_kappa_score, confusion_matrix, f1_score,

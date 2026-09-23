@@ -1,0 +1,13 @@
+target,noise_magnitude,n,tabnet_flip_rate,tabnet_rules_agreement,baseline_agreement_no_noise
+sodium_sensitivity,0.5,40645,0.0543,0.5548,0.5552
+sodium_sensitivity,1.0,40645,0.1009,0.5475,0.5552
+sodium_sensitivity,2.0,40645,0.1752,0.5227,0.5552
+potassium_sensitivity,0.5,49803,0.0424,0.7957,0.8015
+potassium_sensitivity,1.0,49803,0.0806,0.7935,0.8015
+potassium_sensitivity,2.0,49803,0.1592,0.7807,0.8015
+protein_restriction,0.5,49705,0.0553,0.5032,0.5028
+protein_restriction,1.0,49705,0.0991,0.4968,0.5028
+protein_restriction,2.0,49705,0.1745,0.474,0.5028
+carb_sensitivity,0.5,49530,0.0253,0.4884,0.4826
+carb_sensitivity,1.0,49530,0.0471,0.4866,0.4826
+carb_sensitivity,2.0,49530,0.0918,0.4843,0.4826

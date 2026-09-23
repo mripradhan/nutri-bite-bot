@@ -1,4 +1,6 @@
 # datasets and research documents
+# manuscript source + figures: not for the public repo (confidential review context)
+manuscript/
 # MIMIC-IV is PhysioNet credentialed data — never commit it (DUA)
 mimic IV/
 physionet.org/
@@ -37,6 +39,7 @@ db_activity.txt
 # Model 1 artifacts are json + .pt (not ignored); aggregate metric CSVs are safe to commit
 !artifacts/models/reports/*.csv
 !artifacts/models/reports/evaluation/*.csv
+!artifacts/models/reports/robustness/*.csv
 !artifacts/models/reports/usecase_table.tex
 # pre-revision artifacts kept locally as evidence for the response letter
 artifacts/models/_legacy_pre_revision/

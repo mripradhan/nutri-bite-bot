@@ -183,6 +183,72 @@ def test_healthy_patient():
     return results
 
 
+def test_caloric_reconciliation():
+    """Worst-case CKD+HTN+DM patient with high-calorie/high-potassium ingredients should
+    trigger the caloric-floor relaxation (protein -> carb -> phosphorus), while sodium and
+    potassium severity must never be modified. Fixture and assertions ported from the manual
+    validation block in train_model2.py's __main__ ("VALIDATION: CALORIC SUFFICIENCY
+    VALIDATOR (2B)")."""
+    print("\n" + "="*70)
+    print("  TEST 6: CALORIC SUFFICIENCY RECONCILIATION")
+    print("="*70)
+
+    model = PortionControlModel()
+
+    worst_patient = {
+        "age": 72, "sex_male": 1,
+        "has_htn": 1, "has_dm": 1, "has_ckd": 1,
+        "serum_sodium": 130, "serum_potassium": 5.8,
+        "creatinine": 4.5, "egfr": 12, "hba1c": 9.5,
+        "fbs": 220, "sbp": 180, "dbp": 110, "bmi": 32,
+    }
+    worst_ingredients = [
+        "Banana, ripe", "Potato (Aloo)", "Spinach (Palak)",
+        "Coconut, dry", "Rice, milled (white)", "Chicken, breast",
+        "Egg, whole, boiled", "Curd (Dahi/Yogurt)",
+    ]
+
+    risk_before = model.model1.predict_risk_levels(worst_patient)
+    sodium_before = risk_before["sodium_sensitivity"]["severity_score"]
+    potassium_before = risk_before["potassium_sensitivity"]["severity_score"]
+
+    result = model.get_recommendations(worst_patient, worst_ingredients)
+    print_recommendations(result)
+
+    assert "clinical_warnings" in result, "clinical_warnings key missing from get_recommendations() output"
+    warnings = result["clinical_warnings"]
+    assert len(warnings) > 0, (
+        "This patient/ingredient combination is deliberately chosen to force caloric "
+        "insufficiency under max restriction; if it no longer triggers relaxation, either "
+        "the caloric validator regressed or portion sizing changed enough that this fixture "
+        "needs revisiting."
+    )
+
+    # Relaxation must follow the documented KDIGO priority (protein, then carb, then
+    # phosphorus) and must never touch sodium or potassium.
+    priority = ["protein_restriction", "carb_sensitivity", "phosphorus_sensitivity"]
+    seen_order = []
+    for w in warnings:
+        assert w["constraint"] not in ("sodium_sensitivity", "potassium_sensitivity"), (
+            f"SAFETY VIOLATION: {w['constraint']} appeared in the relaxation log"
+        )
+        if w["constraint"] not in seen_order:
+            seen_order.append(w["constraint"])
+    assert seen_order == [c for c in priority if c in seen_order], (
+        f"Relaxation order violated: got {seen_order}, expected a subsequence of {priority}"
+    )
+
+    sodium_after = result["risk_levels"]["sodium_sensitivity"]["severity_score"]
+    potassium_after = result["risk_levels"]["potassium_sensitivity"]["severity_score"]
+    assert sodium_before == sodium_after, f"Sodium severity modified: {sodium_before} -> {sodium_after}"
+    assert potassium_before == potassium_after, f"Potassium severity modified: {potassium_before} -> {potassium_after}"
+
+    print(f"\n  ✓ {len(warnings)} relaxation step(s) applied, order={seen_order}")
+    print(f"  ✓ Sodium/potassium severity unchanged ({sodium_before}/{potassium_before})")
+
+    return result
+
+
 def test_ingredient_search():
     """Test ingredient fuzzy search"""
     print("\n" + "="*70)
@@ -225,6 +291,7 @@ if __name__ == "__main__":
         test_dm_patient()
         test_multi_condition()
         test_healthy_patient()
+        test_caloric_reconciliation()
         test_ingredient_search()
         
         print("\n" + "█"*70)

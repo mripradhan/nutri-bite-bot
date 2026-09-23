@@ -13,6 +13,7 @@ clinical-models/train_model1.py (see clinical-models/model1_artifacts.py).
 
 import json
 import os
+import re
 import sys
 import base64
 import tempfile
@@ -23,7 +24,7 @@ import numpy as np
 from PIL import Image
 from dotenv import load_dotenv
 
-from supabase_client import save_patient_data, save_recipe
+from supabase_client import save_patient_data, save_recipe, save_recipe_adherence
 from groq import Groq
 import pandas as pd
 from flask import Flask, jsonify, request, send_from_directory
@@ -464,6 +465,100 @@ def detect_ingredients():
         return jsonify({"error": str(exc)}), 500
 
 
+# Stated grams within this fraction over the limit aren't flagged as violations, since the
+# extraction call itself has some rounding noise (e.g. "150g" vs a 148.6g limit).
+RECIPE_ADHERENCE_TOLERANCE = 0.05
+
+
+def _normalize_ingredient_name(name: str) -> str:
+    return " ".join(str(name).lower().split())
+
+
+def _ingredient_name_tokens(name: str) -> set:
+    return set(re.findall(r"[a-z0-9]+", str(name).lower()))
+
+
+def check_recipe_adherence(recipe_text: str, safe_ingredients: list, client) -> list:
+    """
+    Second structured-output Groq call: asks the model to extract the gram quantity the
+    recipe actually used for each ingredient, then checks each one against
+    safe_ingredients[]['max_grams']. Returns one adherence record per ingredient
+    (whether or not the extraction matched it), for logging and for surfacing to the
+    caller — the first (recipe-writing) call is never trusted to have followed its own
+    prompt limits.
+    """
+    ingredient_names = [rec["ingredient"] for rec in safe_ingredients]
+    extraction_prompt = (
+        "Extract the quantity in grams actually used for each ingredient in the recipe "
+        "below. Respond only in JSON, of the form "
+        '{"ingredients": [{"name": "<ingredient name>", "grams": <number>}, ...]}. '
+        "Include exactly one entry per ingredient in this list, using these exact names: "
+        f"{ingredient_names}. If an ingredient from the list is not used in the recipe, "
+        "report its grams as 0.\n\nRecipe:\n" + recipe_text
+    )
+
+    stated_by_name = {}
+    try:
+        extraction = client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": "You extract structured ingredient quantities "
+                                              "from recipes and respond only in JSON."},
+                {"role": "user", "content": extraction_prompt},
+            ],
+            model="llama-3.3-70b-versatile",
+            max_tokens=500,
+            temperature=0,
+            response_format={"type": "json_object"},
+        )
+        parsed = json.loads(extraction.choices[0].message.content)
+        for item in parsed.get("ingredients", []):
+            stated_by_name[_normalize_ingredient_name(item.get("name", ""))] = item.get("grams")
+    except Exception as exc:
+        app.logger.error(f"Recipe adherence extraction failed: {exc}")
+
+    records = []
+    for rec in safe_ingredients:
+        name = rec["ingredient"]
+        max_grams = rec["max_grams"]
+        norm_name = _normalize_ingredient_name(name)
+
+        stated_grams = stated_by_name.get(norm_name)
+        if stated_grams is None:
+            # extraction may have paraphrased the name slightly; fall back to a substring match
+            for k, v in stated_by_name.items():
+                if norm_name in k or k in norm_name:
+                    stated_grams = v
+                    break
+        if stated_grams is None and stated_by_name:
+            # still unmatched (e.g. reordered words: "white rice" vs "rice, milled (white)"):
+            # word-set containment is more robust here than difflib's char-sequence ratio,
+            # which misses exactly these reordering / extra-descriptor cases.
+            target_tokens = _ingredient_name_tokens(name)
+            best_score, best_grams = 0.6, None  # 0.6 acts as the match threshold
+            for k, v in stated_by_name.items():
+                k_tokens = _ingredient_name_tokens(k)
+                if not target_tokens or not k_tokens:
+                    continue
+                overlap = len(target_tokens & k_tokens) / min(len(target_tokens), len(k_tokens))
+                if overlap >= best_score:
+                    best_score, best_grams = overlap, v
+            stated_grams = best_grams
+
+        matched = stated_grams is not None
+        stated_grams = float(stated_grams) if matched else None
+        violated = bool(matched and max_grams is not None
+                        and stated_grams > max_grams * (1 + RECIPE_ADHERENCE_TOLERANCE))
+        records.append({
+            "ingredient": name,
+            "max_grams": max_grams,
+            "stated_grams": stated_grams,
+            "matched": matched,
+            "violated": violated,
+            "overage_grams": round(stated_grams - max_grams, 2) if matched and max_grams is not None else None,
+        })
+    return records
+
+
 @app.route("/api/generate-recipe", methods=["POST"])
 def generate_recipe():
     """Generates a recipe constrained by the patient's safe portion limits."""
@@ -485,7 +580,9 @@ def generate_recipe():
         has_ckd = bool(int(patient_data.get("has_ckd", 0)))
         has_htn = bool(int(patient_data.get("has_htn", 0)))
         has_dm = bool(int(patient_data.get("has_dm", 0)))
-        safe_ingredients = portion_recommendations(patient_data, ingredients)["recommendations"]
+        portion_result = portion_recommendations(patient_data, ingredients)
+        safe_ingredients = portion_result["recommendations"]
+        clinical_warnings = portion_result["clinical_warnings"]
 
         # 5. Build prompt with constraints
         ingredient_lines = []
@@ -494,12 +591,22 @@ def generate_recipe():
             if rec['binding_constraint']:
                 line += f" (limiting constraint: {rec['binding_constraint']})"
             ingredient_lines.append(line)
-            
+
         clinical_context = [
             f"- CKD Status: {'Positive' if has_ckd else 'Negative'}",
             f"- HTN Status: {'Positive' if has_htn else 'Negative'}",
             f"- DM Status: {'Positive' if has_dm else 'Negative'}"
         ]
+        if clinical_warnings:
+            # The gram limits above already reflect these relaxed severities (Algorithm 2's
+            # caloric-floor relaxation fired upstream) — this is context for the recipe's
+            # clinical-benefits description, not an additional constraint to enforce.
+            for w in clinical_warnings:
+                clinical_context.append(
+                    f"- Caloric-adequacy relaxation applied to {w['constraint']}: "
+                    f"severity {w['old_severity']:.2f}→{w['new_severity']:.2f} "
+                    f"(sodium/potassium were never relaxed)"
+                )
 
         system_prompt = (
             "You are a specialized clinical nutritionist and chef. "
@@ -532,15 +639,23 @@ def generate_recipe():
             temperature=0.6,
         )
         recipe = completion.choices[0].message.content
-        
+
+        # The recipe-writing call is never trusted to have followed its own prompt limits:
+        # a second, structured-output call extracts what it actually wrote and checks it
+        # against safe_ingredients[]['max_grams'].
+        adherence = check_recipe_adherence(recipe, safe_ingredients, groq_client)
+
         # Save to Local Supabase DB
         patient_id = save_patient_data(patient_data)
-        if patient_id:
-            save_recipe(patient_id, safe_ingredients, recipe)
-        
+        recipe_id = save_recipe(patient_id, safe_ingredients, recipe) if patient_id else None
+        if recipe_id:
+            save_recipe_adherence(recipe_id, adherence)
+
         return jsonify({
             "recipe": recipe,
-            "portions_used": safe_ingredients
+            "portions_used": safe_ingredients,
+            "adherence": adherence,
+            "clinical_warnings": clinical_warnings
         })
 
     except Exception as e:

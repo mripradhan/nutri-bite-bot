@@ -81,10 +81,12 @@ class ClinicalModelConfig:
     mask_type: str = "sparsemax"
     weight_decay: float = 1e-5
 
-    # optimisation (selected by --tune on CV fold 0)
+    # optimisation (selected by --tune on CV fold 0; matches artifacts/models/manifest.json's
+    # "config" -- the deployed model's actual training settings. If you change these, retrain
+    # and redeploy, or the dataclass defaults will again silently disagree with what's deployed)
     lr: float = 2e-2
-    batch_size: int = 16384
-    virtual_batch_size: int = 1024
+    batch_size: int = 4096
+    virtual_batch_size: int = 256
     max_epochs: int = 100
     patience: int = 10
     class_balance: bool = True   # inverse-frequency sampling so minority (moderate/high) classes are learned
