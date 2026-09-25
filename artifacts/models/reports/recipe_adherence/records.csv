@@ -1,0 +1,161 @@
+recipe_index,profile,has_htn,has_dm,has_ckd,binding_constraint,ingredient,matched,max_grams,overage_grams,stated_grams,violated
+1,ckd,0,0,1,potassium,Potato (Aloo),True,82.9,-2.9,80.0,False
+1,ckd,0,0,1,phosphorus,Garlic (Lahsun),True,41.8,-11.8,30.0,False
+1,ckd,0,0,1,phosphorus,"Wheat, whole",True,22.2,-2.2,20.0,False
+1,ckd,0,0,1,potassium,"Amaranth leaves, green",True,165.7,-15.7,150.0,False
+1,ckd,0,0,1,phosphorus,Soybean,True,18.8,-3.8,15.0,False
+2,ckd,0,0,1,potassium,Bottle gourd (Lauki),True,300.0,-50.0,250.0,False
+2,ckd,0,0,1,potassium,Ginger (Adrak),True,127.5,-97.5,30.0,False
+2,ckd,0,0,1,phosphorus,Ghee,True,300.0,-285.0,15.0,False
+2,ckd,0,0,1,phosphorus,"Rice, brown",True,16.5,-1.5,15.0,False
+2,ckd,0,0,1,phosphorus,Groundnut (Moongphali/Peanut),True,23.4,-3.4,20.0,False
+3,ckd,0,0,1,phosphorus,Ragi (Finger millet),True,24.7,-4.7,20.0,False
+3,ckd,0,0,1,potassium,Drumstick (Moringa pod),True,139.7,-19.7,120.0,False
+3,ckd,0,0,1,potassium,Strawberry,True,300.0,-100.0,200.0,False
+3,ckd,0,0,1,phosphorus,Curd (Dahi/Yogurt),True,73.4,-3.4,70.0,False
+3,ckd,0,0,1,phosphorus,Garlic (Lahsun),True,41.8,-31.8,10.0,False
+4,ckd,0,0,1,phosphorus,Khoya (Mawa),True,31.8,-11.8,20.0,False
+4,ckd,0,0,1,phosphorus,"Chicken, breast",True,50.7,-5.7,45.0,False
+4,ckd,0,0,1,potassium,"Amaranth leaves, green",True,165.7,-45.7,120.0,False
+4,ckd,0,0,1,phosphorus,Sardine (Mathi),True,19.0,-9.0,10.0,False
+4,ckd,0,0,1,potassium,Curry leaves (Kadi patta),True,81.2,-71.2,10.0,False
+5,dm,0,1,0,potassium,Potato (Aloo),True,300.0,-50.0,250.0,False
+5,dm,0,1,0,carbs,Garlic (Lahsun),True,258.9,-238.9,20.0,False
+5,dm,0,1,0,carbs,"Wheat, whole",True,97.2,-17.2,80.0,False
+5,dm,0,1,0,potassium,"Amaranth leaves, green",True,300.0,-150.0,150.0,False
+5,dm,0,1,0,protein,Soybean,True,55.0,-5.0,50.0,False
+6,dm,0,1,0,potassium,Bottle gourd (Lauki),True,300.0,-50.0,250.0,False
+6,dm,0,1,0,potassium,Ginger (Adrak),True,300.0,-270.0,30.0,False
+6,dm,0,1,0,sodium,Ghee,True,300.0,-280.0,20.0,False
+6,dm,0,1,0,carbs,"Rice, brown",True,53.5,-0.5,53.0,False
+6,dm,0,1,0,protein,Groundnut (Moongphali/Peanut),True,70.2,-40.2,30.0,False
+7,dm,0,1,0,carbs,Ragi (Finger millet),True,94.1,-64.1,30.0,False
+7,dm,0,1,0,potassium,Drumstick (Moringa pod),True,300.0,-100.0,200.0,False
+7,dm,0,1,0,potassium,Strawberry,True,300.0,-200.0,100.0,False
+7,dm,0,1,0,phosphorus,Curd (Dahi/Yogurt),True,300.0,-150.0,150.0,False
+7,dm,0,1,0,carbs,Garlic (Lahsun),True,258.9,-258.9,0.0,False
+8,dm,0,1,0,protein,Khoya (Mawa),True,142.1,-112.1,30.0,False
+8,dm,0,1,0,protein,"Chicken, breast",True,78.2,-8.2,70.0,False
+8,dm,0,1,0,potassium,"Amaranth leaves, green",True,300.0,-150.0,150.0,False
+8,dm,0,1,0,phosphorus,Sardine (Mathi),True,89.1,-9.1,80.0,False
+8,dm,0,1,0,potassium,Curry leaves (Kadi patta),True,224.6,-214.6,10.0,False
+9,dm_ckd,0,1,1,potassium,Potato (Aloo),True,89.2,-9.2,80.0,False
+9,dm_ckd,0,1,1,phosphorus,Garlic (Lahsun),True,41.8,-21.8,20.0,False
+9,dm_ckd,0,1,1,phosphorus,"Wheat, whole",True,22.2,-2.2,20.0,False
+9,dm_ckd,0,1,1,potassium,"Amaranth leaves, green",True,178.2,-28.2,150.0,False
+9,dm_ckd,0,1,1,phosphorus,Soybean,True,18.8,-18.8,0.0,False
+10,dm_ckd,0,1,1,phosphorus,Bottle gourd (Lauki),True,300.0,-50.0,250.0,False
+10,dm_ckd,0,1,1,potassium,Ginger (Adrak),True,137.2,-122.2,15.0,False
+10,dm_ckd,0,1,1,phosphorus,Ghee,True,300.0,-290.0,10.0,False
+10,dm_ckd,0,1,1,phosphorus,"Rice, brown",True,16.5,-1.5,15.0,False
+10,dm_ckd,0,1,1,phosphorus,Groundnut (Moongphali/Peanut),True,23.4,-3.4,20.0,False
+11,dm_ckd,0,1,1,phosphorus,Ragi (Finger millet),True,24.7,-4.7,20.0,False
+11,dm_ckd,0,1,1,potassium,Drumstick (Moringa pod),True,150.3,-0.3,150.0,False
+11,dm_ckd,0,1,1,potassium,Strawberry,True,300.0,-100.0,200.0,False
+11,dm_ckd,0,1,1,phosphorus,Curd (Dahi/Yogurt),True,73.4,-3.4,70.0,False
+11,dm_ckd,0,1,1,phosphorus,Garlic (Lahsun),True,41.8,-11.8,30.0,False
+12,dm_ckd,0,1,1,phosphorus,Khoya (Mawa),True,31.8,-11.8,20.0,False
+12,dm_ckd,0,1,1,phosphorus,"Chicken, breast",True,50.7,-5.7,45.0,False
+12,dm_ckd,0,1,1,potassium,"Amaranth leaves, green",True,178.2,-58.2,120.0,False
+12,dm_ckd,0,1,1,phosphorus,Sardine (Mathi),True,19.0,-9.0,10.0,False
+12,dm_ckd,0,1,1,potassium,Curry leaves (Kadi patta),True,87.3,-72.3,15.0,False
+13,htn,1,0,0,potassium,Potato (Aloo),True,300.0,-100.0,200.0,False
+13,htn,1,0,0,phosphorus,Garlic (Lahsun),True,246.0,-236.0,10.0,False
+13,htn,1,0,0,phosphorus,"Wheat, whole",True,130.4,-30.4,100.0,False
+13,htn,1,0,0,potassium,"Amaranth leaves, green",True,300.0,-150.0,150.0,False
+13,htn,1,0,0,protein,Soybean,True,53.1,-3.1,50.0,False
+14,htn,1,0,0,potassium,Bottle gourd (Lauki),True,300.0,-50.0,250.0,False
+14,htn,1,0,0,potassium,Ginger (Adrak),True,300.0,-270.0,30.0,False
+14,htn,1,0,0,sodium,Ghee,True,300.0,-280.0,20.0,False
+14,htn,1,0,0,phosphorus,"Rice, brown",True,123.4,-3.4,120.0,False
+14,htn,1,0,0,protein,Groundnut (Moongphali/Peanut),True,72.2,-2.2,70.0,False
+15,htn,1,0,0,carbs,Ragi (Finger millet),True,143.8,-43.8,100.0,False
+15,htn,1,0,0,potassium,Drumstick (Moringa pod),True,300.0,-150.0,150.0,False
+15,htn,1,0,0,potassium,Strawberry,True,300.0,-220.0,80.0,False
+15,htn,1,0,0,phosphorus,Curd (Dahi/Yogurt),True,300.0,-220.0,80.0,False
+15,htn,1,0,0,phosphorus,Garlic (Lahsun),True,261.6,-251.6,10.0,False
+16,htn,1,0,0,protein,Khoya (Mawa),True,142.1,-42.1,100.0,False
+16,htn,1,0,0,protein,"Chicken, breast",True,78.2,-8.2,70.0,False
+16,htn,1,0,0,potassium,"Amaranth leaves, green",True,300.0,-150.0,150.0,False
+16,htn,1,0,0,phosphorus,Sardine (Mathi),True,89.1,-9.1,80.0,False
+16,htn,1,0,0,potassium,Curry leaves (Kadi patta),True,230.1,-210.1,20.0,False
+17,htn_ckd,1,0,1,potassium,Potato (Aloo),True,96.3,-16.3,80.0,False
+17,htn_ckd,1,0,1,phosphorus,Garlic (Lahsun),True,41.8,-11.8,30.0,False
+17,htn_ckd,1,0,1,phosphorus,"Wheat, whole",True,22.2,-2.2,20.0,False
+17,htn_ckd,1,0,1,potassium,"Amaranth leaves, green",True,192.5,-42.5,150.0,False
+17,htn_ckd,1,0,1,phosphorus,Soybean,True,18.8,-3.8,15.0,False
+18,htn_ckd,1,0,1,phosphorus,Bottle gourd (Lauki),True,300.0,-50.0,250.0,False
+18,htn_ckd,1,0,1,potassium,Ginger (Adrak),True,148.1,-128.1,20.0,False
+18,htn_ckd,1,0,1,phosphorus,Ghee,True,300.0,-285.0,15.0,False
+18,htn_ckd,1,0,1,phosphorus,"Rice, brown",True,16.5,-1.5,15.0,False
+18,htn_ckd,1,0,1,phosphorus,Groundnut (Moongphali/Peanut),True,23.4,-3.4,20.0,False
+19,htn_ckd,1,0,1,phosphorus,Ragi (Finger millet),True,24.7,-4.7,20.0,False
+19,htn_ckd,1,0,1,potassium,Drumstick (Moringa pod),True,162.3,-12.3,150.0,False
+19,htn_ckd,1,0,1,phosphorus,Strawberry,True,300.0,-150.0,150.0,False
+19,htn_ckd,1,0,1,phosphorus,Curd (Dahi/Yogurt),True,73.4,-3.4,70.0,False
+19,htn_ckd,1,0,1,phosphorus,Garlic (Lahsun),True,41.8,-26.8,15.0,False
+20,htn_ckd,1,0,1,phosphorus,Khoya (Mawa),True,31.8,-11.8,20.0,False
+20,htn_ckd,1,0,1,phosphorus,"Chicken, breast",True,50.7,-5.7,45.0,False
+20,htn_ckd,1,0,1,potassium,"Amaranth leaves, green",True,192.5,-42.5,150.0,False
+20,htn_ckd,1,0,1,phosphorus,Sardine (Mathi),True,19.0,-9.0,10.0,False
+20,htn_ckd,1,0,1,potassium,Curry leaves (Kadi patta),True,94.3,-64.3,30.0,False
+21,htn_dm,1,1,0,potassium,Potato (Aloo),True,300.0,-300.0,0.0,False
+21,htn_dm,1,1,0,phosphorus,Garlic (Lahsun),False,246.0,,,False
+21,htn_dm,1,1,0,carbs,"Wheat, whole",False,115.7,,,False
+21,htn_dm,1,1,0,potassium,"Amaranth leaves, green",False,300.0,,,False
+21,htn_dm,1,1,0,protein,Soybean,False,55.0,,,False
+22,htn_dm,1,1,0,potassium,Bottle gourd (Lauki),True,300.0,-50.0,250.0,False
+22,htn_dm,1,1,0,potassium,Ginger (Adrak),True,300.0,-280.0,20.0,False
+22,htn_dm,1,1,0,sodium,Ghee,True,300.0,-290.0,10.0,False
+22,htn_dm,1,1,0,carbs,"Rice, brown",True,63.9,-13.9,50.0,False
+22,htn_dm,1,1,0,protein,Groundnut (Moongphali/Peanut),True,70.0,-10.0,60.0,False
+23,htn_dm,1,1,0,carbs,Ragi (Finger millet),True,143.8,-43.8,100.0,False
+23,htn_dm,1,1,0,potassium,Drumstick (Moringa pod),True,300.0,-200.0,100.0,False
+23,htn_dm,1,1,0,potassium,Strawberry,True,300.0,-150.0,150.0,False
+23,htn_dm,1,1,0,phosphorus,Curd (Dahi/Yogurt),True,300.0,-150.0,150.0,False
+23,htn_dm,1,1,0,phosphorus,Garlic (Lahsun),True,261.6,-251.6,10.0,False
+24,htn_dm,1,1,0,protein,Khoya (Mawa),True,142.1,-92.1,50.0,False
+24,htn_dm,1,1,0,protein,"Chicken, breast",True,78.2,-8.2,70.0,False
+24,htn_dm,1,1,0,potassium,"Amaranth leaves, green",True,300.0,-150.0,150.0,False
+24,htn_dm,1,1,0,phosphorus,Sardine (Mathi),True,89.1,-9.1,80.0,False
+24,htn_dm,1,1,0,potassium,Curry leaves (Kadi patta),True,225.4,-215.4,10.0,False
+25,htn_dm_ckd,1,1,1,potassium,Potato (Aloo),True,87.2,-87.2,0.0,False
+25,htn_dm_ckd,1,1,1,phosphorus,Garlic (Lahsun),True,41.8,-41.8,0.0,False
+25,htn_dm_ckd,1,1,1,phosphorus,"Wheat, whole",True,22.2,-22.2,0.0,False
+25,htn_dm_ckd,1,1,1,potassium,"Amaranth leaves, green",True,174.3,-54.3,120.0,False
+25,htn_dm_ckd,1,1,1,phosphorus,Soybean,True,18.8,-3.8,15.0,False
+26,htn_dm_ckd,1,1,1,phosphorus,Bottle gourd (Lauki),True,300.0,-50.0,250.0,False
+26,htn_dm_ckd,1,1,1,potassium,Ginger (Adrak),True,134.1,-124.1,10.0,False
+26,htn_dm_ckd,1,1,1,phosphorus,Ghee,True,300.0,-290.0,10.0,False
+26,htn_dm_ckd,1,1,1,phosphorus,"Rice, brown",True,16.5,0.0,16.5,False
+26,htn_dm_ckd,1,1,1,phosphorus,Groundnut (Moongphali/Peanut),True,23.4,-3.4,20.0,False
+27,htn_dm_ckd,1,1,1,phosphorus,Ragi (Finger millet),True,24.7,-4.7,20.0,False
+27,htn_dm_ckd,1,1,1,potassium,Drumstick (Moringa pod),True,146.9,-26.9,120.0,False
+27,htn_dm_ckd,1,1,1,potassium,Strawberry,True,300.0,-150.0,150.0,False
+27,htn_dm_ckd,1,1,1,phosphorus,Curd (Dahi/Yogurt),True,73.4,0.0,73.4,False
+27,htn_dm_ckd,1,1,1,phosphorus,Garlic (Lahsun),True,41.8,-36.8,5.0,False
+28,htn_dm_ckd,1,1,1,phosphorus,Khoya (Mawa),True,31.8,-11.8,20.0,False
+28,htn_dm_ckd,1,1,1,phosphorus,"Chicken, breast",True,50.7,-5.7,45.0,False
+28,htn_dm_ckd,1,1,1,potassium,"Amaranth leaves, green",True,174.3,-54.3,120.0,False
+28,htn_dm_ckd,1,1,1,phosphorus,Sardine (Mathi),True,19.0,-4.0,15.0,False
+28,htn_dm_ckd,1,1,1,potassium,Curry leaves (Kadi patta),True,85.4,-65.4,20.0,False
+29,none,0,0,0,potassium,Potato (Aloo),True,300.0,-100.0,200.0,False
+29,none,0,0,0,phosphorus,Garlic (Lahsun),True,246.0,-226.0,20.0,False
+29,none,0,0,0,phosphorus,"Wheat, whole",True,130.4,-30.4,100.0,False
+29,none,0,0,0,potassium,"Amaranth leaves, green",True,300.0,-150.0,150.0,False
+29,none,0,0,0,protein,Soybean,True,53.7,-3.7,50.0,False
+30,none,0,0,0,potassium,Bottle gourd (Lauki),True,300.0,-50.0,250.0,False
+30,none,0,0,0,potassium,Ginger (Adrak),True,300.0,-285.0,15.0,False
+30,none,0,0,0,sodium,Ghee,True,300.0,-270.0,30.0,False
+30,none,0,0,0,phosphorus,"Rice, brown",True,123.4,-3.4,120.0,False
+30,none,0,0,0,protein,Groundnut (Moongphali/Peanut),True,73.0,-3.0,70.0,False
+31,none,0,0,0,carbs,Ragi (Finger millet),True,143.8,-43.8,100.0,False
+31,none,0,0,0,potassium,Drumstick (Moringa pod),True,300.0,-150.0,150.0,False
+31,none,0,0,0,potassium,Strawberry,True,300.0,-200.0,100.0,False
+31,none,0,0,0,phosphorus,Curd (Dahi/Yogurt),True,300.0,-150.0,150.0,False
+31,none,0,0,0,phosphorus,Garlic (Lahsun),True,261.6,-241.6,20.0,False
+32,none,0,0,0,protein,Khoya (Mawa),True,142.1,-42.1,100.0,False
+32,none,0,0,0,protein,"Chicken, breast",True,78.2,-8.2,70.0,False
+32,none,0,0,0,potassium,"Amaranth leaves, green",True,300.0,-100.0,200.0,False
+32,none,0,0,0,phosphorus,Sardine (Mathi),True,89.1,-9.1,80.0,False
+32,none,0,0,0,potassium,Curry leaves (Kadi patta),True,229.4,-209.4,20.0,False

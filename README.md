@@ -36,7 +36,7 @@ NutriBiteBot is an end-to-end clinical nutrition platform that generates safe, p
 - **Sigmoid Portion Engine** — Converts continuous severity scores into ingredient-specific maximum safe gram quantities against a session-persistent daily nutrient budget, grounded in IFCT 2017.
 - **Hierarchical Clinical Rules Engine** — Automatically resolves conflicting dietary guidelines across co-existing conditions. Priority: Renal (KDIGO) > Cardiac (AHA/ACC) > Metabolic (ADA).
 - **Fridge Scanner** — Upload a fridge photo; Roboflow CV detects ingredients and maps them to the IFCT nutritional database.
-- **Bounded Recipe Generation (Groq / Llama 3.3)** — Generates recipes strictly within pre-computed per-ingredient gram limits. The LLM cannot override clinical constraints.
+- **Bounded Recipe Generation (Groq / `openai/gpt-oss-120b`)** — Generates recipes strictly within pre-computed per-ingredient gram limits. The LLM cannot override clinical constraints.
 - **Quantitative Recipe Adherence Check** — A second, structured-output Groq call independently extracts the gram quantities the generated recipe actually used and checks them against the computed limits; violations are logged, not just prompted against.
 - **Caloric Sufficiency Safeguard** — If a recommendation set would fall below 1,200 kcal, severity is progressively relaxed (protein → carbohydrate → phosphorus, KDIGO-prioritised) until adequacy is restored. Sodium and potassium severity are never relaxed.
 - **Optional Local Storage** — Supabase (PostgreSQL) instance for persisting patient data, recipes, and clinical-warning/adherence logs. Gracefully disabled if not configured.
@@ -71,7 +71,7 @@ NutriBiteBot is an end-to-end clinical nutrition platform that generates safe, p
 | ML Model | TabNet (`pytorch_tabnet`), PyTorch | Bundled in Docker image |
 | Nutritional DB | IFCT 2017 CSV (101 ingredients) | Bundled in Docker image |
 | Computer Vision | Roboflow API | External API |
-| LLM | Groq API (Llama-3.3-70b-versatile) | External API |
+| LLM | Groq API (`openai/gpt-oss-120b`) | External API |
 | Database | Supabase (PostgreSQL) | Optional / local |
 
 ---
@@ -214,7 +214,7 @@ CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:7860", "--workers", "1", "--timeo
 
 | Secret | Purpose |
 |---|---|
-| `GROQ_API_KEY` | Recipe generation via Llama 3.3 |
+| `GROQ_API_KEY` | Recipe generation via `openai/gpt-oss-120b` |
 | `ROBOFLOW_API_KEY` | Fridge ingredient detection |
 | `SUPABASE_URL` | Optional — cloud Supabase instance |
 | `SUPABASE_SERVICE_ROLE_KEY` | Optional — cloud Supabase auth |
@@ -349,7 +349,7 @@ Click **Get Portions** to compute per-ingredient maximum safe grams. Each ingred
 | Half Portion | 5 g < g* ≤ 75 g |
 | Avoid | g* ≤ 5 g |
 
-Click **Generate Recipe** — Groq Llama 3.3 generates a recipe that strictly respects every gram limit. Results are saved to Supabase if configured.
+Click **Generate Recipe**. The Groq-hosted model generates a recipe that strictly respects every gram limit. Results are saved to Supabase if configured.
 
 ---
 

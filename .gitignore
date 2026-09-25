@@ -1,6 +1,7 @@
 # datasets and research documents
 # manuscript source + figures: not for the public repo (confidential review context)
 manuscript/
+paperfinal/
 # MIMIC-IV is PhysioNet credentialed data — never commit it (DUA)
 mimic IV/
 physionet.org/
@@ -40,6 +41,8 @@ db_activity.txt
 !artifacts/models/reports/*.csv
 !artifacts/models/reports/evaluation/*.csv
 !artifacts/models/reports/robustness/*.csv
+# adherence rows are from synthetic profiles, not MIMIC patients, so they are shareable
+!artifacts/models/reports/recipe_adherence/*.csv
 !artifacts/models/reports/usecase_table.tex
 # pre-revision artifacts kept locally as evidence for the response letter
 artifacts/models/_legacy_pre_revision/
