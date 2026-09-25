@@ -1,6 +1,6 @@
 # Clinical use case — regenerated from the deployed system
 
-Model trained 2026-09-19T17:29:21+00:00, commit 9faead2.
+Model trained 2026-09-23T15:42:37+00:00, commit cc8112e.
 
 ## Model 1
 

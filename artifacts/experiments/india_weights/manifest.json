@@ -1,14 +1,14 @@
 {
   "schema_version": 3,
-  "created_utc": "2026-09-19T18:01:47+00:00",
+  "created_utc": "2026-09-23T16:16:17+00:00",
   "git": {
-    "commit": "9faead2f8c38383a517a93b9127706665f0117bb",
+    "commit": "1f70f443a18bf24dc7bb4660c59ad3deb73ac62c",
     "clinical_models_dirty": true
   },
   "data": {
     "source": "MIMIC-IV v3.1 (PhysioNet credentialed access)",
-    "cohort_card_sha256": "49619917294f9db5ffefb3650a3c5b33cc54e449bf462d87214f7e73f7b5142e",
-    "split_sha256": "1b97dd79cbff5de9fe5299b4146d371916e597702c1e626cfd5014810d19fc5d",
+    "cohort_content_sha256": "931884ad0dfabeda7b161919bdaae45cbce78b0ef2ec2138e9c0983aab13c49a",
+    "split_content_sha256": "fed818f8004c580bd48fe662619ac910f6cba2994453c204380a06118d45afc7",
     "n_train_admissions": 238418,
     "n_val_admissions": 59205,
     "n_test_admissions": 74663,
@@ -115,7 +115,7 @@
       "n_val": 32322,
       "best_epoch": 18,
       "best_val_balanced_accuracy": 0.508857222350937,
-      "fit_seconds": 142.1
+      "fit_seconds": 144.2
     },
     "potassium_sensitivity": {
       "n_train_real": 158576,
@@ -123,7 +123,7 @@
       "n_val": 39098,
       "best_epoch": 20,
       "best_val_balanced_accuracy": 0.4769798596689611,
-      "fit_seconds": 182.8
+      "fit_seconds": 184.1
     },
     "protein_restriction": {
       "n_train_real": 158120,
@@ -131,7 +131,7 @@
       "n_val": 39018,
       "best_epoch": 31,
       "best_val_balanced_accuracy": 0.47492377215760434,
-      "fit_seconds": 247.1
+      "fit_seconds": 251.5
     },
     "carb_sensitivity": {
       "n_train_real": 157677,
@@ -139,7 +139,7 @@
       "n_val": 38877,
       "best_epoch": 14,
       "best_val_balanced_accuracy": 0.5298418934351532,
-      "fit_seconds": 149.2
+      "fit_seconds": 151.1
     }
   },
   "metrics": {

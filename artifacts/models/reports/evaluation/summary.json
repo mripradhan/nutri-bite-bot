@@ -19,7 +19,7 @@
     "synthetic": false
   },
   "git": {
-    "commit": "9faead2f8c38383a517a93b9127706665f0117bb",
+    "commit": "cc8112e8596f7fb47f4811fe97ebfb34f79afff9",
     "clinical_models_dirty": true
   },
   "n_boot": 1000,

@@ -1,8 +1,8 @@
 {
   "model_manifest": {
-    "created_utc": "2026-09-19T17:29:21+00:00",
+    "created_utc": "2026-09-23T15:42:37+00:00",
     "git": {
-      "commit": "9faead2f8c38383a517a93b9127706665f0117bb",
+      "commit": "cc8112e8596f7fb47f4811fe97ebfb34f79afff9",
       "clinical_models_dirty": true
     },
     "config": {
