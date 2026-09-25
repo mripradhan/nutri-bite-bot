@@ -467,6 +467,11 @@ def detect_ingredients():
 
 # Stated grams within this fraction over the limit aren't flagged as violations, since the
 # extraction call itself has some rounding noise (e.g. "150g" vs a 148.6g limit).
+# Groq decommissioned llama-3.3-70b-versatile for free/developer tiers on 2026-08-16;
+# openai/gpt-oss-120b is Groq's recommended replacement. The rules engine bounds the
+# gram limits upstream of this call, so the constraint layer is model-agnostic.
+RECIPE_LLM_MODEL = "openai/gpt-oss-120b"
+
 RECIPE_ADHERENCE_TOLERANCE = 0.05
 
 
@@ -505,7 +510,7 @@ def check_recipe_adherence(recipe_text: str, safe_ingredients: list, client) -> 
                                               "from recipes and respond only in JSON."},
                 {"role": "user", "content": extraction_prompt},
             ],
-            model="llama-3.3-70b-versatile",
+            model=RECIPE_LLM_MODEL,
             max_tokens=500,
             temperature=0,
             response_format={"type": "json_object"},
@@ -634,7 +639,7 @@ def generate_recipe():
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},
             ],
-            model="llama-3.3-70b-versatile",
+            model=RECIPE_LLM_MODEL,
             max_tokens=800,
             temperature=0.6,
         )
