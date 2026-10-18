@@ -58,6 +58,17 @@ function GlowDot({ cx = 0, cy = 0, color = '#34d59a' }: { cx?: number; cy?: numb
   )
 }
 
+// Severity on the 0-2 scale. Prefer the backend's calibrated score; the fallback converts the
+// percentage probabilities the API returns (0-100) back to fractions before weighting.
+function severityOf(info: {
+  severity_score?: number
+  probabilities: { low: number; moderate: number; high: number }
+}): number {
+  if (typeof info.severity_score === 'number') return info.severity_score
+  const p = info.probabilities
+  return (p.moderate + 2 * p.high) / 100
+}
+
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function RiskDashboard() {
   const { predictionResult, patientData } = useApp()
@@ -66,8 +77,7 @@ export default function RiskDashboard() {
     if (!predictionResult) return []
     return (Object.entries(predictionResult.risk_levels) as [TargetName, (typeof predictionResult.risk_levels)[TargetName]][]).map(
       ([target, info]) => {
-        const p = info.probabilities
-        const score = p.low * 0 + p.moderate * 1 + p.high * 2
+        const score = severityOf(info)
         return {
           subject: TARGET_LABELS[target],
           score: Math.round(score * 100) / 100,
@@ -171,10 +181,7 @@ export default function RiskDashboard() {
         {/* Risk cards grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {riskEntries.map(([target, info]) => {
-          const score =
-            info.probabilities.low * 0 +
-            info.probabilities.moderate * 1 +
-            info.probabilities.high * 2
+          const score = severityOf(info)
           return (
             <div
               key={target}

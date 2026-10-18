@@ -39,6 +39,8 @@ export interface RiskLevel {
   }
   display_name: string
   clinical_note: string
+  /** Calibrated severity on a 0-2 scale (the value the portion engine uses). */
+  severity_score?: number
 }
 
 export type TargetName =

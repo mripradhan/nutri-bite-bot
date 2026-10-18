@@ -55,3 +55,6 @@ artifacts/experiments/*/tabnet/
 
 # tooling
 .claude/
+
+# local screenshot staging for the manuscript
+uploadedimages/
