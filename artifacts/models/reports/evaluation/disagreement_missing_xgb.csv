@@ -1,0 +1,17 @@
+target,k_missing,n,tabnet_f1,xgboost_f1,rules_f1,tabnet_auroc,xgboost_auroc
+sodium_sensitivity,0,40645,0.3902,0.4127,0.3713,0.7557,0.7643
+sodium_sensitivity,1,40645,0.3805,0.4003,0.3698,0.7472,0.7544
+sodium_sensitivity,2,40645,0.3703,0.3854,0.365,0.7374,0.7427
+sodium_sensitivity,3,40645,0.3618,0.3672,0.3584,0.7262,0.7298
+potassium_sensitivity,0,49803,0.4135,0.4188,0.3861,0.721,0.7339
+potassium_sensitivity,1,49803,0.4143,0.422,0.3874,0.713,0.7254
+potassium_sensitivity,2,49803,0.4154,0.4217,0.3884,0.7056,0.7157
+potassium_sensitivity,3,49803,0.4161,0.4245,0.3902,0.6991,0.7066
+protein_restriction,0,49705,0.3794,0.4092,0.3208,0.6726,0.7111
+protein_restriction,1,49705,0.3796,0.4107,0.321,0.6709,0.7031
+protein_restriction,2,49705,0.3796,0.4138,0.321,0.6703,0.696
+protein_restriction,3,49705,0.3796,0.415,0.321,0.6682,0.6867
+carb_sensitivity,0,49530,0.4857,0.509,0.3173,0.7748,0.7857
+carb_sensitivity,1,49530,0.4848,0.5076,0.3361,0.7692,0.7797
+carb_sensitivity,2,49530,0.4866,0.5052,0.3558,0.7634,0.7735
+carb_sensitivity,3,49530,0.4851,0.5039,0.373,0.7573,0.7671

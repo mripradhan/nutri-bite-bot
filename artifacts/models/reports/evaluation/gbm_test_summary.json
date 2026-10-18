@@ -1,0 +1,837 @@
+{
+  "params": {
+    "xgb_matched": {
+      "learning_rate": 0.05,
+      "max_depth": 7,
+      "min_child_weight": 10,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "reg_lambda": 1.0,
+      "n_estimators": 600
+    },
+    "xgb_raw": {
+      "learning_rate": 0.05,
+      "max_depth": 7,
+      "min_child_weight": 10,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "reg_lambda": 1.0,
+      "n_estimators": 600
+    }
+  },
+  "n_boot": 1000,
+  "targets": {
+    "sodium_sensitivity": {
+      "n": 40645,
+      "point": {
+        "tabnet": {
+          "f1_macro": 0.3902,
+          "balanced_accuracy": 0.5137,
+          "cohen_kappa": 0.1748,
+          "quadratic_kappa": 0.2284,
+          "auroc_ovr_macro": 0.7557
+        },
+        "rules": {
+          "f1_macro": 0.3713,
+          "balanced_accuracy": 0.4583,
+          "cohen_kappa": 0.1196,
+          "quadratic_kappa": 0.1926
+        },
+        "xgb_matched": {
+          "f1_macro": 0.406,
+          "balanced_accuracy": 0.5239,
+          "cohen_kappa": 0.1902,
+          "quadratic_kappa": 0.238,
+          "auroc_ovr_macro": 0.7605
+        },
+        "xgb_raw": {
+          "f1_macro": 0.4127,
+          "balanced_accuracy": 0.5306,
+          "cohen_kappa": 0.1978,
+          "quadratic_kappa": 0.2468,
+          "auroc_ovr_macro": 0.7643
+        }
+      },
+      "ci95": {
+        "tabnet": {
+          "f1_macro": [
+            0.3833,
+            0.3974
+          ],
+          "balanced_accuracy": [
+            0.5004,
+            0.526
+          ],
+          "cohen_kappa": [
+            0.1661,
+            0.1848
+          ],
+          "quadratic_kappa": [
+            0.216,
+            0.2408
+          ],
+          "auroc_ovr_macro": [
+            0.7473,
+            0.7635
+          ]
+        },
+        "rules": {
+          "f1_macro": [
+            0.3609,
+            0.381
+          ],
+          "balanced_accuracy": [
+            0.4466,
+            0.4693
+          ],
+          "cohen_kappa": [
+            0.1104,
+            0.1292
+          ],
+          "quadratic_kappa": [
+            0.1796,
+            0.2053
+          ]
+        },
+        "xgb_matched": {
+          "f1_macro": [
+            0.399,
+            0.413
+          ],
+          "balanced_accuracy": [
+            0.5104,
+            0.5365
+          ],
+          "cohen_kappa": [
+            0.1812,
+            0.2001
+          ],
+          "quadratic_kappa": [
+            0.226,
+            0.2507
+          ],
+          "auroc_ovr_macro": [
+            0.7525,
+            0.7682
+          ]
+        },
+        "xgb_raw": {
+          "f1_macro": [
+            0.4059,
+            0.4205
+          ],
+          "balanced_accuracy": [
+            0.5177,
+            0.5436
+          ],
+          "cohen_kappa": [
+            0.1889,
+            0.2082
+          ],
+          "quadratic_kappa": [
+            0.2342,
+            0.2588
+          ],
+          "auroc_ovr_macro": [
+            0.7562,
+            0.7718
+          ]
+        },
+        "xgb_matched_minus_tabnet": {
+          "f1_macro": [
+            0.011,
+            0.0207
+          ],
+          "balanced_accuracy": [
+            0.0004,
+            0.0208
+          ],
+          "cohen_kappa": [
+            0.0097,
+            0.021
+          ],
+          "quadratic_kappa": [
+            0.004,
+            0.0155
+          ],
+          "auroc_ovr_macro": [
+            0.0025,
+            0.0075
+          ]
+        },
+        "xgb_matched_minus_rules": {
+          "f1_macro": [
+            0.0264,
+            0.044
+          ],
+          "balanced_accuracy": [
+            0.0521,
+            0.0791
+          ],
+          "cohen_kappa": [
+            0.062,
+            0.0799
+          ],
+          "quadratic_kappa": [
+            0.0355,
+            0.0545
+          ]
+        },
+        "xgb_raw_minus_tabnet": {
+          "f1_macro": [
+            0.0173,
+            0.0276
+          ],
+          "balanced_accuracy": [
+            0.0063,
+            0.0282
+          ],
+          "cohen_kappa": [
+            0.0171,
+            0.0292
+          ],
+          "quadratic_kappa": [
+            0.0119,
+            0.0249
+          ],
+          "auroc_ovr_macro": [
+            0.006,
+            0.0116
+          ]
+        },
+        "xgb_raw_minus_rules": {
+          "f1_macro": [
+            0.033,
+            0.0506
+          ],
+          "balanced_accuracy": [
+            0.0594,
+            0.0851
+          ],
+          "cohen_kappa": [
+            0.0695,
+            0.0877
+          ],
+          "quadratic_kappa": [
+            0.0444,
+            0.0641
+          ]
+        }
+      },
+      "ece_calibrated": {
+        "tabnet": 0.006,
+        "xgb_matched": 0.0159,
+        "xgb_raw": 0.0174
+      }
+    },
+    "potassium_sensitivity": {
+      "n": 49803,
+      "point": {
+        "tabnet": {
+          "f1_macro": 0.4135,
+          "balanced_accuracy": 0.4759,
+          "cohen_kappa": 0.1714,
+          "quadratic_kappa": 0.2444,
+          "auroc_ovr_macro": 0.721
+        },
+        "rules": {
+          "f1_macro": 0.3861,
+          "balanced_accuracy": 0.4641,
+          "cohen_kappa": 0.1331,
+          "quadratic_kappa": 0.2232
+        },
+        "xgb_matched": {
+          "f1_macro": 0.4162,
+          "balanced_accuracy": 0.4762,
+          "cohen_kappa": 0.1745,
+          "quadratic_kappa": 0.2505,
+          "auroc_ovr_macro": 0.723
+        },
+        "xgb_raw": {
+          "f1_macro": 0.4188,
+          "balanced_accuracy": 0.4814,
+          "cohen_kappa": 0.1803,
+          "quadratic_kappa": 0.2546,
+          "auroc_ovr_macro": 0.7339
+        }
+      },
+      "ci95": {
+        "tabnet": {
+          "f1_macro": [
+            0.4078,
+            0.4192
+          ],
+          "balanced_accuracy": [
+            0.4677,
+            0.4836
+          ],
+          "cohen_kappa": [
+            0.1631,
+            0.179
+          ],
+          "quadratic_kappa": [
+            0.2334,
+            0.2552
+          ],
+          "auroc_ovr_macro": [
+            0.7135,
+            0.7277
+          ]
+        },
+        "rules": {
+          "f1_macro": [
+            0.3804,
+            0.3922
+          ],
+          "balanced_accuracy": [
+            0.4555,
+            0.4723
+          ],
+          "cohen_kappa": [
+            0.1265,
+            0.1403
+          ],
+          "quadratic_kappa": [
+            0.2128,
+            0.2339
+          ]
+        },
+        "xgb_matched": {
+          "f1_macro": [
+            0.4104,
+            0.422
+          ],
+          "balanced_accuracy": [
+            0.4683,
+            0.4841
+          ],
+          "cohen_kappa": [
+            0.1664,
+            0.1823
+          ],
+          "quadratic_kappa": [
+            0.2389,
+            0.2611
+          ],
+          "auroc_ovr_macro": [
+            0.7155,
+            0.7297
+          ]
+        },
+        "xgb_raw": {
+          "f1_macro": [
+            0.4131,
+            0.4244
+          ],
+          "balanced_accuracy": [
+            0.4732,
+            0.4886
+          ],
+          "cohen_kappa": [
+            0.1726,
+            0.1879
+          ],
+          "quadratic_kappa": [
+            0.244,
+            0.265
+          ],
+          "auroc_ovr_macro": [
+            0.727,
+            0.7403
+          ]
+        },
+        "xgb_matched_minus_tabnet": {
+          "f1_macro": [
+            -0.0006,
+            0.0062
+          ],
+          "balanced_accuracy": [
+            -0.0048,
+            0.0056
+          ],
+          "cohen_kappa": [
+            -0.0005,
+            0.0068
+          ],
+          "quadratic_kappa": [
+            0.0015,
+            0.0109
+          ],
+          "auroc_ovr_macro": [
+            0.0003,
+            0.0036
+          ]
+        },
+        "xgb_matched_minus_rules": {
+          "f1_macro": [
+            0.0257,
+            0.0342
+          ],
+          "balanced_accuracy": [
+            0.0051,
+            0.0185
+          ],
+          "cohen_kappa": [
+            0.036,
+            0.0464
+          ],
+          "quadratic_kappa": [
+            0.0216,
+            0.0328
+          ]
+        },
+        "xgb_raw_minus_tabnet": {
+          "f1_macro": [
+            0.0012,
+            0.0095
+          ],
+          "balanced_accuracy": [
+            -0.0008,
+            0.0118
+          ],
+          "cohen_kappa": [
+            0.0043,
+            0.0136
+          ],
+          "quadratic_kappa": [
+            0.0045,
+            0.0163
+          ],
+          "auroc_ovr_macro": [
+            0.01,
+            0.0158
+          ]
+        },
+        "xgb_raw_minus_rules": {
+          "f1_macro": [
+            0.0281,
+            0.0377
+          ],
+          "balanced_accuracy": [
+            0.0101,
+            0.025
+          ],
+          "cohen_kappa": [
+            0.0416,
+            0.0528
+          ],
+          "quadratic_kappa": [
+            0.0246,
+            0.0379
+          ]
+        }
+      },
+      "ece_calibrated": {
+        "tabnet": 0.0035,
+        "xgb_matched": 0.0118,
+        "xgb_raw": 0.0109
+      }
+    },
+    "protein_restriction": {
+      "n": 49705,
+      "point": {
+        "tabnet": {
+          "f1_macro": 0.3794,
+          "balanced_accuracy": 0.4718,
+          "cohen_kappa": 0.1425,
+          "quadratic_kappa": 0.0643,
+          "auroc_ovr_macro": 0.6726
+        },
+        "rules": {
+          "f1_macro": 0.3208,
+          "balanced_accuracy": 0.3592,
+          "cohen_kappa": 0.0921,
+          "quadratic_kappa": 0.1495
+        },
+        "xgb_matched": {
+          "f1_macro": 0.3847,
+          "balanced_accuracy": 0.4809,
+          "cohen_kappa": 0.1493,
+          "quadratic_kappa": 0.0763,
+          "auroc_ovr_macro": 0.6844
+        },
+        "xgb_raw": {
+          "f1_macro": 0.4092,
+          "balanced_accuracy": 0.5103,
+          "cohen_kappa": 0.1812,
+          "quadratic_kappa": 0.1228,
+          "auroc_ovr_macro": 0.7111
+        }
+      },
+      "ci95": {
+        "tabnet": {
+          "f1_macro": [
+            0.3739,
+            0.3843
+          ],
+          "balanced_accuracy": [
+            0.4625,
+            0.4802
+          ],
+          "cohen_kappa": [
+            0.1346,
+            0.1494
+          ],
+          "quadratic_kappa": [
+            0.0578,
+            0.0701
+          ],
+          "auroc_ovr_macro": [
+            0.6655,
+            0.6794
+          ]
+        },
+        "rules": {
+          "f1_macro": [
+            0.3168,
+            0.325
+          ],
+          "balanced_accuracy": [
+            0.351,
+            0.3669
+          ],
+          "cohen_kappa": [
+            0.0858,
+            0.098
+          ],
+          "quadratic_kappa": [
+            0.1408,
+            0.1577
+          ]
+        },
+        "xgb_matched": {
+          "f1_macro": [
+            0.3794,
+            0.3895
+          ],
+          "balanced_accuracy": [
+            0.4711,
+            0.4893
+          ],
+          "cohen_kappa": [
+            0.1414,
+            0.1568
+          ],
+          "quadratic_kappa": [
+            0.0695,
+            0.0826
+          ],
+          "auroc_ovr_macro": [
+            0.6764,
+            0.6916
+          ]
+        },
+        "xgb_raw": {
+          "f1_macro": [
+            0.4037,
+            0.414
+          ],
+          "balanced_accuracy": [
+            0.5013,
+            0.5195
+          ],
+          "cohen_kappa": [
+            0.1726,
+            0.1888
+          ],
+          "quadratic_kappa": [
+            0.1155,
+            0.1302
+          ],
+          "auroc_ovr_macro": [
+            0.7039,
+            0.7179
+          ]
+        },
+        "xgb_matched_minus_tabnet": {
+          "f1_macro": [
+            0.0026,
+            0.0084
+          ],
+          "balanced_accuracy": [
+            0.0018,
+            0.0165
+          ],
+          "cohen_kappa": [
+            0.003,
+            0.0111
+          ],
+          "quadratic_kappa": [
+            0.0066,
+            0.0177
+          ],
+          "auroc_ovr_macro": [
+            0.0082,
+            0.0151
+          ]
+        },
+        "xgb_matched_minus_rules": {
+          "f1_macro": [
+            0.0575,
+            0.0701
+          ],
+          "balanced_accuracy": [
+            0.109,
+            0.1342
+          ],
+          "cohen_kappa": [
+            0.0504,
+            0.0641
+          ],
+          "quadratic_kappa": [
+            -0.082,
+            -0.0641
+          ]
+        },
+        "xgb_raw_minus_tabnet": {
+          "f1_macro": [
+            0.0263,
+            0.0333
+          ],
+          "balanced_accuracy": [
+            0.0305,
+            0.0477
+          ],
+          "cohen_kappa": [
+            0.0337,
+            0.0437
+          ],
+          "quadratic_kappa": [
+            0.0516,
+            0.066
+          ],
+          "auroc_ovr_macro": [
+            0.0338,
+            0.0432
+          ]
+        },
+        "xgb_raw_minus_rules": {
+          "f1_macro": [
+            0.0821,
+            0.0947
+          ],
+          "balanced_accuracy": [
+            0.1387,
+            0.1641
+          ],
+          "cohen_kappa": [
+            0.0823,
+            0.096
+          ],
+          "quadratic_kappa": [
+            -0.0359,
+            -0.0179
+          ]
+        }
+      },
+      "ece_calibrated": {
+        "tabnet": 0.0077,
+        "xgb_matched": 0.0032,
+        "xgb_raw": 0.0068
+      }
+    },
+    "carb_sensitivity": {
+      "n": 49530,
+      "point": {
+        "tabnet": {
+          "f1_macro": 0.4857,
+          "balanced_accuracy": 0.527,
+          "cohen_kappa": 0.2988,
+          "quadratic_kappa": 0.4182,
+          "auroc_ovr_macro": 0.7748
+        },
+        "rules": {
+          "f1_macro": 0.3173,
+          "balanced_accuracy": 0.4248,
+          "cohen_kappa": 0.0884,
+          "quadratic_kappa": 0.1706
+        },
+        "xgb_matched": {
+          "f1_macro": 0.5006,
+          "balanced_accuracy": 0.5316,
+          "cohen_kappa": 0.3061,
+          "quadratic_kappa": 0.4368,
+          "auroc_ovr_macro": 0.7782
+        },
+        "xgb_raw": {
+          "f1_macro": 0.509,
+          "balanced_accuracy": 0.5402,
+          "cohen_kappa": 0.3156,
+          "quadratic_kappa": 0.4528,
+          "auroc_ovr_macro": 0.7857
+        }
+      },
+      "ci95": {
+        "tabnet": {
+          "f1_macro": [
+            0.4795,
+            0.4917
+          ],
+          "balanced_accuracy": [
+            0.5204,
+            0.5333
+          ],
+          "cohen_kappa": [
+            0.2902,
+            0.3078
+          ],
+          "quadratic_kappa": [
+            0.4063,
+            0.4295
+          ],
+          "auroc_ovr_macro": [
+            0.7695,
+            0.7801
+          ]
+        },
+        "rules": {
+          "f1_macro": [
+            0.3121,
+            0.323
+          ],
+          "balanced_accuracy": [
+            0.4187,
+            0.4312
+          ],
+          "cohen_kappa": [
+            0.083,
+            0.0944
+          ],
+          "quadratic_kappa": [
+            0.1627,
+            0.1791
+          ]
+        },
+        "xgb_matched": {
+          "f1_macro": [
+            0.4943,
+            0.5068
+          ],
+          "balanced_accuracy": [
+            0.5245,
+            0.5384
+          ],
+          "cohen_kappa": [
+            0.2973,
+            0.3149
+          ],
+          "quadratic_kappa": [
+            0.4254,
+            0.4486
+          ],
+          "auroc_ovr_macro": [
+            0.7727,
+            0.7834
+          ]
+        },
+        "xgb_raw": {
+          "f1_macro": [
+            0.503,
+            0.5149
+          ],
+          "balanced_accuracy": [
+            0.5334,
+            0.5466
+          ],
+          "cohen_kappa": [
+            0.3068,
+            0.3242
+          ],
+          "quadratic_kappa": [
+            0.4413,
+            0.4646
+          ],
+          "auroc_ovr_macro": [
+            0.7806,
+            0.7906
+          ]
+        },
+        "xgb_matched_minus_tabnet": {
+          "f1_macro": [
+            0.0111,
+            0.0189
+          ],
+          "balanced_accuracy": [
+            -0.0002,
+            0.0095
+          ],
+          "cohen_kappa": [
+            0.0033,
+            0.0115
+          ],
+          "quadratic_kappa": [
+            0.0141,
+            0.0233
+          ],
+          "auroc_ovr_macro": [
+            0.0022,
+            0.0044
+          ]
+        },
+        "xgb_matched_minus_rules": {
+          "f1_macro": [
+            0.1768,
+            0.1901
+          ],
+          "balanced_accuracy": [
+            0.0986,
+            0.115
+          ],
+          "cohen_kappa": [
+            0.2096,
+            0.2257
+          ],
+          "quadratic_kappa": [
+            0.2565,
+            0.2757
+          ]
+        },
+        "xgb_raw_minus_tabnet": {
+          "f1_macro": [
+            0.0187,
+            0.0279
+          ],
+          "balanced_accuracy": [
+            0.0076,
+            0.0185
+          ],
+          "cohen_kappa": [
+            0.0119,
+            0.0217
+          ],
+          "quadratic_kappa": [
+            0.0293,
+            0.0406
+          ],
+          "auroc_ovr_macro": [
+            0.0093,
+            0.0124
+          ]
+        },
+        "xgb_raw_minus_rules": {
+          "f1_macro": [
+            0.1851,
+            0.1982
+          ],
+          "balanced_accuracy": [
+            0.1073,
+            0.1234
+          ],
+          "cohen_kappa": [
+            0.219,
+            0.2351
+          ],
+          "quadratic_kappa": [
+            0.2726,
+            0.2916
+          ]
+        }
+      },
+      "ece_calibrated": {
+        "tabnet": 0.0058,
+        "xgb_matched": 0.0072,
+        "xgb_raw": 0.007
+      }
+    }
+  }
+}

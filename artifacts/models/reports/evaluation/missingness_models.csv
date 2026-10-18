@@ -1,0 +1,13 @@
+target,inputs,auroc_macro,ci_low,ci_high,n_test
+sodium_sensitivity,indicators_only,0.542,0.5343,0.5528,40645
+sodium_sensitivity,features_median_imputed,0.7469,0.7399,0.753,40645
+sodium_sensitivity,features_plus_indicators,0.7466,0.7394,0.7526,40645
+potassium_sensitivity,indicators_only,0.551,0.5433,0.5567,49803
+potassium_sensitivity,features_median_imputed,0.7228,0.7164,0.729,49803
+potassium_sensitivity,features_plus_indicators,0.7247,0.7182,0.7309,49803
+protein_restriction,indicators_only,0.5615,0.5553,0.5681,49705
+protein_restriction,features_median_imputed,0.7037,0.6972,0.7103,49705
+protein_restriction,features_plus_indicators,0.7056,0.6994,0.7122,49705
+carb_sensitivity,indicators_only,0.588,0.5814,0.5942,49530
+carb_sensitivity,features_median_imputed,0.777,0.772,0.7812,49530
+carb_sensitivity,features_plus_indicators,0.7771,0.7719,0.7814,49530

@@ -1,0 +1,161 @@
+{
+  "part_a": {
+    "tier_effect": [
+      {
+        "ingredient": "Green gram dal (Moong dal)",
+        "g_sev0": 26.9,
+        "g_sev1": 26.9,
+        "g_sev2": 14.9,
+        "ratio_1_over_0": 1.0,
+        "ratio_2_over_1": 0.554,
+        "ratio_2_over_0": 0.554
+      },
+      {
+        "ingredient": "Paneer (Cottage cheese)",
+        "g_sev0": 19.5,
+        "g_sev1": 19.5,
+        "g_sev2": 15.9,
+        "ratio_1_over_0": 1.0,
+        "ratio_2_over_1": 0.815,
+        "ratio_2_over_0": 0.815
+      },
+      {
+        "ingredient": "Egg, whole, boiled",
+        "g_sev0": 44.5,
+        "g_sev1": 44.5,
+        "g_sev2": 27.1,
+        "ratio_1_over_0": 1.0,
+        "ratio_2_over_1": 0.609,
+        "ratio_2_over_0": 0.609
+      },
+      {
+        "ingredient": "Rice, milled (white)",
+        "g_sev0": 91.4,
+        "g_sev1": 88.6,
+        "g_sev2": 29.8,
+        "ratio_1_over_0": 0.969,
+        "ratio_2_over_1": 0.336,
+        "ratio_2_over_0": 0.326
+      },
+      {
+        "ingredient": "Banana, ripe",
+        "g_sev0": 146.4,
+        "g_sev1": 88.0,
+        "g_sev2": 29.6,
+        "ratio_1_over_0": 0.601,
+        "ratio_2_over_1": 0.336,
+        "ratio_2_over_0": 0.202
+      },
+      {
+        "ingredient": "Apple",
+        "g_sev0": 225.0,
+        "g_sev1": 225.0,
+        "g_sev2": 101.8,
+        "ratio_1_over_0": 1.0,
+        "ratio_2_over_1": 0.452,
+        "ratio_2_over_0": 0.452
+      },
+      {
+        "ingredient": "Pineapple (Ananas)",
+        "g_sev0": 300.0,
+        "g_sev1": 300.0,
+        "g_sev2": 180.1,
+        "ratio_1_over_0": 1.0,
+        "ratio_2_over_1": 0.6,
+        "ratio_2_over_0": 0.6
+      },
+      {
+        "ingredient": "Bottle gourd (Lauki)",
+        "g_sev0": 300.0,
+        "g_sev1": 300.0,
+        "g_sev2": 162.2,
+        "ratio_1_over_0": 1.0,
+        "ratio_2_over_1": 0.541,
+        "ratio_2_over_0": 0.541
+      }
+    ]
+  },
+  "part_b": {
+    "n_test_admissions_with_all_four_outcomes": 27180,
+    "n_patients_sampled": 3000,
+    "n_ingredients": 101,
+    "practical_cap_g": 300.0,
+    "within_tolerance": 0.25,
+    "note": "'all_pairs' includes pairs whose ceiling is the 300 g practical cap (trivially equal); 'nutrient_bound_pairs' keeps only pairs where the oracle ceiling is below the cap",
+    "scenarios": {
+      "tabnet": {
+        "all_pairs": {
+          "n_pairs": 303000,
+          "median_ratio_to_oracle": 1.0,
+          "mean_abs_log2_ratio": 0.16,
+          "pct_within_25pct": 87.4,
+          "pct_over_permissive_gt_25pct": 11.8,
+          "pct_over_restrictive_lt_25pct": 0.8,
+          "pct_same_portion_label": 94.2,
+          "pct_label_looser_than_oracle": 4.9,
+          "pct_allowed_where_oracle_avoid": 0.0
+        },
+        "nutrient_bound_pairs": {
+          "n_pairs": 188335,
+          "median_ratio_to_oracle": 1.0,
+          "mean_abs_log2_ratio": 0.256,
+          "pct_within_25pct": 79.8,
+          "pct_over_permissive_gt_25pct": 19.0,
+          "pct_over_restrictive_lt_25pct": 1.2,
+          "pct_same_portion_label": 90.7,
+          "pct_label_looser_than_oracle": 7.9,
+          "pct_allowed_where_oracle_avoid": 0.0
+        }
+      },
+      "rules": {
+        "all_pairs": {
+          "n_pairs": 303000,
+          "median_ratio_to_oracle": 1.0,
+          "mean_abs_log2_ratio": 0.433,
+          "pct_within_25pct": 65.0,
+          "pct_over_permissive_gt_25pct": 5.1,
+          "pct_over_restrictive_lt_25pct": 29.9,
+          "pct_same_portion_label": 86.1,
+          "pct_label_looser_than_oracle": 2.2,
+          "pct_allowed_where_oracle_avoid": 0.0
+        },
+        "nutrient_bound_pairs": {
+          "n_pairs": 188335,
+          "median_ratio_to_oracle": 1.0,
+          "mean_abs_log2_ratio": 0.585,
+          "pct_within_25pct": 52.0,
+          "pct_over_permissive_gt_25pct": 8.2,
+          "pct_over_restrictive_lt_25pct": 39.8,
+          "pct_same_portion_label": 77.8,
+          "pct_label_looser_than_oracle": 3.6,
+          "pct_allowed_where_oracle_avoid": 0.0
+        }
+      },
+      "constant": {
+        "all_pairs": {
+          "n_pairs": 303000,
+          "median_ratio_to_oracle": 1.0,
+          "mean_abs_log2_ratio": 0.326,
+          "pct_within_25pct": 62.8,
+          "pct_over_permissive_gt_25pct": 8.2,
+          "pct_over_restrictive_lt_25pct": 29.0,
+          "pct_same_portion_label": 83.9,
+          "pct_label_looser_than_oracle": 2.5,
+          "pct_allowed_where_oracle_avoid": 0.0
+        },
+        "nutrient_bound_pairs": {
+          "n_pairs": 188335,
+          "median_ratio_to_oracle": 0.91,
+          "mean_abs_log2_ratio": 0.478,
+          "pct_within_25pct": 43.5,
+          "pct_over_permissive_gt_25pct": 13.2,
+          "pct_over_restrictive_lt_25pct": 43.3,
+          "pct_same_portion_label": 74.1,
+          "pct_label_looser_than_oracle": 4.0,
+          "pct_allowed_where_oracle_avoid": 0.0
+        }
+      }
+    }
+  },
+  "caveat": "The oracle uses observed outcome levels as severity. It is a proxy, not a validated safe ceiling."
+}

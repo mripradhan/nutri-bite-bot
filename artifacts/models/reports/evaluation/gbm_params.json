@@ -1,0 +1,100 @@
+{
+  "params": {
+    "xgb_matched": {
+      "learning_rate": 0.05,
+      "max_depth": 7,
+      "min_child_weight": 10,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "reg_lambda": 1.0,
+      "n_estimators": 600
+    },
+    "xgb_raw": {
+      "learning_rate": 0.05,
+      "max_depth": 7,
+      "min_child_weight": 10,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "reg_lambda": 1.0,
+      "n_estimators": 600
+    }
+  },
+  "grid": {
+    "xgb_matched": [
+      {
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "min_child_weight": 10,
+        "mean_f1_macro": 0.42595471235982674
+      },
+      {
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "min_child_weight": 50,
+        "mean_f1_macro": 0.4257185024811565
+      },
+      {
+        "max_depth": 5,
+        "learning_rate": 0.05,
+        "min_child_weight": 10,
+        "mean_f1_macro": 0.4265023147418623
+      },
+      {
+        "max_depth": 5,
+        "learning_rate": 0.05,
+        "min_child_weight": 50,
+        "mean_f1_macro": 0.42679362592517467
+      },
+      {
+        "max_depth": 7,
+        "learning_rate": 0.05,
+        "min_child_weight": 10,
+        "mean_f1_macro": 0.4290475776852345
+      },
+      {
+        "max_depth": 7,
+        "learning_rate": 0.05,
+        "min_child_weight": 50,
+        "mean_f1_macro": 0.42881752954393515
+      }
+    ],
+    "xgb_raw": [
+      {
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "min_child_weight": 10,
+        "mean_f1_macro": 0.4348455081329299
+      },
+      {
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "min_child_weight": 50,
+        "mean_f1_macro": 0.43476947311971803
+      },
+      {
+        "max_depth": 5,
+        "learning_rate": 0.05,
+        "min_child_weight": 10,
+        "mean_f1_macro": 0.43630586155313866
+      },
+      {
+        "max_depth": 5,
+        "learning_rate": 0.05,
+        "min_child_weight": 50,
+        "mean_f1_macro": 0.43557644847410604
+      },
+      {
+        "max_depth": 7,
+        "learning_rate": 0.05,
+        "min_child_weight": 10,
+        "mean_f1_macro": 0.44095018350730486
+      },
+      {
+        "max_depth": 7,
+        "learning_rate": 0.05,
+        "min_child_weight": 50,
+        "mean_f1_macro": 0.43881791470822373
+      }
+    ]
+  }
+}

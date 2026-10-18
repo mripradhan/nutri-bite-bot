@@ -1,0 +1,37 @@
+target,model,metric,value,ci_low,ci_high,diff_vs_rules_ci
+sodium_sensitivity,tabnet,f1_macro,0.3731,0.3665,0.3794,"[-0.0068, 0.0119]"
+sodium_sensitivity,tabnet,balanced_accuracy,0.5174,0.5051,0.5303,"[0.0463, 0.0718]"
+sodium_sensitivity,tabnet,cohen_kappa,0.1559,0.1481,0.1642,"[0.0274, 0.0452]"
+sodium_sensitivity,tabnet,quadratic_kappa,0.2092,0.1982,0.2192,"[0.0079, 0.0254]"
+sodium_sensitivity,tabnet,auroc_ovr_macro,0.7558,0.7484,0.7635,
+sodium_sensitivity,rules,f1_macro,0.3713,0.3609,0.381,
+sodium_sensitivity,rules,balanced_accuracy,0.4583,0.4466,0.4693,
+sodium_sensitivity,rules,cohen_kappa,0.1196,0.1104,0.1292,
+sodium_sensitivity,rules,quadratic_kappa,0.1926,0.1796,0.2053,
+potassium_sensitivity,tabnet,f1_macro,0.4107,0.4051,0.4166,"[0.0201, 0.0292]"
+potassium_sensitivity,tabnet,balanced_accuracy,0.4776,0.4691,0.4863,"[0.0062, 0.0204]"
+potassium_sensitivity,tabnet,cohen_kappa,0.1706,0.1632,0.1784,"[0.0321, 0.043]"
+potassium_sensitivity,tabnet,quadratic_kappa,0.2449,0.2337,0.2561,"[0.0154, 0.0282]"
+potassium_sensitivity,tabnet,auroc_ovr_macro,0.7278,0.7209,0.7342,
+potassium_sensitivity,rules,f1_macro,0.3861,0.3804,0.3922,
+potassium_sensitivity,rules,balanced_accuracy,0.4641,0.4555,0.4723,
+potassium_sensitivity,rules,cohen_kappa,0.1331,0.1265,0.1403,
+potassium_sensitivity,rules,quadratic_kappa,0.2232,0.2128,0.2339,
+protein_restriction,tabnet,f1_macro,0.4019,0.3966,0.4069,"[0.0744, 0.0877]"
+protein_restriction,tabnet,balanced_accuracy,0.5014,0.4921,0.5108,"[0.1295, 0.1551]"
+protein_restriction,tabnet,cohen_kappa,0.1672,0.1593,0.1744,"[0.068, 0.0823]"
+protein_restriction,tabnet,quadratic_kappa,0.1077,0.1008,0.115,"[-0.0502, -0.0327]"
+protein_restriction,tabnet,auroc_ovr_macro,0.6978,0.6907,0.7047,
+protein_restriction,rules,f1_macro,0.3208,0.3168,0.325,
+protein_restriction,rules,balanced_accuracy,0.3592,0.351,0.3669,
+protein_restriction,rules,cohen_kappa,0.0921,0.0858,0.098,
+protein_restriction,rules,quadratic_kappa,0.1495,0.1408,0.1577,
+carb_sensitivity,tabnet,f1_macro,0.4998,0.4937,0.5057,"[0.1762, 0.1891]"
+carb_sensitivity,tabnet,balanced_accuracy,0.5385,0.532,0.5452,"[0.1054, 0.1221]"
+carb_sensitivity,tabnet,cohen_kappa,0.3024,0.294,0.3108,"[0.2061, 0.222]"
+carb_sensitivity,tabnet,quadratic_kappa,0.4308,0.4188,0.4429,"[0.2503, 0.2699]"
+carb_sensitivity,tabnet,auroc_ovr_macro,0.7815,0.7763,0.7864,
+carb_sensitivity,rules,f1_macro,0.3173,0.3121,0.323,
+carb_sensitivity,rules,balanced_accuracy,0.4248,0.4187,0.4312,
+carb_sensitivity,rules,cohen_kappa,0.0884,0.083,0.0944,
+carb_sensitivity,rules,quadratic_kappa,0.1706,0.1627,0.1791,
