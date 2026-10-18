@@ -14,6 +14,7 @@ import {
 import { useApp } from '@/context/AppContext'
 import { apiPredict } from '@/lib/api'
 import type { PatientData } from '@/types'
+import ExclusionSelector from '@/components/ExclusionSelector'
 
 // ─── Presets ──────────────────────────────────────────────────────────────────
 const PRESETS: Record<string, PatientData> = {
@@ -201,7 +202,7 @@ export default function PatientForm() {
       <div className="section-label mb-2">Clinical Input</div>
       <h2 className="text-[20px] font-bold text-text-primary mb-1">Patient Data</h2>
       <p className="text-text-secondary text-[13px] mb-6">
-        Enter patient lab values to run Deep Learning-based nutrient risk stratification.
+        Enter patient lab values to predict outcome-risk proxies (follow-up blood pressure, hyperkalaemia, acute kidney injury, hyperglycaemia).
       </p>
 
       {/* Preset bar */}
@@ -340,6 +341,8 @@ export default function PatientForm() {
           </div>
         </fieldset>
 
+        <ExclusionSelector />
+
         {/* Error */}
         {error && (
           <div className="p-3 rounded-lg bg-risk-high/10 border border-risk-high/30 text-risk-high text-[13px]">
@@ -364,10 +367,10 @@ export default function PatientForm() {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
-              Running Deep Learning Prediction…
+              Running outcome-risk prediction…
             </span>
           ) : (
-            'Run Deep Learning Prediction'
+            'Run outcome-risk prediction'
           )}
         </button>
       </form>

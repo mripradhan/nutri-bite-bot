@@ -1,37 +1,39 @@
 """
 NutriBiteBot — Flask API Backend
 =================================
-Serves clinical risk stratification using TabNet deep learning model:
-  - sodium_sensitivity
-  - potassium_sensitivity
-  - protein_restriction
-  - carb_sensitivity
+Serves outcome-risk stratification with one TabNet model per target. The four targets
+are retrospective outcome-risk PROXIES (not measured dietary responses); the identifiers
+are kept for traceability:
+  - sodium_sensitivity      (proxy: follow-up blood pressure)
+  - potassium_sensitivity   (proxy: hyperkalaemia)
+  - protein_restriction     (proxy: acute kidney injury)
+  - carb_sensitivity        (proxy: hyperglycaemia)
 
-ALL predictions come from TabNet model.predict() / model.predict_proba()
-using model_params.json + network.pt weights — NO hardcoded thresholds.
+Gram quantities are computed guideline-constrained ceilings. They have NOT been validated
+by dietitians or shown to be patient-specific safety limits (research prototype).
+
+Model 1 predictions come from the artifact set in artifacts/models/ written by
+clinical-models/train_model1.py (see clinical-models/model1_artifacts.py).
 """
 
 import json
-import math
 import os
+import re
+import sys
 import base64
 import tempfile
-import zipfile
-import shutil
 import requests as http_requests
 from difflib import get_close_matches
 
-import joblib
 import numpy as np
 from PIL import Image
 from dotenv import load_dotenv
 
-from supabase_client import save_patient_data, save_recipe
+from supabase_client import save_patient_data, save_recipe, save_recipe_adherence
 from groq import Groq
 import pandas as pd
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
-from pytorch_tabnet.tab_model import TabNetClassifier
 
 # ── paths ──────────────────────────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -41,74 +43,30 @@ FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
 IFCT_CSV = os.path.join(BASE_DIR, "clinical-models", "ifct_database.csv")
 
 # ── load ML models at startup ─────────────────────────────────────
-print("Loading ML model weights (TabNet) …")
+# One TabNet model + one monotonic transformer per target, loaded from the
+# portable artifact set written by clinical-models/train_model1.py.
+sys.path.insert(0, os.path.join(BASE_DIR, "clinical-models"))
+from model1_artifacts import TARGETS  # noqa: E402
+import allergens  # noqa: E402
+import recipe_verifier  # noqa: E402
+from train_model2 import PortionControlModel  # noqa: E402
 
-MODELS = {}
-TARGET_NAMES = [
-    "sodium_sensitivity",
-    "potassium_sensitivity",
-    "protein_restriction",
-    "carb_sensitivity",
-]
-
-# Build a temporary .zip from model_params.json + network.pt for TabNet's load_model()
-def _load_tabnet_from_parts(model_dir):
-    """Load a TabNet model from standalone model_params.json + network.pt files."""
-    params_path = os.path.join(model_dir, "model_params.json")
-    weights_path = os.path.join(model_dir, "network.pt")
-    tmp_zip = os.path.join(model_dir, "_tabnet_tmp.zip")
-    try:
-        with zipfile.ZipFile(tmp_zip, "w") as zf:
-            zf.write(params_path, "model_params.json")
-            zf.write(weights_path, "network.pt")
-        model = TabNetClassifier()
-        model.load_model(tmp_zip)
-        return model
-    finally:
-        if os.path.exists(tmp_zip):
-            os.remove(tmp_zip)
-
-_tabnet_model = _load_tabnet_from_parts(MODEL_DIR)
-print(f"  ✓ TabNet model loaded from model_params.json + network.pt")
-
-# Share the single TabNet model across all 4 risk targets
-for target in TARGET_NAMES:
-    MODELS[target] = _tabnet_model
-    print(f"  ✓ {target} → TabNet model")
-
-# Load preprocessing artifacts and extract fitted parameters.
-# The imputer/scaler .joblib files may be incompatible with the current
-# sklearn version (attribute renames between versions), so we extract
-# the raw numpy arrays and apply preprocessing manually.
-_raw_imputer = joblib.load(os.path.join(MODEL_DIR, "imputer.joblib"))
-_raw_scaler = joblib.load(os.path.join(MODEL_DIR, "scaler.joblib"))
-FEATURE_NAMES = joblib.load(os.path.join(MODEL_DIR, "feature_names.joblib"))
-
-# Extract fitted parameters (these are plain numpy arrays, always compatible)
-IMPUTER_FILL_VALUES = _raw_imputer.statistics_        # median per feature
-SCALER_MEAN = _raw_scaler.mean_                       # mean per feature
-SCALER_SCALE = _raw_scaler.scale_                     # std dev per feature
-
-print(f"  ✓ imputer, scaler, feature_names ({len(FEATURE_NAMES)} features) loaded")
-print(f"  Features: {list(FEATURE_NAMES)}")
-print("All TabNet models loaded successfully.\n")
+# Model 2 (portion engine) owns the Model 1 predictor, so both endpoints and the
+# research code share one implementation. Requests use it statelessly (use_ledger=False).
+print("Loading Model 1 + Model 2 (portion engine) …")
+ENGINE = PortionControlModel()
+PREDICTOR = ENGINE.model1.predictor
+TARGET_NAMES = list(TARGETS)
+FEATURE_NAMES = PREDICTOR.feature_names
+MODEL_MANIFEST = PREDICTOR.manifest
+print(f"  ✓ {len(TARGET_NAMES)} targets, {len(FEATURE_NAMES)} features, "
+      f"trained {MODEL_MANIFEST['created_utc']} on {MODEL_MANIFEST['data']['source']}\n")
 
 
-def preprocess(X_df):
-    """
-    Apply imputation + scaling using the stored fitted parameters.
-    Equivalent to: scaler.transform(imputer.transform(X))
-    but avoids sklearn version compatibility issues.
-    """
-    X = X_df.values.astype(np.float64)
-    # Impute: replace NaN with median values
-    for col_idx in range(X.shape[1]):
-        mask = np.isnan(X[:, col_idx])
-        if mask.any():
-            X[mask, col_idx] = IMPUTER_FILL_VALUES[col_idx]
-    # Scale: standardize using z-score
-    X = (X - SCALER_MEAN) / SCALER_SCALE
-    return X
+def predict_risk(patient: dict) -> dict:
+    """Per-target {label, severity_score, confidence, proba, feature_attribution}."""
+    return PREDICTOR.predict({f: patient.get(f) for f in FEATURE_NAMES})
+
 
 # ── load reference data ────────────────────────────────────────────
 THRESHOLDS = {}
@@ -117,40 +75,46 @@ if os.path.exists(thresholds_path):
     with open(thresholds_path, "r") as f:
         THRESHOLDS = json.load(f)
 
-LABEL_MAP = {0: "low", 1: "moderate", 2: "high"}
 
-# Clinical descriptions for each risk domain
+# Outcome-risk proxy descriptions. These describe the PREDICTED OUTCOME RISK, not a dietary
+# prescription: the models are trained on observed outcomes, not on dietary response.
 RISK_DESCRIPTIONS = {
     "sodium_sensitivity": {
-        "name": "Sodium Sensitivity",
-        "low": "Normal sodium tolerance — standard dietary sodium is acceptable.",
-        "moderate": "Moderate sodium sensitivity — consider reducing processed food intake.",
-        "high": "High sodium sensitivity — strict sodium restriction recommended (<2000 mg/day).",
+        "name": "Sodium proxy (follow-up blood pressure)",
+        "low": "Lower predicted risk of raised follow-up blood pressure.",
+        "moderate": "Moderate predicted risk of raised follow-up blood pressure (systolic 141-160 mmHg range).",
+        "high": "Higher predicted risk of raised follow-up blood pressure (systolic >160 mmHg range).",
     },
     "potassium_sensitivity": {
-        "name": "Potassium Sensitivity",
-        "low": "Normal potassium handling — no dietary restrictions needed.",
-        "moderate": "Moderate potassium concern — monitor intake of high-K foods.",
-        "high": "High potassium risk — avoid bananas, oranges, potatoes; risk of hyperkalemia.",
+        "name": "Potassium proxy (hyperkalaemia)",
+        "low": "Lower predicted risk of raised serum potassium.",
+        "moderate": "Moderate predicted risk of raised serum potassium (5.1-5.5 mmol/L range).",
+        "high": "Higher predicted risk of raised serum potassium (>5.5 mmol/L range).",
     },
     "protein_restriction": {
-        "name": "Protein Restriction",
-        "low": "No protein restriction needed — normal dietary protein is safe.",
-        "moderate": "Moderate protein restriction — reduce to 0.8 g/kg/day.",
-        "high": "Strict protein restriction — limit to 0.6–0.8 g/kg/day to protect kidneys.",
+        "name": "Protein proxy (acute kidney injury)",
+        "low": "Lower predicted risk of acute kidney injury.",
+        "moderate": "Moderate predicted risk of acute kidney injury (KDIGO stage 1 range).",
+        "high": "Higher predicted risk of acute kidney injury (KDIGO stage 2 or above).",
     },
     "carb_sensitivity": {
-        "name": "Carbohydrate Sensitivity",
-        "low": "Normal carbohydrate tolerance — balanced intake is fine.",
-        "moderate": "Moderate carb sensitivity — prefer complex carbs, reduce simple sugars.",
-        "high": "High carb sensitivity — strict glycemic control needed; limit to low-GI foods.",
+        "name": "Carbohydrate proxy (hyperglycaemia)",
+        "low": "Lower predicted risk of raised blood glucose.",
+        "moderate": "Moderate predicted risk of raised blood glucose (181-250 mg/dL range).",
+        "high": "Higher predicted risk of raised blood glucose (>250 mg/dL range).",
     },
 }
 
+DISCLAIMER = (
+    "Research prototype. Risk tiers are model predictions of retrospective outcome proxies, "
+    "and gram quantities are computed guideline-constrained ceilings. They have not been "
+    "validated by dietitians or shown to be safe for an individual patient, and must not be "
+    "used for clinical decisions without review by a qualified clinician or dietitian."
+)
+
 
 # ══════════════════════════════════════════════════════════════════
-#  MODEL 2 — PORTION RECOMMENDATION ENGINE
-#  Extracted from train_model2.py: PortionRecommender + BudgetCalc
+#  MODEL 2 — PORTION RECOMMENDATION (clinical-models/train_model2.py)
 # ══════════════════════════════════════════════════════════════════
 
 # ── IFCT nutritional database ─────────────────────────────────────
@@ -161,25 +125,6 @@ _ifct_idx = _ifct_df.set_index("ingredient_norm")
 IFCT_INGREDIENTS = _ifct_df["ingredient"].tolist()
 _ifct_ingredients_lower = [i.lower() for i in IFCT_INGREDIENTS]
 print(f"  ✓ IFCT database: {len(_ifct_df)} ingredients loaded\n")
-
-
-def ifct_get_nutrients(ingredient: str) -> dict:
-    """Get nutrient values per 100g for an ingredient."""
-    key = ingredient.lower().strip()
-    if key not in _ifct_idx.index:
-        raise KeyError(f"Ingredient not found: {ingredient}")
-    row = _ifct_idx.loc[key]
-    return {
-        "sodium_mg": float(row.get("sodium_mg_per_100g", 0)),
-        "potassium_mg": float(row.get("potassium_mg_per_100g", 0)),
-        "protein_g": float(row.get("protein_g_per_100g", 0)),
-        "carbs_g": float(row.get("carbs_g_per_100g", 0)),
-        "phosphorus_mg": float(row.get("phosphorus_mg_per_100g", 0)),
-        "fat_g": float(row.get("fat_g_per_100g", 0)),
-        "fiber_g": float(row.get("fiber_g_per_100g", 0)),
-        "calories": float(row.get("calories_per_100g", 0)),
-        "category": str(row.get("category", "")),
-    }
 
 
 def ifct_search(query: str, n: int = 8) -> list:
@@ -202,162 +147,106 @@ def ifct_search(query: str, n: int = 8) -> list:
     return [IFCT_INGREDIENTS[_ifct_ingredients_lower.index(m)] for m in close]
 
 
-# ── Daily nutrient budgets by condition (from Model2Config) ───────
-DAILY_BUDGETS = {
-    "healthy": {
-        "sodium_mg": 2300, "potassium_mg": 4700,
-        "protein_g": 56, "carbs_g": 275, "phosphorus_mg": 1250,
-    },
-    "ckd": {
-        "sodium_mg": 2000, "potassium_mg": 2000,
-        "protein_g": 42, "carbs_g": 275, "phosphorus_mg": 800,
-    },
-    "htn": {
-        "sodium_mg": 1500, "potassium_mg": 4700,
-        "protein_g": 56, "carbs_g": 275, "phosphorus_mg": 1250,
-    },
-    "dm": {
-        "sodium_mg": 2300, "potassium_mg": 4700,
-        "protein_g": 56, "carbs_g": 180, "phosphorus_mg": 1250,
-    },
-    "ckd_htn": {
-        "sodium_mg": 1500, "potassium_mg": 2000,
-        "protein_g": 42, "carbs_g": 275, "phosphorus_mg": 800,
-    },
-    "ckd_dm": {
-        "sodium_mg": 2000, "potassium_mg": 2000,
-        "protein_g": 42, "carbs_g": 150, "phosphorus_mg": 800,
-    },
-    "ckd_htn_dm": {
-        "sodium_mg": 1500, "potassium_mg": 2000,
-        "protein_g": 42, "carbs_g": 150, "phosphorus_mg": 800,
-    },
-}
-
-# Portion thresholds (from Model2Config)
-DEFAULT_CAP_G = 300.0      # max grams per ingredient
-HALF_PORTION_G = 75.0      # below this → "Half portion"
-AVOID_THRESHOLD_G = 5.0    # below this → "Avoid"
-
-# Sigmoid constants for severity→fraction mapping (from PortionRecommender)
-_SIG_L = 0.42       # upper asymptote
-_SIG_K = 1.60       # steepness
-_SIG_S0 = 1.0       # midpoint
-_SIG_FLOOR = 0.05   # minimum fraction
+# ── Portion recommendations via the single Model 2 engine ────────
+_LABEL_API = {"Half portion": "Half Portion"}
+_NUTRIENT_KEYS = ["sodium_mg", "potassium_mg", "protein_g", "carbs_g", "phosphorus_mg", "calories"]
 
 
-def get_daily_budget(has_ckd: bool, has_htn: bool, has_dm: bool) -> dict:
-    """Get daily nutrient budget based on conditions."""
-    conditions = sorted(
-        [c for c, v in [("ckd", has_ckd), ("dm", has_dm), ("htn", has_htn)] if v]
-    )
-    key = "_".join(conditions) if conditions else "healthy"
-    return DAILY_BUDGETS.get(key, DAILY_BUDGETS.get("ckd_htn_dm", DAILY_BUDGETS["healthy"]))
-
-
-def severity_to_fraction(severity_score: float) -> float:
-    """
-    Map severity_score ∈ [0.0, 2.0] to a budget fraction via sigmoid.
-    severity=0.0 → ~0.40 (generous), severity=2.0 → ~0.08 (restrictive).
-    """
-    fraction = _SIG_L / (1.0 + math.exp(_SIG_K * (severity_score - _SIG_S0)))
-    return max(_SIG_FLOOR, fraction)
-
-
-def compute_severity_score(proba: np.ndarray) -> float:
-    """
-    Compute severity_score as probability-weighted class index.
-    Classes: 0=low, 1=moderate, 2=high → score ∈ [0.0, 2.0].
-    """
-    return float(proba[0] * 0.0 + proba[1] * 1.0 + proba[2] * 2.0)
-
-
-def grams_from_budget(
-    nutrient_per_100g: float, remaining_budget: float, risk_fraction: float
-) -> float:
-    """Compute max grams: (budget * fraction / nutrient_per_100g) * 100."""
-    if nutrient_per_100g <= 0:
-        return float("inf")
-    allowed = max(0.0, remaining_budget) * risk_fraction
-    return max(0.0, (allowed / nutrient_per_100g) * 100.0)
-
-
-def recommend_ingredient(ingredient: str, severity_scores: dict, budget: dict) -> dict:
-    """
-    Recommend a safe portion for one ingredient.
-    Returns: {ingredient, max_grams, label, binding_constraint, nutrient_load, nutrients_per_100g}
-    """
-    try:
-        n = ifct_get_nutrients(ingredient)
-    except KeyError:
-        suggestions = ifct_search(ingredient)
-        return {
-            "ingredient": ingredient,
-            "max_grams": 0,
-            "label": "Not Found",
-            "binding_constraint": "unknown",
-            "explanation": f"Not in IFCT database. Try: {', '.join(suggestions)}" if suggestions else "Not in IFCT database.",
-            "nutrient_load": {},
-            "nutrients_per_100g": {},
-            "suggestions": suggestions,
-        }
-
-    # Convert severity scores to budget fractions via sigmoid
-    f_sod = severity_to_fraction(severity_scores.get("sodium_sensitivity", 1.0))
-    f_pot = severity_to_fraction(severity_scores.get("potassium_sensitivity", 1.0))
-    f_pro = severity_to_fraction(severity_scores.get("protein_restriction", 1.0))
-    f_carb = severity_to_fraction(severity_scores.get("carb_sensitivity", 1.0))
-    f_phos = severity_to_fraction(severity_scores.get("phosphorus_sensitivity", 0.2))
-
-    # Compute max grams per constraint
-    constraints = {
-        "sodium": grams_from_budget(n["sodium_mg"], budget["sodium_mg"], f_sod),
-        "potassium": grams_from_budget(n["potassium_mg"], budget["potassium_mg"], f_pot),
-        "protein": grams_from_budget(n["protein_g"], budget["protein_g"], f_pro),
-        "carbs": grams_from_budget(n["carbs_g"], budget["carbs_g"], f_carb),
-        "phosphorus": grams_from_budget(n["phosphorus_mg"], budget["phosphorus_mg"], f_phos),
-    }
-
-    binding = min(constraints, key=constraints.get)
-    max_g = min(constraints.values())
-    max_g = min(max_g, DEFAULT_CAP_G)
-
-    # Label
-    if max_g <= AVOID_THRESHOLD_G:
-        label = "Avoid"
-    elif max_g <= HALF_PORTION_G:
-        label = "Half Portion"
-    else:
-        label = "Allowed"
-
-    # Nutrient load at recommended portion
-    factor = max_g / 100.0
-    load = {
-        "sodium_mg": round(n["sodium_mg"] * factor, 1),
-        "potassium_mg": round(n["potassium_mg"] * factor, 1),
-        "protein_g": round(n["protein_g"] * factor, 2),
-        "carbs_g": round(n["carbs_g"] * factor, 2),
-        "phosphorus_mg": round(n["phosphorus_mg"] * factor, 1),
-        "calories": round(n["calories"] * factor, 0),
-    }
-
+def _api_decision(rec: dict) -> dict:
+    """Engine PortionDecision dict → the API shape the frontends expect."""
+    n = ENGINE.ifct.get_nutrients_per_100g(rec["ingredient"])
+    factor = rec["max_grams"] / 100.0
+    key = rec["ingredient"].lower().strip()
     return {
-        "ingredient": ingredient,
-        "category": n.get("category", ""),
-        "max_grams": round(max_g, 1),
-        "label": label,
-        "binding_constraint": binding,
-        "nutrient_load": load,
-        "nutrients_per_100g": {
-            "sodium_mg": n["sodium_mg"],
-            "potassium_mg": n["potassium_mg"],
-            "protein_g": n["protein_g"],
-            "carbs_g": n["carbs_g"],
-            "phosphorus_mg": n["phosphorus_mg"],
-            "calories": n["calories"],
-        },
-        "constraint_grams": {k: round(v, 1) if v != float("inf") else None for k, v in constraints.items()},
+        "ingredient": rec["ingredient"],
+        "category": str(_ifct_idx.loc[key].get("category", "")) if key in _ifct_idx.index else "",
+        "max_grams": round(float(rec["max_grams"]), 1),
+        "label": _LABEL_API.get(rec["label"], rec["label"]),
+        "binding_constraint": rec["binding_constraint"],
+        "explanation": rec.get("explanation", ""),
+        "nutrient_load": {k: round(n[k] * factor, 1) for k in _NUTRIENT_KEYS},
+        "nutrients_per_100g": {k: n[k] for k in _NUTRIENT_KEYS},
+        "substitutes": [{**sub, "label": _LABEL_API.get(sub["label"], sub["label"])}
+                        for sub in rec.get("substitutes", [])],
     }
+
+
+def _not_found(ingredient: str) -> dict:
+    suggestions = ifct_search(ingredient)
+    return {
+        "ingredient": ingredient, "max_grams": 0, "label": "Not Found", "binding_constraint": "unknown",
+        "explanation": f"Not in IFCT database. Try: {', '.join(suggestions)}" if suggestions else "Not in IFCT database.",
+        "nutrient_load": {}, "nutrients_per_100g": {}, "suggestions": suggestions,
+    }
+
+
+def _parse_exclusions(data: dict) -> tuple:
+    """(allergen group ids, free-text terms) from a request body; unknown groups ignored."""
+    return (allergens.normalize_groups(data.get("allergies")),
+            allergens.normalize_terms(data.get("exclusion_terms")))
+
+
+def _excluded_stub(ingredient: str, category: str, reason: str) -> dict:
+    return {
+        "ingredient": ingredient, "category": category, "max_grams": 0, "label": "Excluded",
+        "binding_constraint": "patient exclusion",
+        "explanation": f"Excluded for this patient: {reason}. Not used in portions, substitutes or recipes.",
+        "excluded_reason": reason, "nutrient_load": {}, "nutrients_per_100g": {}, "substitutes": [],
+    }
+
+
+def _category_of(name: str) -> str:
+    key = name.lower().strip()
+    return str(_ifct_idx.loc[key].get("category", "")) if key in _ifct_idx.index else ""
+
+
+def portion_recommendations(patient_data: dict, ingredients: list,
+                            groups=(), terms=()) -> dict:
+    """
+    Model 1 risk -> daily budget -> per-ingredient gram ceilings, all from
+    train_model2.PortionControlModel.
+
+    Allergy / preference exclusions are a hard filter applied FIRST: an excluded ingredient
+    never reaches the portion engine or the recipe prompt, and excluded items are also
+    removed from every ingredient's substitute list.
+    """
+    patient = {f: (None if patient_data.get(f) is None else float(patient_data[f])) for f in FEATURE_NAMES}
+
+    excluded = {}
+    for i in ingredients:
+        reason = allergens.exclusion_reason(i, _category_of(i), groups, terms)
+        if reason:
+            excluded[i] = reason
+    candidates = [i for i in ingredients if i not in excluded]
+
+    known = [i for i in candidates if i.lower().strip() in ENGINE.ifct.idx.index]
+    if known:
+        res = ENGINE.get_recommendations(patient, known, include_substitutes=True, use_ledger=False)
+        risk, budget, warnings_ = res["risk_levels"], res["daily_budget"], res["clinical_warnings"]
+        by_name = {r["ingredient"]: _api_decision(r) for r in res["recommendations"]}
+        for dec in by_name.values():
+            dec["substitutes"] = [
+                sub for sub in dec.get("substitutes", [])
+                if not allergens.exclusion_reason(sub.get("ingredient", ""),
+                                                  _category_of(sub.get("ingredient", "")),
+                                                  groups, terms)
+            ]
+    else:
+        risk, by_name, warnings_ = ENGINE.model1.predict_risk_levels(patient), {}, []
+        b = ENGINE.budget_calc.get_daily_budget(has_ckd=patient.get("has_ckd") == 1,
+                                                has_htn=patient.get("has_htn") == 1,
+                                                has_dm=patient.get("has_dm") == 1)
+        budget = {"sodium_mg": b.sodium_mg_remaining, "potassium_mg": b.potassium_mg_remaining,
+                  "protein_g": b.protein_g_remaining, "carbs_g": b.carbs_g_remaining,
+                  "phosphorus_mg": b.phosphorus_mg_remaining}
+    recs = []
+    for i in ingredients:
+        if i in excluded:
+            recs.append(_excluded_stub(i, _category_of(i), excluded[i]))
+        else:
+            recs.append(by_name[i] if i in by_name else _not_found(i))
+    return {"risk_levels": risk, "daily_budget": budget, "recommendations": recs,
+            "clinical_warnings": warnings_, "excluded": excluded}
 
 
 # ── Flask app ──────────────────────────────────────────────────────
@@ -404,31 +293,17 @@ def predict():
     if missing:
         return jsonify({"error": f"Missing features: {missing}"}), 400
 
-    # Build feature DataFrame (exactly as test.py does)
     patient = {f: float(data[f]) for f in FEATURE_NAMES}
-    X = pd.DataFrame([patient])[FEATURE_NAMES]
-
-    # Preprocess: impute → scale (using the TRAINED parameters from .joblib)
-    X_processed = preprocess(X)
-
-    # Run each TabNet model (requires float32)
-    X_tabnet = X_processed.astype(np.float32)
     risk_levels = {}
-    for target, model in MODELS.items():
-        pred = int(model.predict(X_tabnet)[0])
-        proba = model.predict_proba(X_tabnet)[0]
-
-        label = LABEL_MAP[pred]
-        confidence = float(proba[pred] * 100)
-
+    for target, r in predict_risk(patient).items():
+        label = r["label"]
         risk_levels[target] = {
             "label": label,
-            "confidence": round(confidence, 2),
-            "probabilities": {
-                "low": round(float(proba[0]) * 100, 2),
-                "moderate": round(float(proba[1]) * 100, 2),
-                "high": round(float(proba[2]) * 100, 2),
-            },
+            "confidence": round(r["confidence"] * 100, 2),
+            # calibrated outcome probabilities; the tier label comes from the balanced decision scores
+            "probabilities": {k: round(v * 100, 2) for k, v in r["proba"].items()},
+            "severity_score": r["severity_score"],
+            "feature_attribution": r["feature_attribution"],
             "display_name": RISK_DESCRIPTIONS[target]["name"],
             "clinical_note": RISK_DESCRIPTIONS[target][label],
         }
@@ -464,12 +339,19 @@ def predict():
         },
         "nutrient_thresholds": applicable_thresholds,
         "condition_key": condition_key,
+        "disclaimer": DISCLAIMER,
     })
 
 
 @app.route("/api/model-info", methods=["GET"])
 def model_info():
-    """Return model metadata — actual accuracy from training reports."""
+    """Return model metadata; metrics come from the training manifest (held-out real patients)."""
+    test = (MODEL_MANIFEST.get("metrics") or {}).get("test") or {}
+
+    def mean_of(key):
+        vals = [m[key] for m in test.values() if key in m]
+        return round(float(np.mean(vals)), 4) if vals else None
+
     return jsonify({
         "models": {
             target: {
@@ -477,18 +359,26 @@ def model_info():
                 "type": "TabNetClassifier",
                 "classes": ["low", "moderate", "high"],
                 "features_used": list(FEATURE_NAMES),
+                "test_metrics": test.get(target),
             }
             for target in TARGET_NAMES
         },
         "accuracy_metrics": {
-            "mean_accuracy": 0.9991,
-            "mean_f1_weighted": 0.9991,
-            "mean_cohen_kappa": 0.9983,
+            "evaluated_on": "held-out real MIMIC-IV patients",
+            "mean_f1_macro": mean_of("f1_macro"),
+            "mean_balanced_accuracy": mean_of("balanced_accuracy"),
+            "mean_auroc_ovr": mean_of("auroc_ovr_macro"),
+            "mean_accuracy": mean_of("accuracy"),
+            "mean_cohen_kappa": mean_of("cohen_kappa"),
         },
+        "trained": MODEL_MANIFEST.get("created_utc"),
+        "data_source": MODEL_MANIFEST["data"]["source"],
         "feature_count": len(FEATURE_NAMES),
         "feature_names": list(FEATURE_NAMES),
-        "preprocessing": ["SimpleImputer", "StandardScaler"],
-        "model_backend": "TabNet (pytorch_tabnet)",
+        "preprocessing": ["median imputation", "z-score scaling", "per-target isotonic monotonic transform"],
+        "model_backend": "TabNet (pytorch_tabnet), one model per target",
+        "targets_note": "Targets are retrospective outcome-risk proxies, not measured dietary responses.",
+        "disclaimer": DISCLAIMER,
     })
 
 
@@ -548,51 +438,38 @@ def recommend():
     if missing:
         return jsonify({"error": f"Missing patient features: {missing}"}), 400
 
-    # ── Step 1: Run Model1 — risk predictions ──
-    patient = {f: float(patient_data[f]) for f in FEATURE_NAMES}
-    X = pd.DataFrame([patient])[FEATURE_NAMES]
-    X_processed = preprocess(X)
-
-    X_tabnet = X_processed.astype(np.float32)
-    risk_levels = {}
-    severity_scores = {}
-    for target, model in MODELS.items():
-        pred = int(model.predict(X_tabnet)[0])
-        proba = model.predict_proba(X_tabnet)[0]
-        label = LABEL_MAP[pred]
-
+    groups, terms = _parse_exclusions(data)
+    result = portion_recommendations(patient_data, ingredient_list, groups, terms)
+    # severity scores are those the engine actually used (after any caloric reconciliation)
+    risk_levels, severity_scores = {}, {}
+    for target in TARGET_NAMES:
+        r = result["risk_levels"][target]
         risk_levels[target] = {
-            "label": label,
-            "confidence": round(float(proba[pred] * 100), 2),
+            "label": r["label"],
+            "confidence": round(r["confidence"] * 100, 2),
             "display_name": RISK_DESCRIPTIONS[target]["name"],
         }
-        # severity_score = probability-weighted class index ∈ [0.0, 2.0]
-        severity_scores[target] = compute_severity_score(proba)
-
-    # ── Step 2: Get daily budget from conditions ──
+        severity_scores[target] = r["severity_score"]
+    recommendations = result["recommendations"]
     has_ckd = bool(int(patient_data.get("has_ckd", 0)))
     has_htn = bool(int(patient_data.get("has_htn", 0)))
     has_dm = bool(int(patient_data.get("has_dm", 0)))
-    budget = get_daily_budget(has_ckd, has_htn, has_dm)
-
-    # ── Step 3: Recommend portion for each ingredient ──
-    recommendations = []
-    for ing in ingredient_list:
-        rec = recommend_ingredient(ing, severity_scores, budget)
-        recommendations.append(rec)
 
     # Sort: Avoid first, then Half Portion, then Allowed
-    label_order = {"Avoid": 0, "Half Portion": 1, "Allowed": 2, "Not Found": 3}
+    label_order = {"Excluded": 0, "Avoid": 1, "Half Portion": 2, "Allowed": 3, "Not Found": 4}
     recommendations.sort(key=lambda r: (label_order.get(r["label"], 99), r["max_grams"]))
 
     return jsonify({
         "risk_levels": risk_levels,
         "severity_scores": {k: round(v, 4) for k, v in severity_scores.items()},
-        "daily_budget": budget,
+        "daily_budget": result["daily_budget"],
         "recommendations": recommendations,
+        "clinical_warnings": result["clinical_warnings"],
         "patient_conditions": {
             "has_ckd": has_ckd, "has_htn": has_htn, "has_dm": has_dm,
         },
+        "exclusions": {"groups": groups, "terms": terms, "excluded_ingredients": result["excluded"]},
+        "disclaimer": DISCLAIMER,
     })
 
 
@@ -658,13 +535,90 @@ def detect_ingredients():
         return jsonify({"error": str(exc)}), 500
 
 
+# Groq decommissioned llama-3.3-70b-versatile for free/developer tiers on 2026-08-16;
+# openai/gpt-oss-120b is Groq's recommended replacement. The rules engine computes the
+# gram ceilings upstream of this call, so the ceiling computation is model-agnostic.
+RECIPE_LLM_MODEL = "openai/gpt-oss-120b"
+
+# Verification is deterministic and strict: no tolerance above a ceiling. Kept as a named
+# constant because clinical-models/recipe_adherence_eval.py reads it.
+RECIPE_ADHERENCE_TOLERANCE = 0.0
+RECIPE_MAX_ATTEMPTS = 3
+
+
+def _build_recipe_messages(patient_flags: dict, usable: list, forbidden: list,
+                           equipment: str, cuisine: str, time_limit: str,
+                           clinical_warnings: list, feedback: str = "") -> list:
+    """Prompt for the recipe-writing call; requires the fixed ingredient-line format that
+    recipe_verifier parses."""
+    ingredient_lines = []
+    for rec in usable:
+        line = f"- {rec['ingredient']}: MAXIMUM {rec['max_grams']}g permitted"
+        if rec.get("binding_constraint"):
+            line += f" (limiting constraint: {rec['binding_constraint']})"
+        ingredient_lines.append(line)
+    clinical_context = [
+        f"- CKD Status: {'Positive' if patient_flags['has_ckd'] else 'Negative'}",
+        f"- HTN Status: {'Positive' if patient_flags['has_htn'] else 'Negative'}",
+        f"- DM Status: {'Positive' if patient_flags['has_dm'] else 'Negative'}",
+    ]
+    for w in clinical_warnings or []:
+        # The gram ceilings already reflect these relaxed severities (Algorithm 2's
+        # caloric-floor relaxation fired upstream); context only, not an extra constraint.
+        clinical_context.append(
+            f"- Caloric-adequacy relaxation applied to {w['constraint']}: "
+            f"severity {w['old_severity']:.2f}->{w['new_severity']:.2f} "
+            f"(sodium/potassium were never relaxed)"
+        )
+    no_salt = patient_flags["has_htn"] or patient_flags["has_ckd"]
+    system_prompt = (
+        "You write a recipe that strictly respects provided ingredient quantity ceilings. "
+        "This is a research prototype and not medical advice.\n\n"
+        "CRITICAL RULES:\n"
+        "1. You MUST NOT exceed the 'MAXIMUM permitted' grams for ANY ingredient.\n"
+        "2. Use ONLY the listed ingredients" +
+        (", plus water, black pepper and oil. Do NOT add salt." if no_salt
+         else ", plus water, salt, black pepper and oil.") + "\n"
+        "3. Do not use any ingredient listed under DO NOT USE.\n"
+        "4. Output Markdown with: a Title, a one-line description, then a section headed "
+        "'## Ingredients' where EVERY line is exactly '- <exact ingredient name as listed>: "
+        "<number> g' (grams only, no cups or spoons, no sub-bullets), then a section headed "
+        "'## Instructions' with numbered steps.\n"
+        "5. Do not make health or safety claims."
+    )
+    user_prompt = (
+        "Patient Clinical Context:\n" + "\n".join(clinical_context) + "\n\n"
+        "Allowed ingredients with gram ceilings (use exact names):\n" + "\n".join(ingredient_lines) + "\n\n"
+        + ("DO NOT USE: " + ", ".join(forbidden) + "\n\n" if forbidden else "")
+        + f"Available Equipment: {equipment}\nCuisine Preference: {cuisine}\n"
+        f"Time Constraint: {time_limit}\n\n"
+        + (f"Your previous attempt was rejected by an automatic check: {feedback}. "
+           "Fix every problem listed.\n\n" if feedback else "")
+        + "Generate the recipe now."
+    )
+    return [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}]
+
+
+@app.route("/api/allergen-groups", methods=["GET"])
+def allergen_groups():
+    """Allergy / preference groups the UI offers for hard exclusion."""
+    return jsonify({"groups": allergens.group_options()})
+
+
 @app.route("/api/generate-recipe", methods=["POST"])
 def generate_recipe():
-    """Generates a recipe constrained by the patient's safe portion limits."""
+    """
+    Generates a recipe within the patient's computed gram ceilings.
+
+    Allergy / preference exclusions are removed before portion computation and the prompt.
+    Every generated recipe is then checked by a deterministic parser (recipe_verifier);
+    a failing recipe is regenerated up to RECIPE_MAX_ATTEMPTS times and finally replaced by
+    a template recipe built directly from the ceilings. An unverified recipe is never returned.
+    """
     if not groq_client:
         return jsonify({"error": "Groq client not configured"}), 500
 
-    data = request.json
+    data = request.get_json(force=True)
     patient_data = data.get("patient", {})
     ingredients = data.get("ingredients", [])
     equipment = data.get("equipment", "Standard kitchen")
@@ -675,88 +629,90 @@ def generate_recipe():
         return jsonify({"error": "No ingredients provided"}), 400
 
     try:
-        # 1. Run standard ML prediction to get risk levels
-        patient_df = pd.DataFrame([patient_data])
-        X_scaled = preprocess(patient_df)
-        
-        X_tabnet = X_scaled.astype(np.float32)
-        probability_outputs = {}
-        for target, model in MODELS.items():
-            proba = model.predict_proba(X_tabnet)[0]
-            probability_outputs[target] = proba
+        flags = {
+            "has_ckd": bool(int(patient_data.get("has_ckd", 0))),
+            "has_htn": bool(int(patient_data.get("has_htn", 0))),
+            "has_dm": bool(int(patient_data.get("has_dm", 0))),
+        }
+        groups, terms = _parse_exclusions(data)
+        portion_result = portion_recommendations(patient_data, ingredients, groups, terms)
+        recs = portion_result["recommendations"]
+        clinical_warnings = portion_result["clinical_warnings"]
 
-        # 2. Get severity mapping
-        severity_scores = {}
-        for target, proba in probability_outputs.items():
-            severity_scores[target] = compute_severity_score(proba)
+        # Only Allowed / Half Portion ingredients may appear in a recipe. Avoid, Excluded and
+        # Not Found ingredients are forbidden outright (ceiling 0), not merely capped.
+        usable = [r for r in recs if r["label"] in ("Allowed", "Half Portion") and r["max_grams"] > 0]
+        forbidden = [r["ingredient"] for r in recs if r not in usable]
+        # Excluded (allergy / preference) ingredients are never named to the model; the
+        # others tell it explicitly not to use them.
+        avoid_names = [r["ingredient"] for r in recs
+                       if r not in usable and r["label"] in ("Avoid", "Not Found")]
+        if not usable:
+            return jsonify({
+                "error": "No ingredient is permitted for this patient (all are excluded, "
+                         "marked Avoid or not found), so no recipe can be generated.",
+                "portions_used": recs,
+                "exclusions": {"groups": groups, "terms": terms,
+                               "excluded_ingredients": portion_result["excluded"]},
+            }), 422
+        allowed = [{"ingredient": r["ingredient"], "max_grams": r["max_grams"]} for r in usable]
+        # Forbidden ingredients get a ceiling of 0 so any use is a recorded violation.
+        checked = allowed + [{"ingredient": n, "max_grams": 0.0} for n in forbidden]
+        restrict_salt = flags["has_htn"] or flags["has_ckd"]
 
-        # 3. Calculate nutrient budget
-        has_ckd = bool(int(patient_data.get("has_ckd", 0)))
-        has_htn = bool(int(patient_data.get("has_htn", 0)))
-        has_dm = bool(int(patient_data.get("has_dm", 0)))
-        daily_budget = get_daily_budget(has_ckd, has_htn, has_dm)
+        recipe, result, status, feedback, attempts = None, None, "template_fallback", "", 0
+        last_issues = []
+        for attempts in range(1, RECIPE_MAX_ATTEMPTS + 1):
+            completion = groq_client.chat.completions.create(
+                messages=_build_recipe_messages(flags, usable, avoid_names, equipment, cuisine,
+                                                time_limit, clinical_warnings, feedback),
+                model=RECIPE_LLM_MODEL,
+                max_tokens=900,
+                temperature=0.6 if attempts == 1 else 0.3,
+            )
+            candidate = completion.choices[0].message.content or ""
+            check = recipe_verifier.verify_recipe(candidate, checked, groups=groups, terms=terms,
+                                                  restrict_salt=restrict_salt)
+            if check["ok"]:
+                recipe, result = candidate, check
+                status = "verified" if attempts == 1 else "verified_after_regeneration"
+                break
+            last_issues = check["issues"]
+            feedback = recipe_verifier.describe_issues(check["issues"])
+            app.logger.warning(f"Recipe attempt {attempts} rejected: {feedback}")
 
-        # 4. Determine safe maximum quantity for each ingredient
-        safe_ingredients = []
-        for ing in ingredients:
-            rec = recommend_ingredient(ing, severity_scores, daily_budget)
-            if rec:
-                safe_ingredients.append(rec)
+        if recipe is None:
+            recipe = recipe_verifier.build_template_recipe(allowed)
+            if recipe is None:
+                return jsonify({"error": "Could not produce a verified recipe: every permitted "
+                                          "ingredient has a ceiling too small to cook with."}), 422
+            result = recipe_verifier.verify_recipe(recipe, checked, groups=groups, terms=terms,
+                                                   restrict_salt=restrict_salt)
+            if not result["ok"]:  # the template must itself pass; refuse rather than return it
+                return jsonify({"error": "Template recipe failed verification; no recipe returned."}), 500
 
-        # 5. Build prompt with constraints
-        ingredient_lines = []
-        for rec in safe_ingredients:
-            line = f"- {rec['ingredient']}: MAXIMUM {rec['max_grams']}g permitted"
-            if rec['binding_constraint']:
-                line += f" (limiting constraint: {rec['binding_constraint']})"
-            ingredient_lines.append(line)
-            
-        clinical_context = [
-            f"- CKD Status: {'Positive' if has_ckd else 'Negative'}",
-            f"- HTN Status: {'Positive' if has_htn else 'Negative'}",
-            f"- DM Status: {'Positive' if has_dm else 'Negative'}"
-        ]
-
-        system_prompt = (
-            "You are a specialized clinical nutritionist and chef. "
-            "Your task is to generate a recipe strictly adhering to provided ingredient quantity limits.\n\n"
-            "CRITICAL RULES:\n"
-            "1. You MUST NOT exceed the 'MAXIMUM permitted' grams for ANY ingredient.\n"
-            "2. If an ingredient has a very low maximum (e.g. <15g), use it only as a garnish or minor flavoring.\n"
-            "3. You must ONLY use the provided ingredients, optionally adding generic water/salt/pepper/oil "
-            "(unless hypertension is flagged bounding sodium in which case minimize salt).\n"
-            "4. Output format: Clean Markdown with a Title, short description of clinical benefits, "
-            "precise Ingredients list (in grams), and step-by-step cooking instructions."
-        )
-
-        user_prompt = (
-            "Patient Clinical Context:\n" + "\n".join(clinical_context) + "\n\n"
-            "Available Ingredients with Safety Limits:\n" + "\n".join(ingredient_lines) + "\n\n"
-            f"Available Equipment: {equipment}\n"
-            f"Cuisine Preference: {cuisine}\n"
-            f"Time Constraint: {time_limit}\n\n"
-            "Generate a recipe now."
-        )
-
-        completion = groq_client.chat.completions.create(
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt},
-            ],
-            model="llama-3.3-70b-versatile",
-            max_tokens=800,
-            temperature=0.6,
-        )
-        recipe = completion.choices[0].message.content
-        
-        # Save to Local Supabase DB
+        adherence = result["records"]
         patient_id = save_patient_data(patient_data)
-        if patient_id:
-            save_recipe(patient_id, safe_ingredients, recipe)
-        
+        recipe_id = save_recipe(patient_id, recs, recipe) if patient_id else None
+        if recipe_id:
+            save_recipe_adherence(recipe_id, adherence)
+
         return jsonify({
             "recipe": recipe,
-            "portions_used": safe_ingredients
+            "portions_used": recs,
+            "adherence": adherence,
+            "verification": {
+                "method": "deterministic_parser",
+                "status": status,
+                "attempts": attempts,
+                "rejected_issues": [] if status == "verified" else last_issues,
+                "note": ("Verified quantities are those written in the ingredient list; amounts "
+                         "implied only in the cooking steps are not checked."),
+            },
+            "exclusions": {"groups": groups, "terms": terms,
+                           "excluded_ingredients": portion_result["excluded"]},
+            "clinical_warnings": clinical_warnings,
+            "disclaimer": DISCLAIMER,
         })
 
     except Exception as e:

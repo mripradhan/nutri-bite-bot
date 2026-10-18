@@ -99,5 +99,44 @@ def save_recipe(patient_id: str, ingredients_used: list, recipe_content: str) ->
             
     except Exception as e:
         logger.error(f"Error saving recipe to Supabase: {e}")
-        
+
     return None
+
+
+def save_recipe_adherence(recipe_id: str, adherence_records: list) -> bool:
+    """
+    Logs the per-ingredient gram-limit adherence check for a generated recipe (one row per
+    ingredient) via REST API, so violation rate / overage can be reported in aggregate.
+
+    Returns:
+        True if the insert succeeded, False otherwise.
+    """
+    if not SUPABASE_URL or not SUPABASE_KEY or not recipe_id or not adherence_records:
+        return False
+
+    try:
+        payload = [
+            {
+                "recipe_id": recipe_id,
+                "ingredient": rec["ingredient"],
+                "max_grams": rec["max_grams"],
+                "stated_grams": rec["stated_grams"],
+                "matched": rec["matched"],
+                "violated": rec["violated"],
+                "overage_grams": rec["overage_grams"],
+            }
+            for rec in adherence_records
+        ]
+
+        url = f"{SUPABASE_URL}/rest/v1/recipe_adherence"
+        response = requests.post(url, headers=get_headers(), json=payload)
+
+        if response.status_code in (200, 201):
+            logger.info(f"Successfully saved {len(payload)} adherence records for recipe {recipe_id}")
+            return True
+        logger.error(f"Failed to save recipe adherence. Code: {response.status_code}, Body: {response.text}")
+
+    except Exception as e:
+        logger.error(f"Error saving recipe adherence to Supabase: {e}")
+
+    return False

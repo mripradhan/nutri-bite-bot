@@ -1,0 +1,16 @@
+# Training / analysis pipeline (clinical-models/): MIMIC-IV extraction, cohort
+# splitting, model training, evaluation, robustness tests and report plots.
+#
+# NOT needed by the deployed API — app.py imports only train_model2.PortionControlModel,
+# which pulls in numpy/pandas/pytorch_tabnet (the TFT import is lazy). Keeping these out
+# of requirements.txt keeps the deployment image small.
+#
+#     pip install -r requirements.txt -r requirements-train.txt
+
+-r requirements.txt
+
+duckdb          # reads the MIMIC-IV .csv.gz tables directly (mimic_extract.py)
+pyarrow         # parquet cohort/split files
+scipy           # Gaussian-copula synthetic rows (cohort_data.py)
+matplotlib      # confusion matrices, reliability and threshold-stability plots
+seaborn         # confusion-matrix heatmaps

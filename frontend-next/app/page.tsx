@@ -13,6 +13,7 @@ import IngredientSection from '@/components/IngredientSection'
 import RecipeGenerator from '@/components/RecipeGenerator'
 import ModelInfo from '@/components/ModelInfo'
 import WakeUpBanner from '@/components/WakeUpBanner'
+import DisclaimerBanner from '@/components/DisclaimerBanner'
 
 const LineWaves = dynamic(
   () => import('@/components/ui/LineWaves').then((mod) => mod.default),
@@ -69,6 +70,7 @@ export default function HomePage() {
         <Sidebar onGoHome={goHome} />
 
         <main className="flex-1 min-w-0 h-screen overflow-y-auto overflow-x-hidden relative">
+          <DisclaimerBanner />
           <div className="border-b border-white/5 bg-black/20">
             <HeroInfo />
           </div>

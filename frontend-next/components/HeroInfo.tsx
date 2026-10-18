@@ -3,9 +3,9 @@
 import React from 'react'
 
 const STATS = [
-  { value: '99.91%', label: 'Mean Accuracy' },
-  { value: 'κ 0.9983', label: "Cohen's Kappa" },
-  { value: '55k+', label: 'MIMIC-IV Episodes' },
+  { value: '0.731', label: 'Mean macro-AUROC' },
+  { value: '0.417', label: 'Mean macro-F1' },
+  { value: '372k', label: 'MIMIC-IV Admissions' },
   { value: '14', label: 'EHR Features' },
   { value: 'IFCT 2017', label: 'Food Database' },
 ]
@@ -88,18 +88,19 @@ export default function HeroInfo() {
 
         {/* Headline */}
         <h1 className="text-[36px] sm:text-[50px] md:text-[60px] font-extrabold text-text-primary leading-[1.05] tracking-tight max-w-2xl mb-5">
-          Clinically-safe{' '}
+          Guideline-constrained{' '}
           <span className="text-accent glow-text-accent">
             dietary portions
           </span>
-          ,<br className="hidden sm:block" /> powered by Deep Learning.
+          ,<br className="hidden sm:block" /> from outcome-risk prediction.
         </h1>
 
         {/* Subheading */}
         <p className="text-[15px] text-text-secondary leading-relaxed max-w-xl mb-10">
-          NutriBiteBot analyses 14 lab values from your EHR and computes exact
-          gram limits for every ingredient in your fridge — keeping every meal
-          within clinically validated bounds for HTN, T2DM, and CKD.
+          NutriBiteBot analyses 14 lab values from your EHR, predicts outcome-risk
+          proxies with TabNet, and computes guideline-constrained gram ceilings for
+          each ingredient for HTN, T2DM, and CKD. Research prototype: ceilings have
+          not been validated by dietitians.
         </p>
 
         {/* CTA row */}

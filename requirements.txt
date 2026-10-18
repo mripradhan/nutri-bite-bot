@@ -1,3 +1,5 @@
+# Runtime dependencies for the deployed API (app.py) only.
+# The training/analysis pipeline in clinical-models/ needs more — see requirements-train.txt.
 # Python 3.9+
 
 # Core Data Processing

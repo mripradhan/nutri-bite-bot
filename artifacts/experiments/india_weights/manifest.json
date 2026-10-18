@@ -1,0 +1,301 @@
+{
+  "schema_version": 3,
+  "created_utc": "2026-09-23T16:16:17+00:00",
+  "git": {
+    "commit": "1f70f443a18bf24dc7bb4660c59ad3deb73ac62c",
+    "clinical_models_dirty": true
+  },
+  "data": {
+    "source": "MIMIC-IV v3.1 (PhysioNet credentialed access)",
+    "cohort_content_sha256": "931884ad0dfabeda7b161919bdaae45cbce78b0ef2ec2138e9c0983aab13c49a",
+    "split_content_sha256": "fed818f8004c580bd48fe662619ac910f6cba2994453c204380a06118d45afc7",
+    "n_train_admissions": 238418,
+    "n_val_admissions": 59205,
+    "n_test_admissions": 74663,
+    "label_definitions": {
+      "baseline_window_hours": 24,
+      "min_los_hours_for_inpatient_outcomes": 48,
+      "hba1c_lookback_days": 90,
+      "omr_lookback_days": 365,
+      "followup_bp_window_days": [
+        30,
+        365
+      ],
+      "fbs": "first morning (04:00-07:59) plasma glucose within the baseline window; fasting proxy",
+      "egfr": "CKD-EPI 2021 race-free creatinine equation",
+      "potassium_sensitivity": "max serum K after baseline: <=5.0 low, 5.1-5.5 moderate, >5.5 high",
+      "protein_restriction": "KDIGO AKI vs baseline creatinine: stage1 moderate, stage2+ high",
+      "carb_sensitivity": "max glucose after baseline: <=180 low, 181-250 moderate, >250 high",
+      "sodium_sensitivity": "mean outpatient SBP 30-365 d post-discharge: <=140 low, 141-160 moderate, >160 high",
+      "plausible_ranges": {
+        "sodium": [
+          100,
+          180
+        ],
+        "potassium": [
+          1.5,
+          10
+        ],
+        "creatinine": [
+          0.1,
+          25
+        ],
+        "glucose": [
+          20,
+          2000
+        ],
+        "hba1c": [
+          3,
+          20
+        ],
+        "sbp": [
+          50,
+          300
+        ],
+        "dbp": [
+          20,
+          200
+        ],
+        "bmi": [
+          10,
+          80
+        ]
+      },
+      "small_cell_suppression": "counts below 10 reported as '<10'"
+    },
+    "eligibility": {
+      "n_admissions_before": 545848,
+      "n_excluded_no_baseline_chemistry": 173562
+    }
+  },
+  "features": [
+    "age",
+    "sex_male",
+    "has_htn",
+    "has_dm",
+    "has_ckd",
+    "serum_sodium",
+    "serum_potassium",
+    "creatinine",
+    "egfr",
+    "hba1c",
+    "fbs",
+    "sbp",
+    "dbp",
+    "bmi"
+  ],
+  "targets": [
+    "sodium_sensitivity",
+    "potassium_sensitivity",
+    "protein_restriction",
+    "carb_sensitivity"
+  ],
+  "config": {
+    "tag": "v3.1",
+    "seed": 42,
+    "n_d": 16,
+    "n_a": 16,
+    "n_steps": 5,
+    "gamma": 1.3,
+    "mask_type": "sparsemax",
+    "weight_decay": 1e-05,
+    "lr": 0.02,
+    "batch_size": 4096,
+    "virtual_batch_size": 256,
+    "max_epochs": 100,
+    "patience": 10,
+    "class_balance": true,
+    "india_weights": true,
+    "synthetic": false
+  },
+  "training": {
+    "sodium_sensitivity": {
+      "n_train_real": 129540,
+      "n_train_synthetic": 0,
+      "n_val": 32322,
+      "best_epoch": 18,
+      "best_val_balanced_accuracy": 0.508857222350937,
+      "fit_seconds": 144.2
+    },
+    "potassium_sensitivity": {
+      "n_train_real": 158576,
+      "n_train_synthetic": 0,
+      "n_val": 39098,
+      "best_epoch": 20,
+      "best_val_balanced_accuracy": 0.4769798596689611,
+      "fit_seconds": 184.1
+    },
+    "protein_restriction": {
+      "n_train_real": 158120,
+      "n_train_synthetic": 0,
+      "n_val": 39018,
+      "best_epoch": 31,
+      "best_val_balanced_accuracy": 0.47492377215760434,
+      "fit_seconds": 251.5
+    },
+    "carb_sensitivity": {
+      "n_train_real": 157677,
+      "n_train_synthetic": 0,
+      "n_val": 38877,
+      "best_epoch": 14,
+      "best_val_balanced_accuracy": 0.5298418934351532,
+      "fit_seconds": 151.1
+    }
+  },
+  "metrics": {
+    "validation_fold0": {
+      "sodium_sensitivity": {
+        "n": 32322,
+        "accuracy": 0.5023513396448239,
+        "balanced_accuracy": 0.508857222350937,
+        "precision_macro": 0.4129521624979282,
+        "recall_macro": 0.508857222350937,
+        "f1_macro": 0.3695131905661632,
+        "f1_weighted": 0.5805607236879522,
+        "cohen_kappa": 0.15123377943586536,
+        "quadratic_kappa": 0.19768208587824365,
+        "auroc_ovr_macro": 0.7486604991724288,
+        "log_loss": 0.5425591146748898
+      },
+      "potassium_sensitivity": {
+        "n": 39098,
+        "accuracy": 0.6203642130032226,
+        "balanced_accuracy": 0.4769798596689611,
+        "precision_macro": 0.4010156048098026,
+        "recall_macro": 0.4769798596689611,
+        "f1_macro": 0.39378387004326526,
+        "f1_weighted": 0.687281473885183,
+        "cohen_kappa": 0.1538920995142009,
+        "quadratic_kappa": 0.21756183997465894,
+        "auroc_ovr_macro": 0.7216547450234888,
+        "log_loss": 0.4731006972966813
+      },
+      "protein_restriction": {
+        "n": 39018,
+        "accuracy": 0.44474345174022245,
+        "balanced_accuracy": 0.47492377215760434,
+        "precision_macro": 0.4097899462873638,
+        "recall_macro": 0.47492377215760434,
+        "f1_macro": 0.34718279571160454,
+        "f1_weighted": 0.5270862956216253,
+        "cohen_kappa": 0.12066831935501132,
+        "quadratic_kappa": 0.04276547481211035,
+        "auroc_ovr_macro": 0.6723706139374749,
+        "log_loss": 0.5312809433563284
+      },
+      "carb_sensitivity": {
+        "n": 38877,
+        "accuracy": 0.646140391491113,
+        "balanced_accuracy": 0.5298418934351532,
+        "precision_macro": 0.4858211898831637,
+        "recall_macro": 0.5298418934351532,
+        "f1_macro": 0.4932135261158714,
+        "f1_weighted": 0.6809701526898391,
+        "cohen_kappa": 0.2888408350527851,
+        "quadratic_kappa": 0.4236337305098552,
+        "auroc_ovr_macro": 0.7712098835630433,
+        "log_loss": 0.6188382063407825
+      }
+    },
+    "test": {
+      "sodium_sensitivity": {
+        "n": 40645,
+        "accuracy": 0.5094107516299667,
+        "balanced_accuracy": 0.5103963766694414,
+        "precision_macro": 0.4110170014621906,
+        "recall_macro": 0.5103963766694414,
+        "f1_macro": 0.36881322235240227,
+        "f1_weighted": 0.5893562750349582,
+        "cohen_kappa": 0.15079158218639,
+        "quadratic_kappa": 0.19938776769868283,
+        "auroc_ovr_macro": 0.7555808940958668,
+        "log_loss": 0.5280231313209586
+      },
+      "potassium_sensitivity": {
+        "n": 49803,
+        "accuracy": 0.6147621629219123,
+        "balanced_accuracy": 0.47184291515907245,
+        "precision_macro": 0.3994523629237526,
+        "recall_macro": 0.47184291515907245,
+        "f1_macro": 0.39093903869768215,
+        "f1_weighted": 0.6822232268343426,
+        "cohen_kappa": 0.15078011294001703,
+        "quadratic_kappa": 0.21502707511929475,
+        "auroc_ovr_macro": 0.7195488724403042,
+        "log_loss": 0.47872174401751866
+      },
+      "protein_restriction": {
+        "n": 49705,
+        "accuracy": 0.4412232169801831,
+        "balanced_accuracy": 0.4733461249660131,
+        "precision_macro": 0.40888484508336925,
+        "recall_macro": 0.4733461249660131,
+        "f1_macro": 0.3438074210586764,
+        "f1_weighted": 0.525368131294547,
+        "cohen_kappa": 0.11814874384693086,
+        "quadratic_kappa": 0.04169141702460755,
+        "auroc_ovr_macro": 0.6754464092360387,
+        "log_loss": 0.5236939042195443
+      },
+      "carb_sensitivity": {
+        "n": 49530,
+        "accuracy": 0.6445588532202705,
+        "balanced_accuracy": 0.521115535988446,
+        "precision_macro": 0.47715938082417764,
+        "recall_macro": 0.521115535988446,
+        "f1_macro": 0.48381377719629204,
+        "f1_weighted": 0.6812119772398375,
+        "cohen_kappa": 0.27743061497175536,
+        "quadratic_kappa": 0.4111762409556693,
+        "auroc_ovr_macro": 0.7718169043681797,
+        "log_loss": 0.6092523705010567
+      }
+    },
+    "test_guideline_rules": {
+      "sodium_sensitivity": {
+        "n": 40645,
+        "accuracy": 0.47718046500184524,
+        "balanced_accuracy": 0.45826235584694125,
+        "precision_macro": 0.42988256226195926,
+        "recall_macro": 0.45826235584694125,
+        "f1_macro": 0.371302056715058,
+        "f1_weighted": 0.5303343775675319,
+        "cohen_kappa": 0.11955733167577132,
+        "quadratic_kappa": 0.19261502385030138
+      },
+      "potassium_sensitivity": {
+        "n": 49803,
+        "accuracy": 0.5855671345099693,
+        "balanced_accuracy": 0.46406999574267954,
+        "precision_macro": 0.4013765363533335,
+        "recall_macro": 0.46406999574267954,
+        "f1_macro": 0.38605345352825493,
+        "f1_weighted": 0.6601785182810604,
+        "cohen_kappa": 0.13305109341151322,
+        "quadratic_kappa": 0.22320826852131226
+      },
+      "protein_restriction": {
+        "n": 49705,
+        "accuracy": 0.5856553666633135,
+        "balanced_accuracy": 0.3591987130186393,
+        "precision_macro": 0.3549562407100412,
+        "recall_macro": 0.3591987130186393,
+        "f1_macro": 0.32078163387320785,
+        "f1_weighted": 0.6509082735984484,
+        "cohen_kappa": 0.09209790855587352,
+        "quadratic_kappa": 0.14947323975737004
+      },
+      "carb_sensitivity": {
+        "n": 49530,
+        "accuracy": 0.3710882293559459,
+        "balanced_accuracy": 0.42478437867429086,
+        "precision_macro": 0.39609312300281174,
+        "recall_macro": 0.42478437867429086,
+        "f1_macro": 0.3173005954307678,
+        "f1_weighted": 0.4325177713862162,
+        "cohen_kappa": 0.08835597640334847,
+        "quadratic_kappa": 0.1706311297787877
+      }
+    }
+  }
+}

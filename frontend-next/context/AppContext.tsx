@@ -1,7 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useState, useCallback } from 'react'
-import type { PatientData, PredictionResult, RecommendResult } from '@/types'
+import type { PatientData, PredictionResult, RecommendResult, Exclusions } from '@/types'
 
 // ─── Default patient (healthy preset) ────────────────────────────────────────
 const DEFAULT_PATIENT: PatientData = {
@@ -34,6 +34,9 @@ interface AppContextValue {
   addIngredient: (name: string) => void
   removeIngredient: (name: string) => void
 
+  exclusions: Exclusions
+  setExclusions: React.Dispatch<React.SetStateAction<Exclusions>>
+
   recommendResult: RecommendResult | null
   setRecommendResult: React.Dispatch<React.SetStateAction<RecommendResult | null>>
 
@@ -54,6 +57,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [predictionResult, setPredictionResult] = useState<PredictionResult | null>(null)
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([])
   const [recommendResult, setRecommendResult] = useState<RecommendResult | null>(null)
+  const [exclusions, setExclusions] = useState<Exclusions>({ groups: [], terms: [] })
   const [recipeOutput, setRecipeOutput] = useState<string>('')
   const [detectedIngredients, setDetectedIngredients] = useState<string[]>([])
 
@@ -88,6 +92,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setSelectedIngredients,
         addIngredient,
         removeIngredient,
+        exclusions,
+        setExclusions,
         recommendResult,
         setRecommendResult,
         recipeOutput,

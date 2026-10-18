@@ -1,0 +1,124 @@
+{
+  "generated_utc": "2026-09-19T09:52:12+00:00",
+  "source": "demo",
+  "source_path": "../mimic-iv-clinical-database-demo-2.2",
+  "n_admissions": 275,
+  "n_patients": 100,
+  "comorbidity_combinations": {
+    "none": 74,
+    "htn_only": 58,
+    "dm_only": 16,
+    "ckd_only": "<10",
+    "htn_dm": 55,
+    "htn_ckd": 29,
+    "dm_ckd": "<10",
+    "htn_dm_ckd": 39
+  },
+  "feature_missingness_pct": {
+    "age": 0.0,
+    "sex_male": 0.0,
+    "has_htn": 0.0,
+    "has_dm": 0.0,
+    "has_ckd": 0.0,
+    "serum_sodium": 14.2,
+    "serum_potassium": 14.2,
+    "creatinine": 14.5,
+    "egfr": 14.5,
+    "hba1c": 76.7,
+    "fbs": 53.5,
+    "sbp": 25.1,
+    "dbp": 25.1,
+    "bmi": 38.9
+  },
+  "bp_source_pct": {
+    "omr": 54.5,
+    "None": 25.1,
+    "icu": 20.4
+  },
+  "targets": {
+    "sodium_sensitivity": {
+      "n_labelled": 155,
+      "class_counts": {
+        "low": 113,
+        "moderate": 40,
+        "high": "<10"
+      }
+    },
+    "potassium_sensitivity": {
+      "n_labelled": 210,
+      "class_counts": {
+        "low": 166,
+        "moderate": 23,
+        "high": 21
+      }
+    },
+    "protein_restriction": {
+      "n_labelled": 198,
+      "class_counts": {
+        "low": 153,
+        "moderate": 29,
+        "high": 16
+      }
+    },
+    "carb_sensitivity": {
+      "n_labelled": 208,
+      "class_counts": {
+        "low": 131,
+        "moderate": 38,
+        "high": 39
+      }
+    }
+  },
+  "covid_era_pct": 0.0,
+  "definitions": {
+    "baseline_window_hours": 24,
+    "min_los_hours_for_inpatient_outcomes": 48,
+    "hba1c_lookback_days": 90,
+    "omr_lookback_days": 365,
+    "followup_bp_window_days": [
+      30,
+      365
+    ],
+    "fbs": "first morning (04:00-07:59) plasma glucose within the baseline window; fasting proxy",
+    "egfr": "CKD-EPI 2021 race-free creatinine equation",
+    "potassium_sensitivity": "max serum K after baseline: <=5.0 low, 5.1-5.5 moderate, >5.5 high",
+    "protein_restriction": "KDIGO AKI vs baseline creatinine: stage1 moderate, stage2+ high",
+    "carb_sensitivity": "max glucose after baseline: <=180 low, 181-250 moderate, >250 high",
+    "sodium_sensitivity": "mean outpatient SBP 30-365 d post-discharge: <=140 low, 141-160 moderate, >160 high",
+    "plausible_ranges": {
+      "sodium": [
+        100,
+        180
+      ],
+      "potassium": [
+        1.5,
+        10
+      ],
+      "creatinine": [
+        0.1,
+        25
+      ],
+      "glucose": [
+        20,
+        2000
+      ],
+      "hba1c": [
+        3,
+        20
+      ],
+      "sbp": [
+        50,
+        300
+      ],
+      "dbp": [
+        20,
+        200
+      ],
+      "bmi": [
+        10,
+        80
+      ]
+    },
+    "small_cell_suppression": "counts below 10 reported as '<10'"
+  }
+}

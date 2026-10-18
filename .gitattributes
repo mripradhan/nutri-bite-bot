@@ -1,0 +1,24 @@
+# Normalise line endings so Windows and WSL/Linux checkouts stop producing
+# whole-file diffs on files nobody edited (and so the training manifest's
+# clinical_models_dirty flag reflects real code changes).
+# Text files are stored with LF in the repository; Git converts on checkout
+# per each machine's core.autocrlf setting.
+* text=auto eol=lf
+
+# Binary: never touch these
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.pdf  binary
+*.pt   binary
+*.zip  binary
+*.gz   binary
+*.joblib binary
+*.pkl  binary
+*.parquet binary
+*.h5   binary
+*.woff binary
+*.woff2 binary
+*.tsbuildinfo binary

@@ -1,0 +1,170 @@
+{
+  "sodium_sensitivity": {
+    "all": {
+      "n": 40645,
+      "top5": {
+        "sbp": 0.3767,
+        "egfr": 0.2097,
+        "has_htn": 0.1471,
+        "sex_male": 0.0603,
+        "bmi": 0.0562
+      }
+    },
+    "predicted_low": {
+      "n": 22846,
+      "top5": {
+        "sbp": 0.4209,
+        "egfr": 0.1688,
+        "has_htn": 0.1614,
+        "age": 0.0605,
+        "bmi": 0.0412
+      }
+    },
+    "predicted_moderate": {
+      "n": 8545,
+      "top5": {
+        "sbp": 0.31,
+        "egfr": 0.2906,
+        "has_htn": 0.1345,
+        "bmi": 0.0805,
+        "sex_male": 0.0708
+      }
+    },
+    "predicted_high": {
+      "n": 9254,
+      "top5": {
+        "sbp": 0.3295,
+        "egfr": 0.2363,
+        "has_htn": 0.1234,
+        "sex_male": 0.1199,
+        "bmi": 0.0706
+      }
+    }
+  },
+  "potassium_sensitivity": {
+    "all": {
+      "n": 49803,
+      "top5": {
+        "serum_potassium": 0.3613,
+        "egfr": 0.1562,
+        "has_ckd": 0.1183,
+        "age": 0.0953,
+        "sex_male": 0.0741
+      }
+    },
+    "predicted_low": {
+      "n": 32445,
+      "top5": {
+        "serum_potassium": 0.3398,
+        "has_ckd": 0.143,
+        "egfr": 0.1267,
+        "age": 0.1076,
+        "sex_male": 0.0932
+      }
+    },
+    "predicted_moderate": {
+      "n": 10934,
+      "top5": {
+        "serum_potassium": 0.4071,
+        "egfr": 0.1744,
+        "age": 0.0923,
+        "sbp": 0.0843,
+        "has_ckd": 0.0823
+      }
+    },
+    "predicted_high": {
+      "n": 6424,
+      "top5": {
+        "serum_potassium": 0.3921,
+        "egfr": 0.2739,
+        "sbp": 0.0607,
+        "has_ckd": 0.0545,
+        "sex_male": 0.0443
+      }
+    }
+  },
+  "protein_restriction": {
+    "all": {
+      "n": 49705,
+      "top5": {
+        "egfr": 0.2717,
+        "age": 0.1396,
+        "has_ckd": 0.1335,
+        "fbs": 0.1079,
+        "creatinine": 0.0716
+      }
+    },
+    "predicted_low": {
+      "n": 24404,
+      "top5": {
+        "egfr": 0.2602,
+        "age": 0.2025,
+        "fbs": 0.1427,
+        "has_ckd": 0.0883,
+        "creatinine": 0.0876
+      }
+    },
+    "predicted_moderate": {
+      "n": 12117,
+      "top5": {
+        "egfr": 0.3175,
+        "has_ckd": 0.2147,
+        "bmi": 0.1272,
+        "age": 0.07,
+        "sex_male": 0.0525
+      }
+    },
+    "predicted_high": {
+      "n": 13184,
+      "top5": {
+        "egfr": 0.2511,
+        "has_ckd": 0.1427,
+        "fbs": 0.1104,
+        "age": 0.0872,
+        "creatinine": 0.0749
+      }
+    }
+  },
+  "carb_sensitivity": {
+    "all": {
+      "n": 49530,
+      "top5": {
+        "fbs": 0.2499,
+        "hba1c": 0.1808,
+        "has_dm": 0.155,
+        "egfr": 0.0985,
+        "creatinine": 0.0693
+      }
+    },
+    "predicted_low": {
+      "n": 32195,
+      "top5": {
+        "fbs": 0.2509,
+        "hba1c": 0.1653,
+        "has_dm": 0.1465,
+        "egfr": 0.1217,
+        "creatinine": 0.0681
+      }
+    },
+    "predicted_moderate": {
+      "n": 7624,
+      "top5": {
+        "fbs": 0.2397,
+        "hba1c": 0.2067,
+        "has_dm": 0.1676,
+        "creatinine": 0.0751,
+        "sex_male": 0.063
+      }
+    },
+    "predicted_high": {
+      "n": 9711,
+      "top5": {
+        "fbs": 0.2544,
+        "hba1c": 0.2115,
+        "has_dm": 0.1735,
+        "egfr": 0.0693,
+        "creatinine": 0.0684
+      }
+    }
+  }
+}

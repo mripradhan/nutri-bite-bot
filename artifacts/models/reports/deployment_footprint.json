@@ -1,0 +1,28 @@
+{
+  "generated_utc": "2026-09-25T13:17:10+00:00",
+  "device": "cpu (1 thread)",
+  "n_targets": 4,
+  "artifact_bytes": {
+    "tabnet_weights_all_targets": 872584,
+    "preprocessing_json": 56438,
+    "ifct_database_csv": 8589,
+    "total_model_artifacts": 929022
+  },
+  "artifact_mb": {
+    "tabnet_weights_all_targets": 0.87,
+    "preprocessing_json": 0.06,
+    "ifct_database_csv": 0.009,
+    "total_model_artifacts": 0.93
+  },
+  "model_load_seconds": 1.77,
+  "peak_process_rss_mb": 661.0,
+  "rss_growth_during_load_mb": 156.8,
+  "inference_ms_per_patient_all_4_targets": {
+    "n": 200,
+    "mean": 48.4,
+    "median": 47.63,
+    "p95": 56.69,
+    "min": 43.1,
+    "max": 66.49
+  }
+}
