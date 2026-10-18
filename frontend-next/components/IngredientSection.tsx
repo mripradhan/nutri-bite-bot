@@ -21,6 +21,7 @@ const LABEL_STYLES = {
   'Half Portion': 'badge-moderate',
   Avoid: 'badge-high',
   'Not Found': 'bg-[#303236] text-text-muted border border-[#303236]',
+  Excluded: 'bg-[#303236] text-text-secondary border border-[#4b5563]',
 }
 
 function LabelBadge({ label }: { label: IngredientRecommendation['label'] }) {
@@ -78,6 +79,8 @@ function RecommendationCard({
       ? '#34d399'
       : rec.label === 'Half Portion'
       ? '#fbbf24'
+      : rec.label === 'Excluded'
+      ? '#8a8f98'
       : '#f87171'
 
   return (
@@ -98,7 +101,12 @@ function RecommendationCard({
         <LabelBadge label={rec.label} />
       </div>
 
-      {rec.label === 'Not Found' ? (
+      {rec.label === 'Excluded' ? (
+        <p className="text-[12px] text-text-secondary">
+          Excluded for this patient{rec.excluded_reason ? `: ${rec.excluded_reason}` : ''}. Not used in
+          portions, substitutes or recipes.
+        </p>
+      ) : rec.label === 'Not Found' ? (
         <p className="text-[12px] text-risk-moderate">{rec.explanation}</p>
       ) : (
         <>
@@ -110,7 +118,7 @@ function RecommendationCard({
               >
                 {rec.max_grams}g
               </div>
-              <div className="text-[10px] text-text-muted mt-0.5">max portion</div>
+              <div className="text-[10px] text-text-muted mt-0.5">computed ceiling</div>
             </div>
             <div className="flex-1 space-y-1.5">
               <NutrientBar
@@ -165,6 +173,7 @@ export default function IngredientSection() {
     removeIngredient,
     recommendResult,
     setRecommendResult,
+    exclusions,
   } = useApp()
 
   const [query, setQuery] = useState('')
@@ -229,7 +238,7 @@ export default function IngredientSection() {
     setLoading(true)
     setError(null)
     try {
-      const result = await apiRecommend(patientData, selectedIngredients)
+      const result = await apiRecommend(patientData, selectedIngredients, exclusions)
       setRecommendResult(result)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Recommendation failed')
@@ -243,7 +252,7 @@ export default function IngredientSection() {
       <div className="section-label mb-2">Model 2</div>
       <h2 className="text-[20px] font-bold text-text-primary mb-1">Portion Analysis</h2>
       <p className="text-text-secondary text-[13px] mb-6">
-        Search for ingredients and get Deep Learning-driven safe portion sizes tailored to your lab values.
+        Search for ingredients and get computed, guideline-constrained gram ceilings based on your predicted outcome risks. These are not validated safety limits.
       </p>
 
       {/* Search */}

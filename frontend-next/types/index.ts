@@ -74,7 +74,8 @@ export interface IngredientRecommendation {
   ingredient: string
   category: string
   max_grams: number
-  label: 'Allowed' | 'Half Portion' | 'Avoid' | 'Not Found'
+  label: 'Allowed' | 'Half Portion' | 'Avoid' | 'Not Found' | 'Excluded'
+  excluded_reason?: string
   binding_constraint: string
   nutrient_load: NutrientLoad
   nutrients_per_100g: NutrientLoad
@@ -91,12 +92,60 @@ export interface DailyBudget {
   phosphorus_mg: number
 }
 
+export interface ExclusionSummary {
+  groups: string[]
+  terms: string[]
+  excluded_ingredients: Record<string, string>
+}
+
 export interface RecommendResult {
   risk_levels: Record<TargetName, { label: RiskLabel; confidence: number; display_name: string }>
   severity_scores: Record<TargetName, number>
   daily_budget: DailyBudget
   recommendations: IngredientRecommendation[]
   patient_conditions: { has_ckd: boolean; has_htn: boolean; has_dm: boolean }
+  exclusions?: ExclusionSummary
+  disclaimer?: string
+}
+
+// ─── Exclusions (allergies / intolerances / preferences) ────────────────────
+
+export interface Exclusions {
+  groups: string[]   // allergen group ids, e.g. 'dairy'
+  terms: string[]    // free-text avoid terms
+}
+
+export interface AllergenGroup {
+  id: string
+  label: string
+}
+
+// ─── Recipe Result ──────────────────────────────────────────────────────────
+
+export interface AdherenceRecord {
+  ingredient: string
+  max_grams: number
+  stated_grams: number | null
+  matched: boolean
+  violated: boolean
+  overage_grams: number | null
+}
+
+export type VerificationStatus = 'verified' | 'verified_after_regeneration' | 'template_fallback'
+
+export interface RecipeResult {
+  recipe: string
+  portions_used?: IngredientRecommendation[]
+  adherence?: AdherenceRecord[]
+  verification?: {
+    method: string
+    status: VerificationStatus
+    attempts: number
+    rejected_issues: Array<Record<string, unknown>>
+    note?: string
+  }
+  exclusions?: ExclusionSummary
+  disclaimer?: string
 }
 
 // ─── Detect Result ──────────────────────────────────────────────────────────
@@ -119,10 +168,15 @@ export interface ModelInfo {
     }
   >
   accuracy_metrics: {
-    mean_accuracy: number
-    mean_f1_weighted: number
-    mean_cohen_kappa: number
+    evaluated_on?: string
+    mean_f1_macro: number | null
+    mean_balanced_accuracy: number | null
+    mean_auroc_ovr: number | null
+    mean_accuracy?: number | null
+    mean_cohen_kappa?: number | null
   }
+  targets_note?: string
+  disclaimer?: string
   feature_count: number
   feature_names: string[]
   preprocessing: string[]

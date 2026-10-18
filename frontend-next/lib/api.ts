@@ -6,6 +6,9 @@ import type {
   DetectResult,
   ModelInfo,
   IngredientsListResult,
+  Exclusions,
+  AllergenGroup,
+  RecipeResult,
 } from '@/types'
 
 const API_BASE =
@@ -89,10 +92,16 @@ export async function apiPredict(patient: PatientData): Promise<PredictionResult
 export async function apiRecommend(
   patient: PatientData,
   ingredients: string[],
+  exclusions: Exclusions = { groups: [], terms: [] },
 ): Promise<RecommendResult> {
   return apiFetch<RecommendResult>('/api/recommend', {
     method: 'POST',
-    body: JSON.stringify({ patient: toPayload(patient), ingredients }),
+    body: JSON.stringify({
+      patient: toPayload(patient),
+      ingredients,
+      allergies: exclusions.groups,
+      exclusion_terms: exclusions.terms,
+    }),
   })
 }
 
@@ -102,10 +111,10 @@ export interface RecipeRequestBody {
   equipment: string
   cuisine: string
   time_constraint: string
-  portions_used?: Record<string, number>
+  exclusions?: Exclusions
 }
 
-export async function apiGenerateRecipe(body: RecipeRequestBody): Promise<{ recipe: string }> {
+export async function apiGenerateRecipe(body: RecipeRequestBody): Promise<RecipeResult> {
   // The backend reads `time_limit`, not `time_constraint`
   const backendBody = {
     patient: body.patient,
@@ -113,9 +122,10 @@ export async function apiGenerateRecipe(body: RecipeRequestBody): Promise<{ reci
     equipment: body.equipment,
     cuisine: body.cuisine,
     time_limit: body.time_constraint,
-    portions_used: body.portions_used,
+    allergies: body.exclusions?.groups ?? [],
+    exclusion_terms: body.exclusions?.terms ?? [],
   }
-  return apiFetch<{ recipe: string }>('/api/generate-recipe', {
+  return apiFetch<RecipeResult>('/api/generate-recipe', {
     method: 'POST',
     body: JSON.stringify(backendBody),
   })
@@ -133,6 +143,10 @@ export async function apiDetect(imageFile: File): Promise<DetectResult> {
 export async function apiIngredients(query?: string): Promise<IngredientsListResult> {
   const qs = query ? `?q=${encodeURIComponent(query)}` : ''
   return apiFetch<IngredientsListResult>(`/api/ingredients${qs}`)
+}
+
+export async function apiAllergenGroups(): Promise<{ groups: AllergenGroup[] }> {
+  return apiFetch<{ groups: AllergenGroup[] }>('/api/allergen-groups')
 }
 
 export async function apiModelInfo(): Promise<ModelInfo> {

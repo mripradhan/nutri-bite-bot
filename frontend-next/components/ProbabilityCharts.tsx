@@ -14,10 +14,10 @@ import { useApp } from '@/context/AppContext'
 import type { TargetName } from '@/types'
 
 const TARGET_LABELS: Record<TargetName, string> = {
-  sodium_sensitivity: 'Sodium Sensitivity',
-  potassium_sensitivity: 'Potassium Sensitivity',
-  protein_restriction: 'Protein Restriction',
-  carb_sensitivity: 'Carb Sensitivity',
+  sodium_sensitivity: 'Sodium proxy (BP)',
+  potassium_sensitivity: 'Potassium proxy (K⁺)',
+  protein_restriction: 'Protein proxy (AKI)',
+  carb_sensitivity: 'Carbohydrate proxy (glucose)',
 }
 
 const CLASS_COLORS = {

@@ -5,9 +5,9 @@ import dynamic from 'next/dynamic'
 import { TextEffect } from '@/components/ui/text-effect'
 
 const STATS = [
-  { value: '99.91%', label: 'Mean Accuracy' },
-  { value: 'κ 0.9983', label: "Cohen's Kappa" },
-  { value: '55k+', label: 'MIMIC-IV Episodes' },
+  { value: '0.731', label: 'Mean macro-AUROC' },
+  { value: '0.417', label: 'Mean macro-F1' },
+  { value: '372k', label: 'MIMIC-IV Admissions' },
   { value: '14', label: 'EHR Features' },
   { value: 'IFCT 2017', label: 'Food Database' },
 ]
@@ -154,7 +154,7 @@ export default function LandingPage({ onEnter }: LandingPageProps) {
               as="span"
               className="block"
             >
-              Clinically-safe dietary portions,
+              Guideline-constrained dietary portions,
             </TextEffect>
             <TextEffect
               per="word"
@@ -163,7 +163,7 @@ export default function LandingPage({ onEnter }: LandingPageProps) {
               as="span"
               className="block text-[#34d59a] [text-shadow:0_0_48px_rgba(52,213,154,0.4),0_0_96px_rgba(52,213,154,0.18)]"
             >
-              powered by Deep Learning.
+              from outcome-risk prediction.
             </TextEffect>
           </h1>
 
@@ -176,7 +176,7 @@ export default function LandingPage({ onEnter }: LandingPageProps) {
               as="p"
               className="text-[16px] sm:text-[18px] text-[#8a8f98] leading-relaxed max-w-2xl mx-auto"
             >
-              NutriBiteBot analyses 14 lab values from your EHR and computes exact gram limits for every ingredient — keeping every meal within clinically validated bounds for HTN, T2DM, and CKD.
+              NutriBiteBot analyses 14 lab values from your EHR, predicts outcome-risk proxies, and computes guideline-constrained gram ceilings for every ingredient (HTN, T2DM, CKD). A research prototype: not validated by dietitians and not for clinical use.
             </TextEffect>
           </div>
 

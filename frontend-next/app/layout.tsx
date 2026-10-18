@@ -7,9 +7,9 @@ import { cn } from "@/lib/utils";
 const manrope = Manrope({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
-  title: 'NutriBiteBot — Clinical ML Dietary Decision Support',
+  title: 'NutriBiteBot — Dietary Portion Research Prototype',
   description:
-    'A TabNet-driven deep learning framework for disease-based dietary portion recommendation using computer vision. Personalized nutrition guidance for HTN, T2DM, and CKD patients.',
+    'A research prototype: a TabNet-based framework that predicts outcome-risk proxies and computes guideline-constrained dietary portion ceilings for HTN, T2DM, and CKD. Not validated for clinical use.',
   keywords: [
     'NutriBiteBot',
     'clinical nutrition',
@@ -27,8 +27,8 @@ export const metadata: Metadata = {
     { name: 'B. G. Sudarshan' },
   ],
   openGraph: {
-    title: 'NutriBiteBot — Clinical ML Dietary Decision Support',
-    description: 'Personalized dietary portion recommendations powered by TabNet ML and IFCT 2017 nutritional database.',
+    title: 'NutriBiteBot — Dietary Portion Research Prototype',
+    description: 'Research prototype: guideline-constrained portion ceilings from TabNet outcome-risk prediction and the IFCT 2017 database. Not for clinical use.',
     type: 'website',
   },
 }

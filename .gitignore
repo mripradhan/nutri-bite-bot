@@ -2,6 +2,8 @@
 # manuscript source + figures: not for the public repo (confidential review context)
 manuscript/
 paperfinal/
+paperdiff/
+papermanuscriptprevious/
 # MIMIC-IV is PhysioNet credentialed data — never commit it (DUA)
 mimic IV/
 physionet.org/

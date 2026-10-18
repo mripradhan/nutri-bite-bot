@@ -60,8 +60,13 @@ export default function FridgeScanner() {
       <div className="section-label mb-2">Computer Vision</div>
       <h2 className="text-[20px] font-bold text-text-primary mb-1">Fridge Scanner</h2>
       <p className="text-text-secondary text-[13px] mb-6">
-        Upload a photo of your fridge or pantry. The CV model will detect ingredients and map
+        Upload a photo of your fridge or pantry. The detector suggests ingredients and maps
         them to the IFCT 2017 nutritional database.
+      </p>
+      <p className="text-[11px] text-risk-moderate mb-6">
+        Prototype input interface: detection accuracy has not been evaluated, so check every
+        suggestion and add missing items by name. Data notice: the uploaded image is sent to the
+        Roboflow API for detection.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

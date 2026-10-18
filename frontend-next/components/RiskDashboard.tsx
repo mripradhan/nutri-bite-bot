@@ -25,10 +25,10 @@ const RISK_BG: Record<RiskLabel, string> = {
 }
 
 const TARGET_LABELS: Record<TargetName, string> = {
-  sodium_sensitivity: 'Sodium',
-  potassium_sensitivity: 'Potassium',
-  protein_restriction: 'Protein',
-  carb_sensitivity: 'Carbs',
+  sodium_sensitivity: 'Sodium proxy',
+  potassium_sensitivity: 'Potassium proxy',
+  protein_restriction: 'Protein proxy',
+  carb_sensitivity: 'Carbohydrate proxy',
 }
 
 function capitalize(s: string) {
@@ -92,7 +92,7 @@ export default function RiskDashboard() {
   return (
     <section id="risk-analysis" className="px-6 md:px-8 py-10 space-y-8 animate-fade-in">
       <div>
-        <div className="section-label mb-2">Deep Learning Results</div>
+        <div className="section-label mb-2">Outcome-risk proxy results</div>
         <h2 className="text-[20px] font-bold text-text-primary">Risk Analysis</h2>
       </div>
 
@@ -230,7 +230,7 @@ export default function RiskDashboard() {
                   </span>
                 </div>
 
-                {/* Clinical note */}
+                {/* Predicted outcome-risk description (not a dietary prescription) */}
                 <p className="text-[11px] text-text-secondary leading-relaxed">
                   {info.clinical_note}
                 </p>

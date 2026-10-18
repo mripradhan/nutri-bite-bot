@@ -1,11 +1,16 @@
 """
 NutriBiteBot — Flask API Backend
 =================================
-Serves clinical risk stratification with one TabNet model per target:
-  - sodium_sensitivity
-  - potassium_sensitivity
-  - protein_restriction
-  - carb_sensitivity
+Serves outcome-risk stratification with one TabNet model per target. The four targets
+are retrospective outcome-risk PROXIES (not measured dietary responses); the identifiers
+are kept for traceability:
+  - sodium_sensitivity      (proxy: follow-up blood pressure)
+  - potassium_sensitivity   (proxy: hyperkalaemia)
+  - protein_restriction     (proxy: acute kidney injury)
+  - carb_sensitivity        (proxy: hyperglycaemia)
+
+Gram quantities are computed guideline-constrained ceilings. They have NOT been validated
+by dietitians or shown to be patient-specific safety limits (research prototype).
 
 Model 1 predictions come from the artifact set in artifacts/models/ written by
 clinical-models/train_model1.py (see clinical-models/model1_artifacts.py).
@@ -42,6 +47,8 @@ IFCT_CSV = os.path.join(BASE_DIR, "clinical-models", "ifct_database.csv")
 # portable artifact set written by clinical-models/train_model1.py.
 sys.path.insert(0, os.path.join(BASE_DIR, "clinical-models"))
 from model1_artifacts import TARGETS  # noqa: E402
+import allergens  # noqa: E402
+import recipe_verifier  # noqa: E402
 from train_model2 import PortionControlModel  # noqa: E402
 
 # Model 2 (portion engine) owns the Model 1 predictor, so both endpoints and the
@@ -69,33 +76,41 @@ if os.path.exists(thresholds_path):
         THRESHOLDS = json.load(f)
 
 
-# Clinical descriptions for each risk domain
+# Outcome-risk proxy descriptions. These describe the PREDICTED OUTCOME RISK, not a dietary
+# prescription: the models are trained on observed outcomes, not on dietary response.
 RISK_DESCRIPTIONS = {
     "sodium_sensitivity": {
-        "name": "Sodium Sensitivity",
-        "low": "Normal sodium tolerance — standard dietary sodium is acceptable.",
-        "moderate": "Moderate sodium sensitivity — consider reducing processed food intake.",
-        "high": "High sodium sensitivity — strict sodium restriction recommended (<2000 mg/day).",
+        "name": "Sodium proxy (follow-up blood pressure)",
+        "low": "Lower predicted risk of raised follow-up blood pressure.",
+        "moderate": "Moderate predicted risk of raised follow-up blood pressure (systolic 141-160 mmHg range).",
+        "high": "Higher predicted risk of raised follow-up blood pressure (systolic >160 mmHg range).",
     },
     "potassium_sensitivity": {
-        "name": "Potassium Sensitivity",
-        "low": "Normal potassium handling — no dietary restrictions needed.",
-        "moderate": "Moderate potassium concern — monitor intake of high-K foods.",
-        "high": "High potassium risk — avoid bananas, oranges, potatoes; risk of hyperkalemia.",
+        "name": "Potassium proxy (hyperkalaemia)",
+        "low": "Lower predicted risk of raised serum potassium.",
+        "moderate": "Moderate predicted risk of raised serum potassium (5.1-5.5 mmol/L range).",
+        "high": "Higher predicted risk of raised serum potassium (>5.5 mmol/L range).",
     },
     "protein_restriction": {
-        "name": "Protein Restriction",
-        "low": "No protein restriction needed — normal dietary protein is safe.",
-        "moderate": "Moderate protein restriction — reduce to 0.8 g/kg/day.",
-        "high": "Strict protein restriction — limit to 0.6–0.8 g/kg/day to protect kidneys.",
+        "name": "Protein proxy (acute kidney injury)",
+        "low": "Lower predicted risk of acute kidney injury.",
+        "moderate": "Moderate predicted risk of acute kidney injury (KDIGO stage 1 range).",
+        "high": "Higher predicted risk of acute kidney injury (KDIGO stage 2 or above).",
     },
     "carb_sensitivity": {
-        "name": "Carbohydrate Sensitivity",
-        "low": "Normal carbohydrate tolerance — balanced intake is fine.",
-        "moderate": "Moderate carb sensitivity — prefer complex carbs, reduce simple sugars.",
-        "high": "High carb sensitivity — strict glycemic control needed; limit to low-GI foods.",
+        "name": "Carbohydrate proxy (hyperglycaemia)",
+        "low": "Lower predicted risk of raised blood glucose.",
+        "moderate": "Moderate predicted risk of raised blood glucose (181-250 mg/dL range).",
+        "high": "Higher predicted risk of raised blood glucose (>250 mg/dL range).",
     },
 }
+
+DISCLAIMER = (
+    "Research prototype. Risk tiers are model predictions of retrospective outcome proxies, "
+    "and gram quantities are computed guideline-constrained ceilings. They have not been "
+    "validated by dietitians or shown to be safe for an individual patient, and must not be "
+    "used for clinical decisions without review by a qualified clinician or dietitian."
+)
 
 
 # ══════════════════════════════════════════════════════════════════
@@ -165,14 +180,57 @@ def _not_found(ingredient: str) -> dict:
     }
 
 
-def portion_recommendations(patient_data: dict, ingredients: list) -> dict:
-    """Model 1 risk → daily budget → per-ingredient portions, all from train_model2.PortionControlModel."""
+def _parse_exclusions(data: dict) -> tuple:
+    """(allergen group ids, free-text terms) from a request body; unknown groups ignored."""
+    return (allergens.normalize_groups(data.get("allergies")),
+            allergens.normalize_terms(data.get("exclusion_terms")))
+
+
+def _excluded_stub(ingredient: str, category: str, reason: str) -> dict:
+    return {
+        "ingredient": ingredient, "category": category, "max_grams": 0, "label": "Excluded",
+        "binding_constraint": "patient exclusion",
+        "explanation": f"Excluded for this patient: {reason}. Not used in portions, substitutes or recipes.",
+        "excluded_reason": reason, "nutrient_load": {}, "nutrients_per_100g": {}, "substitutes": [],
+    }
+
+
+def _category_of(name: str) -> str:
+    key = name.lower().strip()
+    return str(_ifct_idx.loc[key].get("category", "")) if key in _ifct_idx.index else ""
+
+
+def portion_recommendations(patient_data: dict, ingredients: list,
+                            groups=(), terms=()) -> dict:
+    """
+    Model 1 risk -> daily budget -> per-ingredient gram ceilings, all from
+    train_model2.PortionControlModel.
+
+    Allergy / preference exclusions are a hard filter applied FIRST: an excluded ingredient
+    never reaches the portion engine or the recipe prompt, and excluded items are also
+    removed from every ingredient's substitute list.
+    """
     patient = {f: (None if patient_data.get(f) is None else float(patient_data[f])) for f in FEATURE_NAMES}
-    known = [i for i in ingredients if i.lower().strip() in ENGINE.ifct.idx.index]
+
+    excluded = {}
+    for i in ingredients:
+        reason = allergens.exclusion_reason(i, _category_of(i), groups, terms)
+        if reason:
+            excluded[i] = reason
+    candidates = [i for i in ingredients if i not in excluded]
+
+    known = [i for i in candidates if i.lower().strip() in ENGINE.ifct.idx.index]
     if known:
         res = ENGINE.get_recommendations(patient, known, include_substitutes=True, use_ledger=False)
         risk, budget, warnings_ = res["risk_levels"], res["daily_budget"], res["clinical_warnings"]
         by_name = {r["ingredient"]: _api_decision(r) for r in res["recommendations"]}
+        for dec in by_name.values():
+            dec["substitutes"] = [
+                sub for sub in dec.get("substitutes", [])
+                if not allergens.exclusion_reason(sub.get("ingredient", ""),
+                                                  _category_of(sub.get("ingredient", "")),
+                                                  groups, terms)
+            ]
     else:
         risk, by_name, warnings_ = ENGINE.model1.predict_risk_levels(patient), {}, []
         b = ENGINE.budget_calc.get_daily_budget(has_ckd=patient.get("has_ckd") == 1,
@@ -181,8 +239,14 @@ def portion_recommendations(patient_data: dict, ingredients: list) -> dict:
         budget = {"sodium_mg": b.sodium_mg_remaining, "potassium_mg": b.potassium_mg_remaining,
                   "protein_g": b.protein_g_remaining, "carbs_g": b.carbs_g_remaining,
                   "phosphorus_mg": b.phosphorus_mg_remaining}
-    recs = [by_name[i] if i in by_name else _not_found(i) for i in ingredients]
-    return {"risk_levels": risk, "daily_budget": budget, "recommendations": recs, "clinical_warnings": warnings_}
+    recs = []
+    for i in ingredients:
+        if i in excluded:
+            recs.append(_excluded_stub(i, _category_of(i), excluded[i]))
+        else:
+            recs.append(by_name[i] if i in by_name else _not_found(i))
+    return {"risk_levels": risk, "daily_budget": budget, "recommendations": recs,
+            "clinical_warnings": warnings_, "excluded": excluded}
 
 
 # ── Flask app ──────────────────────────────────────────────────────
@@ -275,6 +339,7 @@ def predict():
         },
         "nutrient_thresholds": applicable_thresholds,
         "condition_key": condition_key,
+        "disclaimer": DISCLAIMER,
     })
 
 
@@ -312,6 +377,8 @@ def model_info():
         "feature_names": list(FEATURE_NAMES),
         "preprocessing": ["median imputation", "z-score scaling", "per-target isotonic monotonic transform"],
         "model_backend": "TabNet (pytorch_tabnet), one model per target",
+        "targets_note": "Targets are retrospective outcome-risk proxies, not measured dietary responses.",
+        "disclaimer": DISCLAIMER,
     })
 
 
@@ -371,7 +438,8 @@ def recommend():
     if missing:
         return jsonify({"error": f"Missing patient features: {missing}"}), 400
 
-    result = portion_recommendations(patient_data, ingredient_list)
+    groups, terms = _parse_exclusions(data)
+    result = portion_recommendations(patient_data, ingredient_list, groups, terms)
     # severity scores are those the engine actually used (after any caloric reconciliation)
     risk_levels, severity_scores = {}, {}
     for target in TARGET_NAMES:
@@ -388,7 +456,7 @@ def recommend():
     has_dm = bool(int(patient_data.get("has_dm", 0)))
 
     # Sort: Avoid first, then Half Portion, then Allowed
-    label_order = {"Avoid": 0, "Half Portion": 1, "Allowed": 2, "Not Found": 3}
+    label_order = {"Excluded": 0, "Avoid": 1, "Half Portion": 2, "Allowed": 3, "Not Found": 4}
     recommendations.sort(key=lambda r: (label_order.get(r["label"], 99), r["max_grams"]))
 
     return jsonify({
@@ -400,6 +468,8 @@ def recommend():
         "patient_conditions": {
             "has_ckd": has_ckd, "has_htn": has_htn, "has_dm": has_dm,
         },
+        "exclusions": {"groups": groups, "terms": terms, "excluded_ingredients": result["excluded"]},
+        "disclaimer": DISCLAIMER,
     })
 
 
@@ -465,112 +535,90 @@ def detect_ingredients():
         return jsonify({"error": str(exc)}), 500
 
 
-# Stated grams within this fraction over the limit aren't flagged as violations, since the
-# extraction call itself has some rounding noise (e.g. "150g" vs a 148.6g limit).
 # Groq decommissioned llama-3.3-70b-versatile for free/developer tiers on 2026-08-16;
-# openai/gpt-oss-120b is Groq's recommended replacement. The rules engine bounds the
-# gram limits upstream of this call, so the constraint layer is model-agnostic.
+# openai/gpt-oss-120b is Groq's recommended replacement. The rules engine computes the
+# gram ceilings upstream of this call, so the ceiling computation is model-agnostic.
 RECIPE_LLM_MODEL = "openai/gpt-oss-120b"
 
-RECIPE_ADHERENCE_TOLERANCE = 0.05
+# Verification is deterministic and strict: no tolerance above a ceiling. Kept as a named
+# constant because clinical-models/recipe_adherence_eval.py reads it.
+RECIPE_ADHERENCE_TOLERANCE = 0.0
+RECIPE_MAX_ATTEMPTS = 3
 
 
-def _normalize_ingredient_name(name: str) -> str:
-    return " ".join(str(name).lower().split())
-
-
-def _ingredient_name_tokens(name: str) -> set:
-    return set(re.findall(r"[a-z0-9]+", str(name).lower()))
-
-
-def check_recipe_adherence(recipe_text: str, safe_ingredients: list, client) -> list:
-    """
-    Second structured-output Groq call: asks the model to extract the gram quantity the
-    recipe actually used for each ingredient, then checks each one against
-    safe_ingredients[]['max_grams']. Returns one adherence record per ingredient
-    (whether or not the extraction matched it), for logging and for surfacing to the
-    caller — the first (recipe-writing) call is never trusted to have followed its own
-    prompt limits.
-    """
-    ingredient_names = [rec["ingredient"] for rec in safe_ingredients]
-    extraction_prompt = (
-        "Extract the quantity in grams actually used for each ingredient in the recipe "
-        "below. Respond only in JSON, of the form "
-        '{"ingredients": [{"name": "<ingredient name>", "grams": <number>}, ...]}. '
-        "Include exactly one entry per ingredient in this list, using these exact names: "
-        f"{ingredient_names}. If an ingredient from the list is not used in the recipe, "
-        "report its grams as 0.\n\nRecipe:\n" + recipe_text
-    )
-
-    stated_by_name = {}
-    try:
-        extraction = client.chat.completions.create(
-            messages=[
-                {"role": "system", "content": "You extract structured ingredient quantities "
-                                              "from recipes and respond only in JSON."},
-                {"role": "user", "content": extraction_prompt},
-            ],
-            model=RECIPE_LLM_MODEL,
-            max_tokens=500,
-            temperature=0,
-            response_format={"type": "json_object"},
+def _build_recipe_messages(patient_flags: dict, usable: list, forbidden: list,
+                           equipment: str, cuisine: str, time_limit: str,
+                           clinical_warnings: list, feedback: str = "") -> list:
+    """Prompt for the recipe-writing call; requires the fixed ingredient-line format that
+    recipe_verifier parses."""
+    ingredient_lines = []
+    for rec in usable:
+        line = f"- {rec['ingredient']}: MAXIMUM {rec['max_grams']}g permitted"
+        if rec.get("binding_constraint"):
+            line += f" (limiting constraint: {rec['binding_constraint']})"
+        ingredient_lines.append(line)
+    clinical_context = [
+        f"- CKD Status: {'Positive' if patient_flags['has_ckd'] else 'Negative'}",
+        f"- HTN Status: {'Positive' if patient_flags['has_htn'] else 'Negative'}",
+        f"- DM Status: {'Positive' if patient_flags['has_dm'] else 'Negative'}",
+    ]
+    for w in clinical_warnings or []:
+        # The gram ceilings already reflect these relaxed severities (Algorithm 2's
+        # caloric-floor relaxation fired upstream); context only, not an extra constraint.
+        clinical_context.append(
+            f"- Caloric-adequacy relaxation applied to {w['constraint']}: "
+            f"severity {w['old_severity']:.2f}->{w['new_severity']:.2f} "
+            f"(sodium/potassium were never relaxed)"
         )
-        parsed = json.loads(extraction.choices[0].message.content)
-        for item in parsed.get("ingredients", []):
-            stated_by_name[_normalize_ingredient_name(item.get("name", ""))] = item.get("grams")
-    except Exception as exc:
-        app.logger.error(f"Recipe adherence extraction failed: {exc}")
+    no_salt = patient_flags["has_htn"] or patient_flags["has_ckd"]
+    system_prompt = (
+        "You write a recipe that strictly respects provided ingredient quantity ceilings. "
+        "This is a research prototype and not medical advice.\n\n"
+        "CRITICAL RULES:\n"
+        "1. You MUST NOT exceed the 'MAXIMUM permitted' grams for ANY ingredient.\n"
+        "2. Use ONLY the listed ingredients" +
+        (", plus water, black pepper and oil. Do NOT add salt." if no_salt
+         else ", plus water, salt, black pepper and oil.") + "\n"
+        "3. Do not use any ingredient listed under DO NOT USE.\n"
+        "4. Output Markdown with: a Title, a one-line description, then a section headed "
+        "'## Ingredients' where EVERY line is exactly '- <exact ingredient name as listed>: "
+        "<number> g' (grams only, no cups or spoons, no sub-bullets), then a section headed "
+        "'## Instructions' with numbered steps.\n"
+        "5. Do not make health or safety claims."
+    )
+    user_prompt = (
+        "Patient Clinical Context:\n" + "\n".join(clinical_context) + "\n\n"
+        "Allowed ingredients with gram ceilings (use exact names):\n" + "\n".join(ingredient_lines) + "\n\n"
+        + ("DO NOT USE: " + ", ".join(forbidden) + "\n\n" if forbidden else "")
+        + f"Available Equipment: {equipment}\nCuisine Preference: {cuisine}\n"
+        f"Time Constraint: {time_limit}\n\n"
+        + (f"Your previous attempt was rejected by an automatic check: {feedback}. "
+           "Fix every problem listed.\n\n" if feedback else "")
+        + "Generate the recipe now."
+    )
+    return [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}]
 
-    records = []
-    for rec in safe_ingredients:
-        name = rec["ingredient"]
-        max_grams = rec["max_grams"]
-        norm_name = _normalize_ingredient_name(name)
 
-        stated_grams = stated_by_name.get(norm_name)
-        if stated_grams is None:
-            # extraction may have paraphrased the name slightly; fall back to a substring match
-            for k, v in stated_by_name.items():
-                if norm_name in k or k in norm_name:
-                    stated_grams = v
-                    break
-        if stated_grams is None and stated_by_name:
-            # still unmatched (e.g. reordered words: "white rice" vs "rice, milled (white)"):
-            # word-set containment is more robust here than difflib's char-sequence ratio,
-            # which misses exactly these reordering / extra-descriptor cases.
-            target_tokens = _ingredient_name_tokens(name)
-            best_score, best_grams = 0.6, None  # 0.6 acts as the match threshold
-            for k, v in stated_by_name.items():
-                k_tokens = _ingredient_name_tokens(k)
-                if not target_tokens or not k_tokens:
-                    continue
-                overlap = len(target_tokens & k_tokens) / min(len(target_tokens), len(k_tokens))
-                if overlap >= best_score:
-                    best_score, best_grams = overlap, v
-            stated_grams = best_grams
-
-        matched = stated_grams is not None
-        stated_grams = float(stated_grams) if matched else None
-        violated = bool(matched and max_grams is not None
-                        and stated_grams > max_grams * (1 + RECIPE_ADHERENCE_TOLERANCE))
-        records.append({
-            "ingredient": name,
-            "max_grams": max_grams,
-            "stated_grams": stated_grams,
-            "matched": matched,
-            "violated": violated,
-            "overage_grams": round(stated_grams - max_grams, 2) if matched and max_grams is not None else None,
-        })
-    return records
+@app.route("/api/allergen-groups", methods=["GET"])
+def allergen_groups():
+    """Allergy / preference groups the UI offers for hard exclusion."""
+    return jsonify({"groups": allergens.group_options()})
 
 
 @app.route("/api/generate-recipe", methods=["POST"])
 def generate_recipe():
-    """Generates a recipe constrained by the patient's safe portion limits."""
+    """
+    Generates a recipe within the patient's computed gram ceilings.
+
+    Allergy / preference exclusions are removed before portion computation and the prompt.
+    Every generated recipe is then checked by a deterministic parser (recipe_verifier);
+    a failing recipe is regenerated up to RECIPE_MAX_ATTEMPTS times and finally replaced by
+    a template recipe built directly from the ceilings. An unverified recipe is never returned.
+    """
     if not groq_client:
         return jsonify({"error": "Groq client not configured"}), 500
 
-    data = request.json
+    data = request.get_json(force=True)
     patient_data = data.get("patient", {})
     ingredients = data.get("ingredients", [])
     equipment = data.get("equipment", "Standard kitchen")
@@ -581,86 +629,90 @@ def generate_recipe():
         return jsonify({"error": "No ingredients provided"}), 400
 
     try:
-        # 1-4. Model 1 risk → budget → per-ingredient gram limits (single Model 2 engine)
-        has_ckd = bool(int(patient_data.get("has_ckd", 0)))
-        has_htn = bool(int(patient_data.get("has_htn", 0)))
-        has_dm = bool(int(patient_data.get("has_dm", 0)))
-        portion_result = portion_recommendations(patient_data, ingredients)
-        safe_ingredients = portion_result["recommendations"]
+        flags = {
+            "has_ckd": bool(int(patient_data.get("has_ckd", 0))),
+            "has_htn": bool(int(patient_data.get("has_htn", 0))),
+            "has_dm": bool(int(patient_data.get("has_dm", 0))),
+        }
+        groups, terms = _parse_exclusions(data)
+        portion_result = portion_recommendations(patient_data, ingredients, groups, terms)
+        recs = portion_result["recommendations"]
         clinical_warnings = portion_result["clinical_warnings"]
 
-        # 5. Build prompt with constraints
-        ingredient_lines = []
-        for rec in safe_ingredients:
-            line = f"- {rec['ingredient']}: MAXIMUM {rec['max_grams']}g permitted"
-            if rec['binding_constraint']:
-                line += f" (limiting constraint: {rec['binding_constraint']})"
-            ingredient_lines.append(line)
+        # Only Allowed / Half Portion ingredients may appear in a recipe. Avoid, Excluded and
+        # Not Found ingredients are forbidden outright (ceiling 0), not merely capped.
+        usable = [r for r in recs if r["label"] in ("Allowed", "Half Portion") and r["max_grams"] > 0]
+        forbidden = [r["ingredient"] for r in recs if r not in usable]
+        # Excluded (allergy / preference) ingredients are never named to the model; the
+        # others tell it explicitly not to use them.
+        avoid_names = [r["ingredient"] for r in recs
+                       if r not in usable and r["label"] in ("Avoid", "Not Found")]
+        if not usable:
+            return jsonify({
+                "error": "No ingredient is permitted for this patient (all are excluded, "
+                         "marked Avoid or not found), so no recipe can be generated.",
+                "portions_used": recs,
+                "exclusions": {"groups": groups, "terms": terms,
+                               "excluded_ingredients": portion_result["excluded"]},
+            }), 422
+        allowed = [{"ingredient": r["ingredient"], "max_grams": r["max_grams"]} for r in usable]
+        # Forbidden ingredients get a ceiling of 0 so any use is a recorded violation.
+        checked = allowed + [{"ingredient": n, "max_grams": 0.0} for n in forbidden]
+        restrict_salt = flags["has_htn"] or flags["has_ckd"]
 
-        clinical_context = [
-            f"- CKD Status: {'Positive' if has_ckd else 'Negative'}",
-            f"- HTN Status: {'Positive' if has_htn else 'Negative'}",
-            f"- DM Status: {'Positive' if has_dm else 'Negative'}"
-        ]
-        if clinical_warnings:
-            # The gram limits above already reflect these relaxed severities (Algorithm 2's
-            # caloric-floor relaxation fired upstream) — this is context for the recipe's
-            # clinical-benefits description, not an additional constraint to enforce.
-            for w in clinical_warnings:
-                clinical_context.append(
-                    f"- Caloric-adequacy relaxation applied to {w['constraint']}: "
-                    f"severity {w['old_severity']:.2f}→{w['new_severity']:.2f} "
-                    f"(sodium/potassium were never relaxed)"
-                )
+        recipe, result, status, feedback, attempts = None, None, "template_fallback", "", 0
+        last_issues = []
+        for attempts in range(1, RECIPE_MAX_ATTEMPTS + 1):
+            completion = groq_client.chat.completions.create(
+                messages=_build_recipe_messages(flags, usable, avoid_names, equipment, cuisine,
+                                                time_limit, clinical_warnings, feedback),
+                model=RECIPE_LLM_MODEL,
+                max_tokens=900,
+                temperature=0.6 if attempts == 1 else 0.3,
+            )
+            candidate = completion.choices[0].message.content or ""
+            check = recipe_verifier.verify_recipe(candidate, checked, groups=groups, terms=terms,
+                                                  restrict_salt=restrict_salt)
+            if check["ok"]:
+                recipe, result = candidate, check
+                status = "verified" if attempts == 1 else "verified_after_regeneration"
+                break
+            last_issues = check["issues"]
+            feedback = recipe_verifier.describe_issues(check["issues"])
+            app.logger.warning(f"Recipe attempt {attempts} rejected: {feedback}")
 
-        system_prompt = (
-            "You are a specialized clinical nutritionist and chef. "
-            "Your task is to generate a recipe strictly adhering to provided ingredient quantity limits.\n\n"
-            "CRITICAL RULES:\n"
-            "1. You MUST NOT exceed the 'MAXIMUM permitted' grams for ANY ingredient.\n"
-            "2. If an ingredient has a very low maximum (e.g. <15g), use it only as a garnish or minor flavoring.\n"
-            "3. You must ONLY use the provided ingredients, optionally adding generic water/salt/pepper/oil "
-            "(unless hypertension is flagged bounding sodium in which case minimize salt).\n"
-            "4. Output format: Clean Markdown with a Title, short description of clinical benefits, "
-            "precise Ingredients list (in grams), and step-by-step cooking instructions."
-        )
+        if recipe is None:
+            recipe = recipe_verifier.build_template_recipe(allowed)
+            if recipe is None:
+                return jsonify({"error": "Could not produce a verified recipe: every permitted "
+                                          "ingredient has a ceiling too small to cook with."}), 422
+            result = recipe_verifier.verify_recipe(recipe, checked, groups=groups, terms=terms,
+                                                   restrict_salt=restrict_salt)
+            if not result["ok"]:  # the template must itself pass; refuse rather than return it
+                return jsonify({"error": "Template recipe failed verification; no recipe returned."}), 500
 
-        user_prompt = (
-            "Patient Clinical Context:\n" + "\n".join(clinical_context) + "\n\n"
-            "Available Ingredients with Safety Limits:\n" + "\n".join(ingredient_lines) + "\n\n"
-            f"Available Equipment: {equipment}\n"
-            f"Cuisine Preference: {cuisine}\n"
-            f"Time Constraint: {time_limit}\n\n"
-            "Generate a recipe now."
-        )
-
-        completion = groq_client.chat.completions.create(
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt},
-            ],
-            model=RECIPE_LLM_MODEL,
-            max_tokens=800,
-            temperature=0.6,
-        )
-        recipe = completion.choices[0].message.content
-
-        # The recipe-writing call is never trusted to have followed its own prompt limits:
-        # a second, structured-output call extracts what it actually wrote and checks it
-        # against safe_ingredients[]['max_grams'].
-        adherence = check_recipe_adherence(recipe, safe_ingredients, groq_client)
-
-        # Save to Local Supabase DB
+        adherence = result["records"]
         patient_id = save_patient_data(patient_data)
-        recipe_id = save_recipe(patient_id, safe_ingredients, recipe) if patient_id else None
+        recipe_id = save_recipe(patient_id, recs, recipe) if patient_id else None
         if recipe_id:
             save_recipe_adherence(recipe_id, adherence)
 
         return jsonify({
             "recipe": recipe,
-            "portions_used": safe_ingredients,
+            "portions_used": recs,
             "adherence": adherence,
-            "clinical_warnings": clinical_warnings
+            "verification": {
+                "method": "deterministic_parser",
+                "status": status,
+                "attempts": attempts,
+                "rejected_issues": [] if status == "verified" else last_issues,
+                "note": ("Verified quantities are those written in the ingredient list; amounts "
+                         "implied only in the cooking steps are not checked."),
+            },
+            "exclusions": {"groups": groups, "terms": terms,
+                           "excluded_ingredients": portion_result["excluded"]},
+            "clinical_warnings": clinical_warnings,
+            "disclaimer": DISCLAIMER,
         })
 
     except Exception as e:

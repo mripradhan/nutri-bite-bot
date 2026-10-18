@@ -5,9 +5,24 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { useApp } from '@/context/AppContext'
 import { apiGenerateRecipe, toPayload } from '@/lib/api'
+import type { RecipeResult } from '@/types'
+
+// The API wraps errors as `API <status>: {json}`; surface the server's message.
+function friendlyError(err: unknown): string {
+  const raw = err instanceof Error ? err.message : 'Recipe generation failed'
+  const m = raw.match(/^API \d+: ([\s\S]*)$/)
+  if (!m) return raw
+  try {
+    const j = JSON.parse(m[1])
+    return j.error ?? raw
+  } catch {
+    return raw
+  }
+}
 
 export default function RecipeGenerator() {
-  const { patientData, selectedIngredients, recipeOutput, setRecipeOutput, recommendResult } = useApp()
+  const { patientData, selectedIngredients, recipeOutput, setRecipeOutput, exclusions } = useApp()
+  const [result, setResult] = useState<RecipeResult | null>(null)
   const [equipment, setEquipment] = useState('Standard kitchen (stovetop, oven)')
   const [cuisine, setCuisine] = useState('Any')
   const [timeConstraint, setTimeConstraint] = useState('30 minutes')
@@ -23,30 +38,22 @@ export default function RecipeGenerator() {
     setLoading(true)
     setError(null)
     setRecipeOutput('')
+    setResult(null)
 
     try {
-      // Build portions_used from recommend result if available
-      const portionsUsed: Record<string, number> = {}
-      if (recommendResult) {
-        recommendResult.recommendations.forEach((rec) => {
-          if (rec.label !== 'Avoid' && rec.label !== 'Not Found') {
-            portionsUsed[rec.ingredient] = rec.max_grams
-          }
-        })
-      }
-
-      const result = await apiGenerateRecipe({
+      const res = await apiGenerateRecipe({
         patient: toPayload(patientData),
         ingredients: selectedIngredients,
         equipment,
         cuisine,
         time_constraint: timeConstraint,
-        portions_used: portionsUsed,
+        exclusions,
       })
 
-      setRecipeOutput(result.recipe ?? JSON.stringify(result))
+      setResult(res)
+      setRecipeOutput(res.recipe ?? JSON.stringify(res))
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Recipe generation failed')
+      setError(friendlyError(err))
     } finally {
       setLoading(false)
     }
@@ -57,8 +64,14 @@ export default function RecipeGenerator() {
       <div className="section-label mb-2">Phase 3</div>
       <h2 className="text-[20px] font-bold text-text-primary mb-1">Recipe Generator</h2>
       <p className="text-text-secondary text-[13px] mb-6">
-        Generate a clinically safe recipe using your selected ingredients, constrained to your
-        personalized nutrient budget and portion limits.
+        Generate a recipe from your selected ingredients within your computed gram ceilings.
+        Every recipe is checked by a deterministic parser (not a language model) against the
+        ceilings and your exclusions; failing recipes are regenerated, then replaced by a simple
+        template. Quantities are verified as written in the ingredient list only.
+      </p>
+      <p className="text-[11px] text-text-muted mb-6">
+        Data notice: recipe generation sends your comorbidity flags, gram ceilings and exclusion
+        list (not your lab values) to the Groq API.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -147,14 +160,37 @@ export default function RecipeGenerator() {
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
-            Generating Clinical Recipe…
+            Generating and verifying recipe…
           </span>
         ) : (
-          'Generate Clinical Recipe'
+          'Generate recipe'
         )}
       </button>
 
       {/* Recipe output */}
+      {recipeOutput && result?.verification && (
+        <div
+          className={[
+            'mb-4 p-3 rounded-[4px] border text-[12px] leading-relaxed',
+            result.verification.status === 'template_fallback'
+              ? 'bg-risk-moderate/10 border-risk-moderate/40 text-risk-moderate'
+              : 'bg-accent/10 border-accent/30 text-accent',
+          ].join(' ')}
+        >
+          <div className="font-semibold mb-0.5">
+            {result.verification.status === 'verified' && 'Passed deterministic verification'}
+            {result.verification.status === 'verified_after_regeneration' &&
+              `Passed deterministic verification after ${result.verification.attempts} attempts`}
+            {result.verification.status === 'template_fallback' &&
+              'No generated recipe passed verification: showing a basic template built from your ceilings'}
+          </div>
+          <div className="opacity-90">
+            {result.adherence?.filter((a) => a.matched).length ?? 0} ingredient quantities checked,{' '}
+            {result.adherence?.filter((a) => a.violated).length ?? 0} over a ceiling. Amounts
+            implied only in the cooking steps are not checked. Research prototype; not dietitian-reviewed.
+          </div>
+        </div>
+      )}
       {recipeOutput && (
         <div className="card animate-fade-in">
           <div className="flex items-center justify-between mb-4">

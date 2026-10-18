@@ -142,7 +142,7 @@ export default function Sidebar({ onGoHome }: SidebarProps) {
               NutriBiteBot
             </div>
             <div className="text-[10px] text-text-secondary">
-              Clinical Deep Learning
+              Research prototype
             </div>
           </div>
         </div>

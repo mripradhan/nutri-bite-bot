@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react'
 import { apiModelInfo } from '@/lib/api'
 import type { ModelInfo as ModelInfoType, TargetName } from '@/types'
 
+const fmt = (v: number | null | undefined) => (typeof v === 'number' ? v.toFixed(3) : 'n/a')
+
 export default function ModelInfo() {
   const [info, setInfo] = useState<ModelInfoType | null>(null)
   const [loading, setLoading] = useState(false)
@@ -37,7 +39,7 @@ export default function ModelInfo() {
           </div>
           <div className="text-left">
             <div className="text-[14px] font-semibold text-text-primary">Model Information</div>
-            <div className="text-[12px] text-text-muted">TabNet architecture, accuracy metrics, feature names</div>
+            <div className="text-[12px] text-text-muted">TabNet architecture, held-out performance, feature names</div>
           </div>
         </div>
         <svg
@@ -77,19 +79,25 @@ export default function ModelInfo() {
               {/* Accuracy metrics */}
               <div>
                 <div className="section-label mb-3">Performance Metrics</div>
+                <p className="text-[11px] text-text-muted mb-3">
+                  Held-out real MIMIC-IV patients (retrospective). Performance is modest in
+                  absolute terms: better than a simple guideline-rule baseline, but not shown
+                  to be clinically adequate. Targets are outcome-risk proxies, not measured
+                  dietary responses.
+                </p>
                 <div className="grid grid-cols-3 gap-3">
                   {[
                     {
-                      label: 'Mean Accuracy',
-                      value: `${(info.accuracy_metrics.mean_accuracy * 100).toFixed(2)}%`,
+                      label: 'Mean macro-F1',
+                      value: fmt(info.accuracy_metrics.mean_f1_macro),
                     },
                     {
-                      label: 'Mean F1 (weighted)',
-                      value: `${(info.accuracy_metrics.mean_f1_weighted * 100).toFixed(2)}%`,
+                      label: 'Mean macro-AUROC',
+                      value: fmt(info.accuracy_metrics.mean_auroc_ovr),
                     },
                     {
-                      label: "Cohen's κ",
-                      value: info.accuracy_metrics.mean_cohen_kappa.toFixed(4),
+                      label: 'Mean balanced accuracy',
+                      value: fmt(info.accuracy_metrics.mean_balanced_accuracy),
                     },
                   ].map(({ label, value }) => (
                     <div
@@ -119,7 +127,7 @@ export default function ModelInfo() {
 
               {/* Models */}
               <div>
-                <div className="section-label mb-3">Prediction Targets</div>
+                <div className="section-label mb-3">Outcome-risk proxy targets</div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {(Object.entries(info.models) as [TargetName, (typeof info.models)[TargetName]][]).map(
                     ([key, model]) => (
