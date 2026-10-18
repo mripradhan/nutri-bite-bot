@@ -1,0 +1,7596 @@
+{
+ "seed": 2026,
+ "note": "synthetic illustrative patients; not MIMIC records",
+ "cases": [
+  {
+   "id": "s000-p0-i0",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.1,
+    "serum_potassium": 4.17,
+    "creatinine": 0.98,
+    "egfr": 60.3,
+    "hba1c": 5.3,
+    "fbs": 101.0,
+    "sbp": 132.0,
+    "dbp": 69.0,
+    "bmi": 29.1
+   },
+   "ingredients": [
+    "Barley",
+    "Mango, green raw",
+    "Carrot (Gajar)",
+    "Coconut, dry (Copra)",
+    "Bengal gram, whole (Kabuli chana)",
+    "Drumstick leaves (Moringa)",
+    "Ginger (Adrak)",
+    "Tamarind (Imli)"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p0-i1",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.1,
+    "serum_potassium": 4.17,
+    "creatinine": 0.98,
+    "egfr": 60.3,
+    "hba1c": 5.3,
+    "fbs": 101.0,
+    "sbp": 132.0,
+    "dbp": 69.0,
+    "bmi": 29.1
+   },
+   "ingredients": [
+    "Ragi (Finger millet)",
+    "Ash gourd (Petha)",
+    "Wheat flour, atta",
+    "Black gram dal (Urad dal)",
+    "Brinjal (Eggplant)",
+    "Bengal gram dal (Chana dal)",
+    "Mango, ripe",
+    "Amaranth seed, pale brown"
+   ],
+   "cuisine": "Any",
+   "equipment": "Microwave and kettle",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p0-i2",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.1,
+    "serum_potassium": 4.17,
+    "creatinine": 0.98,
+    "egfr": 60.3,
+    "hba1c": 5.3,
+    "fbs": 101.0,
+    "sbp": 132.0,
+    "dbp": 69.0,
+    "bmi": 29.1
+   },
+   "ingredients": [
+    "Maize, tender",
+    "Peas, fresh (Matar)",
+    "Onion stalk (Spring onion)",
+    "Ridge gourd (Tori)",
+    "Mutton (Goat meat)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p0-i3",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.1,
+    "serum_potassium": 4.17,
+    "creatinine": 0.98,
+    "egfr": 60.3,
+    "hba1c": 5.3,
+    "fbs": 101.0,
+    "sbp": 132.0,
+    "dbp": 69.0,
+    "bmi": 29.1
+   },
+   "ingredients": [
+    "Green gram, whole",
+    "Agathi leaves",
+    "Brinjal (Eggplant)",
+    "Orange",
+    "Lentil (Masoor dal)",
+    "Coconut, dry (Copra)"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p0-i4",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.1,
+    "serum_potassium": 4.17,
+    "creatinine": 0.98,
+    "egfr": 60.3,
+    "hba1c": 5.3,
+    "fbs": 101.0,
+    "sbp": 132.0,
+    "dbp": 69.0,
+    "bmi": 29.1
+   },
+   "ingredients": [
+    "Radish (Mooli)",
+    "Drumstick leaves (Moringa)",
+    "Plantain, green (Raw banana)",
+    "Papaya, ripe",
+    "Gooseberry (Amla)",
+    "Wheat, whole"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p0-i5",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.1,
+    "serum_potassium": 4.17,
+    "creatinine": 0.98,
+    "egfr": 60.3,
+    "hba1c": 5.3,
+    "fbs": 101.0,
+    "sbp": 132.0,
+    "dbp": 69.0,
+    "bmi": 29.1
+   },
+   "ingredients": [
+    "Bengal gram, whole (Kabuli chana)",
+    "Tomato, ripe",
+    "Strawberry",
+    "Apple",
+    "Potato (Aloo)",
+    "Ash gourd (Petha)",
+    "Fig (Anjeer)",
+    "Green chillies (Hari mirch)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop only",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p0-i6",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.1,
+    "serum_potassium": 4.17,
+    "creatinine": 0.98,
+    "egfr": 60.3,
+    "hba1c": 5.3,
+    "fbs": 101.0,
+    "sbp": 132.0,
+    "dbp": 69.0,
+    "bmi": 29.1
+   },
+   "ingredients": [
+    "Carrot (Gajar)",
+    "Capsicum, green (Bell pepper)",
+    "Paneer (Cottage cheese)",
+    "Colocasia (Arbi)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p0-i7",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.1,
+    "serum_potassium": 4.17,
+    "creatinine": 0.98,
+    "egfr": 60.3,
+    "hba1c": 5.3,
+    "fbs": 101.0,
+    "sbp": 132.0,
+    "dbp": 69.0,
+    "bmi": 29.1
+   },
+   "ingredients": [
+    "Jowar (Sorghum)",
+    "Ridge gourd (Tori)",
+    "Black gram, whole",
+    "Almonds (Badam)",
+    "Curd (Dahi/Yogurt)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p0-i8",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.1,
+    "serum_potassium": 4.17,
+    "creatinine": 0.98,
+    "egfr": 60.3,
+    "hba1c": 5.3,
+    "fbs": 101.0,
+    "sbp": 132.0,
+    "dbp": 69.0,
+    "bmi": 29.1
+   },
+   "ingredients": [
+    "Red gram dal (Toor dal)",
+    "Ladies finger (Bhindi/Okra)",
+    "Coconut, dry (Copra)",
+    "Beetroot (Chukandar)",
+    "Curd (Dahi/Yogurt)",
+    "Pomegranate (Anar)",
+    "Banana, ripe",
+    "Grapes, black"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": [
+    "dairy",
+    "vegetarian"
+   ]
+  },
+  {
+   "id": "s000-p0-i9",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.1,
+    "serum_potassium": 4.17,
+    "creatinine": 0.98,
+    "egfr": 60.3,
+    "hba1c": 5.3,
+    "fbs": 101.0,
+    "sbp": 132.0,
+    "dbp": 69.0,
+    "bmi": 29.1
+   },
+   "ingredients": [
+    "Wheat, whole",
+    "Cluster beans (Gawar)",
+    "Milk, cow (whole)",
+    "Strawberry",
+    "Papaya, ripe",
+    "Carrot (Gajar)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p1-i0",
+   "patient": {
+    "age": 39,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 144.1,
+    "serum_potassium": 4.44,
+    "creatinine": 1.18,
+    "egfr": 60.2,
+    "hba1c": 5.7,
+    "fbs": 92.0,
+    "sbp": 130.0,
+    "dbp": 74.0,
+    "bmi": 24.7
+   },
+   "ingredients": [
+    "Potato (Aloo)",
+    "Ladies finger (Bhindi/Okra)",
+    "Orange",
+    "Bengal gram dal (Chana dal)",
+    "Guava",
+    "Milk, cow (whole)"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p1-i1",
+   "patient": {
+    "age": 39,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 144.1,
+    "serum_potassium": 4.44,
+    "creatinine": 1.18,
+    "egfr": 60.2,
+    "hba1c": 5.7,
+    "fbs": 92.0,
+    "sbp": 130.0,
+    "dbp": 74.0,
+    "bmi": 24.7
+   },
+   "ingredients": [
+    "Tapioca (Cassava)",
+    "Cauliflower (Phool gobhi)",
+    "Chicken, breast",
+    "Pomegranate (Anar)",
+    "Rice, brown",
+    "Coconut, fresh (Nariyal)",
+    "Bitter gourd (Karela)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop only",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p1-i2",
+   "patient": {
+    "age": 39,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 144.1,
+    "serum_potassium": 4.44,
+    "creatinine": 1.18,
+    "egfr": 60.2,
+    "hba1c": 5.7,
+    "fbs": 92.0,
+    "sbp": 130.0,
+    "dbp": 74.0,
+    "bmi": 24.7
+   },
+   "ingredients": [
+    "Beetroot (Chukandar)",
+    "Plantain, green (Raw banana)",
+    "Mango, ripe",
+    "Amaranth seed, pale brown",
+    "Wheat, whole"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "20 minutes",
+   "exclusions": [
+    "vegetarian"
+   ]
+  },
+  {
+   "id": "s000-p1-i3",
+   "patient": {
+    "age": 39,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 144.1,
+    "serum_potassium": 4.44,
+    "creatinine": 1.18,
+    "egfr": 60.2,
+    "hba1c": 5.7,
+    "fbs": 92.0,
+    "sbp": 130.0,
+    "dbp": 74.0,
+    "bmi": 24.7
+   },
+   "ingredients": [
+    "Peas, dry (Matar)",
+    "Bitter gourd (Karela)",
+    "Sesame seeds (Til)",
+    "Egg, whole, boiled",
+    "Cashewnut (Kaju)",
+    "Peas, fresh (Matar)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "30 minutes",
+   "exclusions": [
+    "peanut",
+    "legumes"
+   ]
+  },
+  {
+   "id": "s000-p1-i4",
+   "patient": {
+    "age": 39,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 144.1,
+    "serum_potassium": 4.44,
+    "creatinine": 1.18,
+    "egfr": 60.2,
+    "hba1c": 5.7,
+    "fbs": 92.0,
+    "sbp": 130.0,
+    "dbp": 74.0,
+    "bmi": 24.7
+   },
+   "ingredients": [
+    "Yam (Suran)",
+    "Cabbage",
+    "Capsicum, green (Bell pepper)",
+    "Wheat flour, atta",
+    "Fig (Anjeer)",
+    "Sesame seeds (Til)",
+    "Rajmah (Kidney beans)",
+    "Green gram, whole"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p1-i5",
+   "patient": {
+    "age": 39,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 144.1,
+    "serum_potassium": 4.44,
+    "creatinine": 1.18,
+    "egfr": 60.2,
+    "hba1c": 5.7,
+    "fbs": 92.0,
+    "sbp": 130.0,
+    "dbp": 74.0,
+    "bmi": 24.7
+   },
+   "ingredients": [
+    "Bengal gram dal (Chana dal)",
+    "Mustard leaves (Sarson)",
+    "Colocasia (Arbi)",
+    "Cabbage",
+    "Ridge gourd (Tori)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Stovetop only",
+   "time_limit": "45 minutes",
+   "exclusions": [
+    "shellfish"
+   ]
+  },
+  {
+   "id": "s000-p1-i6",
+   "patient": {
+    "age": 39,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 144.1,
+    "serum_potassium": 4.44,
+    "creatinine": 1.18,
+    "egfr": 60.2,
+    "hba1c": 5.7,
+    "fbs": 92.0,
+    "sbp": 130.0,
+    "dbp": 74.0,
+    "bmi": 24.7
+   },
+   "ingredients": [
+    "Rajmah (Kidney beans)",
+    "Onion stalk (Spring onion)",
+    "Barley",
+    "Carrot (Gajar)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p1-i7",
+   "patient": {
+    "age": 39,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 144.1,
+    "serum_potassium": 4.44,
+    "creatinine": 1.18,
+    "egfr": 60.2,
+    "hba1c": 5.7,
+    "fbs": 92.0,
+    "sbp": 130.0,
+    "dbp": 74.0,
+    "bmi": 24.7
+   },
+   "ingredients": [
+    "Wheat flour, atta",
+    "Brinjal (Eggplant)",
+    "Papaya, ripe",
+    "Coriander leaves (Dhania)",
+    "Tamarind (Imli)",
+    "Red gram dal (Toor dal)",
+    "Peas, dry (Matar)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p1-i8",
+   "patient": {
+    "age": 39,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 144.1,
+    "serum_potassium": 4.44,
+    "creatinine": 1.18,
+    "egfr": 60.2,
+    "hba1c": 5.7,
+    "fbs": 92.0,
+    "sbp": 130.0,
+    "dbp": 74.0,
+    "bmi": 24.7
+   },
+   "ingredients": [
+    "Black gram dal (Urad dal)",
+    "Cabbage",
+    "Walnuts (Akhrot)",
+    "Paneer (Cottage cheese)",
+    "Rice, brown"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p1-i9",
+   "patient": {
+    "age": 39,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 144.1,
+    "serum_potassium": 4.44,
+    "creatinine": 1.18,
+    "egfr": 60.2,
+    "hba1c": 5.7,
+    "fbs": 92.0,
+    "sbp": 130.0,
+    "dbp": 74.0,
+    "bmi": 24.7
+   },
+   "ingredients": [
+    "Amaranth seed, pale brown",
+    "Cauliflower leaves",
+    "Maize, tender",
+    "Mango, ripe",
+    "Egg, whole, boiled",
+    "Coconut, dry (Copra)",
+    "Amaranth leaves, green",
+    "Pomegranate (Anar)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p2-i0",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.8,
+    "serum_potassium": 4.23,
+    "creatinine": 0.74,
+    "egfr": 104.2,
+    "hba1c": 5.6,
+    "fbs": 75.0,
+    "sbp": 118.0,
+    "dbp": 72.0,
+    "bmi": 22.7
+   },
+   "ingredients": [
+    "Colocasia (Arbi)",
+    "Tomato, ripe",
+    "Rajmah (Kidney beans)",
+    "Groundnut (Moongphali/Peanut)",
+    "Agathi leaves"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p2-i1",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.8,
+    "serum_potassium": 4.23,
+    "creatinine": 0.74,
+    "egfr": 104.2,
+    "hba1c": 5.6,
+    "fbs": 75.0,
+    "sbp": 118.0,
+    "dbp": 72.0,
+    "bmi": 22.7
+   },
+   "ingredients": [
+    "Bengal gram dal (Chana dal)",
+    "Ladies finger (Bhindi/Okra)",
+    "Onion stalk (Spring onion)",
+    "Soybean",
+    "Ash gourd (Petha)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p2-i2",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.8,
+    "serum_potassium": 4.23,
+    "creatinine": 0.74,
+    "egfr": 104.2,
+    "hba1c": 5.6,
+    "fbs": 75.0,
+    "sbp": 118.0,
+    "dbp": 72.0,
+    "bmi": 22.7
+   },
+   "ingredients": [
+    "Maize, dry",
+    "Mango, green raw",
+    "Pomegranate (Anar)",
+    "Guava",
+    "Black gram, whole",
+    "Potato (Aloo)",
+    "Bottle gourd (Lauki)",
+    "Bengal gram dal (Chana dal)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Stovetop only",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p2-i3",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.8,
+    "serum_potassium": 4.23,
+    "creatinine": 0.74,
+    "egfr": 104.2,
+    "hba1c": 5.6,
+    "fbs": 75.0,
+    "sbp": 118.0,
+    "dbp": 72.0,
+    "bmi": 22.7
+   },
+   "ingredients": [
+    "Sweet potato (Shakarkand)",
+    "Pumpkin (Kaddu)",
+    "Dates, dry",
+    "Rohu fish",
+    "Sesame seeds (Til)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "30 minutes",
+   "exclusions": [
+    "fish"
+   ]
+  },
+  {
+   "id": "s000-p2-i4",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.8,
+    "serum_potassium": 4.23,
+    "creatinine": 0.74,
+    "egfr": 104.2,
+    "hba1c": 5.6,
+    "fbs": 75.0,
+    "sbp": 118.0,
+    "dbp": 72.0,
+    "bmi": 22.7
+   },
+   "ingredients": [
+    "Barley",
+    "Cabbage",
+    "Yam (Suran)",
+    "Egg, whole, boiled",
+    "Green chillies (Hari mirch)",
+    "Chicken, breast"
+   ],
+   "cuisine": "Any",
+   "equipment": "Pressure cooker",
+   "time_limit": "20 minutes",
+   "exclusions": [
+    "vegetarian",
+    "egg"
+   ]
+  },
+  {
+   "id": "s000-p2-i5",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.8,
+    "serum_potassium": 4.23,
+    "creatinine": 0.74,
+    "egfr": 104.2,
+    "hba1c": 5.6,
+    "fbs": 75.0,
+    "sbp": 118.0,
+    "dbp": 72.0,
+    "bmi": 22.7
+   },
+   "ingredients": [
+    "Colocasia (Arbi)",
+    "Drumstick (Moringa pod)",
+    "Grapes, black",
+    "Red gram dal (Toor dal)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Pressure cooker",
+   "time_limit": "20 minutes",
+   "exclusions": [
+    "fish"
+   ]
+  },
+  {
+   "id": "s000-p2-i6",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.8,
+    "serum_potassium": 4.23,
+    "creatinine": 0.74,
+    "egfr": 104.2,
+    "hba1c": 5.6,
+    "fbs": 75.0,
+    "sbp": 118.0,
+    "dbp": 72.0,
+    "bmi": 22.7
+   },
+   "ingredients": [
+    "Green gram dal (Moong dal)",
+    "Mango, green raw",
+    "Garlic (Lahsun)",
+    "Rice, brown",
+    "Capsicum, green (Bell pepper)",
+    "Cucumber"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": [
+    "gluten",
+    "dairy"
+   ]
+  },
+  {
+   "id": "s000-p2-i7",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.8,
+    "serum_potassium": 4.23,
+    "creatinine": 0.74,
+    "egfr": 104.2,
+    "hba1c": 5.6,
+    "fbs": 75.0,
+    "sbp": 118.0,
+    "dbp": 72.0,
+    "bmi": 22.7
+   },
+   "ingredients": [
+    "Yam (Suran)",
+    "Ash gourd (Petha)",
+    "Bengal gram dal (Chana dal)",
+    "Lettuce"
+   ],
+   "cuisine": "Any",
+   "equipment": "Stovetop and oven",
+   "time_limit": "45 minutes",
+   "exclusions": [
+    "gluten"
+   ]
+  },
+  {
+   "id": "s000-p2-i8",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.8,
+    "serum_potassium": 4.23,
+    "creatinine": 0.74,
+    "egfr": 104.2,
+    "hba1c": 5.6,
+    "fbs": 75.0,
+    "sbp": 118.0,
+    "dbp": 72.0,
+    "bmi": 22.7
+   },
+   "ingredients": [
+    "Carrot (Gajar)",
+    "Pumpkin (Kaddu)",
+    "Almonds (Badam)",
+    "Coconut, fresh (Nariyal)",
+    "Ghee",
+    "Onion (Pyaz)",
+    "Jowar (Sorghum)",
+    "Banana, ripe"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s000-p2-i9",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.8,
+    "serum_potassium": 4.23,
+    "creatinine": 0.74,
+    "egfr": 104.2,
+    "hba1c": 5.6,
+    "fbs": 75.0,
+    "sbp": 118.0,
+    "dbp": 72.0,
+    "bmi": 22.7
+   },
+   "ingredients": [
+    "Red gram dal (Toor dal)",
+    "Brinjal (Eggplant)",
+    "Beetroot (Chukandar)",
+    "Milk, buffalo",
+    "Spinach (Palak)",
+    "Tomato, ripe"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "45 minutes",
+   "exclusions": [
+    "dairy",
+    "shellfish"
+   ]
+  },
+  {
+   "id": "s001-p0-i0",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 137.3,
+    "serum_potassium": 4.61,
+    "creatinine": 2.75,
+    "egfr": 26.2,
+    "hba1c": 5.8,
+    "fbs": 101.0,
+    "sbp": 123.0,
+    "dbp": 72.0,
+    "bmi": 33.3
+   },
+   "ingredients": [
+    "Rice, milled (white)",
+    "Fenugreek leaves (Methi)",
+    "Cauliflower (Phool gobhi)",
+    "Pomfret (White)"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Stovetop only",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p0-i1",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 137.3,
+    "serum_potassium": 4.61,
+    "creatinine": 2.75,
+    "egfr": 26.2,
+    "hba1c": 5.8,
+    "fbs": 101.0,
+    "sbp": 123.0,
+    "dbp": 72.0,
+    "bmi": 33.3
+   },
+   "ingredients": [
+    "Maize, tender",
+    "Agathi leaves",
+    "Khoya (Mawa)",
+    "Black gram dal (Urad dal)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "45 minutes",
+   "exclusions": [
+    "gluten"
+   ]
+  },
+  {
+   "id": "s001-p0-i2",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 137.3,
+    "serum_potassium": 4.61,
+    "creatinine": 2.75,
+    "egfr": 26.2,
+    "hba1c": 5.8,
+    "fbs": 101.0,
+    "sbp": 123.0,
+    "dbp": 72.0,
+    "bmi": 33.3
+   },
+   "ingredients": [
+    "Peas, dry (Matar)",
+    "Cauliflower leaves",
+    "Barley",
+    "Gooseberry (Amla)",
+    "Curry leaves (Kadi patta)",
+    "Green gram dal (Moong dal)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Microwave and kettle",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p0-i3",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 137.3,
+    "serum_potassium": 4.61,
+    "creatinine": 2.75,
+    "egfr": 26.2,
+    "hba1c": 5.8,
+    "fbs": 101.0,
+    "sbp": 123.0,
+    "dbp": 72.0,
+    "bmi": 33.3
+   },
+   "ingredients": [
+    "Carrot (Gajar)",
+    "Plantain, green (Raw banana)",
+    "Prawn (Jhinga)",
+    "Green gram dal (Moong dal)",
+    "Agathi leaves"
+   ],
+   "cuisine": "Any",
+   "equipment": "Microwave and kettle",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p0-i4",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 137.3,
+    "serum_potassium": 4.61,
+    "creatinine": 2.75,
+    "egfr": 26.2,
+    "hba1c": 5.8,
+    "fbs": 101.0,
+    "sbp": 123.0,
+    "dbp": 72.0,
+    "bmi": 33.3
+   },
+   "ingredients": [
+    "Colocasia (Arbi)",
+    "Capsicum, green (Bell pepper)",
+    "Bajra (Pearl millet)",
+    "Bottle gourd (Lauki)",
+    "Sweet potato (Shakarkand)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop and oven",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p0-i5",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 137.3,
+    "serum_potassium": 4.61,
+    "creatinine": 2.75,
+    "egfr": 26.2,
+    "hba1c": 5.8,
+    "fbs": 101.0,
+    "sbp": 123.0,
+    "dbp": 72.0,
+    "bmi": 33.3
+   },
+   "ingredients": [
+    "Yam (Suran)",
+    "Cauliflower leaves",
+    "Wheat, whole",
+    "Soybean",
+    "Tapioca (Cassava)",
+    "Jowar (Sorghum)",
+    "Coconut, fresh (Nariyal)",
+    "Carrot (Gajar)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop and oven",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p0-i6",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 137.3,
+    "serum_potassium": 4.61,
+    "creatinine": 2.75,
+    "egfr": 26.2,
+    "hba1c": 5.8,
+    "fbs": 101.0,
+    "sbp": 123.0,
+    "dbp": 72.0,
+    "bmi": 33.3
+   },
+   "ingredients": [
+    "Red gram dal (Toor dal)",
+    "Spinach (Palak)",
+    "Almonds (Badam)",
+    "Mustard leaves (Sarson)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p0-i7",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 137.3,
+    "serum_potassium": 4.61,
+    "creatinine": 2.75,
+    "egfr": 26.2,
+    "hba1c": 5.8,
+    "fbs": 101.0,
+    "sbp": 123.0,
+    "dbp": 72.0,
+    "bmi": 33.3
+   },
+   "ingredients": [
+    "Soybean",
+    "Onion stalk (Spring onion)",
+    "Yam (Suran)",
+    "Bottle gourd (Lauki)",
+    "Mango, green raw"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p0-i8",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 137.3,
+    "serum_potassium": 4.61,
+    "creatinine": 2.75,
+    "egfr": 26.2,
+    "hba1c": 5.8,
+    "fbs": 101.0,
+    "sbp": 123.0,
+    "dbp": 72.0,
+    "bmi": 33.3
+   },
+   "ingredients": [
+    "Rajmah (Kidney beans)",
+    "Pumpkin (Kaddu)",
+    "Pineapple (Ananas)",
+    "Rohu fish",
+    "Walnuts (Akhrot)",
+    "Curry leaves (Kadi patta)",
+    "Cluster beans (Gawar)",
+    "Amaranth leaves, green"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": [
+    "peanut",
+    "soy"
+   ]
+  },
+  {
+   "id": "s001-p0-i9",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 137.3,
+    "serum_potassium": 4.61,
+    "creatinine": 2.75,
+    "egfr": 26.2,
+    "hba1c": 5.8,
+    "fbs": 101.0,
+    "sbp": 123.0,
+    "dbp": 72.0,
+    "bmi": 33.3
+   },
+   "ingredients": [
+    "Colocasia (Arbi)",
+    "Bitter gourd (Karela)",
+    "Wheat flour, atta",
+    "Cauliflower (Phool gobhi)",
+    "Pumpkin (Kaddu)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Pressure cooker",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p1-i0",
+   "patient": {
+    "age": 71,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.9,
+    "serum_potassium": 4.78,
+    "creatinine": 2.74,
+    "egfr": 24.0,
+    "hba1c": 5.6,
+    "fbs": 85.0,
+    "sbp": 113.0,
+    "dbp": 79.0,
+    "bmi": 23.2
+   },
+   "ingredients": [
+    "Sweet potato (Shakarkand)",
+    "Ash gourd (Petha)",
+    "Colocasia leaves (Arbi leaves)",
+    "Curd (Dahi/Yogurt)",
+    "Curry leaves (Kadi patta)",
+    "Cluster beans (Gawar)",
+    "Coriander leaves (Dhania)",
+    "Maize, dry"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Pressure cooker",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p1-i1",
+   "patient": {
+    "age": 71,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.9,
+    "serum_potassium": 4.78,
+    "creatinine": 2.74,
+    "egfr": 24.0,
+    "hba1c": 5.6,
+    "fbs": 85.0,
+    "sbp": 113.0,
+    "dbp": 79.0,
+    "bmi": 23.2
+   },
+   "ingredients": [
+    "Bajra (Pearl millet)",
+    "Capsicum, green (Bell pepper)",
+    "Ladies finger (Bhindi/Okra)",
+    "Tapioca (Cassava)",
+    "Ash gourd (Petha)",
+    "Cluster beans (Gawar)",
+    "Maize, dry"
+   ],
+   "cuisine": "Any",
+   "equipment": "Pressure cooker",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p1-i2",
+   "patient": {
+    "age": 71,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.9,
+    "serum_potassium": 4.78,
+    "creatinine": 2.74,
+    "egfr": 24.0,
+    "hba1c": 5.6,
+    "fbs": 85.0,
+    "sbp": 113.0,
+    "dbp": 79.0,
+    "bmi": 23.2
+   },
+   "ingredients": [
+    "Sweet potato (Shakarkand)",
+    "Ladies finger (Bhindi/Okra)",
+    "Brinjal (Eggplant)",
+    "Peas, fresh (Matar)",
+    "Green gram, whole"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Stovetop only",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p1-i3",
+   "patient": {
+    "age": 71,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.9,
+    "serum_potassium": 4.78,
+    "creatinine": 2.74,
+    "egfr": 24.0,
+    "hba1c": 5.6,
+    "fbs": 85.0,
+    "sbp": 113.0,
+    "dbp": 79.0,
+    "bmi": 23.2
+   },
+   "ingredients": [
+    "Yam (Suran)",
+    "Plantain, green (Raw banana)",
+    "Pomfret (White)",
+    "Prawn (Jhinga)",
+    "Radish (Mooli)",
+    "Red gram dal (Toor dal)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p1-i4",
+   "patient": {
+    "age": 71,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.9,
+    "serum_potassium": 4.78,
+    "creatinine": 2.74,
+    "egfr": 24.0,
+    "hba1c": 5.6,
+    "fbs": 85.0,
+    "sbp": 113.0,
+    "dbp": 79.0,
+    "bmi": 23.2
+   },
+   "ingredients": [
+    "Green gram, whole",
+    "Capsicum, green (Bell pepper)",
+    "Barley",
+    "Black gram dal (Urad dal)",
+    "Carrot (Gajar)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Stovetop only",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p1-i5",
+   "patient": {
+    "age": 71,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.9,
+    "serum_potassium": 4.78,
+    "creatinine": 2.74,
+    "egfr": 24.0,
+    "hba1c": 5.6,
+    "fbs": 85.0,
+    "sbp": 113.0,
+    "dbp": 79.0,
+    "bmi": 23.2
+   },
+   "ingredients": [
+    "Bajra (Pearl millet)",
+    "Onion stalk (Spring onion)",
+    "Colocasia leaves (Arbi leaves)",
+    "Radish (Mooli)",
+    "Peas, dry (Matar)",
+    "Ginger (Adrak)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Stovetop only",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p1-i6",
+   "patient": {
+    "age": 71,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.9,
+    "serum_potassium": 4.78,
+    "creatinine": 2.74,
+    "egfr": 24.0,
+    "hba1c": 5.6,
+    "fbs": 85.0,
+    "sbp": 113.0,
+    "dbp": 79.0,
+    "bmi": 23.2
+   },
+   "ingredients": [
+    "Black gram, whole",
+    "Brinjal (Eggplant)",
+    "Ridge gourd (Tori)",
+    "Ash gourd (Petha)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Stovetop only",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p1-i7",
+   "patient": {
+    "age": 71,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.9,
+    "serum_potassium": 4.78,
+    "creatinine": 2.74,
+    "egfr": 24.0,
+    "hba1c": 5.6,
+    "fbs": 85.0,
+    "sbp": 113.0,
+    "dbp": 79.0,
+    "bmi": 23.2
+   },
+   "ingredients": [
+    "Black gram, whole",
+    "Ridge gourd (Tori)",
+    "Yam (Suran)",
+    "Colocasia (Arbi)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Stovetop only",
+   "time_limit": "20 minutes",
+   "exclusions": [
+    "soy",
+    "fish"
+   ]
+  },
+  {
+   "id": "s001-p1-i8",
+   "patient": {
+    "age": 71,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.9,
+    "serum_potassium": 4.78,
+    "creatinine": 2.74,
+    "egfr": 24.0,
+    "hba1c": 5.6,
+    "fbs": 85.0,
+    "sbp": 113.0,
+    "dbp": 79.0,
+    "bmi": 23.2
+   },
+   "ingredients": [
+    "Colocasia (Arbi)",
+    "Ridge gourd (Tori)",
+    "Ash gourd (Petha)",
+    "Egg, whole, boiled",
+    "Groundnut (Moongphali/Peanut)",
+    "Drumstick leaves (Moringa)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": [
+    "legumes",
+    "vegetarian"
+   ]
+  },
+  {
+   "id": "s001-p1-i9",
+   "patient": {
+    "age": 71,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.9,
+    "serum_potassium": 4.78,
+    "creatinine": 2.74,
+    "egfr": 24.0,
+    "hba1c": 5.6,
+    "fbs": 85.0,
+    "sbp": 113.0,
+    "dbp": 79.0,
+    "bmi": 23.2
+   },
+   "ingredients": [
+    "Bengal gram dal (Chana dal)",
+    "Mango, green raw",
+    "Cabbage",
+    "Papaya, ripe",
+    "Drumstick leaves (Moringa)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p2-i0",
+   "patient": {
+    "age": 59,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 136.1,
+    "serum_potassium": 5.4,
+    "creatinine": 3.2,
+    "egfr": 16.1,
+    "hba1c": 5.4,
+    "fbs": 96.0,
+    "sbp": 116.0,
+    "dbp": 73.0,
+    "bmi": 26.9
+   },
+   "ingredients": [
+    "Potato (Aloo)",
+    "Mustard leaves (Sarson)",
+    "Ridge gourd (Tori)",
+    "Colocasia leaves (Arbi leaves)",
+    "Peas, dry (Matar)",
+    "Guava",
+    "Mutton (Goat meat)",
+    "Green chillies (Hari mirch)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p2-i1",
+   "patient": {
+    "age": 59,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 136.1,
+    "serum_potassium": 5.4,
+    "creatinine": 3.2,
+    "egfr": 16.1,
+    "hba1c": 5.4,
+    "fbs": 96.0,
+    "sbp": 116.0,
+    "dbp": 73.0,
+    "bmi": 26.9
+   },
+   "ingredients": [
+    "Wheat flour, atta",
+    "Spinach (Palak)",
+    "Cucumber",
+    "Bitter gourd (Karela)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop and oven",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p2-i2",
+   "patient": {
+    "age": 59,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 136.1,
+    "serum_potassium": 5.4,
+    "creatinine": 3.2,
+    "egfr": 16.1,
+    "hba1c": 5.4,
+    "fbs": 96.0,
+    "sbp": 116.0,
+    "dbp": 73.0,
+    "bmi": 26.9
+   },
+   "ingredients": [
+    "Green gram, whole",
+    "Cauliflower leaves",
+    "Fenugreek leaves (Methi)",
+    "Ladies finger (Bhindi/Okra)",
+    "Lentil (Masoor dal)",
+    "Yam (Suran)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p2-i3",
+   "patient": {
+    "age": 59,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 136.1,
+    "serum_potassium": 5.4,
+    "creatinine": 3.2,
+    "egfr": 16.1,
+    "hba1c": 5.4,
+    "fbs": 96.0,
+    "sbp": 116.0,
+    "dbp": 73.0,
+    "bmi": 26.9
+   },
+   "ingredients": [
+    "Rajmah (Kidney beans)",
+    "Peas, fresh (Matar)",
+    "Bajra (Pearl millet)",
+    "Tapioca (Cassava)",
+    "Ghee",
+    "Ladies finger (Bhindi/Okra)",
+    "Walnuts (Akhrot)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p2-i4",
+   "patient": {
+    "age": 59,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 136.1,
+    "serum_potassium": 5.4,
+    "creatinine": 3.2,
+    "egfr": 16.1,
+    "hba1c": 5.4,
+    "fbs": 96.0,
+    "sbp": 116.0,
+    "dbp": 73.0,
+    "bmi": 26.9
+   },
+   "ingredients": [
+    "Bengal gram, whole (Kabuli chana)",
+    "Onion stalk (Spring onion)",
+    "Ragi (Finger millet)",
+    "Banana, ripe",
+    "Khoya (Mawa)",
+    "Soybean"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": [
+    "peanut",
+    "fish"
+   ]
+  },
+  {
+   "id": "s001-p2-i5",
+   "patient": {
+    "age": 59,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 136.1,
+    "serum_potassium": 5.4,
+    "creatinine": 3.2,
+    "egfr": 16.1,
+    "hba1c": 5.4,
+    "fbs": 96.0,
+    "sbp": 116.0,
+    "dbp": 73.0,
+    "bmi": 26.9
+   },
+   "ingredients": [
+    "Radish (Mooli)",
+    "Ridge gourd (Tori)",
+    "Amaranth seed, pale brown",
+    "Jowar (Sorghum)",
+    "Egg, whole, boiled",
+    "Drumstick leaves (Moringa)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Stovetop and oven",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p2-i6",
+   "patient": {
+    "age": 59,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 136.1,
+    "serum_potassium": 5.4,
+    "creatinine": 3.2,
+    "egfr": 16.1,
+    "hba1c": 5.4,
+    "fbs": 96.0,
+    "sbp": 116.0,
+    "dbp": 73.0,
+    "bmi": 26.9
+   },
+   "ingredients": [
+    "Amaranth seed, black",
+    "Lettuce",
+    "Orange",
+    "Carrot (Gajar)",
+    "Bottle gourd (Lauki)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop only",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p2-i7",
+   "patient": {
+    "age": 59,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 136.1,
+    "serum_potassium": 5.4,
+    "creatinine": 3.2,
+    "egfr": 16.1,
+    "hba1c": 5.4,
+    "fbs": 96.0,
+    "sbp": 116.0,
+    "dbp": 73.0,
+    "bmi": 26.9
+   },
+   "ingredients": [
+    "Green gram, whole",
+    "Lettuce",
+    "Bengal gram dal (Chana dal)",
+    "Peas, dry (Matar)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p2-i8",
+   "patient": {
+    "age": 59,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 136.1,
+    "serum_potassium": 5.4,
+    "creatinine": 3.2,
+    "egfr": 16.1,
+    "hba1c": 5.4,
+    "fbs": 96.0,
+    "sbp": 116.0,
+    "dbp": 73.0,
+    "bmi": 26.9
+   },
+   "ingredients": [
+    "Peas, dry (Matar)",
+    "Colocasia leaves (Arbi leaves)",
+    "Paneer (Cottage cheese)",
+    "Cluster beans (Gawar)",
+    "Wheat flour, atta"
+   ],
+   "cuisine": "Any",
+   "equipment": "Pressure cooker",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s001-p2-i9",
+   "patient": {
+    "age": 59,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 136.1,
+    "serum_potassium": 5.4,
+    "creatinine": 3.2,
+    "egfr": 16.1,
+    "hba1c": 5.4,
+    "fbs": 96.0,
+    "sbp": 116.0,
+    "dbp": 73.0,
+    "bmi": 26.9
+   },
+   "ingredients": [
+    "Amaranth seed, black",
+    "Drumstick (Moringa pod)",
+    "Maize, dry",
+    "Agathi leaves",
+    "Tapioca (Cassava)",
+    "Chicken, breast",
+    "Carrot (Gajar)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop and oven",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p0-i0",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 140.3,
+    "serum_potassium": 4.22,
+    "creatinine": 1.01,
+    "egfr": 58.7,
+    "hba1c": 6.5,
+    "fbs": 197.0,
+    "sbp": 121.0,
+    "dbp": 72.0,
+    "bmi": 27.0
+   },
+   "ingredients": [
+    "Wheat, whole",
+    "Mango, green raw",
+    "Pomegranate (Anar)",
+    "Spinach (Palak)",
+    "Strawberry",
+    "Drumstick (Moringa pod)",
+    "Jowar (Sorghum)",
+    "Coconut, dry (Copra)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p0-i1",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 140.3,
+    "serum_potassium": 4.22,
+    "creatinine": 1.01,
+    "egfr": 58.7,
+    "hba1c": 6.5,
+    "fbs": 197.0,
+    "sbp": 121.0,
+    "dbp": 72.0,
+    "bmi": 27.0
+   },
+   "ingredients": [
+    "Rice, brown",
+    "Spinach (Palak)",
+    "Cabbage",
+    "Pumpkin (Kaddu)",
+    "Bottle gourd (Lauki)",
+    "Carrot (Gajar)",
+    "Chicken, breast"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Stovetop only",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p0-i2",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 140.3,
+    "serum_potassium": 4.22,
+    "creatinine": 1.01,
+    "egfr": 58.7,
+    "hba1c": 6.5,
+    "fbs": 197.0,
+    "sbp": 121.0,
+    "dbp": 72.0,
+    "bmi": 27.0
+   },
+   "ingredients": [
+    "Radish (Mooli)",
+    "Bottle gourd (Lauki)",
+    "Milk, buffalo",
+    "Pomfret (White)",
+    "Cauliflower (Phool gobhi)",
+    "Pomegranate (Anar)",
+    "Onion (Pyaz)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Stovetop and oven",
+   "time_limit": "45 minutes",
+   "exclusions": [
+    "soy",
+    "fish"
+   ]
+  },
+  {
+   "id": "s010-p0-i3",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 140.3,
+    "serum_potassium": 4.22,
+    "creatinine": 1.01,
+    "egfr": 58.7,
+    "hba1c": 6.5,
+    "fbs": 197.0,
+    "sbp": 121.0,
+    "dbp": 72.0,
+    "bmi": 27.0
+   },
+   "ingredients": [
+    "Maize, dry",
+    "Bottle gourd (Lauki)",
+    "Soybean",
+    "Sardine (Mathi)",
+    "Spinach (Palak)",
+    "Potato (Aloo)",
+    "Colocasia (Arbi)",
+    "Tomato, ripe"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Pressure cooker",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p0-i4",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 140.3,
+    "serum_potassium": 4.22,
+    "creatinine": 1.01,
+    "egfr": 58.7,
+    "hba1c": 6.5,
+    "fbs": 197.0,
+    "sbp": 121.0,
+    "dbp": 72.0,
+    "bmi": 27.0
+   },
+   "ingredients": [
+    "Black gram dal (Urad dal)",
+    "Cucumber",
+    "Gooseberry (Amla)",
+    "Carrot (Gajar)",
+    "Potato (Aloo)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Microwave and kettle",
+   "time_limit": "30 minutes",
+   "exclusions": [
+    "egg"
+   ]
+  },
+  {
+   "id": "s010-p0-i5",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 140.3,
+    "serum_potassium": 4.22,
+    "creatinine": 1.01,
+    "egfr": 58.7,
+    "hba1c": 6.5,
+    "fbs": 197.0,
+    "sbp": 121.0,
+    "dbp": 72.0,
+    "bmi": 27.0
+   },
+   "ingredients": [
+    "Green gram, whole",
+    "Colocasia leaves (Arbi leaves)",
+    "Plantain, green (Raw banana)",
+    "Coconut, fresh (Nariyal)",
+    "Apple",
+    "Radish (Mooli)"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Pressure cooker",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p0-i6",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 140.3,
+    "serum_potassium": 4.22,
+    "creatinine": 1.01,
+    "egfr": 58.7,
+    "hba1c": 6.5,
+    "fbs": 197.0,
+    "sbp": 121.0,
+    "dbp": 72.0,
+    "bmi": 27.0
+   },
+   "ingredients": [
+    "Peas, dry (Matar)",
+    "Agathi leaves",
+    "Chicken, breast",
+    "Lentil (Masoor dal)",
+    "Green gram dal (Moong dal)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Stovetop only",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p0-i7",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 140.3,
+    "serum_potassium": 4.22,
+    "creatinine": 1.01,
+    "egfr": 58.7,
+    "hba1c": 6.5,
+    "fbs": 197.0,
+    "sbp": 121.0,
+    "dbp": 72.0,
+    "bmi": 27.0
+   },
+   "ingredients": [
+    "Rice, brown",
+    "Mustard leaves (Sarson)",
+    "Soybean",
+    "Green gram, whole",
+    "Bitter gourd (Karela)",
+    "Sweet potato (Shakarkand)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p0-i8",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 140.3,
+    "serum_potassium": 4.22,
+    "creatinine": 1.01,
+    "egfr": 58.7,
+    "hba1c": 6.5,
+    "fbs": 197.0,
+    "sbp": 121.0,
+    "dbp": 72.0,
+    "bmi": 27.0
+   },
+   "ingredients": [
+    "Maize, dry",
+    "Drumstick leaves (Moringa)",
+    "Egg, whole, boiled",
+    "Agathi leaves"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p0-i9",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 140.3,
+    "serum_potassium": 4.22,
+    "creatinine": 1.01,
+    "egfr": 58.7,
+    "hba1c": 6.5,
+    "fbs": 197.0,
+    "sbp": 121.0,
+    "dbp": 72.0,
+    "bmi": 27.0
+   },
+   "ingredients": [
+    "Rice, milled (white)",
+    "Cucumber",
+    "Plantain, green (Raw banana)",
+    "Sweet potato (Shakarkand)",
+    "Wheat, whole",
+    "Papaya, ripe",
+    "Milk, buffalo",
+    "Mutton (Goat meat)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Pressure cooker",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p1-i0",
+   "patient": {
+    "age": 48,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.9,
+    "serum_potassium": 3.86,
+    "creatinine": 1.14,
+    "egfr": 59.2,
+    "hba1c": 7.8,
+    "fbs": 190.0,
+    "sbp": 114.0,
+    "dbp": 76.0,
+    "bmi": 25.8
+   },
+   "ingredients": [
+    "Black gram, whole",
+    "Ash gourd (Petha)",
+    "Bengal gram dal (Chana dal)",
+    "Peas, fresh (Matar)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Stovetop and oven",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p1-i1",
+   "patient": {
+    "age": 48,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.9,
+    "serum_potassium": 3.86,
+    "creatinine": 1.14,
+    "egfr": 59.2,
+    "hba1c": 7.8,
+    "fbs": 190.0,
+    "sbp": 114.0,
+    "dbp": 76.0,
+    "bmi": 25.8
+   },
+   "ingredients": [
+    "Carrot (Gajar)",
+    "Ash gourd (Petha)",
+    "Beetroot (Chukandar)",
+    "Amaranth leaves, green",
+    "Wheat, whole"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Pressure cooker",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p1-i2",
+   "patient": {
+    "age": 48,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.9,
+    "serum_potassium": 3.86,
+    "creatinine": 1.14,
+    "egfr": 59.2,
+    "hba1c": 7.8,
+    "fbs": 190.0,
+    "sbp": 114.0,
+    "dbp": 76.0,
+    "bmi": 25.8
+   },
+   "ingredients": [
+    "Ragi (Finger millet)",
+    "Cucumber",
+    "Colocasia leaves (Arbi leaves)",
+    "Pumpkin (Kaddu)",
+    "Rajmah (Kidney beans)",
+    "Radish (Mooli)",
+    "Gooseberry (Amla)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop and oven",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p1-i3",
+   "patient": {
+    "age": 48,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.9,
+    "serum_potassium": 3.86,
+    "creatinine": 1.14,
+    "egfr": 59.2,
+    "hba1c": 7.8,
+    "fbs": 190.0,
+    "sbp": 114.0,
+    "dbp": 76.0,
+    "bmi": 25.8
+   },
+   "ingredients": [
+    "Yam (Suran)",
+    "Ladies finger (Bhindi/Okra)",
+    "Mint leaves (Pudina)",
+    "Pomegranate (Anar)",
+    "Wheat, whole",
+    "Colocasia leaves (Arbi leaves)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Stovetop only",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p1-i4",
+   "patient": {
+    "age": 48,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.9,
+    "serum_potassium": 3.86,
+    "creatinine": 1.14,
+    "egfr": 59.2,
+    "hba1c": 7.8,
+    "fbs": 190.0,
+    "sbp": 114.0,
+    "dbp": 76.0,
+    "bmi": 25.8
+   },
+   "ingredients": [
+    "Soybean",
+    "Colocasia leaves (Arbi leaves)",
+    "Milk, cow (whole)",
+    "Rajmah (Kidney beans)",
+    "Black gram dal (Urad dal)",
+    "Cauliflower leaves",
+    "Coconut, dry (Copra)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop only",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p1-i5",
+   "patient": {
+    "age": 48,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.9,
+    "serum_potassium": 3.86,
+    "creatinine": 1.14,
+    "egfr": 59.2,
+    "hba1c": 7.8,
+    "fbs": 190.0,
+    "sbp": 114.0,
+    "dbp": 76.0,
+    "bmi": 25.8
+   },
+   "ingredients": [
+    "Rajmah (Kidney beans)",
+    "Cauliflower leaves",
+    "Brinjal (Eggplant)",
+    "Chicken, leg",
+    "Plantain, green (Raw banana)",
+    "Apple"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Pressure cooker",
+   "time_limit": "20 minutes",
+   "exclusions": [
+    "egg",
+    "fish"
+   ]
+  },
+  {
+   "id": "s010-p1-i6",
+   "patient": {
+    "age": 48,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.9,
+    "serum_potassium": 3.86,
+    "creatinine": 1.14,
+    "egfr": 59.2,
+    "hba1c": 7.8,
+    "fbs": 190.0,
+    "sbp": 114.0,
+    "dbp": 76.0,
+    "bmi": 25.8
+   },
+   "ingredients": [
+    "Colocasia (Arbi)",
+    "Capsicum, green (Bell pepper)",
+    "Drumstick leaves (Moringa)",
+    "Peas, fresh (Matar)",
+    "Orange",
+    "Ridge gourd (Tori)",
+    "Mint leaves (Pudina)",
+    "Cashewnut (Kaju)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Stovetop and oven",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p1-i7",
+   "patient": {
+    "age": 48,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.9,
+    "serum_potassium": 3.86,
+    "creatinine": 1.14,
+    "egfr": 59.2,
+    "hba1c": 7.8,
+    "fbs": 190.0,
+    "sbp": 114.0,
+    "dbp": 76.0,
+    "bmi": 25.8
+   },
+   "ingredients": [
+    "Yam (Suran)",
+    "Colocasia leaves (Arbi leaves)",
+    "Papaya, ripe",
+    "Onion stalk (Spring onion)"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Stovetop only",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p1-i8",
+   "patient": {
+    "age": 48,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.9,
+    "serum_potassium": 3.86,
+    "creatinine": 1.14,
+    "egfr": 59.2,
+    "hba1c": 7.8,
+    "fbs": 190.0,
+    "sbp": 114.0,
+    "dbp": 76.0,
+    "bmi": 25.8
+   },
+   "ingredients": [
+    "Rice, milled (white)",
+    "Bitter gourd (Karela)",
+    "Garlic (Lahsun)",
+    "Maize, dry"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": [
+    "vegetarian",
+    "gluten"
+   ]
+  },
+  {
+   "id": "s010-p1-i9",
+   "patient": {
+    "age": 48,
+    "sex_male": 0,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.9,
+    "serum_potassium": 3.86,
+    "creatinine": 1.14,
+    "egfr": 59.2,
+    "hba1c": 7.8,
+    "fbs": 190.0,
+    "sbp": 114.0,
+    "dbp": 76.0,
+    "bmi": 25.8
+   },
+   "ingredients": [
+    "Green gram, whole",
+    "Ash gourd (Petha)",
+    "Cucumber",
+    "Barley"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "20 minutes",
+   "exclusions": [
+    "peanut"
+   ]
+  },
+  {
+   "id": "s010-p2-i0",
+   "patient": {
+    "age": 43,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.8,
+    "serum_potassium": 4.42,
+    "creatinine": 1.18,
+    "egfr": 78.9,
+    "hba1c": 7.1,
+    "fbs": 214.0,
+    "sbp": 106.0,
+    "dbp": 71.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Amaranth seed, pale brown",
+    "Fenugreek leaves (Methi)",
+    "Egg, whole, boiled",
+    "Mint leaves (Pudina)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Stovetop and oven",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p2-i1",
+   "patient": {
+    "age": 43,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.8,
+    "serum_potassium": 4.42,
+    "creatinine": 1.18,
+    "egfr": 78.9,
+    "hba1c": 7.1,
+    "fbs": 214.0,
+    "sbp": 106.0,
+    "dbp": 71.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Rice, milled (white)",
+    "Ridge gourd (Tori)",
+    "Drumstick (Moringa pod)",
+    "Ghee",
+    "Papaya, ripe"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Pressure cooker",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p2-i2",
+   "patient": {
+    "age": 43,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.8,
+    "serum_potassium": 4.42,
+    "creatinine": 1.18,
+    "egfr": 78.9,
+    "hba1c": 7.1,
+    "fbs": 214.0,
+    "sbp": 106.0,
+    "dbp": 71.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Bengal gram, whole (Kabuli chana)",
+    "Bitter gourd (Karela)",
+    "Mustard leaves (Sarson)",
+    "Ginger (Adrak)",
+    "Agathi leaves",
+    "Guava",
+    "Amaranth leaves, green"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p2-i3",
+   "patient": {
+    "age": 43,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.8,
+    "serum_potassium": 4.42,
+    "creatinine": 1.18,
+    "egfr": 78.9,
+    "hba1c": 7.1,
+    "fbs": 214.0,
+    "sbp": 106.0,
+    "dbp": 71.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Black gram, whole",
+    "Tomato, ripe",
+    "Watermelon (Tarbooz)",
+    "Colocasia leaves (Arbi leaves)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p2-i4",
+   "patient": {
+    "age": 43,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.8,
+    "serum_potassium": 4.42,
+    "creatinine": 1.18,
+    "egfr": 78.9,
+    "hba1c": 7.1,
+    "fbs": 214.0,
+    "sbp": 106.0,
+    "dbp": 71.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Rice, milled (white)",
+    "Cucumber",
+    "Bitter gourd (Karela)",
+    "Pomfret (White)",
+    "Grapes, black",
+    "Chicken, leg",
+    "Curry leaves (Kadi patta)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "30 minutes",
+   "exclusions": [
+    "legumes"
+   ]
+  },
+  {
+   "id": "s010-p2-i5",
+   "patient": {
+    "age": 43,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.8,
+    "serum_potassium": 4.42,
+    "creatinine": 1.18,
+    "egfr": 78.9,
+    "hba1c": 7.1,
+    "fbs": 214.0,
+    "sbp": 106.0,
+    "dbp": 71.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Lentil (Masoor dal)",
+    "Bottle gourd (Lauki)",
+    "Red gram dal (Toor dal)",
+    "Orange",
+    "Banana, ripe",
+    "Black gram dal (Urad dal)",
+    "Bengal gram, whole (Kabuli chana)",
+    "Fig (Anjeer)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p2-i6",
+   "patient": {
+    "age": 43,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.8,
+    "serum_potassium": 4.42,
+    "creatinine": 1.18,
+    "egfr": 78.9,
+    "hba1c": 7.1,
+    "fbs": 214.0,
+    "sbp": 106.0,
+    "dbp": 71.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Amaranth seed, pale brown",
+    "Drumstick (Moringa pod)",
+    "Potato (Aloo)",
+    "Bitter gourd (Karela)",
+    "Pumpkin (Kaddu)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Stovetop only",
+   "time_limit": "Any",
+   "exclusions": [
+    "dairy"
+   ]
+  },
+  {
+   "id": "s010-p2-i7",
+   "patient": {
+    "age": 43,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.8,
+    "serum_potassium": 4.42,
+    "creatinine": 1.18,
+    "egfr": 78.9,
+    "hba1c": 7.1,
+    "fbs": 214.0,
+    "sbp": 106.0,
+    "dbp": 71.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Green gram, whole",
+    "Colocasia leaves (Arbi leaves)",
+    "Peas, fresh (Matar)",
+    "Milk, cow (whole)"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Stovetop only",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s010-p2-i8",
+   "patient": {
+    "age": 43,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.8,
+    "serum_potassium": 4.42,
+    "creatinine": 1.18,
+    "egfr": 78.9,
+    "hba1c": 7.1,
+    "fbs": 214.0,
+    "sbp": 106.0,
+    "dbp": 71.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Rajmah (Kidney beans)",
+    "Cauliflower leaves",
+    "Maize, tender",
+    "Capsicum, green (Bell pepper)",
+    "Wheat, whole",
+    "Red gram dal (Toor dal)",
+    "Coconut, fresh (Nariyal)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop only",
+   "time_limit": "Any",
+   "exclusions": [
+    "dairy"
+   ]
+  },
+  {
+   "id": "s010-p2-i9",
+   "patient": {
+    "age": 43,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.8,
+    "serum_potassium": 4.42,
+    "creatinine": 1.18,
+    "egfr": 78.9,
+    "hba1c": 7.1,
+    "fbs": 214.0,
+    "sbp": 106.0,
+    "dbp": 71.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Tapioca (Cassava)",
+    "Drumstick (Moringa pod)",
+    "Curd (Dahi/Yogurt)",
+    "Chicken, breast"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Pressure cooker",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p0-i0",
+   "patient": {
+    "age": 39,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.0,
+    "serum_potassium": 4.32,
+    "creatinine": 2.91,
+    "egfr": 27.2,
+    "hba1c": 8.6,
+    "fbs": 164.0,
+    "sbp": 123.0,
+    "dbp": 76.0,
+    "bmi": 32.5
+   },
+   "ingredients": [
+    "Potato (Aloo)",
+    "Bitter gourd (Karela)",
+    "Peas, fresh (Matar)",
+    "Fenugreek leaves (Methi)",
+    "Radish (Mooli)",
+    "Apple",
+    "Papaya, ripe",
+    "Wheat, whole"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop only",
+   "time_limit": "Any",
+   "exclusions": [
+    "shellfish"
+   ]
+  },
+  {
+   "id": "s011-p0-i1",
+   "patient": {
+    "age": 39,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.0,
+    "serum_potassium": 4.32,
+    "creatinine": 2.91,
+    "egfr": 27.2,
+    "hba1c": 8.6,
+    "fbs": 164.0,
+    "sbp": 123.0,
+    "dbp": 76.0,
+    "bmi": 32.5
+   },
+   "ingredients": [
+    "Red gram dal (Toor dal)",
+    "Cabbage",
+    "Lettuce",
+    "Yam (Suran)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Pressure cooker",
+   "time_limit": "Any",
+   "exclusions": [
+    "shellfish",
+    "egg"
+   ]
+  },
+  {
+   "id": "s011-p0-i2",
+   "patient": {
+    "age": 39,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.0,
+    "serum_potassium": 4.32,
+    "creatinine": 2.91,
+    "egfr": 27.2,
+    "hba1c": 8.6,
+    "fbs": 164.0,
+    "sbp": 123.0,
+    "dbp": 76.0,
+    "bmi": 32.5
+   },
+   "ingredients": [
+    "Bajra (Pearl millet)",
+    "Ash gourd (Petha)",
+    "Rice, milled (white)",
+    "Mutton (Goat meat)",
+    "Egg, whole, boiled",
+    "Green gram dal (Moong dal)"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Pressure cooker",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p0-i3",
+   "patient": {
+    "age": 39,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.0,
+    "serum_potassium": 4.32,
+    "creatinine": 2.91,
+    "egfr": 27.2,
+    "hba1c": 8.6,
+    "fbs": 164.0,
+    "sbp": 123.0,
+    "dbp": 76.0,
+    "bmi": 32.5
+   },
+   "ingredients": [
+    "Radish (Mooli)",
+    "Drumstick leaves (Moringa)",
+    "Milk, buffalo",
+    "Drumstick (Moringa pod)",
+    "Soybean"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p0-i4",
+   "patient": {
+    "age": 39,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.0,
+    "serum_potassium": 4.32,
+    "creatinine": 2.91,
+    "egfr": 27.2,
+    "hba1c": 8.6,
+    "fbs": 164.0,
+    "sbp": 123.0,
+    "dbp": 76.0,
+    "bmi": 32.5
+   },
+   "ingredients": [
+    "Potato (Aloo)",
+    "Peas, fresh (Matar)",
+    "Curd (Dahi/Yogurt)",
+    "Watermelon (Tarbooz)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Stovetop and oven",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p0-i5",
+   "patient": {
+    "age": 39,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.0,
+    "serum_potassium": 4.32,
+    "creatinine": 2.91,
+    "egfr": 27.2,
+    "hba1c": 8.6,
+    "fbs": 164.0,
+    "sbp": 123.0,
+    "dbp": 76.0,
+    "bmi": 32.5
+   },
+   "ingredients": [
+    "Bajra (Pearl millet)",
+    "Fenugreek leaves (Methi)",
+    "Coconut, fresh (Nariyal)",
+    "Spinach (Palak)",
+    "Lettuce",
+    "Black gram dal (Urad dal)",
+    "Ridge gourd (Tori)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Pressure cooker",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p0-i6",
+   "patient": {
+    "age": 39,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.0,
+    "serum_potassium": 4.32,
+    "creatinine": 2.91,
+    "egfr": 27.2,
+    "hba1c": 8.6,
+    "fbs": 164.0,
+    "sbp": 123.0,
+    "dbp": 76.0,
+    "bmi": 32.5
+   },
+   "ingredients": [
+    "Beetroot (Chukandar)",
+    "Agathi leaves",
+    "Barley",
+    "Mango, green raw"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p0-i7",
+   "patient": {
+    "age": 39,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.0,
+    "serum_potassium": 4.32,
+    "creatinine": 2.91,
+    "egfr": 27.2,
+    "hba1c": 8.6,
+    "fbs": 164.0,
+    "sbp": 123.0,
+    "dbp": 76.0,
+    "bmi": 32.5
+   },
+   "ingredients": [
+    "Ragi (Finger millet)",
+    "Colocasia leaves (Arbi leaves)",
+    "Egg, whole, boiled",
+    "Rajmah (Kidney beans)",
+    "Mint leaves (Pudina)",
+    "Beetroot (Chukandar)",
+    "Groundnut (Moongphali/Peanut)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p0-i8",
+   "patient": {
+    "age": 39,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.0,
+    "serum_potassium": 4.32,
+    "creatinine": 2.91,
+    "egfr": 27.2,
+    "hba1c": 8.6,
+    "fbs": 164.0,
+    "sbp": 123.0,
+    "dbp": 76.0,
+    "bmi": 32.5
+   },
+   "ingredients": [
+    "Peas, dry (Matar)",
+    "Tomato, ripe",
+    "Lentil (Masoor dal)",
+    "Dates, dry",
+    "Spinach (Palak)",
+    "Bajra (Pearl millet)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Pressure cooker",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p0-i9",
+   "patient": {
+    "age": 39,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.0,
+    "serum_potassium": 4.32,
+    "creatinine": 2.91,
+    "egfr": 27.2,
+    "hba1c": 8.6,
+    "fbs": 164.0,
+    "sbp": 123.0,
+    "dbp": 76.0,
+    "bmi": 32.5
+   },
+   "ingredients": [
+    "Rajmah (Kidney beans)",
+    "Cauliflower leaves",
+    "Guava",
+    "Garlic (Lahsun)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop only",
+   "time_limit": "Any",
+   "exclusions": [
+    "fish"
+   ]
+  },
+  {
+   "id": "s011-p1-i0",
+   "patient": {
+    "age": 48,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 144.4,
+    "serum_potassium": 5.48,
+    "creatinine": 1.98,
+    "egfr": 40.8,
+    "hba1c": 8.7,
+    "fbs": 183.0,
+    "sbp": 121.0,
+    "dbp": 83.0,
+    "bmi": 23.3
+   },
+   "ingredients": [
+    "Yam (Suran)",
+    "Drumstick (Moringa pod)",
+    "Pomfret (White)",
+    "Guava",
+    "Chicken, breast",
+    "Cauliflower (Phool gobhi)",
+    "Spinach (Palak)"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p1-i1",
+   "patient": {
+    "age": 48,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 144.4,
+    "serum_potassium": 5.48,
+    "creatinine": 1.98,
+    "egfr": 40.8,
+    "hba1c": 8.7,
+    "fbs": 183.0,
+    "sbp": 121.0,
+    "dbp": 83.0,
+    "bmi": 23.3
+   },
+   "ingredients": [
+    "Rice, milled (white)",
+    "Mango, green raw",
+    "Bengal gram, whole (Kabuli chana)",
+    "Onion (Pyaz)",
+    "Tapioca (Cassava)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Microwave and kettle",
+   "time_limit": "30 minutes",
+   "exclusions": [
+    "egg"
+   ]
+  },
+  {
+   "id": "s011-p1-i2",
+   "patient": {
+    "age": 48,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 144.4,
+    "serum_potassium": 5.48,
+    "creatinine": 1.98,
+    "egfr": 40.8,
+    "hba1c": 8.7,
+    "fbs": 183.0,
+    "sbp": 121.0,
+    "dbp": 83.0,
+    "bmi": 23.3
+   },
+   "ingredients": [
+    "Radish (Mooli)",
+    "Drumstick leaves (Moringa)",
+    "Red gram dal (Toor dal)",
+    "Bengal gram dal (Chana dal)",
+    "Fenugreek leaves (Methi)",
+    "Tomato, ripe"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": [
+    "legumes",
+    "shellfish"
+   ]
+  },
+  {
+   "id": "s011-p1-i3",
+   "patient": {
+    "age": 48,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 144.4,
+    "serum_potassium": 5.48,
+    "creatinine": 1.98,
+    "egfr": 40.8,
+    "hba1c": 8.7,
+    "fbs": 183.0,
+    "sbp": 121.0,
+    "dbp": 83.0,
+    "bmi": 23.3
+   },
+   "ingredients": [
+    "Soybean",
+    "Drumstick (Moringa pod)",
+    "Mango, ripe",
+    "Mustard leaves (Sarson)",
+    "Carrot (Gajar)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Pressure cooker",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p1-i4",
+   "patient": {
+    "age": 48,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 144.4,
+    "serum_potassium": 5.48,
+    "creatinine": 1.98,
+    "egfr": 40.8,
+    "hba1c": 8.7,
+    "fbs": 183.0,
+    "sbp": 121.0,
+    "dbp": 83.0,
+    "bmi": 23.3
+   },
+   "ingredients": [
+    "Maize, dry",
+    "Plantain, green (Raw banana)",
+    "Green gram dal (Moong dal)",
+    "Guava",
+    "Ridge gourd (Tori)",
+    "Cashewnut (Kaju)",
+    "Watermelon (Tarbooz)",
+    "Milk, buffalo"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": [
+    "dairy",
+    "legumes"
+   ]
+  },
+  {
+   "id": "s011-p1-i5",
+   "patient": {
+    "age": 48,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 144.4,
+    "serum_potassium": 5.48,
+    "creatinine": 1.98,
+    "egfr": 40.8,
+    "hba1c": 8.7,
+    "fbs": 183.0,
+    "sbp": 121.0,
+    "dbp": 83.0,
+    "bmi": 23.3
+   },
+   "ingredients": [
+    "Ragi (Finger millet)",
+    "Drumstick leaves (Moringa)",
+    "Carrot (Gajar)",
+    "Brinjal (Eggplant)",
+    "Sesame seeds (Til)",
+    "Onion (Pyaz)",
+    "Beetroot (Chukandar)",
+    "Onion stalk (Spring onion)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Microwave and kettle",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p1-i6",
+   "patient": {
+    "age": 48,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 144.4,
+    "serum_potassium": 5.48,
+    "creatinine": 1.98,
+    "egfr": 40.8,
+    "hba1c": 8.7,
+    "fbs": 183.0,
+    "sbp": 121.0,
+    "dbp": 83.0,
+    "bmi": 23.3
+   },
+   "ingredients": [
+    "Amaranth seed, black",
+    "Plantain, green (Raw banana)",
+    "Gooseberry (Amla)",
+    "Tomato, ripe",
+    "Tamarind (Imli)",
+    "Mustard leaves (Sarson)",
+    "Yam (Suran)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop only",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p1-i7",
+   "patient": {
+    "age": 48,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 144.4,
+    "serum_potassium": 5.48,
+    "creatinine": 1.98,
+    "egfr": 40.8,
+    "hba1c": 8.7,
+    "fbs": 183.0,
+    "sbp": 121.0,
+    "dbp": 83.0,
+    "bmi": 23.3
+   },
+   "ingredients": [
+    "Ragi (Finger millet)",
+    "Cluster beans (Gawar)",
+    "Strawberry",
+    "Tamarind (Imli)",
+    "Apple"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p1-i8",
+   "patient": {
+    "age": 48,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 144.4,
+    "serum_potassium": 5.48,
+    "creatinine": 1.98,
+    "egfr": 40.8,
+    "hba1c": 8.7,
+    "fbs": 183.0,
+    "sbp": 121.0,
+    "dbp": 83.0,
+    "bmi": 23.3
+   },
+   "ingredients": [
+    "Wheat, whole",
+    "Ash gourd (Petha)",
+    "Wheat flour, atta",
+    "Bengal gram dal (Chana dal)",
+    "Black gram dal (Urad dal)",
+    "Colocasia leaves (Arbi leaves)",
+    "Apple",
+    "Black gram, whole"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop only",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p1-i9",
+   "patient": {
+    "age": 48,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 144.4,
+    "serum_potassium": 5.48,
+    "creatinine": 1.98,
+    "egfr": 40.8,
+    "hba1c": 8.7,
+    "fbs": 183.0,
+    "sbp": 121.0,
+    "dbp": 83.0,
+    "bmi": 23.3
+   },
+   "ingredients": [
+    "Ragi (Finger millet)",
+    "Mango, green raw",
+    "Amaranth seed, black",
+    "Bengal gram dal (Chana dal)",
+    "Rice, brown",
+    "Sardine (Mathi)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p2-i0",
+   "patient": {
+    "age": 70,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.5,
+    "serum_potassium": 5.22,
+    "creatinine": 3.92,
+    "egfr": 15.7,
+    "hba1c": 7.9,
+    "fbs": 194.0,
+    "sbp": 107.0,
+    "dbp": 77.0,
+    "bmi": 32.0
+   },
+   "ingredients": [
+    "Barley",
+    "Cauliflower leaves",
+    "Amaranth leaves, green",
+    "Tapioca (Cassava)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Pressure cooker",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p2-i1",
+   "patient": {
+    "age": 70,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.5,
+    "serum_potassium": 5.22,
+    "creatinine": 3.92,
+    "egfr": 15.7,
+    "hba1c": 7.9,
+    "fbs": 194.0,
+    "sbp": 107.0,
+    "dbp": 77.0,
+    "bmi": 32.0
+   },
+   "ingredients": [
+    "Bajra (Pearl millet)",
+    "Onion stalk (Spring onion)",
+    "Peas, dry (Matar)",
+    "Guava",
+    "Papaya, ripe"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p2-i2",
+   "patient": {
+    "age": 70,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.5,
+    "serum_potassium": 5.22,
+    "creatinine": 3.92,
+    "egfr": 15.7,
+    "hba1c": 7.9,
+    "fbs": 194.0,
+    "sbp": 107.0,
+    "dbp": 77.0,
+    "bmi": 32.0
+   },
+   "ingredients": [
+    "Bajra (Pearl millet)",
+    "Ash gourd (Petha)",
+    "Gooseberry (Amla)",
+    "Rice, brown",
+    "Guava",
+    "Watermelon (Tarbooz)",
+    "Ragi (Finger millet)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop only",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p2-i3",
+   "patient": {
+    "age": 70,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.5,
+    "serum_potassium": 5.22,
+    "creatinine": 3.92,
+    "egfr": 15.7,
+    "hba1c": 7.9,
+    "fbs": 194.0,
+    "sbp": 107.0,
+    "dbp": 77.0,
+    "bmi": 32.0
+   },
+   "ingredients": [
+    "Bengal gram, whole (Kabuli chana)",
+    "Cauliflower (Phool gobhi)",
+    "Cashewnut (Kaju)",
+    "Rice, brown",
+    "Spinach (Palak)",
+    "Ghee",
+    "Sweet potato (Shakarkand)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop only",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p2-i4",
+   "patient": {
+    "age": 70,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.5,
+    "serum_potassium": 5.22,
+    "creatinine": 3.92,
+    "egfr": 15.7,
+    "hba1c": 7.9,
+    "fbs": 194.0,
+    "sbp": 107.0,
+    "dbp": 77.0,
+    "bmi": 32.0
+   },
+   "ingredients": [
+    "Yam (Suran)",
+    "Cauliflower (Phool gobhi)",
+    "Lentil (Masoor dal)",
+    "Mint leaves (Pudina)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p2-i5",
+   "patient": {
+    "age": 70,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.5,
+    "serum_potassium": 5.22,
+    "creatinine": 3.92,
+    "egfr": 15.7,
+    "hba1c": 7.9,
+    "fbs": 194.0,
+    "sbp": 107.0,
+    "dbp": 77.0,
+    "bmi": 32.0
+   },
+   "ingredients": [
+    "Colocasia (Arbi)",
+    "Brinjal (Eggplant)",
+    "Plantain, green (Raw banana)",
+    "Egg, whole, boiled",
+    "Rice, milled (white)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Stovetop only",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p2-i6",
+   "patient": {
+    "age": 70,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.5,
+    "serum_potassium": 5.22,
+    "creatinine": 3.92,
+    "egfr": 15.7,
+    "hba1c": 7.9,
+    "fbs": 194.0,
+    "sbp": 107.0,
+    "dbp": 77.0,
+    "bmi": 32.0
+   },
+   "ingredients": [
+    "Wheat flour, atta",
+    "Plantain, green (Raw banana)",
+    "Curry leaves (Kadi patta)",
+    "Cluster beans (Gawar)",
+    "Fenugreek leaves (Methi)",
+    "Chicken, leg",
+    "Mint leaves (Pudina)",
+    "Potato (Aloo)"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": [
+    "egg",
+    "dairy"
+   ]
+  },
+  {
+   "id": "s011-p2-i7",
+   "patient": {
+    "age": 70,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.5,
+    "serum_potassium": 5.22,
+    "creatinine": 3.92,
+    "egfr": 15.7,
+    "hba1c": 7.9,
+    "fbs": 194.0,
+    "sbp": 107.0,
+    "dbp": 77.0,
+    "bmi": 32.0
+   },
+   "ingredients": [
+    "Rice, milled (white)",
+    "Plantain, green (Raw banana)",
+    "Cauliflower leaves",
+    "Paneer (Cottage cheese)",
+    "Pomfret (White)",
+    "Chicken, breast"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p2-i8",
+   "patient": {
+    "age": 70,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.5,
+    "serum_potassium": 5.22,
+    "creatinine": 3.92,
+    "egfr": 15.7,
+    "hba1c": 7.9,
+    "fbs": 194.0,
+    "sbp": 107.0,
+    "dbp": 77.0,
+    "bmi": 32.0
+   },
+   "ingredients": [
+    "Yam (Suran)",
+    "Drumstick (Moringa pod)",
+    "Black gram dal (Urad dal)",
+    "Mint leaves (Pudina)",
+    "Mustard leaves (Sarson)",
+    "Amaranth seed, black"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s011-p2-i9",
+   "patient": {
+    "age": 70,
+    "sex_male": 1,
+    "has_htn": 0,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 135.5,
+    "serum_potassium": 5.22,
+    "creatinine": 3.92,
+    "egfr": 15.7,
+    "hba1c": 7.9,
+    "fbs": 194.0,
+    "sbp": 107.0,
+    "dbp": 77.0,
+    "bmi": 32.0
+   },
+   "ingredients": [
+    "Beetroot (Chukandar)",
+    "Cauliflower leaves",
+    "Groundnut (Moongphali/Peanut)",
+    "Mango, green raw"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p0-i0",
+   "patient": {
+    "age": 51,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 141.2,
+    "serum_potassium": 4.14,
+    "creatinine": 0.79,
+    "egfr": 107.4,
+    "hba1c": 5.6,
+    "fbs": 79.0,
+    "sbp": 153.0,
+    "dbp": 86.0,
+    "bmi": 21.2
+   },
+   "ingredients": [
+    "Red gram dal (Toor dal)",
+    "Brinjal (Eggplant)",
+    "Grapes, black",
+    "Egg, whole, boiled",
+    "Milk, buffalo",
+    "Mango, ripe"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p0-i1",
+   "patient": {
+    "age": 51,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 141.2,
+    "serum_potassium": 4.14,
+    "creatinine": 0.79,
+    "egfr": 107.4,
+    "hba1c": 5.6,
+    "fbs": 79.0,
+    "sbp": 153.0,
+    "dbp": 86.0,
+    "bmi": 21.2
+   },
+   "ingredients": [
+    "Amaranth seed, black",
+    "Lettuce",
+    "Tomato, ripe",
+    "Chicken, leg",
+    "Onion stalk (Spring onion)",
+    "Spinach (Palak)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p0-i2",
+   "patient": {
+    "age": 51,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 141.2,
+    "serum_potassium": 4.14,
+    "creatinine": 0.79,
+    "egfr": 107.4,
+    "hba1c": 5.6,
+    "fbs": 79.0,
+    "sbp": 153.0,
+    "dbp": 86.0,
+    "bmi": 21.2
+   },
+   "ingredients": [
+    "Black gram dal (Urad dal)",
+    "Bitter gourd (Karela)",
+    "Bajra (Pearl millet)",
+    "Paneer (Cottage cheese)",
+    "Capsicum, green (Bell pepper)",
+    "Sweet potato (Shakarkand)",
+    "Maize, tender"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p0-i3",
+   "patient": {
+    "age": 51,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 141.2,
+    "serum_potassium": 4.14,
+    "creatinine": 0.79,
+    "egfr": 107.4,
+    "hba1c": 5.6,
+    "fbs": 79.0,
+    "sbp": 153.0,
+    "dbp": 86.0,
+    "bmi": 21.2
+   },
+   "ingredients": [
+    "Rice, milled (white)",
+    "Drumstick leaves (Moringa)",
+    "Amaranth seed, black",
+    "Cauliflower leaves",
+    "Colocasia leaves (Arbi leaves)",
+    "Ragi (Finger millet)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": [
+    "dairy"
+   ]
+  },
+  {
+   "id": "s100-p0-i4",
+   "patient": {
+    "age": 51,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 141.2,
+    "serum_potassium": 4.14,
+    "creatinine": 0.79,
+    "egfr": 107.4,
+    "hba1c": 5.6,
+    "fbs": 79.0,
+    "sbp": 153.0,
+    "dbp": 86.0,
+    "bmi": 21.2
+   },
+   "ingredients": [
+    "Barley",
+    "Colocasia leaves (Arbi leaves)",
+    "Radish (Mooli)",
+    "Colocasia (Arbi)",
+    "Cashewnut (Kaju)",
+    "Tamarind (Imli)",
+    "Maize, tender",
+    "Capsicum, green (Bell pepper)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Stovetop only",
+   "time_limit": "20 minutes",
+   "exclusions": [
+    "tree_nuts",
+    "gluten"
+   ]
+  },
+  {
+   "id": "s100-p0-i5",
+   "patient": {
+    "age": 51,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 141.2,
+    "serum_potassium": 4.14,
+    "creatinine": 0.79,
+    "egfr": 107.4,
+    "hba1c": 5.6,
+    "fbs": 79.0,
+    "sbp": 153.0,
+    "dbp": 86.0,
+    "bmi": 21.2
+   },
+   "ingredients": [
+    "Colocasia (Arbi)",
+    "Mustard leaves (Sarson)",
+    "Garlic (Lahsun)",
+    "Chicken, leg"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p0-i6",
+   "patient": {
+    "age": 51,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 141.2,
+    "serum_potassium": 4.14,
+    "creatinine": 0.79,
+    "egfr": 107.4,
+    "hba1c": 5.6,
+    "fbs": 79.0,
+    "sbp": 153.0,
+    "dbp": 86.0,
+    "bmi": 21.2
+   },
+   "ingredients": [
+    "Potato (Aloo)",
+    "Agathi leaves",
+    "Egg, whole, boiled",
+    "Pomfret (White)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p0-i7",
+   "patient": {
+    "age": 51,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 141.2,
+    "serum_potassium": 4.14,
+    "creatinine": 0.79,
+    "egfr": 107.4,
+    "hba1c": 5.6,
+    "fbs": 79.0,
+    "sbp": 153.0,
+    "dbp": 86.0,
+    "bmi": 21.2
+   },
+   "ingredients": [
+    "Maize, tender",
+    "Bitter gourd (Karela)",
+    "Cluster beans (Gawar)",
+    "Peas, dry (Matar)",
+    "Cashewnut (Kaju)",
+    "Radish (Mooli)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": [
+    "dairy",
+    "gluten"
+   ]
+  },
+  {
+   "id": "s100-p0-i8",
+   "patient": {
+    "age": 51,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 141.2,
+    "serum_potassium": 4.14,
+    "creatinine": 0.79,
+    "egfr": 107.4,
+    "hba1c": 5.6,
+    "fbs": 79.0,
+    "sbp": 153.0,
+    "dbp": 86.0,
+    "bmi": 21.2
+   },
+   "ingredients": [
+    "Black gram dal (Urad dal)",
+    "Cauliflower leaves",
+    "Rohu fish",
+    "Amaranth seed, black",
+    "Brinjal (Eggplant)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p0-i9",
+   "patient": {
+    "age": 51,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 141.2,
+    "serum_potassium": 4.14,
+    "creatinine": 0.79,
+    "egfr": 107.4,
+    "hba1c": 5.6,
+    "fbs": 79.0,
+    "sbp": 153.0,
+    "dbp": 86.0,
+    "bmi": 21.2
+   },
+   "ingredients": [
+    "Maize, tender",
+    "Drumstick (Moringa pod)",
+    "Potato (Aloo)",
+    "Tamarind (Imli)",
+    "Peas, dry (Matar)",
+    "Cauliflower leaves"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": [
+    "dairy",
+    "gluten"
+   ]
+  },
+  {
+   "id": "s100-p1-i0",
+   "patient": {
+    "age": 77,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.7,
+    "serum_potassium": 4.46,
+    "creatinine": 0.74,
+    "egfr": 93.4,
+    "hba1c": 5.8,
+    "fbs": 87.0,
+    "sbp": 154.0,
+    "dbp": 91.0,
+    "bmi": 21.6
+   },
+   "ingredients": [
+    "Bajra (Pearl millet)",
+    "Onion stalk (Spring onion)",
+    "Rice, milled (white)",
+    "Amaranth seed, pale brown",
+    "Plantain, green (Raw banana)",
+    "Coriander leaves (Dhania)",
+    "Sesame seeds (Til)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop and oven",
+   "time_limit": "20 minutes",
+   "exclusions": [
+    "tree_nuts"
+   ]
+  },
+  {
+   "id": "s100-p1-i1",
+   "patient": {
+    "age": 77,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.7,
+    "serum_potassium": 4.46,
+    "creatinine": 0.74,
+    "egfr": 93.4,
+    "hba1c": 5.8,
+    "fbs": 87.0,
+    "sbp": 154.0,
+    "dbp": 91.0,
+    "bmi": 21.6
+   },
+   "ingredients": [
+    "Rice, milled (white)",
+    "Agathi leaves",
+    "Black gram dal (Urad dal)",
+    "Sweet potato (Shakarkand)",
+    "Milk, cow (whole)",
+    "Drumstick leaves (Moringa)",
+    "Papaya, ripe"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p1-i2",
+   "patient": {
+    "age": 77,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.7,
+    "serum_potassium": 4.46,
+    "creatinine": 0.74,
+    "egfr": 93.4,
+    "hba1c": 5.8,
+    "fbs": 87.0,
+    "sbp": 154.0,
+    "dbp": 91.0,
+    "bmi": 21.6
+   },
+   "ingredients": [
+    "Maize, tender",
+    "Agathi leaves",
+    "Milk, buffalo",
+    "Black gram, whole",
+    "Tomato, ripe",
+    "Spinach (Palak)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop and oven",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p1-i3",
+   "patient": {
+    "age": 77,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.7,
+    "serum_potassium": 4.46,
+    "creatinine": 0.74,
+    "egfr": 93.4,
+    "hba1c": 5.8,
+    "fbs": 87.0,
+    "sbp": 154.0,
+    "dbp": 91.0,
+    "bmi": 21.6
+   },
+   "ingredients": [
+    "Maize, tender",
+    "Lettuce",
+    "Plantain, green (Raw banana)",
+    "Pineapple (Ananas)",
+    "Rice, brown"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Pressure cooker",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p1-i4",
+   "patient": {
+    "age": 77,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.7,
+    "serum_potassium": 4.46,
+    "creatinine": 0.74,
+    "egfr": 93.4,
+    "hba1c": 5.8,
+    "fbs": 87.0,
+    "sbp": 154.0,
+    "dbp": 91.0,
+    "bmi": 21.6
+   },
+   "ingredients": [
+    "Colocasia (Arbi)",
+    "Mustard leaves (Sarson)",
+    "Maize, tender",
+    "Yam (Suran)",
+    "Onion stalk (Spring onion)",
+    "Drumstick leaves (Moringa)",
+    "Khoya (Mawa)",
+    "Bottle gourd (Lauki)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p1-i5",
+   "patient": {
+    "age": 77,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.7,
+    "serum_potassium": 4.46,
+    "creatinine": 0.74,
+    "egfr": 93.4,
+    "hba1c": 5.8,
+    "fbs": 87.0,
+    "sbp": 154.0,
+    "dbp": 91.0,
+    "bmi": 21.6
+   },
+   "ingredients": [
+    "Rice, brown",
+    "Pumpkin (Kaddu)",
+    "Ghee",
+    "Bengal gram, whole (Kabuli chana)",
+    "Cauliflower leaves",
+    "Cluster beans (Gawar)",
+    "Black gram, whole"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop and oven",
+   "time_limit": "45 minutes",
+   "exclusions": [
+    "gluten",
+    "soy"
+   ]
+  },
+  {
+   "id": "s100-p1-i6",
+   "patient": {
+    "age": 77,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.7,
+    "serum_potassium": 4.46,
+    "creatinine": 0.74,
+    "egfr": 93.4,
+    "hba1c": 5.8,
+    "fbs": 87.0,
+    "sbp": 154.0,
+    "dbp": 91.0,
+    "bmi": 21.6
+   },
+   "ingredients": [
+    "Jowar (Sorghum)",
+    "Drumstick leaves (Moringa)",
+    "Rice, brown",
+    "Capsicum, green (Bell pepper)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p1-i7",
+   "patient": {
+    "age": 77,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.7,
+    "serum_potassium": 4.46,
+    "creatinine": 0.74,
+    "egfr": 93.4,
+    "hba1c": 5.8,
+    "fbs": 87.0,
+    "sbp": 154.0,
+    "dbp": 91.0,
+    "bmi": 21.6
+   },
+   "ingredients": [
+    "Tapioca (Cassava)",
+    "Agathi leaves",
+    "Barley",
+    "Cucumber"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Microwave and kettle",
+   "time_limit": "45 minutes",
+   "exclusions": [
+    "gluten",
+    "egg"
+   ]
+  },
+  {
+   "id": "s100-p1-i8",
+   "patient": {
+    "age": 77,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.7,
+    "serum_potassium": 4.46,
+    "creatinine": 0.74,
+    "egfr": 93.4,
+    "hba1c": 5.8,
+    "fbs": 87.0,
+    "sbp": 154.0,
+    "dbp": 91.0,
+    "bmi": 21.6
+   },
+   "ingredients": [
+    "Green gram, whole",
+    "Fenugreek leaves (Methi)",
+    "Drumstick leaves (Moringa)",
+    "Maize, dry",
+    "Peas, fresh (Matar)",
+    "Walnuts (Akhrot)",
+    "Coriander leaves (Dhania)",
+    "Ghee"
+   ],
+   "cuisine": "Any",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p1-i9",
+   "patient": {
+    "age": 77,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.7,
+    "serum_potassium": 4.46,
+    "creatinine": 0.74,
+    "egfr": 93.4,
+    "hba1c": 5.8,
+    "fbs": 87.0,
+    "sbp": 154.0,
+    "dbp": 91.0,
+    "bmi": 21.6
+   },
+   "ingredients": [
+    "Amaranth seed, pale brown",
+    "Cauliflower leaves",
+    "Plantain, green (Raw banana)",
+    "Cabbage",
+    "Sweet potato (Shakarkand)",
+    "Spinach (Palak)"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p2-i0",
+   "patient": {
+    "age": 55,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.2,
+    "serum_potassium": 4.36,
+    "creatinine": 1.09,
+    "egfr": 80.0,
+    "hba1c": 5.9,
+    "fbs": 98.0,
+    "sbp": 174.0,
+    "dbp": 103.0,
+    "bmi": 23.0
+   },
+   "ingredients": [
+    "Green gram, whole",
+    "Lettuce",
+    "Cashewnut (Kaju)",
+    "Coconut, dry (Copra)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p2-i1",
+   "patient": {
+    "age": 55,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.2,
+    "serum_potassium": 4.36,
+    "creatinine": 1.09,
+    "egfr": 80.0,
+    "hba1c": 5.9,
+    "fbs": 98.0,
+    "sbp": 174.0,
+    "dbp": 103.0,
+    "bmi": 23.0
+   },
+   "ingredients": [
+    "Tapioca (Cassava)",
+    "Colocasia leaves (Arbi leaves)",
+    "Coconut, dry (Copra)",
+    "Ginger (Adrak)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop only",
+   "time_limit": "45 minutes",
+   "exclusions": [
+    "soy"
+   ]
+  },
+  {
+   "id": "s100-p2-i2",
+   "patient": {
+    "age": 55,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.2,
+    "serum_potassium": 4.36,
+    "creatinine": 1.09,
+    "egfr": 80.0,
+    "hba1c": 5.9,
+    "fbs": 98.0,
+    "sbp": 174.0,
+    "dbp": 103.0,
+    "bmi": 23.0
+   },
+   "ingredients": [
+    "Yam (Suran)",
+    "Brinjal (Eggplant)",
+    "Black gram, whole",
+    "Mustard leaves (Sarson)",
+    "Gooseberry (Amla)",
+    "Drumstick leaves (Moringa)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Pressure cooker",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p2-i3",
+   "patient": {
+    "age": 55,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.2,
+    "serum_potassium": 4.36,
+    "creatinine": 1.09,
+    "egfr": 80.0,
+    "hba1c": 5.9,
+    "fbs": 98.0,
+    "sbp": 174.0,
+    "dbp": 103.0,
+    "bmi": 23.0
+   },
+   "ingredients": [
+    "Yam (Suran)",
+    "Colocasia leaves (Arbi leaves)",
+    "Black gram, whole",
+    "Jowar (Sorghum)"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p2-i4",
+   "patient": {
+    "age": 55,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.2,
+    "serum_potassium": 4.36,
+    "creatinine": 1.09,
+    "egfr": 80.0,
+    "hba1c": 5.9,
+    "fbs": 98.0,
+    "sbp": 174.0,
+    "dbp": 103.0,
+    "bmi": 23.0
+   },
+   "ingredients": [
+    "Maize, dry",
+    "Peas, fresh (Matar)",
+    "Cabbage",
+    "Curd (Dahi/Yogurt)",
+    "Mint leaves (Pudina)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Microwave and kettle",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p2-i5",
+   "patient": {
+    "age": 55,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.2,
+    "serum_potassium": 4.36,
+    "creatinine": 1.09,
+    "egfr": 80.0,
+    "hba1c": 5.9,
+    "fbs": 98.0,
+    "sbp": 174.0,
+    "dbp": 103.0,
+    "bmi": 23.0
+   },
+   "ingredients": [
+    "Bengal gram, whole (Kabuli chana)",
+    "Spinach (Palak)",
+    "Yam (Suran)",
+    "Grapes, black",
+    "Cabbage",
+    "Wheat, whole",
+    "Apple"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Pressure cooker",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p2-i6",
+   "patient": {
+    "age": 55,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.2,
+    "serum_potassium": 4.36,
+    "creatinine": 1.09,
+    "egfr": 80.0,
+    "hba1c": 5.9,
+    "fbs": 98.0,
+    "sbp": 174.0,
+    "dbp": 103.0,
+    "bmi": 23.0
+   },
+   "ingredients": [
+    "Rice, brown",
+    "Lettuce",
+    "Ghee",
+    "Chicken, breast",
+    "Chicken, leg"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop only",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p2-i7",
+   "patient": {
+    "age": 55,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.2,
+    "serum_potassium": 4.36,
+    "creatinine": 1.09,
+    "egfr": 80.0,
+    "hba1c": 5.9,
+    "fbs": 98.0,
+    "sbp": 174.0,
+    "dbp": 103.0,
+    "bmi": 23.0
+   },
+   "ingredients": [
+    "Beetroot (Chukandar)",
+    "Drumstick (Moringa pod)",
+    "Wheat flour, atta",
+    "Orange",
+    "Soybean"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": [
+    "egg"
+   ]
+  },
+  {
+   "id": "s100-p2-i8",
+   "patient": {
+    "age": 55,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.2,
+    "serum_potassium": 4.36,
+    "creatinine": 1.09,
+    "egfr": 80.0,
+    "hba1c": 5.9,
+    "fbs": 98.0,
+    "sbp": 174.0,
+    "dbp": 103.0,
+    "bmi": 23.0
+   },
+   "ingredients": [
+    "Potato (Aloo)",
+    "Pumpkin (Kaddu)",
+    "Bottle gourd (Lauki)",
+    "Khoya (Mawa)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop only",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s100-p2-i9",
+   "patient": {
+    "age": 55,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 0,
+    "serum_sodium": 139.2,
+    "serum_potassium": 4.36,
+    "creatinine": 1.09,
+    "egfr": 80.0,
+    "hba1c": 5.9,
+    "fbs": 98.0,
+    "sbp": 174.0,
+    "dbp": 103.0,
+    "bmi": 23.0
+   },
+   "ingredients": [
+    "Rice, brown",
+    "Spinach (Palak)",
+    "Mango, green raw",
+    "Curd (Dahi/Yogurt)",
+    "Sardine (Mathi)",
+    "Tomato, ripe"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s101-p0-i0",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.3,
+    "serum_potassium": 4.82,
+    "creatinine": 3.62,
+    "egfr": 18.8,
+    "hba1c": 5.6,
+    "fbs": 95.0,
+    "sbp": 158.0,
+    "dbp": 87.0,
+    "bmi": 24.9
+   },
+   "ingredients": [
+    "Bengal gram, whole (Kabuli chana)",
+    "Bottle gourd (Lauki)",
+    "Curd (Dahi/Yogurt)",
+    "Milk, buffalo"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "45 minutes",
+   "exclusions": [
+    "legumes"
+   ]
+  },
+  {
+   "id": "s101-p0-i1",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.3,
+    "serum_potassium": 4.82,
+    "creatinine": 3.62,
+    "egfr": 18.8,
+    "hba1c": 5.6,
+    "fbs": 95.0,
+    "sbp": 158.0,
+    "dbp": 87.0,
+    "bmi": 24.9
+   },
+   "ingredients": [
+    "Colocasia (Arbi)",
+    "Amaranth leaves, green",
+    "Drumstick leaves (Moringa)",
+    "Ash gourd (Petha)",
+    "Onion (Pyaz)",
+    "Walnuts (Akhrot)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": [
+    "peanut",
+    "egg"
+   ]
+  },
+  {
+   "id": "s101-p0-i2",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.3,
+    "serum_potassium": 4.82,
+    "creatinine": 3.62,
+    "egfr": 18.8,
+    "hba1c": 5.6,
+    "fbs": 95.0,
+    "sbp": 158.0,
+    "dbp": 87.0,
+    "bmi": 24.9
+   },
+   "ingredients": [
+    "Green gram dal (Moong dal)",
+    "Lettuce",
+    "Pomfret (White)",
+    "Tapioca (Cassava)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": [
+    "shellfish",
+    "dairy"
+   ]
+  },
+  {
+   "id": "s101-p0-i3",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.3,
+    "serum_potassium": 4.82,
+    "creatinine": 3.62,
+    "egfr": 18.8,
+    "hba1c": 5.6,
+    "fbs": 95.0,
+    "sbp": 158.0,
+    "dbp": 87.0,
+    "bmi": 24.9
+   },
+   "ingredients": [
+    "Peas, dry (Matar)",
+    "Onion stalk (Spring onion)",
+    "Egg, whole, boiled",
+    "Yam (Suran)",
+    "Milk, cow (whole)",
+    "Amaranth seed, black",
+    "Chicken, leg"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Stovetop only",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s101-p0-i4",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.3,
+    "serum_potassium": 4.82,
+    "creatinine": 3.62,
+    "egfr": 18.8,
+    "hba1c": 5.6,
+    "fbs": 95.0,
+    "sbp": 158.0,
+    "dbp": 87.0,
+    "bmi": 24.9
+   },
+   "ingredients": [
+    "Soybean",
+    "Bitter gourd (Karela)",
+    "Cashewnut (Kaju)",
+    "Green gram dal (Moong dal)",
+    "Bajra (Pearl millet)",
+    "Strawberry"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": [
+    "vegetarian"
+   ]
+  },
+  {
+   "id": "s101-p0-i5",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.3,
+    "serum_potassium": 4.82,
+    "creatinine": 3.62,
+    "egfr": 18.8,
+    "hba1c": 5.6,
+    "fbs": 95.0,
+    "sbp": 158.0,
+    "dbp": 87.0,
+    "bmi": 24.9
+   },
+   "ingredients": [
+    "Maize, tender",
+    "Lettuce",
+    "Peas, dry (Matar)",
+    "Watermelon (Tarbooz)",
+    "Cabbage",
+    "Drumstick leaves (Moringa)",
+    "Jowar (Sorghum)",
+    "Pumpkin (Kaddu)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Stovetop only",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s101-p0-i6",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.3,
+    "serum_potassium": 4.82,
+    "creatinine": 3.62,
+    "egfr": 18.8,
+    "hba1c": 5.6,
+    "fbs": 95.0,
+    "sbp": 158.0,
+    "dbp": 87.0,
+    "bmi": 24.9
+   },
+   "ingredients": [
+    "Green gram dal (Moong dal)",
+    "Tomato, ripe",
+    "Mango, ripe",
+    "Milk, cow (whole)",
+    "Potato (Aloo)",
+    "Pomfret (White)",
+    "Bengal gram dal (Chana dal)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s101-p0-i7",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.3,
+    "serum_potassium": 4.82,
+    "creatinine": 3.62,
+    "egfr": 18.8,
+    "hba1c": 5.6,
+    "fbs": 95.0,
+    "sbp": 158.0,
+    "dbp": 87.0,
+    "bmi": 24.9
+   },
+   "ingredients": [
+    "Sweet potato (Shakarkand)",
+    "Brinjal (Eggplant)",
+    "Banana, ripe",
+    "Lettuce",
+    "Peas, fresh (Matar)",
+    "Wheat flour, atta"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "20 minutes",
+   "exclusions": [
+    "dairy"
+   ]
+  },
+  {
+   "id": "s101-p0-i8",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.3,
+    "serum_potassium": 4.82,
+    "creatinine": 3.62,
+    "egfr": 18.8,
+    "hba1c": 5.6,
+    "fbs": 95.0,
+    "sbp": 158.0,
+    "dbp": 87.0,
+    "bmi": 24.9
+   },
+   "ingredients": [
+    "Amaranth seed, pale brown",
+    "Ladies finger (Bhindi/Okra)",
+    "Almonds (Badam)",
+    "Cauliflower leaves"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "30 minutes",
+   "exclusions": [
+    "egg"
+   ]
+  },
+  {
+   "id": "s101-p0-i9",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 143.3,
+    "serum_potassium": 4.82,
+    "creatinine": 3.62,
+    "egfr": 18.8,
+    "hba1c": 5.6,
+    "fbs": 95.0,
+    "sbp": 158.0,
+    "dbp": 87.0,
+    "bmi": 24.9
+   },
+   "ingredients": [
+    "Carrot (Gajar)",
+    "Pumpkin (Kaddu)",
+    "Grapes, black",
+    "Watermelon (Tarbooz)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Stovetop only",
+   "time_limit": "30 minutes",
+   "exclusions": [
+    "peanut",
+    "tree_nuts"
+   ]
+  },
+  {
+   "id": "s101-p1-i0",
+   "patient": {
+    "age": 52,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.3,
+    "serum_potassium": 4.85,
+    "creatinine": 2.07,
+    "egfr": 37.8,
+    "hba1c": 5.0,
+    "fbs": 84.0,
+    "sbp": 181.0,
+    "dbp": 91.0,
+    "bmi": 28.2
+   },
+   "ingredients": [
+    "Bengal gram, whole (Kabuli chana)",
+    "Pumpkin (Kaddu)",
+    "Carrot (Gajar)",
+    "Paneer (Cottage cheese)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": [
+    "vegetarian"
+   ]
+  },
+  {
+   "id": "s101-p1-i1",
+   "patient": {
+    "age": 52,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.3,
+    "serum_potassium": 4.85,
+    "creatinine": 2.07,
+    "egfr": 37.8,
+    "hba1c": 5.0,
+    "fbs": 84.0,
+    "sbp": 181.0,
+    "dbp": 91.0,
+    "bmi": 28.2
+   },
+   "ingredients": [
+    "Radish (Mooli)",
+    "Mango, green raw",
+    "Mint leaves (Pudina)",
+    "Khoya (Mawa)",
+    "Soybean",
+    "Curry leaves (Kadi patta)",
+    "Paneer (Cottage cheese)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Stovetop only",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s101-p1-i2",
+   "patient": {
+    "age": 52,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.3,
+    "serum_potassium": 4.85,
+    "creatinine": 2.07,
+    "egfr": 37.8,
+    "hba1c": 5.0,
+    "fbs": 84.0,
+    "sbp": 181.0,
+    "dbp": 91.0,
+    "bmi": 28.2
+   },
+   "ingredients": [
+    "Maize, tender",
+    "Ridge gourd (Tori)",
+    "Green gram dal (Moong dal)",
+    "Strawberry"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s101-p1-i3",
+   "patient": {
+    "age": 52,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.3,
+    "serum_potassium": 4.85,
+    "creatinine": 2.07,
+    "egfr": 37.8,
+    "hba1c": 5.0,
+    "fbs": 84.0,
+    "sbp": 181.0,
+    "dbp": 91.0,
+    "bmi": 28.2
+   },
+   "ingredients": [
+    "Wheat, whole",
+    "Agathi leaves",
+    "Green gram, whole",
+    "Curry leaves (Kadi patta)"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Stovetop only",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s101-p1-i4",
+   "patient": {
+    "age": 52,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.3,
+    "serum_potassium": 4.85,
+    "creatinine": 2.07,
+    "egfr": 37.8,
+    "hba1c": 5.0,
+    "fbs": 84.0,
+    "sbp": 181.0,
+    "dbp": 91.0,
+    "bmi": 28.2
+   },
+   "ingredients": [
+    "Black gram, whole",
+    "Ash gourd (Petha)",
+    "Pineapple (Ananas)",
+    "Mango, green raw",
+    "Cucumber",
+    "Sweet potato (Shakarkand)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s101-p1-i5",
+   "patient": {
+    "age": 52,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.3,
+    "serum_potassium": 4.85,
+    "creatinine": 2.07,
+    "egfr": 37.8,
+    "hba1c": 5.0,
+    "fbs": 84.0,
+    "sbp": 181.0,
+    "dbp": 91.0,
+    "bmi": 28.2
+   },
+   "ingredients": [
+    "Yam (Suran)",
+    "Cucumber",
+    "Bengal gram dal (Chana dal)",
+    "Apple",
+    "Watermelon (Tarbooz)",
+    "Fig (Anjeer)"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Pressure cooker",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s101-p1-i6",
+   "patient": {
+    "age": 52,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.3,
+    "serum_potassium": 4.85,
+    "creatinine": 2.07,
+    "egfr": 37.8,
+    "hba1c": 5.0,
+    "fbs": 84.0,
+    "sbp": 181.0,
+    "dbp": 91.0,
+    "bmi": 28.2
+   },
+   "ingredients": [
+    "Lentil (Masoor dal)",
+    "Pumpkin (Kaddu)",
+    "Spinach (Palak)",
+    "Tapioca (Cassava)",
+    "Khoya (Mawa)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Pressure cooker",
+   "time_limit": "Any",
+   "exclusions": [
+    "gluten",
+    "soy"
+   ]
+  },
+  {
+   "id": "s101-p1-i7",
+   "patient": {
+    "age": 52,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.3,
+    "serum_potassium": 4.85,
+    "creatinine": 2.07,
+    "egfr": 37.8,
+    "hba1c": 5.0,
+    "fbs": 84.0,
+    "sbp": 181.0,
+    "dbp": 91.0,
+    "bmi": 28.2
+   },
+   "ingredients": [
+    "Rice, brown",
+    "Cucumber",
+    "Apple",
+    "Peas, dry (Matar)",
+    "Colocasia (Arbi)",
+    "Red gram dal (Toor dal)",
+    "Coriander leaves (Dhania)"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Pressure cooker",
+   "time_limit": "45 minutes",
+   "exclusions": [
+    "dairy"
+   ]
+  },
+  {
+   "id": "s101-p1-i8",
+   "patient": {
+    "age": 52,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.3,
+    "serum_potassium": 4.85,
+    "creatinine": 2.07,
+    "egfr": 37.8,
+    "hba1c": 5.0,
+    "fbs": 84.0,
+    "sbp": 181.0,
+    "dbp": 91.0,
+    "bmi": 28.2
+   },
+   "ingredients": [
+    "Jowar (Sorghum)",
+    "Cauliflower leaves",
+    "Barley",
+    "Mutton (Goat meat)",
+    "Capsicum, green (Bell pepper)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": [
+    "legumes"
+   ]
+  },
+  {
+   "id": "s101-p1-i9",
+   "patient": {
+    "age": 52,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.3,
+    "serum_potassium": 4.85,
+    "creatinine": 2.07,
+    "egfr": 37.8,
+    "hba1c": 5.0,
+    "fbs": 84.0,
+    "sbp": 181.0,
+    "dbp": 91.0,
+    "bmi": 28.2
+   },
+   "ingredients": [
+    "Colocasia (Arbi)",
+    "Colocasia leaves (Arbi leaves)",
+    "Cashewnut (Kaju)",
+    "Curd (Dahi/Yogurt)",
+    "Plantain, green (Raw banana)",
+    "Maize, dry",
+    "Ridge gourd (Tori)",
+    "Ragi (Finger millet)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Stovetop only",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s101-p2-i0",
+   "patient": {
+    "age": 47,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.4,
+    "serum_potassium": 5.48,
+    "creatinine": 3.47,
+    "egfr": 15.7,
+    "hba1c": 5.3,
+    "fbs": 81.0,
+    "sbp": 174.0,
+    "dbp": 96.0,
+    "bmi": 26.1
+   },
+   "ingredients": [
+    "Amaranth seed, black",
+    "Ladies finger (Bhindi/Okra)",
+    "Cucumber",
+    "Black gram, whole"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Stovetop only",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s101-p2-i1",
+   "patient": {
+    "age": 47,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.4,
+    "serum_potassium": 5.48,
+    "creatinine": 3.47,
+    "egfr": 15.7,
+    "hba1c": 5.3,
+    "fbs": 81.0,
+    "sbp": 174.0,
+    "dbp": 96.0,
+    "bmi": 26.1
+   },
+   "ingredients": [
+    "Ragi (Finger millet)",
+    "Cucumber",
+    "Mango, green raw",
+    "Soybean",
+    "Tomato, ripe"
+   ],
+   "cuisine": "Any",
+   "equipment": "Microwave and kettle",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s101-p2-i2",
+   "patient": {
+    "age": 47,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.4,
+    "serum_potassium": 5.48,
+    "creatinine": 3.47,
+    "egfr": 15.7,
+    "hba1c": 5.3,
+    "fbs": 81.0,
+    "sbp": 174.0,
+    "dbp": 96.0,
+    "bmi": 26.1
+   },
+   "ingredients": [
+    "Rajmah (Kidney beans)",
+    "Ridge gourd (Tori)",
+    "Green gram, whole",
+    "Papaya, ripe",
+    "Apple",
+    "Milk, cow (whole)",
+    "Jowar (Sorghum)",
+    "Coconut, dry (Copra)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s101-p2-i3",
+   "patient": {
+    "age": 47,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.4,
+    "serum_potassium": 5.48,
+    "creatinine": 3.47,
+    "egfr": 15.7,
+    "hba1c": 5.3,
+    "fbs": 81.0,
+    "sbp": 174.0,
+    "dbp": 96.0,
+    "bmi": 26.1
+   },
+   "ingredients": [
+    "Maize, dry",
+    "Brinjal (Eggplant)",
+    "Potato (Aloo)",
+    "Onion stalk (Spring onion)",
+    "Banana, ripe"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "30 minutes",
+   "exclusions": [
+    "dairy"
+   ]
+  },
+  {
+   "id": "s101-p2-i4",
+   "patient": {
+    "age": 47,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.4,
+    "serum_potassium": 5.48,
+    "creatinine": 3.47,
+    "egfr": 15.7,
+    "hba1c": 5.3,
+    "fbs": 81.0,
+    "sbp": 174.0,
+    "dbp": 96.0,
+    "bmi": 26.1
+   },
+   "ingredients": [
+    "Green gram, whole",
+    "Peas, fresh (Matar)",
+    "Apple",
+    "Ginger (Adrak)",
+    "Ladies finger (Bhindi/Okra)",
+    "Cauliflower leaves",
+    "Ash gourd (Petha)",
+    "Drumstick leaves (Moringa)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop only",
+   "time_limit": "20 minutes",
+   "exclusions": [
+    "shellfish",
+    "fish"
+   ]
+  },
+  {
+   "id": "s101-p2-i5",
+   "patient": {
+    "age": 47,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.4,
+    "serum_potassium": 5.48,
+    "creatinine": 3.47,
+    "egfr": 15.7,
+    "hba1c": 5.3,
+    "fbs": 81.0,
+    "sbp": 174.0,
+    "dbp": 96.0,
+    "bmi": 26.1
+   },
+   "ingredients": [
+    "Maize, tender",
+    "Fenugreek leaves (Methi)",
+    "Black gram, whole",
+    "Chicken, breast",
+    "Paneer (Cottage cheese)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s101-p2-i6",
+   "patient": {
+    "age": 47,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.4,
+    "serum_potassium": 5.48,
+    "creatinine": 3.47,
+    "egfr": 15.7,
+    "hba1c": 5.3,
+    "fbs": 81.0,
+    "sbp": 174.0,
+    "dbp": 96.0,
+    "bmi": 26.1
+   },
+   "ingredients": [
+    "Sweet potato (Shakarkand)",
+    "Fenugreek leaves (Methi)",
+    "Rice, milled (white)",
+    "Khoya (Mawa)",
+    "Ghee",
+    "Sardine (Mathi)",
+    "Pineapple (Ananas)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Pressure cooker",
+   "time_limit": "30 minutes",
+   "exclusions": [
+    "peanut"
+   ]
+  },
+  {
+   "id": "s101-p2-i7",
+   "patient": {
+    "age": 47,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.4,
+    "serum_potassium": 5.48,
+    "creatinine": 3.47,
+    "egfr": 15.7,
+    "hba1c": 5.3,
+    "fbs": 81.0,
+    "sbp": 174.0,
+    "dbp": 96.0,
+    "bmi": 26.1
+   },
+   "ingredients": [
+    "Rajmah (Kidney beans)",
+    "Onion stalk (Spring onion)",
+    "Fig (Anjeer)",
+    "Mango, green raw"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s101-p2-i8",
+   "patient": {
+    "age": 47,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.4,
+    "serum_potassium": 5.48,
+    "creatinine": 3.47,
+    "egfr": 15.7,
+    "hba1c": 5.3,
+    "fbs": 81.0,
+    "sbp": 174.0,
+    "dbp": 96.0,
+    "bmi": 26.1
+   },
+   "ingredients": [
+    "Carrot (Gajar)",
+    "Brinjal (Eggplant)",
+    "Spinach (Palak)",
+    "Colocasia leaves (Arbi leaves)",
+    "Bengal gram, whole (Kabuli chana)",
+    "Tomato, ripe"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "45 minutes",
+   "exclusions": [
+    "dairy"
+   ]
+  },
+  {
+   "id": "s101-p2-i9",
+   "patient": {
+    "age": 47,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 0,
+    "has_ckd": 1,
+    "serum_sodium": 135.4,
+    "serum_potassium": 5.48,
+    "creatinine": 3.47,
+    "egfr": 15.7,
+    "hba1c": 5.3,
+    "fbs": 81.0,
+    "sbp": 174.0,
+    "dbp": 96.0,
+    "bmi": 26.1
+   },
+   "ingredients": [
+    "Amaranth seed, black",
+    "Cauliflower (Phool gobhi)",
+    "Peas, fresh (Matar)",
+    "Rajmah (Kidney beans)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Pressure cooker",
+   "time_limit": "45 minutes",
+   "exclusions": [
+    "gluten"
+   ]
+  },
+  {
+   "id": "s110-p0-i0",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 138.0,
+    "serum_potassium": 3.84,
+    "creatinine": 1.07,
+    "egfr": 66.6,
+    "hba1c": 9.9,
+    "fbs": 113.0,
+    "sbp": 145.0,
+    "dbp": 94.0,
+    "bmi": 22.9
+   },
+   "ingredients": [
+    "Potato (Aloo)",
+    "Brinjal (Eggplant)",
+    "Colocasia leaves (Arbi leaves)",
+    "Black gram dal (Urad dal)",
+    "Green chillies (Hari mirch)",
+    "Bajra (Pearl millet)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop only",
+   "time_limit": "30 minutes",
+   "exclusions": [
+    "legumes"
+   ]
+  },
+  {
+   "id": "s110-p0-i1",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 138.0,
+    "serum_potassium": 3.84,
+    "creatinine": 1.07,
+    "egfr": 66.6,
+    "hba1c": 9.9,
+    "fbs": 113.0,
+    "sbp": 145.0,
+    "dbp": 94.0,
+    "bmi": 22.9
+   },
+   "ingredients": [
+    "Wheat, whole",
+    "Mustard leaves (Sarson)",
+    "Chicken, breast",
+    "Black gram dal (Urad dal)",
+    "Khoya (Mawa)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Microwave and kettle",
+   "time_limit": "30 minutes",
+   "exclusions": [
+    "tree_nuts"
+   ]
+  },
+  {
+   "id": "s110-p0-i2",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 138.0,
+    "serum_potassium": 3.84,
+    "creatinine": 1.07,
+    "egfr": 66.6,
+    "hba1c": 9.9,
+    "fbs": 113.0,
+    "sbp": 145.0,
+    "dbp": 94.0,
+    "bmi": 22.9
+   },
+   "ingredients": [
+    "Black gram, whole",
+    "Mustard leaves (Sarson)",
+    "Papaya, ripe",
+    "Strawberry",
+    "Apple",
+    "Maize, dry",
+    "Capsicum, green (Bell pepper)",
+    "Ghee"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop and oven",
+   "time_limit": "45 minutes",
+   "exclusions": [
+    "peanut",
+    "egg"
+   ]
+  },
+  {
+   "id": "s110-p0-i3",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 138.0,
+    "serum_potassium": 3.84,
+    "creatinine": 1.07,
+    "egfr": 66.6,
+    "hba1c": 9.9,
+    "fbs": 113.0,
+    "sbp": 145.0,
+    "dbp": 94.0,
+    "bmi": 22.9
+   },
+   "ingredients": [
+    "Red gram dal (Toor dal)",
+    "Capsicum, green (Bell pepper)",
+    "Green gram, whole",
+    "Egg, whole, boiled",
+    "Mango, ripe",
+    "Grapes, black"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "45 minutes",
+   "exclusions": [
+    "peanut"
+   ]
+  },
+  {
+   "id": "s110-p0-i4",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 138.0,
+    "serum_potassium": 3.84,
+    "creatinine": 1.07,
+    "egfr": 66.6,
+    "hba1c": 9.9,
+    "fbs": 113.0,
+    "sbp": 145.0,
+    "dbp": 94.0,
+    "bmi": 22.9
+   },
+   "ingredients": [
+    "Rice, brown",
+    "Fenugreek leaves (Methi)",
+    "Banana, ripe",
+    "Maize, dry",
+    "Bottle gourd (Lauki)",
+    "Mutton (Goat meat)",
+    "Papaya, ripe"
+   ],
+   "cuisine": "Any",
+   "equipment": "Stovetop only",
+   "time_limit": "45 minutes",
+   "exclusions": [
+    "shellfish"
+   ]
+  },
+  {
+   "id": "s110-p0-i5",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 138.0,
+    "serum_potassium": 3.84,
+    "creatinine": 1.07,
+    "egfr": 66.6,
+    "hba1c": 9.9,
+    "fbs": 113.0,
+    "sbp": 145.0,
+    "dbp": 94.0,
+    "bmi": 22.9
+   },
+   "ingredients": [
+    "Wheat flour, atta",
+    "Ash gourd (Petha)",
+    "Coriander leaves (Dhania)",
+    "Apple",
+    "Plantain, green (Raw banana)",
+    "Orange"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop and oven",
+   "time_limit": "30 minutes",
+   "exclusions": [
+    "dairy",
+    "fish"
+   ]
+  },
+  {
+   "id": "s110-p0-i6",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 138.0,
+    "serum_potassium": 3.84,
+    "creatinine": 1.07,
+    "egfr": 66.6,
+    "hba1c": 9.9,
+    "fbs": 113.0,
+    "sbp": 145.0,
+    "dbp": 94.0,
+    "bmi": 22.9
+   },
+   "ingredients": [
+    "Ragi (Finger millet)",
+    "Cluster beans (Gawar)",
+    "Papaya, ripe",
+    "Rohu fish",
+    "Walnuts (Akhrot)",
+    "Mint leaves (Pudina)",
+    "Red gram dal (Toor dal)",
+    "Tomato, ripe"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p0-i7",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 138.0,
+    "serum_potassium": 3.84,
+    "creatinine": 1.07,
+    "egfr": 66.6,
+    "hba1c": 9.9,
+    "fbs": 113.0,
+    "sbp": 145.0,
+    "dbp": 94.0,
+    "bmi": 22.9
+   },
+   "ingredients": [
+    "Amaranth seed, black",
+    "Cabbage",
+    "Banana, ripe",
+    "Brinjal (Eggplant)",
+    "Spinach (Palak)",
+    "Ginger (Adrak)",
+    "Cluster beans (Gawar)",
+    "Maize, dry"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Pressure cooker",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p0-i8",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 138.0,
+    "serum_potassium": 3.84,
+    "creatinine": 1.07,
+    "egfr": 66.6,
+    "hba1c": 9.9,
+    "fbs": 113.0,
+    "sbp": 145.0,
+    "dbp": 94.0,
+    "bmi": 22.9
+   },
+   "ingredients": [
+    "Wheat flour, atta",
+    "Plantain, green (Raw banana)",
+    "Mustard leaves (Sarson)",
+    "Green gram dal (Moong dal)",
+    "Fig (Anjeer)",
+    "Tomato, ripe",
+    "Walnuts (Akhrot)",
+    "Amaranth seed, black"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Microwave and kettle",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p0-i9",
+   "patient": {
+    "age": 42,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 138.0,
+    "serum_potassium": 3.84,
+    "creatinine": 1.07,
+    "egfr": 66.6,
+    "hba1c": 9.9,
+    "fbs": 113.0,
+    "sbp": 145.0,
+    "dbp": 94.0,
+    "bmi": 22.9
+   },
+   "ingredients": [
+    "Bajra (Pearl millet)",
+    "Plantain, green (Raw banana)",
+    "Sweet potato (Shakarkand)",
+    "Ragi (Finger millet)",
+    "Watermelon (Tarbooz)",
+    "Yam (Suran)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p1-i0",
+   "patient": {
+    "age": 43,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.5,
+    "serum_potassium": 4.74,
+    "creatinine": 0.94,
+    "egfr": 77.2,
+    "hba1c": 6.8,
+    "fbs": 204.0,
+    "sbp": 148.0,
+    "dbp": 101.0,
+    "bmi": 24.1
+   },
+   "ingredients": [
+    "Maize, dry",
+    "Mustard leaves (Sarson)",
+    "Jowar (Sorghum)",
+    "Curry leaves (Kadi patta)",
+    "Almonds (Badam)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Microwave and kettle",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p1-i1",
+   "patient": {
+    "age": 43,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.5,
+    "serum_potassium": 4.74,
+    "creatinine": 0.94,
+    "egfr": 77.2,
+    "hba1c": 6.8,
+    "fbs": 204.0,
+    "sbp": 148.0,
+    "dbp": 101.0,
+    "bmi": 24.1
+   },
+   "ingredients": [
+    "Ragi (Finger millet)",
+    "Fenugreek leaves (Methi)",
+    "Watermelon (Tarbooz)",
+    "Wheat, whole",
+    "Black gram dal (Urad dal)",
+    "Amaranth seed, black",
+    "Barley",
+    "Prawn (Jhinga)"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p1-i2",
+   "patient": {
+    "age": 43,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.5,
+    "serum_potassium": 4.74,
+    "creatinine": 0.94,
+    "egfr": 77.2,
+    "hba1c": 6.8,
+    "fbs": 204.0,
+    "sbp": 148.0,
+    "dbp": 101.0,
+    "bmi": 24.1
+   },
+   "ingredients": [
+    "Red gram dal (Toor dal)",
+    "Ash gourd (Petha)",
+    "Soybean",
+    "Egg, whole, boiled"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p1-i3",
+   "patient": {
+    "age": 43,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.5,
+    "serum_potassium": 4.74,
+    "creatinine": 0.94,
+    "egfr": 77.2,
+    "hba1c": 6.8,
+    "fbs": 204.0,
+    "sbp": 148.0,
+    "dbp": 101.0,
+    "bmi": 24.1
+   },
+   "ingredients": [
+    "Radish (Mooli)",
+    "Ridge gourd (Tori)",
+    "Wheat, whole",
+    "Almonds (Badam)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Pressure cooker",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p1-i4",
+   "patient": {
+    "age": 43,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.5,
+    "serum_potassium": 4.74,
+    "creatinine": 0.94,
+    "egfr": 77.2,
+    "hba1c": 6.8,
+    "fbs": 204.0,
+    "sbp": 148.0,
+    "dbp": 101.0,
+    "bmi": 24.1
+   },
+   "ingredients": [
+    "Rice, milled (white)",
+    "Cauliflower (Phool gobhi)",
+    "Colocasia (Arbi)",
+    "Lentil (Masoor dal)",
+    "Maize, tender",
+    "Curd (Dahi/Yogurt)",
+    "Ridge gourd (Tori)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p1-i5",
+   "patient": {
+    "age": 43,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.5,
+    "serum_potassium": 4.74,
+    "creatinine": 0.94,
+    "egfr": 77.2,
+    "hba1c": 6.8,
+    "fbs": 204.0,
+    "sbp": 148.0,
+    "dbp": 101.0,
+    "bmi": 24.1
+   },
+   "ingredients": [
+    "Maize, tender",
+    "Bottle gourd (Lauki)",
+    "Prawn (Jhinga)",
+    "Guava",
+    "Bitter gourd (Karela)",
+    "Gooseberry (Amla)",
+    "Tomato, ripe"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": [
+    "tree_nuts"
+   ]
+  },
+  {
+   "id": "s110-p1-i6",
+   "patient": {
+    "age": 43,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.5,
+    "serum_potassium": 4.74,
+    "creatinine": 0.94,
+    "egfr": 77.2,
+    "hba1c": 6.8,
+    "fbs": 204.0,
+    "sbp": 148.0,
+    "dbp": 101.0,
+    "bmi": 24.1
+   },
+   "ingredients": [
+    "Sweet potato (Shakarkand)",
+    "Pumpkin (Kaddu)",
+    "Ginger (Adrak)",
+    "Rajmah (Kidney beans)",
+    "Wheat flour, atta",
+    "Brinjal (Eggplant)",
+    "Wheat, whole"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p1-i7",
+   "patient": {
+    "age": 43,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.5,
+    "serum_potassium": 4.74,
+    "creatinine": 0.94,
+    "egfr": 77.2,
+    "hba1c": 6.8,
+    "fbs": 204.0,
+    "sbp": 148.0,
+    "dbp": 101.0,
+    "bmi": 24.1
+   },
+   "ingredients": [
+    "Black gram dal (Urad dal)",
+    "Cauliflower leaves",
+    "Groundnut (Moongphali/Peanut)",
+    "Apple",
+    "Guava",
+    "Green gram, whole",
+    "Coconut, dry (Copra)",
+    "Onion stalk (Spring onion)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Stovetop only",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p1-i8",
+   "patient": {
+    "age": 43,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.5,
+    "serum_potassium": 4.74,
+    "creatinine": 0.94,
+    "egfr": 77.2,
+    "hba1c": 6.8,
+    "fbs": 204.0,
+    "sbp": 148.0,
+    "dbp": 101.0,
+    "bmi": 24.1
+   },
+   "ingredients": [
+    "Maize, tender",
+    "Cauliflower (Phool gobhi)",
+    "Green gram dal (Moong dal)",
+    "Chicken, breast"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Microwave and kettle",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p1-i9",
+   "patient": {
+    "age": 43,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 144.5,
+    "serum_potassium": 4.74,
+    "creatinine": 0.94,
+    "egfr": 77.2,
+    "hba1c": 6.8,
+    "fbs": 204.0,
+    "sbp": 148.0,
+    "dbp": 101.0,
+    "bmi": 24.1
+   },
+   "ingredients": [
+    "Sweet potato (Shakarkand)",
+    "Cauliflower (Phool gobhi)",
+    "Wheat, whole",
+    "Drumstick leaves (Moringa)",
+    "Potato (Aloo)",
+    "Amaranth leaves, green",
+    "Pomfret (White)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop only",
+   "time_limit": "30 minutes",
+   "exclusions": [
+    "soy",
+    "gluten"
+   ]
+  },
+  {
+   "id": "s110-p2-i0",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.4,
+    "serum_potassium": 4.78,
+    "creatinine": 1.03,
+    "egfr": 85.1,
+    "hba1c": 7.5,
+    "fbs": 179.0,
+    "sbp": 173.0,
+    "dbp": 87.0,
+    "bmi": 29.3
+   },
+   "ingredients": [
+    "Rajmah (Kidney beans)",
+    "Fenugreek leaves (Methi)",
+    "Pumpkin (Kaddu)",
+    "Peas, dry (Matar)",
+    "Onion (Pyaz)",
+    "Agathi leaves",
+    "Ragi (Finger millet)",
+    "Strawberry"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Pressure cooker",
+   "time_limit": "Any",
+   "exclusions": [
+    "shellfish",
+    "fish"
+   ]
+  },
+  {
+   "id": "s110-p2-i1",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.4,
+    "serum_potassium": 4.78,
+    "creatinine": 1.03,
+    "egfr": 85.1,
+    "hba1c": 7.5,
+    "fbs": 179.0,
+    "sbp": 173.0,
+    "dbp": 87.0,
+    "bmi": 29.3
+   },
+   "ingredients": [
+    "Barley",
+    "Ridge gourd (Tori)",
+    "Colocasia leaves (Arbi leaves)",
+    "Capsicum, green (Bell pepper)",
+    "Drumstick (Moringa pod)",
+    "Peas, dry (Matar)",
+    "Grapes, black"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p2-i2",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.4,
+    "serum_potassium": 4.78,
+    "creatinine": 1.03,
+    "egfr": 85.1,
+    "hba1c": 7.5,
+    "fbs": 179.0,
+    "sbp": 173.0,
+    "dbp": 87.0,
+    "bmi": 29.3
+   },
+   "ingredients": [
+    "Wheat flour, atta",
+    "Ash gourd (Petha)",
+    "Rice, milled (white)",
+    "Capsicum, green (Bell pepper)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p2-i3",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.4,
+    "serum_potassium": 4.78,
+    "creatinine": 1.03,
+    "egfr": 85.1,
+    "hba1c": 7.5,
+    "fbs": 179.0,
+    "sbp": 173.0,
+    "dbp": 87.0,
+    "bmi": 29.3
+   },
+   "ingredients": [
+    "Potato (Aloo)",
+    "Amaranth leaves, green",
+    "Plantain, green (Raw banana)",
+    "Cashewnut (Kaju)",
+    "Radish (Mooli)",
+    "Brinjal (Eggplant)",
+    "Ladies finger (Bhindi/Okra)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Stovetop only",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p2-i4",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.4,
+    "serum_potassium": 4.78,
+    "creatinine": 1.03,
+    "egfr": 85.1,
+    "hba1c": 7.5,
+    "fbs": 179.0,
+    "sbp": 173.0,
+    "dbp": 87.0,
+    "bmi": 29.3
+   },
+   "ingredients": [
+    "Rajmah (Kidney beans)",
+    "Drumstick (Moringa pod)",
+    "Black gram dal (Urad dal)",
+    "Brinjal (Eggplant)",
+    "Sweet potato (Shakarkand)",
+    "Amaranth seed, black",
+    "Cauliflower leaves"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p2-i5",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.4,
+    "serum_potassium": 4.78,
+    "creatinine": 1.03,
+    "egfr": 85.1,
+    "hba1c": 7.5,
+    "fbs": 179.0,
+    "sbp": 173.0,
+    "dbp": 87.0,
+    "bmi": 29.3
+   },
+   "ingredients": [
+    "Amaranth seed, pale brown",
+    "Drumstick (Moringa pod)",
+    "Tapioca (Cassava)",
+    "Ghee"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop only",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p2-i6",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.4,
+    "serum_potassium": 4.78,
+    "creatinine": 1.03,
+    "egfr": 85.1,
+    "hba1c": 7.5,
+    "fbs": 179.0,
+    "sbp": 173.0,
+    "dbp": 87.0,
+    "bmi": 29.3
+   },
+   "ingredients": [
+    "Potato (Aloo)",
+    "Cauliflower leaves",
+    "Fig (Anjeer)",
+    "Rice, brown",
+    "Amaranth seed, pale brown",
+    "Rice, milled (white)",
+    "Ragi (Finger millet)",
+    "Black gram dal (Urad dal)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop and oven",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p2-i7",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.4,
+    "serum_potassium": 4.78,
+    "creatinine": 1.03,
+    "egfr": 85.1,
+    "hba1c": 7.5,
+    "fbs": 179.0,
+    "sbp": 173.0,
+    "dbp": 87.0,
+    "bmi": 29.3
+   },
+   "ingredients": [
+    "Rice, milled (white)",
+    "Peas, fresh (Matar)",
+    "Plantain, green (Raw banana)",
+    "Bengal gram, whole (Kabuli chana)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop and oven",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p2-i8",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.4,
+    "serum_potassium": 4.78,
+    "creatinine": 1.03,
+    "egfr": 85.1,
+    "hba1c": 7.5,
+    "fbs": 179.0,
+    "sbp": 173.0,
+    "dbp": 87.0,
+    "bmi": 29.3
+   },
+   "ingredients": [
+    "Peas, dry (Matar)",
+    "Cauliflower leaves",
+    "Egg, whole, boiled",
+    "Rice, brown",
+    "Maize, tender"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop and oven",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s110-p2-i9",
+   "patient": {
+    "age": 56,
+    "sex_male": 1,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 0,
+    "serum_sodium": 143.4,
+    "serum_potassium": 4.78,
+    "creatinine": 1.03,
+    "egfr": 85.1,
+    "hba1c": 7.5,
+    "fbs": 179.0,
+    "sbp": 173.0,
+    "dbp": 87.0,
+    "bmi": 29.3
+   },
+   "ingredients": [
+    "Radish (Mooli)",
+    "Cauliflower leaves",
+    "Red gram dal (Toor dal)",
+    "Coconut, fresh (Nariyal)",
+    "Rice, brown",
+    "Tapioca (Cassava)",
+    "Coconut, dry (Copra)",
+    "Beetroot (Chukandar)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Stovetop only",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p0-i0",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 140.0,
+    "serum_potassium": 4.99,
+    "creatinine": 1.9,
+    "egfr": 31.2,
+    "hba1c": 8.5,
+    "fbs": 181.0,
+    "sbp": 162.0,
+    "dbp": 103.0,
+    "bmi": 22.5
+   },
+   "ingredients": [
+    "Lentil (Masoor dal)",
+    "Cabbage",
+    "Mustard leaves (Sarson)",
+    "Rice, milled (white)",
+    "Cauliflower (Phool gobhi)",
+    "Soybean"
+   ],
+   "cuisine": "Any",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": [
+    "tree_nuts"
+   ]
+  },
+  {
+   "id": "s111-p0-i1",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 140.0,
+    "serum_potassium": 4.99,
+    "creatinine": 1.9,
+    "egfr": 31.2,
+    "hba1c": 8.5,
+    "fbs": 181.0,
+    "sbp": 162.0,
+    "dbp": 103.0,
+    "bmi": 22.5
+   },
+   "ingredients": [
+    "Lentil (Masoor dal)",
+    "Mango, green raw",
+    "Fig (Anjeer)",
+    "Potato (Aloo)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Pressure cooker",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p0-i2",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 140.0,
+    "serum_potassium": 4.99,
+    "creatinine": 1.9,
+    "egfr": 31.2,
+    "hba1c": 8.5,
+    "fbs": 181.0,
+    "sbp": 162.0,
+    "dbp": 103.0,
+    "bmi": 22.5
+   },
+   "ingredients": [
+    "Black gram dal (Urad dal)",
+    "Ladies finger (Bhindi/Okra)",
+    "Khoya (Mawa)",
+    "Carrot (Gajar)",
+    "Amaranth seed, pale brown"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Stovetop only",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p0-i3",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 140.0,
+    "serum_potassium": 4.99,
+    "creatinine": 1.9,
+    "egfr": 31.2,
+    "hba1c": 8.5,
+    "fbs": 181.0,
+    "sbp": 162.0,
+    "dbp": 103.0,
+    "bmi": 22.5
+   },
+   "ingredients": [
+    "Wheat, whole",
+    "Onion stalk (Spring onion)",
+    "Peas, fresh (Matar)",
+    "Grapes, black",
+    "Mutton (Goat meat)",
+    "Prawn (Jhinga)",
+    "Green gram, whole",
+    "Egg, whole, boiled"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p0-i4",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 140.0,
+    "serum_potassium": 4.99,
+    "creatinine": 1.9,
+    "egfr": 31.2,
+    "hba1c": 8.5,
+    "fbs": 181.0,
+    "sbp": 162.0,
+    "dbp": 103.0,
+    "bmi": 22.5
+   },
+   "ingredients": [
+    "Carrot (Gajar)",
+    "Plantain, green (Raw banana)",
+    "Colocasia (Arbi)",
+    "Fig (Anjeer)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop only",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p0-i5",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 140.0,
+    "serum_potassium": 4.99,
+    "creatinine": 1.9,
+    "egfr": 31.2,
+    "hba1c": 8.5,
+    "fbs": 181.0,
+    "sbp": 162.0,
+    "dbp": 103.0,
+    "bmi": 22.5
+   },
+   "ingredients": [
+    "Bengal gram dal (Chana dal)",
+    "Bottle gourd (Lauki)",
+    "Pumpkin (Kaddu)",
+    "Watermelon (Tarbooz)",
+    "Plantain, green (Raw banana)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": [
+    "peanut",
+    "shellfish"
+   ]
+  },
+  {
+   "id": "s111-p0-i6",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 140.0,
+    "serum_potassium": 4.99,
+    "creatinine": 1.9,
+    "egfr": 31.2,
+    "hba1c": 8.5,
+    "fbs": 181.0,
+    "sbp": 162.0,
+    "dbp": 103.0,
+    "bmi": 22.5
+   },
+   "ingredients": [
+    "Rajmah (Kidney beans)",
+    "Ladies finger (Bhindi/Okra)",
+    "Mustard leaves (Sarson)",
+    "Rice, milled (white)",
+    "Papaya, ripe"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p0-i7",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 140.0,
+    "serum_potassium": 4.99,
+    "creatinine": 1.9,
+    "egfr": 31.2,
+    "hba1c": 8.5,
+    "fbs": 181.0,
+    "sbp": 162.0,
+    "dbp": 103.0,
+    "bmi": 22.5
+   },
+   "ingredients": [
+    "Soybean",
+    "Ash gourd (Petha)",
+    "Bottle gourd (Lauki)",
+    "Orange",
+    "Mango, ripe",
+    "Guava",
+    "Tomato, ripe"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Stovetop only",
+   "time_limit": "45 minutes",
+   "exclusions": [
+    "vegetarian",
+    "gluten"
+   ]
+  },
+  {
+   "id": "s111-p0-i8",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 140.0,
+    "serum_potassium": 4.99,
+    "creatinine": 1.9,
+    "egfr": 31.2,
+    "hba1c": 8.5,
+    "fbs": 181.0,
+    "sbp": 162.0,
+    "dbp": 103.0,
+    "bmi": 22.5
+   },
+   "ingredients": [
+    "Beetroot (Chukandar)",
+    "Mustard leaves (Sarson)",
+    "Rice, milled (white)",
+    "Colocasia (Arbi)",
+    "Grapes, black",
+    "Rice, brown"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p0-i9",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 140.0,
+    "serum_potassium": 4.99,
+    "creatinine": 1.9,
+    "egfr": 31.2,
+    "hba1c": 8.5,
+    "fbs": 181.0,
+    "sbp": 162.0,
+    "dbp": 103.0,
+    "bmi": 22.5
+   },
+   "ingredients": [
+    "Tapioca (Cassava)",
+    "Spinach (Palak)",
+    "Onion (Pyaz)",
+    "Cashewnut (Kaju)",
+    "Cucumber",
+    "Gooseberry (Amla)",
+    "Fenugreek leaves (Methi)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": [
+    "tree_nuts",
+    "fish"
+   ]
+  },
+  {
+   "id": "s111-p1-i0",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 142.5,
+    "serum_potassium": 5.28,
+    "creatinine": 2.5,
+    "egfr": 19.6,
+    "hba1c": 7.2,
+    "fbs": 192.0,
+    "sbp": 175.0,
+    "dbp": 100.0,
+    "bmi": 21.1
+   },
+   "ingredients": [
+    "Green gram dal (Moong dal)",
+    "Bitter gourd (Karela)",
+    "Sardine (Mathi)",
+    "Onion stalk (Spring onion)",
+    "Ridge gourd (Tori)",
+    "Guava",
+    "Radish (Mooli)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": [
+    "peanut",
+    "egg"
+   ]
+  },
+  {
+   "id": "s111-p1-i1",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 142.5,
+    "serum_potassium": 5.28,
+    "creatinine": 2.5,
+    "egfr": 19.6,
+    "hba1c": 7.2,
+    "fbs": 192.0,
+    "sbp": 175.0,
+    "dbp": 100.0,
+    "bmi": 21.1
+   },
+   "ingredients": [
+    "Rice, milled (white)",
+    "Bottle gourd (Lauki)",
+    "Lentil (Masoor dal)",
+    "Amaranth seed, pale brown",
+    "Agathi leaves"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop and oven",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p1-i2",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 142.5,
+    "serum_potassium": 5.28,
+    "creatinine": 2.5,
+    "egfr": 19.6,
+    "hba1c": 7.2,
+    "fbs": 192.0,
+    "sbp": 175.0,
+    "dbp": 100.0,
+    "bmi": 21.1
+   },
+   "ingredients": [
+    "Red gram dal (Toor dal)",
+    "Mango, green raw",
+    "Bajra (Pearl millet)",
+    "Rajmah (Kidney beans)",
+    "Walnuts (Akhrot)",
+    "Pumpkin (Kaddu)",
+    "Almonds (Badam)",
+    "Papaya, ripe"
+   ],
+   "cuisine": "Any",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p1-i3",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 142.5,
+    "serum_potassium": 5.28,
+    "creatinine": 2.5,
+    "egfr": 19.6,
+    "hba1c": 7.2,
+    "fbs": 192.0,
+    "sbp": 175.0,
+    "dbp": 100.0,
+    "bmi": 21.1
+   },
+   "ingredients": [
+    "Potato (Aloo)",
+    "Ridge gourd (Tori)",
+    "Colocasia (Arbi)",
+    "Carrot (Gajar)",
+    "Watermelon (Tarbooz)",
+    "Spinach (Palak)",
+    "Coriander leaves (Dhania)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Stovetop only",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p1-i4",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 142.5,
+    "serum_potassium": 5.28,
+    "creatinine": 2.5,
+    "egfr": 19.6,
+    "hba1c": 7.2,
+    "fbs": 192.0,
+    "sbp": 175.0,
+    "dbp": 100.0,
+    "bmi": 21.1
+   },
+   "ingredients": [
+    "Peas, dry (Matar)",
+    "Pumpkin (Kaddu)",
+    "Coconut, dry (Copra)",
+    "Onion stalk (Spring onion)",
+    "Cucumber",
+    "Strawberry",
+    "Mango, green raw",
+    "Dates, dry"
+   ],
+   "cuisine": "Any",
+   "equipment": "Stovetop and oven",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p1-i5",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 142.5,
+    "serum_potassium": 5.28,
+    "creatinine": 2.5,
+    "egfr": 19.6,
+    "hba1c": 7.2,
+    "fbs": 192.0,
+    "sbp": 175.0,
+    "dbp": 100.0,
+    "bmi": 21.1
+   },
+   "ingredients": [
+    "Yam (Suran)",
+    "Lettuce",
+    "Coconut, dry (Copra)",
+    "Potato (Aloo)",
+    "Amaranth leaves, green",
+    "Khoya (Mawa)"
+   ],
+   "cuisine": "Any",
+   "equipment": "Microwave and kettle",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p1-i6",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 142.5,
+    "serum_potassium": 5.28,
+    "creatinine": 2.5,
+    "egfr": 19.6,
+    "hba1c": 7.2,
+    "fbs": 192.0,
+    "sbp": 175.0,
+    "dbp": 100.0,
+    "bmi": 21.1
+   },
+   "ingredients": [
+    "Amaranth seed, pale brown",
+    "Agathi leaves",
+    "Khoya (Mawa)",
+    "Watermelon (Tarbooz)",
+    "Beetroot (Chukandar)",
+    "Mango, green raw",
+    "Amaranth leaves, green",
+    "Rice, brown"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Stovetop and oven",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p1-i7",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 142.5,
+    "serum_potassium": 5.28,
+    "creatinine": 2.5,
+    "egfr": 19.6,
+    "hba1c": 7.2,
+    "fbs": 192.0,
+    "sbp": 175.0,
+    "dbp": 100.0,
+    "bmi": 21.1
+   },
+   "ingredients": [
+    "Sweet potato (Shakarkand)",
+    "Tomato, ripe",
+    "Rice, brown",
+    "Strawberry",
+    "Mango, ripe",
+    "Ash gourd (Petha)",
+    "Colocasia (Arbi)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p1-i8",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 142.5,
+    "serum_potassium": 5.28,
+    "creatinine": 2.5,
+    "egfr": 19.6,
+    "hba1c": 7.2,
+    "fbs": 192.0,
+    "sbp": 175.0,
+    "dbp": 100.0,
+    "bmi": 21.1
+   },
+   "ingredients": [
+    "Amaranth seed, pale brown",
+    "Spinach (Palak)",
+    "Green gram, whole",
+    "Rice, milled (white)"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Pressure cooker",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p1-i9",
+   "patient": {
+    "age": 74,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 142.5,
+    "serum_potassium": 5.28,
+    "creatinine": 2.5,
+    "egfr": 19.6,
+    "hba1c": 7.2,
+    "fbs": 192.0,
+    "sbp": 175.0,
+    "dbp": 100.0,
+    "bmi": 21.1
+   },
+   "ingredients": [
+    "Peas, dry (Matar)",
+    "Bitter gourd (Karela)",
+    "Pomfret (White)",
+    "Drumstick (Moringa pod)",
+    "Orange"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop only",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p2-i0",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 143.7,
+    "serum_potassium": 4.61,
+    "creatinine": 4.18,
+    "egfr": 12.1,
+    "hba1c": 8.4,
+    "fbs": 139.0,
+    "sbp": 159.0,
+    "dbp": 85.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Potato (Aloo)",
+    "Ridge gourd (Tori)",
+    "Beetroot (Chukandar)",
+    "Mango, green raw",
+    "Milk, cow (whole)",
+    "Cauliflower (Phool gobhi)",
+    "Peas, fresh (Matar)"
+   ],
+   "cuisine": "North Indian",
+   "equipment": "Stovetop only",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p2-i1",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 143.7,
+    "serum_potassium": 4.61,
+    "creatinine": 4.18,
+    "egfr": 12.1,
+    "hba1c": 8.4,
+    "fbs": 139.0,
+    "sbp": 159.0,
+    "dbp": 85.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Yam (Suran)",
+    "Peas, fresh (Matar)",
+    "Coriander leaves (Dhania)",
+    "Soybean",
+    "Onion (Pyaz)",
+    "Colocasia leaves (Arbi leaves)",
+    "Chicken, leg",
+    "Potato (Aloo)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop and oven",
+   "time_limit": "20 minutes",
+   "exclusions": [
+    "gluten",
+    "soy"
+   ]
+  },
+  {
+   "id": "s111-p2-i2",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 143.7,
+    "serum_potassium": 4.61,
+    "creatinine": 4.18,
+    "egfr": 12.1,
+    "hba1c": 8.4,
+    "fbs": 139.0,
+    "sbp": 159.0,
+    "dbp": 85.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Beetroot (Chukandar)",
+    "Drumstick (Moringa pod)",
+    "Cucumber",
+    "Black gram, whole"
+   ],
+   "cuisine": "Gujarati",
+   "equipment": "Microwave and kettle",
+   "time_limit": "30 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p2-i3",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 143.7,
+    "serum_potassium": 4.61,
+    "creatinine": 4.18,
+    "egfr": 12.1,
+    "hba1c": 8.4,
+    "fbs": 139.0,
+    "sbp": 159.0,
+    "dbp": 85.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Bengal gram dal (Chana dal)",
+    "Peas, fresh (Matar)",
+    "Pomfret (White)",
+    "Rohu fish",
+    "Curd (Dahi/Yogurt)",
+    "Cluster beans (Gawar)",
+    "Pomegranate (Anar)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Stovetop only",
+   "time_limit": "30 minutes",
+   "exclusions": [
+    "tree_nuts",
+    "peanut"
+   ]
+  },
+  {
+   "id": "s111-p2-i4",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 143.7,
+    "serum_potassium": 4.61,
+    "creatinine": 4.18,
+    "egfr": 12.1,
+    "hba1c": 8.4,
+    "fbs": 139.0,
+    "sbp": 159.0,
+    "dbp": 85.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Carrot (Gajar)",
+    "Drumstick (Moringa pod)",
+    "Green gram, whole",
+    "Pomfret (White)",
+    "Tapioca (Cassava)",
+    "Strawberry"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "Any",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p2-i5",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 143.7,
+    "serum_potassium": 4.61,
+    "creatinine": 4.18,
+    "egfr": 12.1,
+    "hba1c": 8.4,
+    "fbs": 139.0,
+    "sbp": 159.0,
+    "dbp": 85.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Rice, brown",
+    "Drumstick (Moringa pod)",
+    "Capsicum, green (Bell pepper)",
+    "Drumstick leaves (Moringa)"
+   ],
+   "cuisine": "Maharashtrian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p2-i6",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 143.7,
+    "serum_potassium": 4.61,
+    "creatinine": 4.18,
+    "egfr": 12.1,
+    "hba1c": 8.4,
+    "fbs": 139.0,
+    "sbp": 159.0,
+    "dbp": 85.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Maize, dry",
+    "Tomato, ripe",
+    "Cluster beans (Gawar)",
+    "Cauliflower leaves",
+    "Black gram, whole"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Pressure cooker",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p2-i7",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 143.7,
+    "serum_potassium": 4.61,
+    "creatinine": 4.18,
+    "egfr": 12.1,
+    "hba1c": 8.4,
+    "fbs": 139.0,
+    "sbp": 159.0,
+    "dbp": 85.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Lentil (Masoor dal)",
+    "Bottle gourd (Lauki)",
+    "Sardine (Mathi)",
+    "Cauliflower leaves",
+    "Carrot (Gajar)",
+    "Bengal gram dal (Chana dal)",
+    "Cashewnut (Kaju)",
+    "Capsicum, green (Bell pepper)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Microwave and kettle",
+   "time_limit": "45 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p2-i8",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 143.7,
+    "serum_potassium": 4.61,
+    "creatinine": 4.18,
+    "egfr": 12.1,
+    "hba1c": 8.4,
+    "fbs": 139.0,
+    "sbp": 159.0,
+    "dbp": 85.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Radish (Mooli)",
+    "Lettuce",
+    "Rice, milled (white)",
+    "Rohu fish",
+    "Drumstick (Moringa pod)"
+   ],
+   "cuisine": "South Indian",
+   "equipment": "Microwave and kettle",
+   "time_limit": "20 minutes",
+   "exclusions": []
+  },
+  {
+   "id": "s111-p2-i9",
+   "patient": {
+    "age": 53,
+    "sex_male": 0,
+    "has_htn": 1,
+    "has_dm": 1,
+    "has_ckd": 1,
+    "serum_sodium": 143.7,
+    "serum_potassium": 4.61,
+    "creatinine": 4.18,
+    "egfr": 12.1,
+    "hba1c": 8.4,
+    "fbs": 139.0,
+    "sbp": 159.0,
+    "dbp": 85.0,
+    "bmi": 23.9
+   },
+   "ingredients": [
+    "Jowar (Sorghum)",
+    "Onion stalk (Spring onion)",
+    "Barley",
+    "Khoya (Mawa)",
+    "Paneer (Cottage cheese)"
+   ],
+   "cuisine": "Bengali",
+   "equipment": "Stovetop only",
+   "time_limit": "20 minutes",
+   "exclusions": [
+    "shellfish"
+   ]
+  }
+ ]
+}

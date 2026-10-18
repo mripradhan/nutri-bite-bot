@@ -1,0 +1,102 @@
+{
+  "is_mock": false,
+  "n_cases": 214,
+  "n_cases_with_exclusions": 66,
+  "model": "openai/gpt-oss-120b",
+  "max_attempts": 3,
+  "first_attempt": {
+    "fail_rate": 0.5,
+    "fail_ci95": [
+      0.4336,
+      0.5664
+    ],
+    "n_fail": 107,
+    "listed_quantities": 1029,
+    "quantities_over_ceiling": 0,
+    "quantity_over_rate": 0.0,
+    "quantity_over_ci95": [
+      -0.0,
+      0.0037
+    ],
+    "cases_with_excluded_term": 0,
+    "cases_with_restricted_item": 0,
+    "violation_code_counts": {
+      "unknown_ingredient": 70,
+      "non_allowed_ingredient_mentioned": 38,
+      "unattributed_quantity": 9,
+      "invalid_quantity": 5,
+      "non_allowed_ingredient": 3,
+      "llm_error": 2,
+      "neutral_over_cap": 1
+    },
+    "fail_spice_wording_only": 57,
+    "fail_rate_excluding_spice_wording_only": 0.2336,
+    "fail_excl_spice_ci95": [
+      0.182,
+      0.2947
+    ]
+  },
+  "delivered": {
+    "llm": 195,
+    "template": 19,
+    "none": 0,
+    "llm_first_try": 107,
+    "mean_attempts": 1.687,
+    "template_rate": 0.0888,
+    "template_rate_ci95": [
+      0.0576,
+      0.1345
+    ],
+    "quantities_in_delivered_recipes": 1039,
+    "rule_of_three_style_upper95_if_zero_observed": 0.0029
+  },
+  "caveat": "Delivered recipes pass the deterministic verifier by construction, so 'violations in delivered recipes' measured with the same rules is 0 by design. The informative numbers are the first-attempt rates above and the independent cross-check below. Zero observed violations is not a guarantee.",
+  "subgroups": {
+    "hypertensive": {
+      "n": 97,
+      "first_fail_rate": 0.464,
+      "template_rate": 0.082,
+      "quantities_over": 0,
+      "quantities_listed": 462
+    },
+    "non_hypertensive": {
+      "n": 117,
+      "first_fail_rate": 0.53,
+      "template_rate": 0.094,
+      "quantities_over": 0,
+      "quantities_listed": 567
+    },
+    "with_exclusions": {
+      "n": 66,
+      "first_fail_rate": 0.455,
+      "template_rate": 0.121,
+      "quantities_over": 0,
+      "quantities_listed": 307
+    },
+    "without_exclusions": {
+      "n": 148,
+      "first_fail_rate": 0.52,
+      "template_rate": 0.074,
+      "quantities_over": 0,
+      "quantities_listed": 722
+    }
+  },
+  "cases_by_stratum": {
+    "htn0dm0ckd0": 30,
+    "htn0dm0ckd1": 30,
+    "htn0dm1ckd0": 30,
+    "htn0dm1ckd1": 27,
+    "htn1dm0ckd0": 24,
+    "htn1dm0ckd1": 24,
+    "htn1dm1ckd0": 24,
+    "htn1dm1ckd1": 25
+  },
+  "independent_crosscheck_on_delivered_llm_recipes": {
+    "recipes_checked": 193,
+    "quantities_checked": 1123,
+    "quantities_over_ceiling": 0,
+    "extraction_errors": 2,
+    "upper95_violation_rate": 0.0027,
+    "note": "model-mediated second opinion; extraction errors make this an imperfect audit"
+  }
+}
