@@ -254,10 +254,14 @@ app = Flask(__name__, static_folder=FRONTEND_DIR)
 CORS(app)
 
 load_dotenv()
+# Tolerate the common copy-paste mistakes (surrounding quotes, spaces, trailing newline).
+GROQ_API_KEY = (os.getenv("GROQ_API_KEY") or "").strip().strip("\"'").strip()
 try:
-    groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+    groq_client = Groq(api_key=GROQ_API_KEY) if GROQ_API_KEY else None
 except Exception:
     groq_client = None
+print(f"  GROQ_API_KEY: {'set' if GROQ_API_KEY else 'MISSING'}, length {len(GROQ_API_KEY)}, "
+      f"starts with 'gsk_': {GROQ_API_KEY.startswith('gsk_')}")
 
 ROBOFLOW_API_KEY = os.getenv("ROBOFLOW_API_KEY", "")
 
@@ -597,6 +601,18 @@ def _build_recipe_messages(patient_flags: dict, usable: list, forbidden: list,
         + "Generate the recipe now."
     )
     return [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}]
+
+
+@app.route("/api/health", methods=["GET"])
+def health():
+    """Configuration check that never reveals a secret: only whether keys look well-formed."""
+    return jsonify({
+        "groq_key_configured": bool(GROQ_API_KEY),
+        "groq_key_length": len(GROQ_API_KEY),
+        "groq_key_prefix_ok": GROQ_API_KEY.startswith("gsk_"),
+        "roboflow_key_configured": bool(ROBOFLOW_API_KEY),
+        "recipe_model": RECIPE_LLM_MODEL,
+    })
 
 
 @app.route("/api/allergen-groups", methods=["GET"])
