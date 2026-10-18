@@ -50,16 +50,16 @@
                 </div>
                 <div class="hero-explain hero-explain--technical">
                     <span class="explain-tag">How it works</span>
-                    <p>A multi-target TabNet classifier trained on MIMIC-IV EHR data infers per-nutrient sensitivity (Low / Moderate / High) for sodium, potassium, protein, and carbohydrates from 14 clinical features via sparsemax attention, producing native per-instance attribution masks without post-hoc overhead. A five-constraint sigmoid severity-to-fraction engine translates continuous severity scores into ingredient-specific maximum safe gram quantities against a session-persistent daily budget grounded in IFCT&nbsp;2017. A bounded Groq Llama-3.3 agent generates recipes strictly within the hard gram-level limits enforced upstream by the rules engine.</p>
+                    <p>A multi-target TabNet classifier trained on MIMIC-IV EHR data predicts the risk (Low / Moderate / High) of four clinical outcomes used as proxies for sodium, potassium, protein, and carbohydrate sensitivity from 14 clinical features via sparsemax attention, producing native per-instance attribution masks without post-hoc overhead. A five-constraint sigmoid severity-to-fraction engine translates continuous severity scores into computed guideline-constrained gram ceilings (not dietitian-validated) against a session-persistent daily budget grounded in IFCT&nbsp;2017. A Groq Llama-3.3 agent is instructed to generate recipes within these gram ceilings; adherence is checked after generation.</p>
                 </div>
             </div>
 
             <div class="hero-chips">
-                <span class="hero-chip">4 Nutrient Sensitivity Targets</span>
+                <span class="hero-chip">4 Outcome-Risk Proxies</span>
                 <span class="hero-chip">14 EHR Features</span>
                 <span class="hero-chip">IFCT 2017 &mdash; Indian Food Composition</span>
                 <span class="hero-chip">KDIGO 2024 &middot; ADA 2024 &middot; AHA/ACC</span>
-                <span class="hero-chip">DPDPA 2023 Compliant</span>
+                <span class="hero-chip">Local clinical inference (research prototype)</span>
             </div>
         </div>
     </section>
@@ -264,7 +264,7 @@
         <section class="card ingredient-section" id="ingredient-section">
             <div class="card-header">
                 <h2>&#9749; Ingredient Portion Analysis</h2>
-                <p class="card-subtitle">Search for ingredients to get ML-based safe portion recommendations</p>
+                <p class="card-subtitle">Search for ingredients to get model-derived, guideline-constrained gram ceilings (not dietitian-validated)</p>
             </div>
 
             <!-- Ingredient Search -->
@@ -304,7 +304,7 @@
         <section class="card recipe-section" id="recipe-section">
             <div class="card-header">
                 <h2>&#127859; Clinical Recipe Generator</h2>
-                <p class="card-subtitle">Generate a clinical recipe based on safe portion recommendations and
+                <p class="card-subtitle">Generate a clinical recipe based on computed gram ceilings and
                     constraints.</p>
             </div>
 
