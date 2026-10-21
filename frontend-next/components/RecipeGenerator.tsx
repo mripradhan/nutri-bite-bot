@@ -70,8 +70,8 @@ export default function RecipeGenerator() {
         template. Quantities are verified as written in the ingredient list only.
       </p>
       <p className="text-[11px] text-text-muted mb-6">
-        Data notice: recipe generation sends your comorbidity flags, gram ceilings and exclusion
-        list (not your lab values) to the Groq API.
+        Data notice: recipe generation sends your comorbidity flags and the permitted ingredients
+        with their gram ceilings (not your lab values or your exclusion list) to the Groq API.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
