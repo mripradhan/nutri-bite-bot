@@ -46,7 +46,7 @@
             <div class="hero-explainers">
                 <div class="hero-explain hero-explain--layman">
                     <span class="explain-tag">What it does</span>
-                    <p>Patients with kidney disease, diabetes, or hypertension face conflicting dietary constraints that no single tool reconciles automatically. Enter your blood test results and NutriBiteBot tells you exactly how many grams of each ingredient are safe for you specifically &mdash; grounded in your actual lab values, not population averages. Scan your fridge to detect ingredients, then generate a recipe that cannot exceed your clinical limits.</p>
+                    <p>Patients with kidney disease, diabetes, or hypertension face conflicting dietary constraints that no single tool reconciles automatically. Enter your blood test results and NutriBiteBot computes guideline-constrained gram ceilings for each ingredient from your lab values (research prototype; not validated safety limits). Scan your fridge to detect ingredients, then generate a recipe that is checked against those ceilings.</p>
                 </div>
                 <div class="hero-explain hero-explain--technical">
                     <span class="explain-tag">How it works</span>
@@ -232,8 +232,7 @@
         <section class="card fridge-section" id="fridge-section">
             <div class="card-header">
                 <h2>&#128247; Fridge Scanner</h2>
-                <p class="card-subtitle">Upload a photo of your fridge to automatically detect ingredients and check
-                    their safety.</p>
+                <p class="card-subtitle">Upload a photo of your fridge to detect ingredients (prototype detector; accuracy not evaluated).</p>
             </div>
 
             <div class="fridge-content-wrap">
@@ -255,7 +254,7 @@
                         &#10133; Auto-Add to Portion Analysis
                     </button>
                     <p class="detection-note">Note: These will be added to the Portion Analysis below. You must click
-                        "Get Portion Recommendations" there to configure safe limits before generating a recipe.</p>
+                        "Get Portion Recommendations" there to compute guideline-constrained gram ceilings before generating a recipe.</p>
                 </div>
             </div>
         </section>

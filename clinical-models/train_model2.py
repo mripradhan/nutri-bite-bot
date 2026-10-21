@@ -1332,7 +1332,7 @@ class Model1Integration:
 class PortionRecommender:
     """
     Deterministic portion recommendation engine.
-    Uses IFCT nutritional data + Model1 risk levels to recommend safe portions.
+    Uses IFCT nutritional data + Model1 risk levels to compute guideline-constrained gram ceilings (not validated safety limits).
     Now uses continuous severity_score via a sigmoid mapping to compute
     per-nutrient fractions, eliminating dose-cliffs at label boundaries.
     """

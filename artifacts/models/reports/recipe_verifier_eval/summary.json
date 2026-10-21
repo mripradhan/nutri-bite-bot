@@ -1,0 +1,87 @@
+{
+  "is_mock": false,
+  "stopped_early_on_quota": false,
+  "model": "openai/gpt-oss-120b",
+  "verifier": "deployed deterministic parser (recipe_verifier.py, repo root)",
+  "n_cases_attempted": 240,
+  "n_recipes_returned": 240,
+  "n_no_recipe": 0,
+  "cases_by_stratum": {
+    "htn0dm0ckd0": 30,
+    "htn0dm0ckd1": 30,
+    "htn0dm1ckd0": 30,
+    "htn0dm1ckd1": 30,
+    "htn1dm0ckd0": 30,
+    "htn1dm0ckd1": 30,
+    "htn1dm1ckd0": 30,
+    "htn1dm1ckd1": 30
+  },
+  "n_cases_with_exclusions": 72,
+  "legumes_replaced_by_sesame_in": 8,
+  "first_attempt": {
+    "n_fail": 29,
+    "fail_rate": 0.1208,
+    "fail_ci95": [
+      0.0855,
+      0.1682
+    ],
+    "listed_quantities": 1317,
+    "quantities_over_ceiling": 0,
+    "quantity_over_rate": 0.0,
+    "quantity_over_ci95": [
+      0.0,
+      0.0029
+    ],
+    "issue_type_case_counts": {
+      "unknown_ingredient": 16,
+      "no_ingredient_section": 6,
+      "unparsed_line": 6,
+      "no_quantity": 1
+    }
+  },
+  "delivered": {
+    "verified": 211,
+    "verified_after_regeneration": 29,
+    "template_fallback": 0,
+    "mean_attempts": 1.125,
+    "template_rate": 0.0,
+    "template_rate_ci95": [
+      -0.0,
+      0.0158
+    ],
+    "quantities_in_delivered_recipes": 1374,
+    "violations_in_delivered_recipes": 0,
+    "upper95_if_zero_observed": 0.0022
+  },
+  "subgroups": {
+    "hypertensive": {
+      "n": 120,
+      "first_fail_rate": 0.1,
+      "template_rate": 0.0
+    },
+    "non_hypertensive": {
+      "n": 120,
+      "first_fail_rate": 0.142,
+      "template_rate": 0.0
+    },
+    "with_exclusions": {
+      "n": 72,
+      "first_fail_rate": 0.056,
+      "template_rate": 0.0
+    },
+    "without_exclusions": {
+      "n": 168,
+      "first_fail_rate": 0.149,
+      "template_rate": 0.0
+    }
+  },
+  "caveat": "Delivered recipes pass the verifier by construction, so zero violations in them measured with the same rules is not independent evidence. The verifier checks quantities in the ingredient list only, not amounts implied in the cooking steps. Zero observed violations is not a guarantee.",
+  "independent_audit": {
+    "recipes_audited": 237,
+    "quantities_checked": 1376,
+    "quantities_over_ceiling": 0,
+    "extraction_errors": 0,
+    "upper95": 0.0022,
+    "note": "model-mediated second opinion; never used to accept a recipe"
+  }
+}
