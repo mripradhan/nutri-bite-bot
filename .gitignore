@@ -58,3 +58,8 @@ artifacts/experiments/*/tabnet/
 
 # local screenshot staging for the manuscript
 uploadedimages/
+
+# local-only
+rev2last/
+revision2final/
+.claude/
