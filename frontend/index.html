@@ -46,20 +46,20 @@
             <div class="hero-explainers">
                 <div class="hero-explain hero-explain--layman">
                     <span class="explain-tag">What it does</span>
-                    <p>Patients with kidney disease, diabetes, or hypertension face conflicting dietary constraints that no single tool reconciles automatically. Enter your blood test results and NutriBiteBot tells you exactly how many grams of each ingredient are safe for you specifically &mdash; grounded in your actual lab values, not population averages. Scan your fridge to detect ingredients, then generate a recipe that cannot exceed your clinical limits.</p>
+                    <p>Patients with kidney disease, diabetes, or hypertension face conflicting dietary constraints that no single tool reconciles automatically. Enter your blood test results and NutriBiteBot computes guideline-constrained gram ceilings for each ingredient from your lab values (research prototype; not validated safety limits). Scan your fridge to detect ingredients, then generate a recipe that is checked against those ceilings.</p>
                 </div>
                 <div class="hero-explain hero-explain--technical">
                     <span class="explain-tag">How it works</span>
-                    <p>A multi-target TabNet classifier trained on MIMIC-IV EHR data infers per-nutrient sensitivity (Low / Moderate / High) for sodium, potassium, protein, and carbohydrates from 14 clinical features via sparsemax attention, producing native per-instance attribution masks without post-hoc overhead. A five-constraint sigmoid severity-to-fraction engine translates continuous severity scores into ingredient-specific maximum safe gram quantities against a session-persistent daily budget grounded in IFCT&nbsp;2017. A bounded Groq Llama-3.3 agent generates recipes strictly within the hard gram-level limits enforced upstream by the rules engine.</p>
+                    <p>A multi-target TabNet classifier trained on MIMIC-IV EHR data predicts the risk (Low / Moderate / High) of four clinical outcomes used as proxies for sodium, potassium, protein, and carbohydrate sensitivity from 14 clinical features via sparsemax attention, producing native per-instance attribution masks without post-hoc overhead. A five-constraint sigmoid severity-to-fraction engine translates continuous severity scores into computed guideline-constrained gram ceilings (not dietitian-validated) against a session-persistent daily budget grounded in IFCT&nbsp;2017. A Groq Llama-3.3 agent is instructed to generate recipes within these gram ceilings; adherence is checked after generation.</p>
                 </div>
             </div>
 
             <div class="hero-chips">
-                <span class="hero-chip">4 Nutrient Sensitivity Targets</span>
+                <span class="hero-chip">4 Outcome-Risk Proxies</span>
                 <span class="hero-chip">14 EHR Features</span>
                 <span class="hero-chip">IFCT 2017 &mdash; Indian Food Composition</span>
                 <span class="hero-chip">KDIGO 2024 &middot; ADA 2024 &middot; AHA/ACC</span>
-                <span class="hero-chip">DPDPA 2023 Compliant</span>
+                <span class="hero-chip">Local clinical inference (research prototype)</span>
             </div>
         </div>
     </section>
@@ -232,8 +232,7 @@
         <section class="card fridge-section" id="fridge-section">
             <div class="card-header">
                 <h2>&#128247; Fridge Scanner</h2>
-                <p class="card-subtitle">Upload a photo of your fridge to automatically detect ingredients and check
-                    their safety.</p>
+                <p class="card-subtitle">Upload a photo of your fridge to detect ingredients (prototype detector; accuracy not evaluated).</p>
             </div>
 
             <div class="fridge-content-wrap">
@@ -255,7 +254,7 @@
                         &#10133; Auto-Add to Portion Analysis
                     </button>
                     <p class="detection-note">Note: These will be added to the Portion Analysis below. You must click
-                        "Get Portion Recommendations" there to configure safe limits before generating a recipe.</p>
+                        "Get Portion Recommendations" there to compute guideline-constrained gram ceilings before generating a recipe.</p>
                 </div>
             </div>
         </section>
@@ -264,7 +263,7 @@
         <section class="card ingredient-section" id="ingredient-section">
             <div class="card-header">
                 <h2>&#9749; Ingredient Portion Analysis</h2>
-                <p class="card-subtitle">Search for ingredients to get ML-based safe portion recommendations</p>
+                <p class="card-subtitle">Search for ingredients to get model-derived, guideline-constrained gram ceilings (not dietitian-validated)</p>
             </div>
 
             <!-- Ingredient Search -->
@@ -304,7 +303,7 @@
         <section class="card recipe-section" id="recipe-section">
             <div class="card-header">
                 <h2>&#127859; Clinical Recipe Generator</h2>
-                <p class="card-subtitle">Generate a clinical recipe based on safe portion recommendations and
+                <p class="card-subtitle">Generate a clinical recipe based on computed gram ceilings and
                     constraints.</p>
             </div>
 

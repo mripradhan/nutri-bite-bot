@@ -1,0 +1,86 @@
+{
+  "_note": "Curated allergen / intolerance / diet groups over the 101 IFCT ingredients. 'ingredients' are exact IFCT names (hard exclusion in the portion engine, substitution engine and recipe generator); 'terms' are words/phrases scanned in free text (recipe title, ingredient list, steps) with word boundaries, so that unlisted derivatives (e.g. 'peanut butter', 'mayonnaise') are also caught. Coverage is curated, not exhaustive: it is not a substitute for a clinician's allergy history. Over-blocking is deliberate (e.g. 'coconut milk' matches the dairy term 'milk').",
+  "groups": {
+    "dairy": {
+      "label": "Dairy / milk",
+      "ingredients": ["Milk, buffalo", "Milk, cow (whole)", "Curd (Dahi/Yogurt)", "Paneer (Cottage cheese)", "Ghee", "Khoya (Mawa)"],
+      "terms": ["milk", "curd", "dahi", "yogurt", "yoghurt", "paneer", "cheese", "ghee", "butter", "khoya", "mawa", "cream", "malai", "lassi", "buttermilk", "chaas", "raita", "whey", "casein", "custard", "kheer"]
+    },
+    "lactose": {
+      "label": "Lactose intolerance",
+      "ingredients": ["Milk, buffalo", "Milk, cow (whole)", "Curd (Dahi/Yogurt)", "Paneer (Cottage cheese)", "Khoya (Mawa)"],
+      "terms": ["milk", "curd", "dahi", "yogurt", "yoghurt", "paneer", "cheese", "khoya", "mawa", "cream", "malai", "lassi", "buttermilk", "chaas", "raita", "whey", "custard", "kheer"]
+    },
+    "gluten": {
+      "label": "Gluten / wheat",
+      "ingredients": ["Barley", "Wheat flour, atta", "Wheat, whole"],
+      "terms": ["wheat", "atta", "maida", "roti", "chapati", "chapatti", "phulka", "paratha", "naan", "puri", "semolina", "suji", "sooji", "rava", "bread", "pasta", "noodles", "vermicelli", "seviyan", "barley", "rye", "dalia", "daliya", "bulgur", "couscous", "seitan", "gluten"]
+    },
+    "peanut": {
+      "label": "Peanut",
+      "ingredients": ["Groundnut (Moongphali/Peanut)"],
+      "terms": ["peanut", "peanuts", "groundnut", "groundnuts", "moongphali", "mungfali", "peanut butter"]
+    },
+    "tree_nuts": {
+      "label": "Tree nuts",
+      "ingredients": ["Almonds (Badam)", "Cashewnut (Kaju)", "Walnuts (Akhrot)"],
+      "terms": ["almond", "almonds", "badam", "cashew", "cashews", "kaju", "cashewnut", "walnut", "walnuts", "akhrot", "pistachio", "pista", "hazelnut", "pecan", "macadamia", "nuts", "nut"]
+    },
+    "coconut": {
+      "label": "Coconut",
+      "ingredients": ["Coconut, dry (Copra)", "Coconut, fresh (Nariyal)"],
+      "terms": ["coconut", "nariyal", "copra", "khobra"]
+    },
+    "sesame": {
+      "label": "Sesame",
+      "ingredients": ["Sesame seeds (Til)"],
+      "terms": ["sesame", "til", "gingelly", "tahini"]
+    },
+    "soy": {
+      "label": "Soy",
+      "ingredients": ["Soybean"],
+      "terms": ["soy", "soya", "soybean", "soybeans", "tofu", "tempeh", "edamame", "nutrela"]
+    },
+    "egg": {
+      "label": "Egg",
+      "ingredients": ["Egg, whole, boiled"],
+      "terms": ["egg", "eggs", "anda", "omelette", "omelet", "mayonnaise", "mayo"]
+    },
+    "fish": {
+      "label": "Fish",
+      "ingredients": ["Sardine (Mathi)", "Pomfret (White)", "Rohu fish"],
+      "terms": ["fish", "sardine", "sardines", "mathi", "pomfret", "rohu", "hilsa", "salmon", "tuna", "anchovy", "anchovies", "machli", "fish sauce"]
+    },
+    "shellfish": {
+      "label": "Shellfish",
+      "ingredients": ["Prawn (Jhinga)"],
+      "terms": ["prawn", "prawns", "shrimp", "shrimps", "jhinga", "crab", "lobster", "shellfish", "squid", "clam", "clams", "mussel", "mussels", "oyster", "oysters"]
+    },
+    "legumes": {
+      "label": "Legumes / pulses",
+      "ingredients": ["Bengal gram dal (Chana dal)", "Bengal gram, whole (Kabuli chana)", "Black gram dal (Urad dal)", "Black gram, whole", "Green gram dal (Moong dal)", "Green gram, whole", "Lentil (Masoor dal)", "Peas, dry (Matar)", "Rajmah (Kidney beans)", "Red gram dal (Toor dal)", "Soybean", "Groundnut (Moongphali/Peanut)", "Peas, fresh (Matar)", "Cluster beans (Gawar)"],
+      "terms": ["dal", "daal", "lentil", "lentils", "chana", "chickpea", "chickpeas", "rajma", "rajmah", "kidney beans", "moong", "urad", "masoor", "toor", "arhar", "gram", "beans", "peas", "matar", "legume", "legumes", "pulses"]
+    },
+    "allium": {
+      "label": "Onion / garlic",
+      "ingredients": ["Garlic (Lahsun)", "Onion (Pyaz)", "Onion stalk (Spring onion)"],
+      "terms": ["onion", "onions", "garlic", "lahsun", "pyaz", "spring onion", "shallot", "shallots", "leek"]
+    },
+    "vegetarian": {
+      "label": "Vegetarian diet (no meat, poultry, fish)",
+      "ingredients": ["Chicken, breast", "Chicken, leg", "Mutton (Goat meat)", "Sardine (Mathi)", "Pomfret (White)", "Prawn (Jhinga)", "Rohu fish"],
+      "terms": ["chicken", "mutton", "lamb", "goat", "beef", "pork", "meat", "keema", "fish", "sardine", "pomfret", "rohu", "prawn", "shrimp", "bacon", "ham", "gelatin", "gelatine"]
+    },
+    "vegan": {
+      "label": "Vegan diet (no animal products)",
+      "ingredients": ["Chicken, breast", "Chicken, leg", "Mutton (Goat meat)", "Egg, whole, boiled", "Sardine (Mathi)", "Pomfret (White)", "Prawn (Jhinga)", "Rohu fish", "Milk, buffalo", "Milk, cow (whole)", "Curd (Dahi/Yogurt)", "Paneer (Cottage cheese)", "Ghee", "Khoya (Mawa)"],
+      "terms": ["chicken", "mutton", "lamb", "goat", "beef", "pork", "meat", "keema", "fish", "sardine", "pomfret", "rohu", "prawn", "shrimp", "bacon", "ham", "gelatin", "gelatine", "egg", "eggs", "milk", "curd", "dahi", "yogurt", "yoghurt", "paneer", "cheese", "ghee", "butter", "khoya", "mawa", "cream", "malai", "lassi", "buttermilk", "whey", "casein", "honey", "mayonnaise"]
+    }
+  },
+  "group_aliases": {
+    "milk": "dairy", "lactose intolerant": "lactose", "wheat": "gluten", "wheat allergy": "gluten", "celiac": "gluten", "coeliac": "gluten",
+    "peanuts": "peanut", "groundnut": "peanut", "nuts": ["tree_nuts", "peanut"], "nut": ["tree_nuts", "peanut"], "tree nut": "tree_nuts", "tree nuts": "tree_nuts",
+    "eggs": "egg", "seafood": "shellfish", "shrimp": "shellfish", "prawn": "shellfish",
+    "pulses": "legumes", "legume": "legumes", "dal": "legumes", "onion": "allium", "garlic": "allium", "jain": "allium"
+  }
+}

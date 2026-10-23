@@ -1,0 +1,179 @@
+{
+  "deployed_tabnet_receives_indicators": false,
+  "imputation": "median of training rows (SimpleImputer), then standard scaling",
+  "ablation_model": "XGBoost (not TabNet); isolates information content of the indicators",
+  "indicators": {
+    "na_measured": "serum_sodium",
+    "k_measured": "serum_potassium",
+    "creatinine_measured": "creatinine",
+    "hba1c_measured": "hba1c",
+    "fbs_measured": "fbs",
+    "bp_measured": "sbp",
+    "bmi_measured": "bmi"
+  },
+  "n_boot": 200,
+  "per_target_missing_pct": {
+    "carb_sensitivity": {
+      "age": 0.0,
+      "bmi": 45.5,
+      "creatinine": 0.57,
+      "dbp": 31.74,
+      "egfr": 0.57,
+      "fbs": 37.28,
+      "has_ckd": 0.0,
+      "has_dm": 0.0,
+      "has_htn": 0.0,
+      "hba1c": 78.59,
+      "sbp": 31.74,
+      "serum_potassium": 0.45,
+      "serum_sodium": 1.1,
+      "sex_male": 0.0
+    },
+    "potassium_sensitivity": {
+      "age": 0.0,
+      "bmi": 45.48,
+      "creatinine": 0.58,
+      "dbp": 31.79,
+      "egfr": 0.58,
+      "fbs": 37.32,
+      "has_ckd": 0.0,
+      "has_dm": 0.0,
+      "has_htn": 0.0,
+      "hba1c": 78.6,
+      "sbp": 31.79,
+      "serum_potassium": 0.45,
+      "serum_sodium": 1.11,
+      "sex_male": 0.0
+    },
+    "protein_restriction": {
+      "age": 0.0,
+      "bmi": 45.56,
+      "creatinine": 0.0,
+      "dbp": 31.84,
+      "egfr": 0.0,
+      "fbs": 37.16,
+      "has_ckd": 0.0,
+      "has_dm": 0.0,
+      "has_htn": 0.0,
+      "hba1c": 78.58,
+      "sbp": 31.84,
+      "serum_potassium": 0.66,
+      "serum_sodium": 1.06,
+      "sex_male": 0.0
+    },
+    "sodium_sensitivity": {
+      "age": 0.0,
+      "bmi": 28.88,
+      "creatinine": 0.74,
+      "dbp": 17.41,
+      "egfr": 0.74,
+      "fbs": 35.25,
+      "has_ckd": 0.0,
+      "has_dm": 0.0,
+      "has_htn": 0.0,
+      "hba1c": 77.16,
+      "sbp": 17.41,
+      "serum_potassium": 1.27,
+      "serum_sodium": 2.15,
+      "sex_male": 0.0
+    }
+  },
+  "models": [
+    {
+      "target": "sodium_sensitivity",
+      "inputs": "indicators_only",
+      "auroc_macro": 0.542,
+      "ci_low": 0.5343,
+      "ci_high": 0.5528,
+      "n_test": 40645
+    },
+    {
+      "target": "sodium_sensitivity",
+      "inputs": "features_median_imputed",
+      "auroc_macro": 0.7469,
+      "ci_low": 0.7399,
+      "ci_high": 0.753,
+      "n_test": 40645
+    },
+    {
+      "target": "sodium_sensitivity",
+      "inputs": "features_plus_indicators",
+      "auroc_macro": 0.7466,
+      "ci_low": 0.7394,
+      "ci_high": 0.7526,
+      "n_test": 40645
+    },
+    {
+      "target": "potassium_sensitivity",
+      "inputs": "indicators_only",
+      "auroc_macro": 0.551,
+      "ci_low": 0.5433,
+      "ci_high": 0.5567,
+      "n_test": 49803
+    },
+    {
+      "target": "potassium_sensitivity",
+      "inputs": "features_median_imputed",
+      "auroc_macro": 0.7228,
+      "ci_low": 0.7164,
+      "ci_high": 0.729,
+      "n_test": 49803
+    },
+    {
+      "target": "potassium_sensitivity",
+      "inputs": "features_plus_indicators",
+      "auroc_macro": 0.7247,
+      "ci_low": 0.7182,
+      "ci_high": 0.7309,
+      "n_test": 49803
+    },
+    {
+      "target": "protein_restriction",
+      "inputs": "indicators_only",
+      "auroc_macro": 0.5615,
+      "ci_low": 0.5553,
+      "ci_high": 0.5681,
+      "n_test": 49705
+    },
+    {
+      "target": "protein_restriction",
+      "inputs": "features_median_imputed",
+      "auroc_macro": 0.7037,
+      "ci_low": 0.6972,
+      "ci_high": 0.7103,
+      "n_test": 49705
+    },
+    {
+      "target": "protein_restriction",
+      "inputs": "features_plus_indicators",
+      "auroc_macro": 0.7056,
+      "ci_low": 0.6994,
+      "ci_high": 0.7122,
+      "n_test": 49705
+    },
+    {
+      "target": "carb_sensitivity",
+      "inputs": "indicators_only",
+      "auroc_macro": 0.588,
+      "ci_low": 0.5814,
+      "ci_high": 0.5942,
+      "n_test": 49530
+    },
+    {
+      "target": "carb_sensitivity",
+      "inputs": "features_median_imputed",
+      "auroc_macro": 0.777,
+      "ci_low": 0.772,
+      "ci_high": 0.7812,
+      "n_test": 49530
+    },
+    {
+      "target": "carb_sensitivity",
+      "inputs": "features_plus_indicators",
+      "auroc_macro": 0.7771,
+      "ci_low": 0.7719,
+      "ci_high": 0.7814,
+      "n_test": 49530
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "n_boot": 500,
+  "band": 0.1,
+  "xgb_params": {
+    "learning_rate": 0.05,
+    "max_depth": 7,
+    "min_child_weight": 10,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "reg_lambda": 1.0,
+    "n_estimators": 600
+  },
+  "matched_fpr": [
+    {
+      "target": "sodium_sensitivity",
+      "event": "moderate_or_high",
+      "rules_fpr": 0.5649,
+      "rules_sensitivity": 0.8176,
+      "tabnet_sensitivity_at_same_fpr": 0.8807,
+      "diff": 0.0631,
+      "diff_ci_low": 0.0519,
+      "diff_ci_high": 0.0754
+    },
+    {
+      "target": "sodium_sensitivity",
+      "event": "high",
+      "rules_fpr": 0.035,
+      "rules_sensitivity": 0.2264,
+      "tabnet_sensitivity_at_same_fpr": 0.2264,
+      "diff": 0.0,
+      "diff_ci_low": -0.0187,
+      "diff_ci_high": 0.0191
+    },
+    {
+      "target": "potassium_sensitivity",
+      "event": "moderate_or_high",
+      "rules_fpr": 0.377,
+      "rules_sensitivity": 0.692,
+      "tabnet_sensitivity_at_same_fpr": 0.7097,
+      "diff": 0.0177,
+      "diff_ci_low": 0.0113,
+      "diff_ci_high": 0.0261
+    },
+    {
+      "target": "potassium_sensitivity",
+      "event": "high",
+      "rules_fpr": 0.1329,
+      "rules_sensitivity": 0.4239,
+      "tabnet_sensitivity_at_same_fpr": 0.4481,
+      "diff": 0.0242,
+      "diff_ci_low": 0.0113,
+      "diff_ci_high": 0.0362
+    },
+    {
+      "target": "protein_restriction",
+      "event": "moderate_or_high",
+      "rules_fpr": 0.3147,
+      "rules_sensitivity": 0.5923,
+      "tabnet_sensitivity_at_same_fpr": 0.5992,
+      "diff": 0.0069,
+      "diff_ci_low": 0.0004,
+      "diff_ci_high": 0.0135
+    },
+    {
+      "target": "protein_restriction",
+      "event": "high",
+      "rules_fpr": 0.2534,
+      "rules_sensitivity": 0.2847,
+      "tabnet_sensitivity_at_same_fpr": 0.3966,
+      "diff": 0.1119,
+      "diff_ci_low": 0.0796,
+      "diff_ci_high": 0.1403
+    },
+    {
+      "target": "carb_sensitivity",
+      "event": "moderate_or_high",
+      "rules_fpr": 0.6507,
+      "rules_sensitivity": 0.8625,
+      "tabnet_sensitivity_at_same_fpr": 0.9191,
+      "diff": 0.0566,
+      "diff_ci_low": 0.0487,
+      "diff_ci_high": 0.064
+    },
+    {
+      "target": "carb_sensitivity",
+      "event": "high",
+      "rules_fpr": 0.3401,
+      "rules_sensitivity": 0.6343,
+      "tabnet_sensitivity_at_same_fpr": 0.8042,
+      "diff": 0.1698,
+      "diff_ci_low": 0.1557,
+      "diff_ci_high": 0.1857
+    }
+  ],
+  "note": "Macro-F1 uses labels [0,1,2] with zero_division=0; compare arms within a stratum."
+}

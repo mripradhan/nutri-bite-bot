@@ -1,0 +1,54 @@
+{
+  "hardware": {
+    "cpu": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+    "physical_cores": 14,
+    "logical_cores": 20,
+    "ram_gb": 15.6,
+    "os": "Windows 10",
+    "python": "3.11.0"
+  },
+  "torch": "2.12.0+cpu",
+  "torch_threads": 1,
+  "artifacts": {
+    "tabnet_networks_mb": 0.8321609497070312,
+    "metadata_mb": 0.06313037872314453,
+    "total_mb": 0.8952913284301758,
+    "n_files": 10
+  },
+  "memory_mb": {
+    "process_start_mb": 30.5390625,
+    "after_imports_mb": 234.01953125,
+    "after_model_load_mb": 303.85546875,
+    "peak_rss_mb": 307.6484375
+  },
+  "latency": {
+    "inference_no_explain": {
+      "runs": 300,
+      "mean_ms": 27.642370667502593,
+      "p50_ms": 26.865950028877705,
+      "p95_ms": 34.82599502603989,
+      "p99_ms": 37.96202102676033,
+      "max_ms": 41.04510002071038,
+      "peak_rss_mb": 307.45703125
+    },
+    "inference_with_explain": {
+      "runs": 300,
+      "mean_ms": 55.866193666976564,
+      "p50_ms": 54.311699990648776,
+      "p95_ms": 66.24088501557708,
+      "p99_ms": 75.21990699286104,
+      "max_ms": 101.54850000981241,
+      "peak_rss_mb": 307.63671875
+    },
+    "engine_end_to_end": {
+      "runs": 300,
+      "mean_ms": 65.53583699666585,
+      "p50_ms": 64.62450002436526,
+      "p95_ms": 74.90564497711604,
+      "p99_ms": 88.40633599786086,
+      "max_ms": 103.951099968981,
+      "peak_rss_mb": 307.6484375
+    }
+  },
+  "notes": "single patient per call, CPU only, no network calls (Roboflow/Groq/Supabase excluded); memory is process RSS, which includes the Python/torch runtime"
+}

@@ -9,7 +9,7 @@ pinned: false
 
 # NutriBiteBot: A Clinical Nutrition Decision Support System
 
-NutriBiteBot is an end-to-end clinical nutrition platform that generates safe, personalised recipes for patients with chronic conditions (CKD, Hypertension, Type 2 Diabetes). It combines a multi-target TabNet deep-learning model for risk stratification, a sigmoid-based portion computation engine, a hierarchical clinical rules engine for conflict resolution, computer vision for fridge scanning, and a bounded LLM for recipe generation.
+NutriBiteBot is an end-to-end clinical nutrition platform that generates personalised recipes within computed guideline-constrained gram ceilings for patients with chronic conditions (CKD, Hypertension, Type 2 Diabetes). It combines a multi-target TabNet deep-learning model for risk stratification, a sigmoid-based portion computation engine, a hierarchical clinical rules engine for conflict resolution, computer vision for fridge scanning, and a bounded LLM for recipe generation.
 
 **Live deployment:** Flask backend on [Hugging Face Spaces](https://gayathri-27-nutri-bite-bot.hf.space) · Frontend on Vercel
 
@@ -33,7 +33,7 @@ NutriBiteBot is an end-to-end clinical nutrition platform that generates safe, p
 ## Features
 
 - **Clinical Risk Stratification (TabNet)** — Predicts sodium sensitivity, potassium sensitivity, protein restriction need, and carbohydrate sensitivity from 14 EHR-derived features, trained on real MIMIC-IV v3.1 observed outcomes. Mean macro-F1 0.417 and mean macro-AUROC 0.731 on a 74,663-admission held-out test set, outperforming a deterministic guideline-rule baseline (macro-F1 0.349) on every target, confirmed by 5×5 repeated patient-grouped cross-validation.
-- **Sigmoid Portion Engine** — Converts continuous severity scores into ingredient-specific maximum safe gram quantities against a session-persistent daily nutrient budget, grounded in IFCT 2017.
+- **Sigmoid Portion Engine** — Converts continuous severity scores into ingredient-specific computed guideline-constrained gram ceilings (not validated safety limits) against a condition-specific daily nutrient budget (stateless per request), grounded in IFCT 2017.
 - **Hierarchical Clinical Rules Engine** — Automatically resolves conflicting dietary guidelines across co-existing conditions. Priority: Renal (KDIGO) > Cardiac (AHA/ACC) > Metabolic (ADA).
 - **Fridge Scanner** — Upload a fridge photo; Roboflow CV detects ingredients and maps them to the IFCT nutritional database.
 - **Bounded Recipe Generation (Groq / `openai/gpt-oss-120b`)** — Generates recipes strictly within pre-computed per-ingredient gram limits. The LLM cannot override clinical constraints.
@@ -341,7 +341,7 @@ Enter the patient's lab values and click **Run Risk Assessment**. TabNet predict
 
 ### Phase 3 — Portions & Recipe
 
-Click **Get Portions** to compute per-ingredient maximum safe grams. Each ingredient is labelled:
+Click **Get Portions** to compute per-ingredient computed gram ceilings (not validated safety limits). Each ingredient is labelled:
 
 | Label | Condition |
 |---|---|

@@ -80,6 +80,10 @@ class ClinicalModelConfig:
     gamma: float = 1.3
     mask_type: str = "sparsemax"
     weight_decay: float = 1e-5
+    lambda_sparse: float = 1e-3   # pytorch-tabnet default; attention-mask sparsity penalty
+    monotonic: bool = True        # per-target isotonic input transform (False = identity)
+    step_size: int = 50           # StepLR: epochs between lr decays (deployed model stops at ~21-27 epochs)
+    scheduler_gamma: float = 0.9
 
     # optimisation (selected by --tune on CV fold 0; matches artifacts/models/manifest.json's
     # "config" -- the deployed model's actual training settings. If you change these, retrain
@@ -105,16 +109,17 @@ class ClinicalModelConfig:
             "n_d": self.n_d, "n_a": self.n_a, "n_steps": self.n_steps, "gamma": self.gamma,
             "mask_type": self.mask_type,
             "optimizer_fn": torch.optim.Adam,
+            "lambda_sparse": self.lambda_sparse,
             "optimizer_params": {"lr": self.lr, "weight_decay": self.weight_decay},
             "scheduler_fn": torch.optim.lr_scheduler.StepLR,
-            "scheduler_params": {"step_size": 50, "gamma": 0.9},
+            "scheduler_params": {"step_size": self.step_size, "gamma": self.scheduler_gamma},
             "device_name": self.device, "verbose": 0, "seed": self.seed,
         }
 
     def summary(self) -> Dict[str, Any]:
         keys = ["tag", "seed", "n_d", "n_a", "n_steps", "gamma", "mask_type", "weight_decay", "lr",
                 "batch_size", "virtual_batch_size", "max_epochs", "patience", "class_balance",
-                "india_weights", "synthetic"]
+                "india_weights", "synthetic", "lambda_sparse", "monotonic", "step_size", "scheduler_gamma"]
         return {k: getattr(self, k) for k in keys}
 
 
@@ -1072,7 +1077,8 @@ class ClinicalRiskStratifier:
         # Shared preprocessing, fitted on real training rows only
         self.imputer = SimpleImputer(strategy="median").fit(train_df[list(FEATURES)])
         self.scaler = StandardScaler().fit(self.imputer.transform(train_df[list(FEATURES)]))
-        constraints = build_monotonic_constraints(list(FEATURES))
+        constraints = (build_monotonic_constraints(list(FEATURES)) if cfg.monotonic
+                       else [0] * len(FEATURES))  # all-zero constraints -> identity transform
 
         india_w = cohort_data.india_weights(train_df) if cfg.india_weights else None
         synth = cohort_data.synthesize(train_df, seed=cfg.seed) if cfg.synthetic else None
@@ -1283,6 +1289,15 @@ def main():
     ap.add_argument("--virtual-batch-size", type=int)
     ap.add_argument("--max-epochs", type=int)
     ap.add_argument("--patience", type=int)
+    ap.add_argument("--n-d", type=int)
+    ap.add_argument("--n-a", type=int)
+    ap.add_argument("--n-steps", type=int)
+    ap.add_argument("--gamma", type=float)
+    ap.add_argument("--lambda-sparse", type=float)
+    ap.add_argument("--step-size", type=int)
+    ap.add_argument("--scheduler-gamma", type=float)
+    ap.add_argument("--seed", type=int)
+    ap.add_argument("--no-monotonic", action="store_true", help="skip the isotonic input transform")
     ap.add_argument("--device", default="auto")
     ap.add_argument("--targets", nargs="+", choices=TARGETS)
     ap.add_argument("--model-dir", type=Path, help="artifact output dir (use a separate dir for ablations)")
@@ -1290,7 +1305,10 @@ def main():
 
     cfg = ClinicalModelConfig(tag=args.tag, device=args.device, synthetic=args.synthetic,
                               india_weights=args.india_weights, class_balance=not args.no_class_balance)
-    for name in ("lr", "batch_size", "virtual_batch_size", "max_epochs", "patience"):
+    if args.no_monotonic:
+        cfg.monotonic = False
+    for name in ("lr", "batch_size", "virtual_batch_size", "max_epochs", "patience", "n_d", "n_a", "n_steps",
+                 "gamma", "lambda_sparse", "step_size", "scheduler_gamma", "seed"):
         if getattr(args, name) is not None:
             setattr(cfg, name, getattr(args, name))
     if args.targets:

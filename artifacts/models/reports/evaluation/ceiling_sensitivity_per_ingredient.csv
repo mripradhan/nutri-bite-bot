@@ -1,0 +1,304 @@
+scenario,ingredient,n,median_ratio,pct_within
+tabnet,"Amaranth seed, black",3000,1.0,91.7
+tabnet,"Amaranth seed, pale brown",3000,1.0,91.3
+tabnet,Bajra (Pearl millet),3000,1.0,79.1
+tabnet,Barley,3000,1.0,76.2
+tabnet,Jowar (Sorghum),3000,1.0,80.9
+tabnet,"Maize, dry",3000,1.0,83.5
+tabnet,"Maize, tender",3000,1.0,83.9
+tabnet,Ragi (Finger millet),3000,0.98,80.8
+tabnet,"Rice, brown",3000,1.0,82.0
+tabnet,"Rice, milled (white)",3000,0.968,74.3
+tabnet,"Wheat flour, atta",3000,1.0,83.1
+tabnet,"Wheat, whole",3000,1.0,83.1
+tabnet,Bengal gram dal (Chana dal),3000,0.977,81.9
+tabnet,"Bengal gram, whole (Kabuli chana)",3000,0.978,81.9
+tabnet,Black gram dal (Urad dal),3000,0.976,84.6
+tabnet,"Black gram, whole",3000,0.976,81.9
+tabnet,Green gram dal (Moong dal),3000,0.971,81.8
+tabnet,"Green gram, whole",3000,0.976,81.9
+tabnet,Lentil (Masoor dal),3000,0.969,84.6
+tabnet,"Peas, dry (Matar)",3000,0.98,81.8
+tabnet,Rajmah (Kidney beans),3000,0.98,83.1
+tabnet,Red gram dal (Toor dal),3000,0.973,79.8
+tabnet,Soybean,3000,0.973,86.6
+tabnet,Agathi leaves,3000,0.966,81.6
+tabnet,"Amaranth leaves, green",3000,1.0,92.2
+tabnet,Cabbage,3000,1.0,97.1
+tabnet,Cauliflower leaves,3000,1.0,89.9
+tabnet,Colocasia leaves (Arbi leaves),3000,0.974,85.6
+tabnet,Drumstick leaves (Moringa),3000,0.983,85.2
+tabnet,Fenugreek leaves (Methi),3000,1.0,91.2
+tabnet,Lettuce,3000,1.0,93.7
+tabnet,Mustard leaves (Sarson),3000,1.0,92.2
+tabnet,Spinach (Palak),3000,0.969,82.8
+tabnet,Ash gourd (Petha),3000,1.0,97.1
+tabnet,Bitter gourd (Karela),3000,1.0,91.4
+tabnet,Bottle gourd (Lauki),3000,1.0,97.1
+tabnet,Brinjal (Eggplant),3000,1.0,94.1
+tabnet,"Capsicum, green (Bell pepper)",3000,1.0,94.1
+tabnet,Cauliflower (Phool gobhi),3000,1.0,92.9
+tabnet,Cluster beans (Gawar),3000,1.0,92.2
+tabnet,Cucumber,3000,1.0,94.1
+tabnet,Drumstick (Moringa pod),3000,1.0,92.2
+tabnet,Ladies finger (Bhindi/Okra),3000,1.0,92.6
+tabnet,"Mango, green raw",3000,1.0,85.2
+tabnet,Onion stalk (Spring onion),3000,1.0,92.6
+tabnet,"Peas, fresh (Matar)",3000,0.976,82.0
+tabnet,"Plantain, green (Raw banana)",3000,1.0,81.5
+tabnet,Pumpkin (Kaddu),3000,1.0,89.9
+tabnet,Ridge gourd (Tori),3000,1.0,97.1
+tabnet,"Tomato, ripe",3000,1.0,89.9
+tabnet,Apple,3000,1.0,86.9
+tabnet,"Banana, ripe",3000,1.0,79.4
+tabnet,"Dates, dry",3000,0.959,70.5
+tabnet,Fig (Anjeer),3000,1.0,80.2
+tabnet,Gooseberry (Amla),3000,1.0,94.1
+tabnet,"Grapes, black",3000,1.0,83.0
+tabnet,Guava,3000,1.0,90.2
+tabnet,"Mango, ripe",3000,1.0,85.7
+tabnet,Orange,3000,1.0,88.8
+tabnet,"Papaya, ripe",3000,1.0,90.1
+tabnet,Pineapple (Ananas),3000,1.0,88.7
+tabnet,Pomegranate (Anar),3000,1.0,84.3
+tabnet,Strawberry,3000,1.0,97.1
+tabnet,Watermelon (Tarbooz),3000,1.0,97.1
+tabnet,Beetroot (Chukandar),3000,1.0,87.3
+tabnet,Carrot (Gajar),3000,1.0,89.0
+tabnet,Colocasia (Arbi),3000,0.975,79.8
+tabnet,Potato (Aloo),3000,1.0,79.5
+tabnet,Radish (Mooli),3000,1.0,93.7
+tabnet,Sweet potato (Shakarkand),3000,1.0,73.4
+tabnet,Tapioca (Cassava),3000,1.0,81.3
+tabnet,Yam (Suran),3000,1.0,79.3
+tabnet,Green chillies (Hari mirch),3000,1.0,90.8
+tabnet,Coriander leaves (Dhania),3000,1.0,84.2
+tabnet,Curry leaves (Kadi patta),3000,0.971,77.7
+tabnet,Garlic (Lahsun),3000,1.0,86.5
+tabnet,Ginger (Adrak),3000,1.0,79.1
+tabnet,Mint leaves (Pudina),3000,1.0,92.2
+tabnet,Onion (Pyaz),3000,1.0,86.4
+tabnet,Tamarind (Imli),3000,0.97,72.4
+tabnet,Almonds (Badam),3000,1.0,91.4
+tabnet,Cashewnut (Kaju),3000,1.0,90.4
+tabnet,"Coconut, dry (Copra)",3000,0.98,81.2
+tabnet,"Coconut, fresh (Nariyal)",3000,1.0,91.6
+tabnet,Groundnut (Moongphali/Peanut),3000,0.971,89.3
+tabnet,Sesame seeds (Til),3000,1.0,98.0
+tabnet,Walnuts (Akhrot),3000,1.0,96.3
+tabnet,"Milk, buffalo",3000,1.0,98.0
+tabnet,"Milk, cow (whole)",3000,1.0,95.5
+tabnet,Curd (Dahi/Yogurt),3000,1.0,94.9
+tabnet,Paneer (Cottage cheese),3000,0.971,92.7
+tabnet,Ghee,3000,1.0,100.0
+tabnet,Khoya (Mawa),3000,0.991,85.9
+tabnet,"Chicken, breast",3000,0.965,91.0
+tabnet,"Chicken, leg",3000,0.965,91.0
+tabnet,Mutton (Goat meat),3000,0.965,91.0
+tabnet,"Egg, whole, boiled",3000,0.972,90.2
+tabnet,Sardine (Mathi),3000,1.0,92.8
+tabnet,Pomfret (White),3000,0.966,91.0
+tabnet,Prawn (Jhinga),3000,0.965,90.2
+tabnet,Rohu fish,3000,0.965,91.0
+rules,"Amaranth seed, black",3000,1.0,70.8
+rules,"Amaranth seed, pale brown",3000,1.0,70.7
+rules,Bajra (Pearl millet),3000,0.817,44.4
+rules,Barley,3000,0.601,27.9
+rules,Jowar (Sorghum),3000,0.687,42.5
+rules,"Maize, dry",3000,0.778,67.8
+rules,"Maize, tender",3000,0.848,55.6
+rules,Ragi (Finger millet),3000,0.613,42.5
+rules,"Rice, brown",3000,0.642,43.3
+rules,"Rice, milled (white)",3000,0.601,26.4
+rules,"Wheat flour, atta",3000,0.808,45.7
+rules,"Wheat, whole",3000,0.804,45.7
+rules,Bengal gram dal (Chana dal),3000,0.689,42.6
+rules,"Bengal gram, whole (Kabuli chana)",3000,0.654,41.5
+rules,Black gram dal (Urad dal),3000,0.736,40.9
+rules,"Black gram, whole",3000,0.772,45.9
+rules,Green gram dal (Moong dal),3000,0.618,38.2
+rules,"Green gram, whole",3000,0.737,41.8
+rules,Lentil (Masoor dal),3000,0.603,39.3
+rules,"Peas, dry (Matar)",3000,0.676,40.1
+rules,Rajmah (Kidney beans),3000,0.864,54.7
+rules,Red gram dal (Toor dal),3000,0.648,40.9
+rules,Soybean,3000,1.0,59.5
+rules,Agathi leaves,3000,1.0,54.4
+rules,"Amaranth leaves, green",3000,1.0,71.6
+rules,Cabbage,3000,1.0,89.9
+rules,Cauliflower leaves,3000,1.0,71.6
+rules,Colocasia leaves (Arbi leaves),3000,1.0,60.5
+rules,Drumstick leaves (Moringa),3000,1.0,59.7
+rules,Fenugreek leaves (Methi),3000,1.0,69.4
+rules,Lettuce,3000,1.0,75.0
+rules,Mustard leaves (Sarson),3000,1.0,71.6
+rules,Spinach (Palak),3000,1.0,58.5
+rules,Ash gourd (Petha),3000,1.0,89.9
+rules,Bitter gourd (Karela),3000,1.0,76.7
+rules,Bottle gourd (Lauki),3000,1.0,89.9
+rules,Brinjal (Eggplant),3000,1.0,84.8
+rules,"Capsicum, green (Bell pepper)",3000,1.0,84.8
+rules,Cauliflower (Phool gobhi),3000,1.0,86.0
+rules,Cluster beans (Gawar),3000,1.0,71.8
+rules,Cucumber,3000,1.0,87.5
+rules,Drumstick (Moringa pod),3000,1.0,82.1
+rules,Ladies finger (Bhindi/Okra),3000,1.0,82.1
+rules,"Mango, green raw",3000,1.0,55.7
+rules,Onion stalk (Spring onion),3000,1.0,82.1
+rules,"Peas, fresh (Matar)",3000,0.754,48.7
+rules,"Plantain, green (Raw banana)",3000,0.855,49.2
+rules,Pumpkin (Kaddu),3000,1.0,76.7
+rules,Ridge gourd (Tori),3000,1.0,89.9
+rules,"Tomato, ripe",3000,1.0,76.7
+rules,Apple,3000,1.0,56.1
+rules,"Banana, ripe",3000,0.815,51.4
+rules,"Dates, dry",3000,0.601,28.2
+rules,Fig (Anjeer),3000,1.0,49.4
+rules,Gooseberry (Amla),3000,1.0,87.5
+rules,"Grapes, black",3000,1.0,55.7
+rules,Guava,3000,1.0,76.7
+rules,"Mango, ripe",3000,1.0,79.8
+rules,Orange,3000,1.0,74.8
+rules,"Papaya, ripe",3000,1.0,76.7
+rules,Pineapple (Ananas),3000,1.0,58.3
+rules,Pomegranate (Anar),3000,1.0,55.6
+rules,Strawberry,3000,1.0,89.9
+rules,Watermelon (Tarbooz),3000,1.0,89.9
+rules,Beetroot (Chukandar),3000,1.0,71.4
+rules,Carrot (Gajar),3000,1.0,76.4
+rules,Colocasia (Arbi),3000,0.727,42.8
+rules,Potato (Aloo),3000,0.772,48.9
+rules,Radish (Mooli),3000,1.0,84.9
+rules,Sweet potato (Shakarkand),3000,0.794,48.9
+rules,Tapioca (Cassava),3000,1.0,50.3
+rules,Yam (Suran),3000,0.716,41.7
+rules,Green chillies (Hari mirch),3000,1.0,70.7
+rules,Coriander leaves (Dhania),3000,1.0,69.5
+rules,Curry leaves (Kadi patta),3000,0.834,55.0
+rules,Garlic (Lahsun),3000,0.966,59.6
+rules,Ginger (Adrak),3000,0.846,44.4
+rules,Mint leaves (Pudina),3000,1.0,71.6
+rules,Onion (Pyaz),3000,1.0,79.9
+rules,Tamarind (Imli),3000,0.601,31.4
+rules,Almonds (Badam),3000,1.0,89.7
+rules,Cashewnut (Kaju),3000,1.0,90.4
+rules,"Coconut, dry (Copra)",3000,0.806,53.3
+rules,"Coconut, fresh (Nariyal)",3000,1.0,81.8
+rules,Groundnut (Moongphali/Peanut),3000,1.0,57.2
+rules,Sesame seeds (Til),3000,1.0,97.8
+rules,Walnuts (Akhrot),3000,1.0,94.5
+rules,"Milk, buffalo",3000,1.0,97.8
+rules,"Milk, cow (whole)",3000,1.0,95.6
+rules,Curd (Dahi/Yogurt),3000,1.0,92.4
+rules,Paneer (Cottage cheese),3000,1.0,91.1
+rules,Ghee,3000,1.0,100.0
+rules,Khoya (Mawa),3000,0.863,69.4
+rules,"Chicken, breast",3000,1.0,59.7
+rules,"Chicken, leg",3000,1.0,59.7
+rules,Mutton (Goat meat),3000,1.0,59.7
+rules,"Egg, whole, boiled",3000,1.0,58.5
+rules,Sardine (Mathi),3000,1.0,92.6
+rules,Pomfret (White),3000,1.0,59.7
+rules,Prawn (Jhinga),3000,1.0,58.5
+rules,Rohu fish,3000,1.0,59.7
+constant,"Amaranth seed, black",3000,1.0,91.9
+constant,"Amaranth seed, pale brown",3000,1.0,91.9
+constant,Bajra (Pearl millet),3000,0.871,42.6
+constant,Barley,3000,0.678,35.5
+constant,Jowar (Sorghum),3000,0.723,38.9
+constant,"Maize, dry",3000,0.763,87.9
+constant,"Maize, tender",3000,0.848,83.8
+constant,Ragi (Finger millet),3000,0.606,39.0
+constant,"Rice, brown",3000,0.626,38.1
+constant,"Rice, milled (white)",3000,0.601,22.8
+constant,"Wheat flour, atta",3000,0.809,42.5
+constant,"Wheat, whole",3000,0.804,42.5
+constant,Bengal gram dal (Chana dal),3000,0.601,26.7
+constant,"Bengal gram, whole (Kabuli chana)",3000,0.601,26.7
+constant,Black gram dal (Urad dal),3000,0.601,29.4
+constant,"Black gram, whole",3000,0.6,38.3
+constant,Green gram dal (Moong dal),3000,0.601,26.7
+constant,"Green gram, whole",3000,0.601,30.8
+constant,Lentil (Masoor dal),3000,0.601,30.9
+constant,"Peas, dry (Matar)",3000,0.601,26.7
+constant,Rajmah (Kidney beans),3000,0.601,35.2
+constant,Red gram dal (Toor dal),3000,0.601,25.6
+constant,Soybean,3000,0.602,27.6
+constant,Agathi leaves,3000,0.601,30.5
+constant,"Amaranth leaves, green",3000,0.965,92.2
+constant,Cabbage,3000,1.0,97.1
+constant,Cauliflower leaves,3000,0.982,75.1
+constant,Colocasia leaves (Arbi leaves),3000,0.601,8.8
+constant,Drumstick leaves (Moringa),3000,0.612,28.3
+constant,Fenugreek leaves (Methi),3000,1.0,91.2
+constant,Lettuce,3000,1.0,94.1
+constant,Mustard leaves (Sarson),3000,0.929,92.2
+constant,Spinach (Palak),3000,0.601,10.4
+constant,Ash gourd (Petha),3000,1.0,97.1
+constant,Bitter gourd (Karela),3000,1.0,76.9
+constant,Bottle gourd (Lauki),3000,1.0,97.1
+constant,Brinjal (Eggplant),3000,1.0,94.1
+constant,"Capsicum, green (Bell pepper)",3000,1.0,94.1
+constant,Cauliflower (Phool gobhi),3000,1.0,92.9
+constant,Cluster beans (Gawar),3000,1.0,92.2
+constant,Cucumber,3000,1.0,94.1
+constant,Drumstick (Moringa pod),3000,0.976,92.6
+constant,Ladies finger (Bhindi/Okra),3000,1.0,92.6
+constant,"Mango, green raw",3000,1.0,85.7
+constant,Onion stalk (Spring onion),3000,1.0,92.6
+constant,"Peas, fresh (Matar)",3000,0.601,38.3
+constant,"Plantain, green (Raw banana)",3000,0.855,69.3
+constant,Pumpkin (Kaddu),3000,0.804,76.9
+constant,Ridge gourd (Tori),3000,1.0,97.1
+constant,"Tomato, ripe",3000,1.0,76.9
+constant,Apple,3000,1.0,87.7
+constant,"Banana, ripe",3000,0.815,70.9
+constant,"Dates, dry",3000,0.601,13.8
+constant,Fig (Anjeer),3000,1.0,69.8
+constant,Gooseberry (Amla),3000,1.0,94.1
+constant,"Grapes, black",3000,1.0,85.7
+constant,Guava,3000,1.0,76.9
+constant,"Mango, ripe",3000,1.0,86.4
+constant,Orange,3000,1.0,75.4
+constant,"Papaya, ripe",3000,1.0,76.9
+constant,Pineapple (Ananas),3000,1.0,88.7
+constant,Pomegranate (Anar),3000,1.0,86.4
+constant,Strawberry,3000,1.0,97.1
+constant,Watermelon (Tarbooz),3000,1.0,97.1
+constant,Beetroot (Chukandar),3000,1.0,75.4
+constant,Carrot (Gajar),3000,1.0,76.7
+constant,Colocasia (Arbi),3000,0.601,8.5
+constant,Potato (Aloo),3000,0.772,70.9
+constant,Radish (Mooli),3000,1.0,93.7
+constant,Sweet potato (Shakarkand),3000,0.794,70.9
+constant,Tapioca (Cassava),3000,1.0,70.9
+constant,Yam (Suran),3000,0.622,8.7
+constant,Green chillies (Hari mirch),3000,1.0,90.8
+constant,Coriander leaves (Dhania),3000,0.797,75.5
+constant,Curry leaves (Kadi patta),3000,0.601,13.5
+constant,Garlic (Lahsun),3000,0.897,86.0
+constant,Ginger (Adrak),3000,0.743,14.3
+constant,Mint leaves (Pudina),3000,0.82,92.2
+constant,Onion (Pyaz),3000,1.0,86.4
+constant,Tamarind (Imli),3000,0.601,21.6
+constant,Almonds (Badam),3000,0.674,41.4
+constant,Cashewnut (Kaju),3000,0.757,98.0
+constant,"Coconut, dry (Copra)",3000,0.601,35.9
+constant,"Coconut, fresh (Nariyal)",3000,0.982,91.6
+constant,Groundnut (Moongphali/Peanut),3000,0.6,32.6
+constant,Sesame seeds (Til),3000,0.979,98.0
+constant,Walnuts (Akhrot),3000,0.86,98.0
+constant,"Milk, buffalo",3000,1.0,98.0
+constant,"Milk, cow (whole)",3000,1.0,95.5
+constant,Curd (Dahi/Yogurt),3000,1.0,94.9
+constant,Paneer (Cottage cheese),3000,0.602,40.0
+constant,Ghee,3000,1.0,100.0
+constant,Khoya (Mawa),3000,0.609,39.7
+constant,"Chicken, breast",3000,0.601,30.8
+constant,"Chicken, leg",3000,0.601,30.8
+constant,Mutton (Goat meat),3000,0.601,30.8
+constant,"Egg, whole, boiled",3000,0.601,31.7
+constant,Sardine (Mathi),3000,0.687,40.0
+constant,Pomfret (White),3000,0.601,30.8
+constant,Prawn (Jhinga),3000,0.601,31.7
+constant,Rohu fish,3000,0.601,30.8

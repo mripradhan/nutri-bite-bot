@@ -1,0 +1,169 @@
+severity,ingredient,max_grams,binding,label
+0.0,Green gram dal (Moong dal),26.9,phosphorus,Half portion
+0.0,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+0.0,"Egg, whole, boiled",44.5,phosphorus,Half portion
+0.0,"Rice, milled (white)",91.4,phosphorus,Allowed
+0.0,"Banana, ripe",146.4,potassium,Allowed
+0.0,Apple,225.0,phosphorus,Allowed
+0.0,Pineapple (Ananas),300.0,potassium,Allowed
+0.0,Bottle gourd (Lauki),300.0,phosphorus,Allowed
+0.1,Green gram dal (Moong dal),26.9,phosphorus,Half portion
+0.1,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+0.1,"Egg, whole, boiled",44.5,phosphorus,Half portion
+0.1,"Rice, milled (white)",91.4,phosphorus,Allowed
+0.1,"Banana, ripe",142.3,potassium,Allowed
+0.1,Apple,225.0,potassium,Allowed
+0.1,Pineapple (Ananas),300.0,potassium,Allowed
+0.1,Bottle gourd (Lauki),300.0,phosphorus,Allowed
+0.2,Green gram dal (Moong dal),26.9,phosphorus,Half portion
+0.2,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+0.2,"Egg, whole, boiled",44.5,phosphorus,Half portion
+0.2,"Rice, milled (white)",91.4,phosphorus,Allowed
+0.2,"Banana, ripe",137.7,potassium,Allowed
+0.2,Apple,225.0,potassium,Allowed
+0.2,Pineapple (Ananas),300.0,potassium,Allowed
+0.2,Bottle gourd (Lauki),300.0,phosphorus,Allowed
+0.3,Green gram dal (Moong dal),26.9,phosphorus,Half portion
+0.3,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+0.3,"Egg, whole, boiled",44.5,phosphorus,Half portion
+0.3,"Rice, milled (white)",91.4,phosphorus,Allowed
+0.3,"Banana, ripe",132.7,potassium,Allowed
+0.3,Apple,225.0,potassium,Allowed
+0.3,Pineapple (Ananas),300.0,potassium,Allowed
+0.3,Bottle gourd (Lauki),300.0,phosphorus,Allowed
+0.4,Green gram dal (Moong dal),26.9,phosphorus,Half portion
+0.4,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+0.4,"Egg, whole, boiled",44.5,phosphorus,Half portion
+0.4,"Rice, milled (white)",91.4,phosphorus,Allowed
+0.4,"Banana, ripe",127.3,potassium,Allowed
+0.4,Apple,225.0,potassium,Allowed
+0.4,Pineapple (Ananas),300.0,potassium,Allowed
+0.4,Bottle gourd (Lauki),300.0,phosphorus,Allowed
+0.5,Green gram dal (Moong dal),26.9,phosphorus,Half portion
+0.5,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+0.5,"Egg, whole, boiled",44.5,phosphorus,Half portion
+0.5,"Rice, milled (white)",91.4,phosphorus,Allowed
+0.5,"Banana, ripe",121.4,potassium,Allowed
+0.5,Apple,225.0,potassium,Allowed
+0.5,Pineapple (Ananas),300.0,potassium,Allowed
+0.5,Bottle gourd (Lauki),300.0,phosphorus,Allowed
+0.6,Green gram dal (Moong dal),26.9,phosphorus,Half portion
+0.6,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+0.6,"Egg, whole, boiled",44.5,phosphorus,Half portion
+0.6,"Rice, milled (white)",91.4,phosphorus,Allowed
+0.6,"Banana, ripe",115.2,potassium,Allowed
+0.6,Apple,225.0,potassium,Allowed
+0.6,Pineapple (Ananas),300.0,potassium,Allowed
+0.6,Bottle gourd (Lauki),300.0,phosphorus,Allowed
+0.7,Green gram dal (Moong dal),26.9,phosphorus,Half portion
+0.7,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+0.7,"Egg, whole, boiled",44.5,phosphorus,Half portion
+0.7,"Rice, milled (white)",91.4,phosphorus,Allowed
+0.7,"Banana, ripe",108.7,potassium,Allowed
+0.7,Apple,225.0,potassium,Allowed
+0.7,Pineapple (Ananas),300.0,potassium,Allowed
+0.7,Bottle gourd (Lauki),300.0,phosphorus,Allowed
+0.8,Green gram dal (Moong dal),26.9,phosphorus,Half portion
+0.8,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+0.8,"Egg, whole, boiled",44.5,phosphorus,Half portion
+0.8,"Rice, milled (white)",91.4,phosphorus,Allowed
+0.8,"Banana, ripe",101.9,potassium,Allowed
+0.8,Apple,225.0,potassium,Allowed
+0.8,Pineapple (Ananas),300.0,potassium,Allowed
+0.8,Bottle gourd (Lauki),300.0,potassium,Allowed
+0.9,Green gram dal (Moong dal),26.9,phosphorus,Half portion
+0.9,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+0.9,"Egg, whole, boiled",44.5,phosphorus,Half portion
+0.9,"Rice, milled (white)",91.4,phosphorus,Allowed
+0.9,"Banana, ripe",95.0,potassium,Allowed
+0.9,Apple,225.0,potassium,Allowed
+0.9,Pineapple (Ananas),300.0,potassium,Allowed
+0.9,Bottle gourd (Lauki),300.0,potassium,Allowed
+1.0,Green gram dal (Moong dal),26.9,phosphorus,Half portion
+1.0,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+1.0,"Egg, whole, boiled",44.5,phosphorus,Half portion
+1.0,"Rice, milled (white)",88.6,carbs,Allowed
+1.0,"Banana, ripe",88.0,potassium,Allowed
+1.0,Apple,225.0,potassium,Allowed
+1.0,Pineapple (Ananas),300.0,potassium,Allowed
+1.0,Bottle gourd (Lauki),300.0,potassium,Allowed
+1.1,Green gram dal (Moong dal),26.9,phosphorus,Half portion
+1.1,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+1.1,"Egg, whole, boiled",44.5,phosphorus,Half portion
+1.1,"Rice, milled (white)",81.5,carbs,Allowed
+1.1,"Banana, ripe",81.0,potassium,Allowed
+1.1,Apple,225.0,potassium,Allowed
+1.1,Pineapple (Ananas),300.0,potassium,Allowed
+1.1,Bottle gourd (Lauki),300.0,potassium,Allowed
+1.2,Green gram dal (Moong dal),26.9,phosphorus,Half portion
+1.2,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+1.2,"Egg, whole, boiled",44.5,phosphorus,Half portion
+1.2,"Rice, milled (white)",74.5,carbs,Half portion
+1.2,"Banana, ripe",74.0,potassium,Half portion
+1.2,Apple,225.0,potassium,Allowed
+1.2,Pineapple (Ananas),300.0,potassium,Allowed
+1.2,Bottle gourd (Lauki),300.0,potassium,Allowed
+1.3,Green gram dal (Moong dal),26.9,phosphorus,Half portion
+1.3,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+1.3,"Egg, whole, boiled",44.5,phosphorus,Half portion
+1.3,"Rice, milled (white)",67.7,carbs,Half portion
+1.3,"Banana, ripe",67.3,potassium,Half portion
+1.3,Apple,225.0,potassium,Allowed
+1.3,Pineapple (Ananas),300.0,potassium,Allowed
+1.3,Bottle gourd (Lauki),300.0,potassium,Allowed
+1.4,Green gram dal (Moong dal),26.9,phosphorus,Half portion
+1.4,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+1.4,"Egg, whole, boiled",44.5,phosphorus,Half portion
+1.4,"Rice, milled (white)",61.2,carbs,Half portion
+1.4,"Banana, ripe",60.8,potassium,Half portion
+1.4,Apple,209.1,potassium,Allowed
+1.4,Pineapple (Ananas),300.0,potassium,Allowed
+1.4,Bottle gourd (Lauki),300.0,potassium,Allowed
+1.5,Green gram dal (Moong dal),26.9,phosphorus,Half portion
+1.5,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+1.5,"Egg, whole, boiled",44.5,phosphorus,Half portion
+1.5,"Rice, milled (white)",54.9,carbs,Half portion
+1.5,"Banana, ripe",54.6,potassium,Half portion
+1.5,Apple,187.8,potassium,Allowed
+1.5,Pineapple (Ananas),300.0,potassium,Allowed
+1.5,Bottle gourd (Lauki),299.3,potassium,Allowed
+1.6,Green gram dal (Moong dal),24.5,protein,Half portion
+1.6,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+1.6,"Egg, whole, boiled",44.5,phosphorus,Half portion
+1.6,"Rice, milled (white)",49.0,carbs,Half portion
+1.6,"Banana, ripe",48.7,potassium,Half portion
+1.6,Apple,167.7,potassium,Allowed
+1.6,Pineapple (Ananas),296.9,potassium,Allowed
+1.6,Bottle gourd (Lauki),267.3,potassium,Allowed
+1.7,Green gram dal (Moong dal),21.8,protein,Half portion
+1.7,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+1.7,"Egg, whole, boiled",39.8,protein,Half portion
+1.7,"Rice, milled (white)",43.6,carbs,Half portion
+1.7,"Banana, ripe",43.3,potassium,Half portion
+1.7,Apple,149.0,potassium,Allowed
+1.7,Pineapple (Ananas),263.8,potassium,Allowed
+1.7,Bottle gourd (Lauki),237.5,potassium,Allowed
+1.8,Green gram dal (Moong dal),19.3,protein,Half portion
+1.8,Paneer (Cottage cheese),19.5,phosphorus,Half portion
+1.8,"Egg, whole, boiled",35.2,protein,Half portion
+1.8,"Rice, milled (white)",38.5,carbs,Half portion
+1.8,"Banana, ripe",38.3,potassium,Half portion
+1.8,Apple,131.8,potassium,Allowed
+1.8,Pineapple (Ananas),233.3,potassium,Allowed
+1.8,Bottle gourd (Lauki),210.0,potassium,Allowed
+1.9,Green gram dal (Moong dal),17.0,protein,Half portion
+1.9,Paneer (Cottage cheese),18.1,protein,Half portion
+1.9,"Egg, whole, boiled",31.0,protein,Half portion
+1.9,"Rice, milled (white)",33.9,carbs,Half portion
+1.9,"Banana, ripe",33.7,potassium,Half portion
+1.9,Apple,116.0,potassium,Allowed
+1.9,Pineapple (Ananas),205.4,potassium,Allowed
+1.9,Bottle gourd (Lauki),184.9,potassium,Allowed
+2.0,Green gram dal (Moong dal),14.9,protein,Half portion
+2.0,Paneer (Cottage cheese),15.9,protein,Half portion
+2.0,"Egg, whole, boiled",27.1,protein,Half portion
+2.0,"Rice, milled (white)",29.8,carbs,Half portion
+2.0,"Banana, ripe",29.6,potassium,Half portion
+2.0,Apple,101.8,potassium,Allowed
+2.0,Pineapple (Ananas),180.1,potassium,Allowed
+2.0,Bottle gourd (Lauki),162.2,potassium,Allowed

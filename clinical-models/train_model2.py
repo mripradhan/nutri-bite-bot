@@ -26,6 +26,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 from model1_artifacts import Model1Predictor
+from allergen_filter import AllergenFilter, ExclusionSet
 
 
 # ===============================
@@ -330,7 +331,7 @@ class PortionDecision:
     """Portion recommendation for a single ingredient"""
     ingredient: str
     max_grams: float
-    label: str                      # "Allowed" | "Half portion" | "Avoid"
+    label: str                      # "Allowed" | "Half portion" | "Avoid" | "Excluded" (allergy / intolerance / diet)
     explanation: str
     nutrient_load_at_max: Dict[str, float]
     binding_constraint: str         # Which nutrient constrained the portion
@@ -817,6 +818,7 @@ class SubstitutionEngine:
         budget: 'DailyBudget',
         recommender: 'PortionRecommender',
         n: int = 3,
+        exclude: Optional[ExclusionSet] = None,
     ) -> List[PortionDecision]:
         """
         Find n safe substitutes for an Avoid ingredient.
@@ -872,6 +874,9 @@ class SubstitutionEngine:
         candidates = []
         for ingredient, idx in self._ingredient_idx.items():
             if ingredient == avoided_ingredient:
+                continue
+            # hard exclusion (allergy / intolerance / diet): never proposed as a substitute
+            if exclude is not None and exclude.is_excluded(ingredient):
                 continue
             
             # Same-category filter
@@ -1327,7 +1332,7 @@ class Model1Integration:
 class PortionRecommender:
     """
     Deterministic portion recommendation engine.
-    Uses IFCT nutritional data + Model1 risk levels to recommend safe portions.
+    Uses IFCT nutritional data + Model1 risk levels to compute guideline-constrained gram ceilings (not validated safety limits).
     Now uses continuous severity_score via a sigmoid mapping to compute
     per-nutrient fractions, eliminating dose-cliffs at label boundaries.
     """
@@ -1746,6 +1751,9 @@ class PortionControlModel:
         
         # Initialize substitution engine (Phase 2A)
         self.substitution_engine = SubstitutionEngine(self.ifct)
+
+        # Deterministic allergy / intolerance / diet exclusions (applied before everything else)
+        self.allergen_filter = AllergenFilter(self.ifct.df["ingredient"].tolist())
         
         print("\u2713 Model2 initialization complete")
         print("="*60 + "\n")
@@ -1757,6 +1765,7 @@ class PortionControlModel:
         consumed_today: Optional[Dict[str, float]] = None,
         include_substitutes: bool = True,
         use_ledger: bool = True,
+        exclusions: Optional[List[str]] = None,
     ) -> Dict[str, Any]:
         """
         Get portion recommendations for ingredients given patient data.
@@ -1779,10 +1788,19 @@ class PortionControlModel:
             use_ledger: If False, use the full daily budget and ignore this
                 instance's NutrientLedger (for stateless callers such as the
                 web API, where one instance serves many patients).
+            exclusions: allergy / intolerance / diet groups or free-text items
+                (see allergen_filter.py). Excluded ingredients get max_grams=0 and
+                label "Excluded"; they take no part in the caloric reconciliation
+                and are never offered as substitutes.
         
         Returns:
             Dict with risk_levels, budget, recommendations, and summary
         """
+        # Step 0: hard exclusions are resolved first and removed from every later step
+        excl = self.allergen_filter.resolve(exclusions)
+        requested = list(ingredients)
+        ingredients = [i for i in requested if not excl.is_excluded(i)]
+
         # Step 1: Get risk levels from Model1
         risk_levels = self.model1.predict_risk_levels(patient_data)
         
@@ -1798,8 +1816,9 @@ class PortionControlModel:
         recommendations = self.recommender.recommend_batch(ingredients, risk_levels, budget)
         
         # Step 3B: Caloric sufficiency validation & reconciliation (Phase 2B)
-        validation = self.caloric_validator.validate(recommendations)
         clinical_warnings: List[Dict[str, Any]] = []
+        validation = (self.caloric_validator.validate(recommendations) if recommendations
+                      else {"is_sufficient": True})
         
         if not validation["is_sufficient"]:
             reconciled = self.caloric_validator.reconcile(
@@ -1829,12 +1848,27 @@ class PortionControlModel:
                         budget=budget,
                         recommender=self.recommender,
                         n=3,
+                        exclude=excl,
                     )
+
+        # Step 3D: re-insert excluded ingredients (max_grams = 0) in the order requested
+        by_name = {r.ingredient: r for r in recommendations}
+        for name in requested:
+            if name not in by_name and excl.is_excluded(name):
+                by_name[name] = PortionDecision(
+                    ingredient=name, max_grams=0.0, label="Excluded",
+                    explanation=f"Excluded: {excl.reason(name)} (allergy / intolerance / diet). "
+                                f"Not used in portions, substitutions or recipes.",
+                    nutrient_load_at_max={k: 0.0 for k in ["sodium_mg", "potassium_mg", "protein_g", "carbs_g"]},
+                    binding_constraint="exclusion",
+                )
+        recommendations = [by_name[n] for n in requested if n in by_name]
         
         # Step 4: Build summary
         allowed = [r.ingredient for r in recommendations if r.label == "Allowed"]
         half_portion = [r.ingredient for r in recommendations if r.label == "Half portion"]
         avoid = [r.ingredient for r in recommendations if r.label == "Avoid"]
+        excluded = [r.ingredient for r in recommendations if r.label == "Excluded"]
         
         return {
             "patient_conditions": {
@@ -1875,7 +1909,9 @@ class PortionControlModel:
                 "allowed": allowed,
                 "half_portion": half_portion,
                 "avoid": avoid,
+                "excluded": excluded,
             },
+            "exclusions": excl.to_dict(),
             "clinical_warnings": clinical_warnings,
         }
     
