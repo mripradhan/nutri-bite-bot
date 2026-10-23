@@ -37,7 +37,8 @@ NutriBiteBot is an end-to-end clinical nutrition platform that generates persona
 - **Hierarchical Clinical Rules Engine** — Automatically resolves conflicting dietary guidelines across co-existing conditions. Priority: Renal (KDIGO) > Cardiac (AHA/ACC) > Metabolic (ADA).
 - **Fridge Scanner** — Upload a fridge photo; Roboflow CV detects ingredients and maps them to the IFCT nutritional database.
 - **Bounded Recipe Generation (Groq / `openai/gpt-oss-120b`)** — Generates recipes strictly within pre-computed per-ingredient gram limits. The LLM cannot override clinical constraints.
-- **Quantitative Recipe Adherence Check** — A second, structured-output Groq call independently extracts the gram quantities the generated recipe actually used and checks them against the computed limits; violations are logged, not just prompted against.
+- **Deterministic Recipe Verifier** — Every generated recipe is parsed by a rule-based verifier (`recipe_verifier.py`, no LLM) that checks each listed quantity against the computed gram ceilings and scans all recipe fields for excluded ingredients. A failing recipe is regenerated (up to a fixed number of attempts) and finally replaced by a template recipe built directly from the ceilings, so an unverified recipe is never returned. It checks the ingredient list only, not amounts implied in the cooking steps, and is not a guarantee of clinical safety.
+- **Allergy / Preference Exclusions** — Optional hard exclusions (`allergens.py`, `clinical-models/allergen_filter.py`, `allergen_map.json`) applied before portion computation: an excluded ingredient gets a 0 g ceiling, is never proposed as a substitute, and is never offered to the LLM. Resolution is a curated table lookup plus name matching; it does not model cross-reactivity or trace contamination.
 - **Caloric Sufficiency Safeguard** — If a recommendation set would fall below 1,200 kcal, severity is progressively relaxed (protein → carbohydrate → phosphorus, KDIGO-prioritised) until adequacy is restored. Sodium and potassium severity are never relaxed.
 - **Optional Local Storage** — Supabase (PostgreSQL) instance for persisting patient data, recipes, and clinical-warning/adherence logs. Gracefully disabled if not configured.
 
@@ -155,13 +156,20 @@ cross-validation.
 | carb\_sensitivity | 0.486 [0.479, 0.492] | 0.317 [0.312, 0.322] | 0.775 |
 | **Mean** | **0.417** | **0.349** | **0.731** |
 
-A gradient-boosting reference model on the same validation fold reaches AUROC
-0.70–0.77, the same range as TabNet — performance is limited by what the 14
-admission-time features can predict about later outcomes, not by architecture choice.
-TabNet's advantage over the reference model is native per-instance attribution at no
-accuracy cost. Full methodology and robustness results (measurement-noise sweep,
-missing-data test, subgroup/COVID-era breakdowns) are in
-`clinical-models/evaluate_model1.py`, `repeated_cv.py` and `robustness_test.py`.
+**Gradient-boosting reference (XGBoost, same held-out test split).** XGBoost with the same
+preprocessing reaches AUROC 0.68–0.78 and macro-F1 0.38–0.50, i.e. slightly higher than
+TabNet on every target (e.g. carbohydrate sensitivity macro-F1 0.501 vs 0.486; sodium AUROC
+0.761 vs 0.756). Performance is therefore limited by what the 14 admission-time features
+can predict about later outcomes, not by architecture choice. TabNet's case rests on
+native per-instance attribution, not on accuracy. Full per-target results with bootstrap
+CIs are in `artifacts/models/reports/evaluation/gbm_test_metrics_ci.csv`
+and `gbm_repeated_cv_summary.json` (`clinical-models/baselines_gbm.py`).
+
+Full methodology and robustness results (measurement-noise sweep, missing-data test,
+subgroup/COVID-era breakdowns, missingness analysis, ceiling-sensitivity analysis,
+TabNet–XGBoost disagreement analysis) are in `clinical-models/evaluate_model1.py`,
+`repeated_cv.py`, `robustness_test.py`, `missingness_report.py`, `ceiling_sensitivity.py`
+and `disagreement_analysis.py`.
 
 ### Model Artifacts
 
@@ -183,6 +191,19 @@ artifacts/models/
                                             # evaluation/ (CIs, calibration, subgroups),
                                             # robustness/ (noise + missing-data tests)
 ```
+
+### Recipe Verifier Evaluation
+
+The deployed verifier was exercised through the unmodified `/api/generate-recipe` route over 240 synthetic
+illustrative profiles (24 profiles x 10 ingredient sets, 72 with exclusions; not MIMIC-IV patients) with
+`openai/gpt-oss-120b` (`clinical-models/recipe_verifier_eval_at_scale.py`; results in
+`artifacts/models/reports/recipe_verifier_eval/`):
+
+- The model's first draft failed the verifier in 29/240 cases (12.1%, 95% CI 8.6–16.8%), mostly unknown ingredient names or unparseable lines; none of the 1,317 listed first-draft quantities exceeded its ceiling.
+- Delivered: 211 verified first time, 29 verified after regeneration, 0 template fallbacks.
+- 0/1,374 quantities in delivered recipes exceeded a ceiling (95% upper bound 0.22%). Because delivered recipes pass the verifier by construction, this is not independent evidence; a separate model-mediated audit of 237 recipes also found 0/1,376 over-ceiling quantities.
+
+This is an engineering check that the generator respects the *computed* ceilings. It does not show the ceilings are clinically appropriate: no dietitian rating or outcome data have been collected. See `dietitian_validation_protocol.md`.
 
 ---
 
@@ -364,7 +385,9 @@ Click **Generate Recipe**. The Groq-hosted model generates a recipe that strictl
 | `GET` | `/api/ingredients?q=<query>` | Search IFCT ingredient list |
 | `POST` | `/api/recommend` | Full pipeline: risk + portions |
 | `POST` | `/api/detect` | Fridge image → Roboflow → IFCT |
-| `POST` | `/api/generate-recipe` | Bounded recipe via Groq LLM |
+| `GET` | `/api/allergen-groups` | Allergy / preference groups offered for hard exclusion |
+| `POST` | `/api/generate-recipe` | Bounded, verified recipe via Groq LLM |
+| `GET` | `/api/health` | Configuration check (whether keys are set and well-formed; never returns a key) |
 
 **`POST /api/predict` payload:**
 ```json
@@ -416,6 +439,8 @@ recipe-writing call is never trusted to have followed its own prompt limits. Bot
 ```
 nutri-bite-bot/
 ├── app.py                        # Flask backend — inference, routing, startup
+├── allergens.py                  # Allergy / preference groups and exclusion resolution for the API
+├── recipe_verifier.py            # Deterministic recipe verifier (gram ceilings + exclusions)
 ├── supabase_client.py            # Supabase REST bindings (optional)
 ├── requirements.txt
 ├── Dockerfile                    # HF Spaces Docker build
@@ -443,6 +468,17 @@ nutri-bite-bot/
 │   ├── repeated_cv.py            # 5x5 repeated patient-grouped cross-validation
 │   ├── robustness_test.py        # Measurement-noise + missing-data robustness comparison
 │   ├── test_model2.py            # Portion engine / caloric reconciliation test scenarios
+│   ├── baselines_gbm.py          # XGBoost reference models + bootstrap CIs
+│   ├── tune_tabnet.py            # TabNet hyper-parameter tuning
+│   ├── missingness_report.py     # Missingness / informative-missingness analysis
+│   ├── ceiling_sensitivity.py    # Sensitivity of gram ceilings to severity score
+│   ├── attribution_summary.py    # TabNet attention attribution summaries
+│   ├── disagreement_analysis.py  # TabNet vs XGBoost disagreement analysis
+│   ├── allergen_filter.py        # Hard exclusions (+ allergen_map.json); tests in test_exclusions.py
+│   ├── recipe_adherence_eval.py  # Earlier model-checked adherence experiment
+│   ├── recipe_verifier_eval_at_scale.py  # 240-case evaluation of the deployed verifier
+│   ├── json_recipe_verifier.py   # Prototype LLM JSON verifier (not deployed; see _prototype/)
+│   ├── dietitian_rating_sheet.py # Rating sheet generator for the validation protocol
 │   ├── model1_artifacts.py       # Shared artifact read/write format (training <-> deployment)
 │   └── output_formatter.py       # Pretty-printer for Model 2 output (manual testing)
 │
@@ -450,6 +486,8 @@ nutri-bite-bot/
 │   ├── config.toml
 │   └── migrations/               # PostgreSQL schema (patients, recipes, recipe_adherence)
 │
+├── tests/                        # Backend tests
+├── dietitian_validation_protocol.md  # Protocol for clinical validation of the ceilings (no data collected)
 └── remaining_work.md             # Repo audit + open items (legacy files, deployment
                                    # questions, manuscript/response-letter status)
 ```

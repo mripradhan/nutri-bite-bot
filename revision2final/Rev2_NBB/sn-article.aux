@@ -1,0 +1,241 @@
+\relax 
+\bibstyle{sn-mathphys-num}
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\Newlabel{1}{1}
+\Newlabel{2}{2}
+\citation{kdigo2024}
+\citation{kdoqi2020,ada2024}
+\citation{marashi2023}
+\citation{diet_hrs_scoping2025,marashi2023}
+\citation{anjana2023}
+\citation{talukdar2025}
+\citation{subramanian2026otc}
+\citation{ifct2017}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Background}{2}{section.1}\protected@file@percent }
+\newlabel{sec:background}{{1}{2}{Background}{section.1}{}}
+\citation{lim_shap_2020}
+\citation{arik2021tabnet}
+\citation{diet_hrs_scoping2025}
+\citation{ai_ckd_diet2025}
+\citation{kumar2025}
+\citation{banerjee2019}
+\citation{marashi2023}
+\citation{nagaraj2022fuzzy}
+\citation{arik2021tabnet}
+\citation{yasmeen2025tabnet}
+\citation{cao2025tabnet}
+\citation{gat_tabnet2025}
+\citation{houfani2022}
+\citation{zhang2024}
+\citation{chen2016xgboost}
+\citation{duan2020ngboost}
+\citation{gollapalli2022}
+\citation{nagaraj2022kalman}
+\citation{liang2023}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Related work}{3}{subsection.1.1}\protected@file@percent }
+\citation{gupta2019}
+\citation{mansouri2023food}
+\citation{kairat2025llm}
+\citation{whittle2025llm}
+\citation{khamesian2025}
+\citation{chandrasekaran2025dpdpa}
+\citation{muneeswaran2022iot}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Study objectives}{5}{subsection.1.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Evidence level for each claim type in this study.}}{6}{table.caption.3}\protected@file@percent }
+\newlabel{tab:validity}{{1}{6}{Evidence level for each claim type in this study}{table.caption.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Methods}{6}{section.2}\protected@file@percent }
+\newlabel{sec:methods}{{2}{6}{Methods}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}System architecture}{6}{subsection.2.1}\protected@file@percent }
+\newlabel{subsec:architecture}{{2.1}{6}{System architecture}{subsection.2.1}{}}
+\citation{mimic4}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Dataset}{7}{subsection.2.2}\protected@file@percent }
+\newlabel{subsec:dataset}{{2.2}{7}{Dataset}{subsection.2.2}{}}
+\citation{inker2021ckdepi}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces NutriBiteBot system architecture. Model development (top) is performed offline on credentialed data. In the local deployment, allergy, intolerance and preference exclusions are applied first, followed by TabNet risk stratification, rule-based portion computation, and recipe generation whose output is accepted only if a deterministic verifier passes it (otherwise regenerated, then replaced by a template). Only the refrigerator image (to Roboflow) and the comorbidity flags, permitted ingredients with gram ceilings and avoid-names (to Groq) leave the local boundary (dashed); the exclusion list stays local; optional records are kept in a local Supabase database.}}{8}{figure.caption.4}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:architecture}{{1}{8}{NutriBiteBot system architecture. Model development (top) is performed offline on credentialed data. In the local deployment, allergy, intolerance and preference exclusions are applied first, followed by TabNet risk stratification, rule-based portion computation, and recipe generation whose output is accepted only if a deterministic verifier passes it (otherwise regenerated, then replaced by a template). Only the refrigerator image (to Roboflow) and the comorbidity flags, permitted ingredients with gram ceilings and avoid-names (to Groq) leave the local boundary (dashed); the exclusion list stays local; optional records are kept in a local Supabase database}{figure.caption.4}{}}
+\citation{aha2017}
+\citation{kdigo2024}
+\citation{kdigo2012aki}
+\citation{ada2024}
+\citation{aha2017}
+\citation{kdigo2024}
+\citation{kdigo2012aki}
+\citation{ada2024}
+\citation{aha2017}
+\citation{kdigo2024}
+\citation{kdigo2024}
+\citation{ada2024}
+\citation{anjana2023}
+\citation{talukdar2025}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Observed-outcome target definitions. Each target is measured strictly after the 24-hour baseline feature window (or in outpatient follow-up for sodium), so labels are not a function of the same-window input features.}}{10}{table.caption.5}\protected@file@percent }
+\newlabel{tab:label_rules_outcomes}{{2}{10}{Observed-outcome target definitions. Each target is measured strictly after the 24-hour baseline feature window (or in outpatient follow-up for sodium), so labels are not a function of the same-window input features}{table.caption.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Data leakage safeguards}{10}{subsection.2.3}\protected@file@percent }
+\newlabel{subsec:label_history}{{2.3}{10}{Data leakage safeguards}{subsection.2.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Guideline-rule baseline thresholds (applied only as the comparison baseline in \S  \ref {subsec:results_tabnet}, not for training-label construction).}}{11}{table.caption.6}\protected@file@percent }
+\newlabel{tab:label_rules}{{3}{11}{Guideline-rule baseline thresholds (applied only as the comparison baseline in \S \ref {subsec:results_tabnet}, not for training-label construction)}{table.caption.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Preprocessing and monotonic constraints}{11}{subsection.2.4}\protected@file@percent }
+\newlabel{subsec:preprocessing}{{2.4}{11}{Preprocessing and monotonic constraints}{subsection.2.4}{}}
+\newlabel{eq:isotonic_exp}{{1}{11}{Preprocessing and monotonic constraints}{equation.1}{}}
+\citation{kdigo2024}
+\citation{ada2024}
+\citation{kdigo2024}
+\citation{arik2021tabnet}
+\newlabel{eq:monotone_pos}{{2}{12}{Preprocessing and monotonic constraints}{equation.2}{}}
+\newlabel{eq:monotone_neg}{{3}{12}{Preprocessing and monotonic constraints}{equation.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}TabNet architecture, training and calibration}{12}{subsection.2.5}\protected@file@percent }
+\newlabel{subsec:tabnet}{{2.5}{12}{TabNet architecture, training and calibration}{subsection.2.5}{}}
+\newlabel{eq:sparsemax}{{4}{12}{TabNet architecture, training and calibration}{equation.4}{}}
+\newlabel{eq:attribution}{{5}{12}{TabNet architecture, training and calibration}{equation.5}{}}
+\newlabel{eq:prior_correct}{{6}{13}{TabNet architecture, training and calibration}{equation.6}{}}
+\newlabel{eq:severity}{{7}{13}{TabNet architecture, training and calibration}{equation.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Portion computation engine}{13}{subsection.2.6}\protected@file@percent }
+\newlabel{subsec:portion}{{2.6}{13}{Portion computation engine}{subsection.2.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Reliability curves for carbohydrate proxy on the held-out test set, before and after the prior correction of Equation~\ref {eq:prior_correct}, shown per outcome class. The balanced-training scores are systematically over-confident; the corrected probabilities track the diagonal.}}{14}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:reliability}{{2}{14}{Reliability curves for carbohydrate proxy on the held-out test set, before and after the prior correction of Equation~\ref {eq:prior_correct}, shown per outcome class. The balanced-training scores are systematically over-confident; the corrected probabilities track the diagonal}{figure.caption.7}{}}
+\newlabel{eq:sigmoid}{{8}{14}{Portion computation engine}{equation.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Sigmoid severity-to-fraction function $f(s)$ (Equation~\ref {eq:sigmoid}), as implemented in \texttt  {PortionRecommender.severity\_to\_fraction}. $f(0.0)\approx 0.35$ (Low); $f(1.0)=0.21$ (Moderate); $f(2.0)\approx 0.07$ (High).}}{15}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:sigmoid}{{3}{15}{Sigmoid severity-to-fraction function $f(s)$ (Equation~\ref {eq:sigmoid}), as implemented in \texttt {PortionRecommender.severity\_to\_fraction}. $f(0.0)\approx 0.35$ (Low); $f(1.0)=0.21$ (Moderate); $f(2.0)\approx 0.07$ (High)}{figure.caption.8}{}}
+\newlabel{eq:grams}{{9}{15}{Portion computation engine}{equation.9}{}}
+\newlabel{eq:binding}{{10}{15}{Portion computation engine}{equation.10}{}}
+\citation{kdigo2024}
+\newlabel{eq:phos_ratio}{{11}{16}{Portion computation engine}{equation.11}{}}
+\newlabel{eq:label}{{12}{16}{Portion computation engine}{equation.12}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Ingredient-level portion computation}}{16}{algorithm.caption.9}\protected@file@percent }
+\newlabel{alg:portion}{{1}{16}{Ingredient-level portion computation}{algorithm.caption.9}{}}
+\newlabel{eq:substitution}{{13}{16}{Portion computation engine}{equation.13}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Caloric sufficiency validation and constraint relaxation}}{17}{algorithm.caption.10}\protected@file@percent }
+\newlabel{alg:caloric}{{2}{17}{Caloric sufficiency validation and constraint relaxation}{algorithm.caption.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.7}Bounded recipe generation and adherence checking}{17}{subsection.2.7}\protected@file@percent }
+\newlabel{subsec:recipe_agent}{{2.7}{17}{Bounded recipe generation and adherence checking}{subsection.2.7}{}}
+\citation{cohen1960kappa}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.8}Model evaluation protocol}{19}{subsection.2.8}\protected@file@percent }
+\newlabel{subsec:evaluation}{{2.8}{19}{Model evaluation protocol}{subsection.2.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Results}{20}{section.3}\protected@file@percent }
+\newlabel{sec:results}{{3}{20}{Results}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}TabNet vs.\ guideline-rule baseline on observed outcomes}{20}{subsection.3.1}\protected@file@percent }
+\newlabel{subsec:results_tabnet}{{3.1}{20}{TabNet vs.\ guideline-rule baseline on observed outcomes}{subsection.3.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces TabNet vs.\ guideline-rule baseline on observed-outcome proxies, held-out test set (point estimate [95\% patient-cluster-bootstrap CI]). Rows are the four outcome-risk proxies (see \S  \ref {subsec:dataset}). Rules have no output probabilities, so no AUROC is reported for that arm.}}{21}{table.caption.12}\protected@file@percent }
+\newlabel{tab:tabnet_perf}{{4}{21}{TabNet vs.\ guideline-rule baseline on observed-outcome proxies, held-out test set (point estimate [95\% patient-cluster-bootstrap CI]). Rows are the four outcome-risk proxies (see \S \ref {subsec:dataset}). Rules have no output probabilities, so no AUROC is reported for that arm}{table.caption.12}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces 5$\times $5 repeated patient-grouped cross-validation (training patients only; 25 folds per target), mean macro-F1 [95\% CI across folds].}}{22}{table.caption.14}\protected@file@percent }
+\newlabel{tab:repeated_cv}{{5}{22}{5$\times $5 repeated patient-grouped cross-validation (training patients only; 25 folds per target), mean macro-F1 [95\% CI across folds]}{table.caption.14}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Gradient-boosting comparator under the same protocol, held-out test set. XGBoost on median-imputed raw inputs (tree depth chosen on fold~0). $\Delta $ is XGBoost$-$TabNet macro-F1 with a 95\% patient-cluster-bootstrap CI. TabNet and rules columns repeat Table~\ref {tab:tabnet_perf}.}}{23}{table.caption.16}\protected@file@percent }
+\newlabel{tab:gbm}{{6}{23}{Gradient-boosting comparator under the same protocol, held-out test set. XGBoost on median-imputed raw inputs (tree depth chosen on fold~0). $\Delta $ is XGBoost$-$TabNet macro-F1 with a 95\% patient-cluster-bootstrap CI. TabNet and rules columns repeat Table~\ref {tab:tabnet_perf}}{table.caption.16}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Confusion matrices for the four TabNet outcome-risk proxy classifiers on the held-out test set of 74,663 admissions from 32,330 unseen patients.}}{24}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:confusion}{{4}{24}{Confusion matrices for the four TabNet outcome-risk proxy classifiers on the held-out test set of 74,663 admissions from 32,330 unseen patients}{figure.caption.17}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Robustness to measurement noise and missing data}{24}{subsection.3.2}\protected@file@percent }
+\newlabel{subsec:robustness}{{3.2}{24}{Robustness to measurement noise and missing data}{subsection.3.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Data-augmentation ablations, held-out test set, macro-F1.}}{25}{table.caption.19}\protected@file@percent }
+\newlabel{tab:ablations}{{7}{25}{Data-augmentation ablations, held-out test set, macro-F1}{table.caption.19}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces TabNet$-$rules macro-F1 difference [95\% patient-cluster CI] in strata of the held-out test set. Near cut-off: a rule input within 10\% of a guideline threshold. Confidence terciles use TabNet's own decision score. Macro-F1 uses labels $\{0,1,2\}$ with zero division scored 0, so small strata are deflated for all arms alike.}}{26}{table.caption.21}\protected@file@percent }
+\newlabel{tab:strata}{{8}{26}{TabNet$-$rules macro-F1 difference [95\% patient-cluster CI] in strata of the held-out test set. Near cut-off: a rule input within 10\% of a guideline threshold. Confidence terciles use TabNet's own decision score. Macro-F1 uses labels $\{0,1,2\}$ with zero division scored 0, so small strata are deflated for all arms alike}{table.caption.21}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Where the learned model adds value over the rules}{26}{subsection.3.3}\protected@file@percent }
+\newlabel{subsec:value}{{3.3}{26}{Where the learned model adds value over the rules}{subsection.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Missingness}{26}{subsection.3.4}\protected@file@percent }
+\newlabel{subsec:missingness}{{3.4}{26}{Missingness}{subsection.3.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Sensitivity of the gram ceilings to classifier error}{27}{subsection.3.5}\protected@file@percent }
+\newlabel{subsec:ceiling_sens}{{3.5}{27}{Sensitivity of the gram ceilings to classifier error}{subsection.3.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Gram ceilings from each severity source vs ceilings from observed outcome levels (nutrient-bound pairs only; percentage of pairs).}}{28}{table.caption.23}\protected@file@percent }
+\newlabel{tab:ceil_sens}{{9}{28}{Gram ceilings from each severity source vs ceilings from observed outcome levels (nutrient-bound pairs only; percentage of pairs)}{table.caption.23}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Constraint adherence of the bounded generative agent}{28}{subsection.3.6}\protected@file@percent }
+\newlabel{subsec:results_adherence}{{3.6}{28}{Constraint adherence of the bounded generative agent}{subsection.3.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7}Deployment footprint}{29}{subsection.3.7}\protected@file@percent }
+\newlabel{subsec:footprint}{{3.7}{29}{Deployment footprint}{subsection.3.7}{}}
+\citation{aha2017}
+\citation{kdigo2024}
+\citation{kdigo2024}
+\citation{ada2024}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.8}Feature attribution analysis}{30}{subsection.3.8}\protected@file@percent }
+\newlabel{subsec:tabnet_attribution}{{3.8}{30}{Feature attribution analysis}{subsection.3.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Test-set mean TabNet attention-based feature attributions per outcome-risk proxy target (top 3, mean weight in parentheses).}}{30}{table.caption.25}\protected@file@percent }
+\newlabel{tab:attribution}{{10}{30}{Test-set mean TabNet attention-based feature attributions per outcome-risk proxy target (top 3, mean weight in parentheses)}{table.caption.25}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.9}Illustrative clinical use case}{31}{subsection.3.9}\protected@file@percent }
+\newlabel{sec:usecase}{{3.9}{31}{Illustrative clinical use case}{subsection.3.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces EHR-derived clinical data entry interface with the persistent research-prototype banner.}}{32}{figure.caption.26}\protected@file@percent }
+\newlabel{fig:ui1}{{5}{32}{EHR-derived clinical data entry interface with the persistent research-prototype banner}{figure.caption.26}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Allergy, intolerance and preference selector, and the laboratory-value overview colour-coded as normal, borderline or abnormal.}}{32}{figure.caption.27}\protected@file@percent }
+\newlabel{fig:ui2}{{6}{32}{Allergy, intolerance and preference selector, and the laboratory-value overview colour-coded as normal, borderline or abnormal}{figure.caption.27}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Outcome-risk proxy predictions (risk tier, confidence and severity score) for the use-case patient.}}{33}{figure.caption.28}\protected@file@percent }
+\newlabel{fig:ui3}{{7}{33}{Outcome-risk proxy predictions (risk tier, confidence and severity score) for the use-case patient}{figure.caption.28}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Prototype computer vision ingredient detector on an example refrigerator image (not the use-case ingredients).}}{33}{figure.caption.29}\protected@file@percent }
+\newlabel{fig:ui4}{{8}{33}{Prototype computer vision ingredient detector on an example refrigerator image (not the use-case ingredients)}{figure.caption.29}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Portion decision control via daily nutrient budgets (computed gram ceilings).}}{34}{figure.caption.30}\protected@file@percent }
+\newlabel{fig:ui5}{{9}{34}{Portion decision control via daily nutrient budgets (computed gram ceilings)}{figure.caption.30}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Computed gram ceiling per available ingredient, per meal.}}{34}{figure.caption.31}\protected@file@percent }
+\newlabel{fig:ui6}{{10}{34}{Computed gram ceiling per available ingredient, per meal}{figure.caption.31}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Recipe generator that accounts for portion recommendations.}}{34}{figure.caption.32}\protected@file@percent }
+\newlabel{fig:ui7}{{11}{34}{Recipe generator that accounts for portion recommendations}{figure.caption.32}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Verification status shown with a generated recipe: the deterministic check passed (or the recipe was regenerated, or replaced by the template), the number of ingredient quantities checked, and the number over a ceiling. Panel (a) is a draft from the language model; panels (b) and (c) were elicited with a scripted model that returns over-limit drafts, so that the regeneration and template paths of the deployed verifier run.}}{35}{figure.caption.33}\protected@file@percent }
+\newlabel{fig:ui8}{{12}{35}{Verification status shown with a generated recipe: the deterministic check passed (or the recipe was regenerated, or replaced by the template), the number of ingredient quantities checked, and the number over a ceiling. Panel (a) is a draft from the language model; panels (b) and (c) were elicited with a scripted model that returns over-limit drafts, so that the regeneration and template paths of the deployed verifier run}{figure.caption.33}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Portion analysis for a patient with a dairy exclusion: excluded ingredients are labelled \textsc  {Excluded} with a reason and have no gram ceiling.}}{35}{figure.caption.34}\protected@file@percent }
+\newlabel{fig:ui9}{{13}{35}{Portion analysis for a patient with a dairy exclusion: excluded ingredients are labelled \textsc {Excluded} with a reason and have no gram ceiling}{figure.caption.34}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Illustrative use case: computed per-meal gram ceilings for detected ingredients, against the daily nutrient budget. The ceilings have not been reviewed by a dietitian.}}{36}{table.caption.36}\protected@file@percent }
+\newlabel{tab:usecase}{{11}{36}{Illustrative use case: computed per-meal gram ceilings for detected ingredients, against the daily nutrient budget. The ceilings have not been reviewed by a dietitian}{table.caption.36}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Discussion}{36}{section.4}\protected@file@percent }
+\newlabel{sec:discussion}{{4}{36}{Discussion}{section.4}{}}
+\citation{mansouri2023food}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{40}{section.5}\protected@file@percent }
+\newlabel{sec:conclusion}{{5}{40}{Conclusion}{section.5}{}}
+\newlabel{sec:supplement}{{5}{42}{Supplementary tables}{section*.37}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces TabNet configuration shared by all four per-target classifiers.}}{42}{table.caption.39}\protected@file@percent }
+\newlabel{tab:tabnet-shared}{{12}{42}{TabNet configuration shared by all four per-target classifiers}{table.caption.39}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {13}{\ignorespaces Per-target library defaults and training outcome (from \texttt  {model\_params.json} and the manifest).}}{42}{table.caption.41}\protected@file@percent }
+\newlabel{tab:tabnet-target}{{13}{42}{Per-target library defaults and training outcome (from \texttt {model\_params.json} and the manifest)}{table.caption.41}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {14}{\ignorespaces Tuning grid evaluated on CV fold 0 (mean macro-F1 over the four targets).}}{43}{table.caption.43}\protected@file@percent }
+\newlabel{tab:tuning}{{14}{43}{Tuning grid evaluated on CV fold 0 (mean macro-F1 over the four targets)}{table.caption.43}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {15}{\ignorespaces Monotonic constraint direction fitted per feature and target (isotonic fit against the ordinal outcome; -- = unconstrained).}}{43}{table.caption.45}\protected@file@percent }
+\newlabel{tab:monotonic}{{15}{43}{Monotonic constraint direction fitted per feature and target (isotonic fit against the ordinal outcome; -- = unconstrained)}{table.caption.45}{}}
+\@writefile{toc}{\contentsline {subparagraph}{List of abbreviations}{43}{section*.48}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {16}{\ignorespaces Daily nutrient budgets $R_n$ by comorbidity combination (design values from \texttt  {PortionRecommender}; not validated by dietitians).}}{44}{table.caption.47}\protected@file@percent }
+\newlabel{tab:budgets}{{16}{44}{Daily nutrient budgets $R_n$ by comorbidity combination (design values from \texttt {PortionRecommender}; not validated by dietitians)}{table.caption.47}{}}
+\@writefile{toc}{\contentsline {subparagraph}{Ethical approval}{44}{section*.50}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Consent to participate}{44}{section*.51}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Consent to publish}{44}{section*.52}\protected@file@percent }
+\newlabel{sec:data_availability}{{5}{44}{Availability of data and materials}{section*.53}{}}
+\@writefile{toc}{\contentsline {subparagraph}{Availability of data and materials}{44}{section*.53}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Competing interests}{45}{section*.54}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Funding}{45}{section*.55}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Authors' contributions}{45}{section*.56}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Acknowledgements}{45}{section*.57}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Authors' information}{45}{section*.58}\protected@file@percent }
+\bibcite{anjana2023}{{1}{}{{}}{{}}}
+\bibcite{talukdar2025}{{2}{}{{}}{{}}}
+\bibcite{subramanian2026otc}{{3}{}{{}}{{}}}
+\bibcite{kdigo2012aki}{{4}{}{{}}{{}}}
+\bibcite{inker2021ckdepi}{{5}{}{{}}{{}}}
+\bibcite{kdoqi2020}{{6}{}{{}}{{}}}
+\bibcite{ada2024}{{7}{}{{}}{{}}}
+\bibcite{kdigo2024}{{8}{}{{}}{{}}}
+\bibcite{aha2017}{{9}{}{{}}{{}}}
+\bibcite{ifct2017}{{10}{}{{}}{{}}}
+\bibcite{mimic4}{{11}{}{{}}{{}}}
+\bibcite{cohen1960kappa}{{12}{}{{}}{{}}}
+\bibcite{arik2021tabnet}{{13}{}{{}}{{}}}
+\bibcite{gat_tabnet2025}{{14}{}{{}}{{}}}
+\bibcite{gollapalli2022}{{15}{}{{}}{{}}}
+\bibcite{duan2020ngboost}{{16}{}{{}}{{}}}
+\bibcite{chen2016xgboost}{{17}{}{{}}{{}}}
+\bibcite{gupta2019}{{18}{}{{}}{{}}}
+\bibcite{yasmeen2025tabnet}{{19}{}{{}}{{}}}
+\bibcite{cao2025tabnet}{{20}{}{{}}{{}}}
+\bibcite{liang2023}{{21}{}{{}}{{}}}
+\bibcite{houfani2022}{{22}{}{{}}{{}}}
+\bibcite{zhang2024}{{23}{}{{}}{{}}}
+\bibcite{marashi2023}{{24}{}{{}}{{}}}
+\bibcite{nagaraj2022fuzzy}{{25}{}{{}}{{}}}
+\bibcite{nagaraj2022kalman}{{26}{}{{}}{{}}}
+\bibcite{kumar2025}{{27}{}{{}}{{}}}
+\bibcite{banerjee2019}{{28}{}{{}}{{}}}
+\bibcite{khamesian2025}{{29}{}{{}}{{}}}
+\bibcite{ai_ckd_diet2025}{{30}{}{{}}{{}}}
+\bibcite{kairat2025llm}{{31}{}{{}}{{}}}
+\bibcite{whittle2025llm}{{32}{}{{}}{{}}}
+\bibcite{mansouri2023food}{{33}{}{{}}{{}}}
+\bibcite{chandrasekaran2025dpdpa}{{34}{}{{}}{{}}}
+\bibcite{muneeswaran2022iot}{{35}{}{{}}{{}}}
+\bibcite{diet_hrs_scoping2025}{{36}{}{{}}{{}}}
+\bibcite{lim_shap_2020}{{37}{}{{}}{{}}}
+\providecommand\NAT@force@numbers{}\NAT@force@numbers
+\gdef \@abspage@last{49}
